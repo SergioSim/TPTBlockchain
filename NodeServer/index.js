@@ -22,5 +22,5 @@ app.use(function (req, res, next) {
 
 app.get('/',function(req,res) {
     console.log("/: " + util.inspect(req.query, {showHidden: false, depth: null}));
-    res.send(JSON.stringify({"Hello":"World"})); 
+    res.send(JSON.stringify({"Hello":"World", "test":"test"})); 
 });

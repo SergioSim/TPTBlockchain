@@ -37,16 +37,99 @@
   color: white;
 }
 
+.bigOval {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 100%;
+  height: 90%;
+}
+
+.bigOval::before {
+  background: white;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+  border-radius: 30%;
+}
+
+.smallOval {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 100%;
+  height: 90%;
+}
+
+.smallOval::before {
+  background: white;
+  content: "";
+  position: absolute;
+  top: 21%;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  z-index: -1;
+  opacity: 0.3;
+  border-radius: 30%;
+}
+
+.makeBottomhalfBrighter {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+}
+
+.makeBottomhalfBrighter {
+  background: white;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.lines {
+  border-top: 0.5em solid white;
+  border-bottom: 0.5em solid white;
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+}
+
+.headers {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  max-height: 20%;
+}
+
 h1 {
-  margin: 0;
-  padding: 1em 0 0 0;
+  margin: calc(3em - 4%) 2.5em 0 2.5em;
   text-decoration: underline;
+  font-size: calc(12px + 2vw);
 }
 
 h2 {
   margin: 0;
-  padding: 0.1em 0 1em 0;
+  font-size: calc(10px + 1vw);
 }
+
+
 
 a {
   font-size: 1.5em;

@@ -12,6 +12,10 @@ export class AccueilComponent implements OnInit {
    }
 
   ngOnInit() {
+    document.querySelector("#Group_334").addEventListener("click", () => location.href = "banqueCentrale");
+    document.querySelector("#Group_334-2").addEventListener("click", () => location.href = "banqueCommerciale");
+    document.querySelector("#Group_334-3").addEventListener("click", () => location.href = "commercant");
+    document.querySelector("#Group_334-4").addEventListener("click", () => location.href = "particulier");
   }
 
 }

@@ -8,7 +8,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 export class AccueilComponent implements OnInit {
 
   constructor(private renderer: Renderer2) {
-    this.renderer.setStyle(document.body, 'height', '100vh');
+    this.renderer.setStyle(document.body, 'height', '100%');
    }
 
   ngOnInit() {

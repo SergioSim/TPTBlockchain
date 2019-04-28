@@ -1,7 +1,7 @@
 .mainBlackBackground::before {
   background: black;
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -13,7 +13,7 @@
   background: url(../../assets/accueil/network.png) no-repeat center center fixed;
   background-size: cover;
   content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -25,11 +25,11 @@
 .bigOval::before {
   background: white;
   content: "";
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 1%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 98%;
   z-index: -1;
   opacity: 0.3;
   border-radius: 30%;
@@ -51,7 +51,7 @@
 .makeBottomhalfBrighter::before {
   background: white;
   content: "";
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 0;
   width: 100%;
@@ -78,14 +78,10 @@
 }
 
 .headers {
-  margin: 5vh auto 0;
+  margin: 3vh auto 0;
   width: 80%;
-  height: 20%;
-  max-height: 20%;
-}
-
-h2 {
-  font-size:1.5em;
+  height: 13vh;
+  line-height: 6vh;
 }
 
 a {
@@ -93,29 +89,20 @@ a {
 }
 
 h1 {
+  font-size: 4vw;
+  margin: 1vw 0 1vw 0;
   text-decoration: underline;
-  font-size: 1em;
+}
+
+h2 {
+  font-size: 3vw;
+  margin: 1vw 0 1vw 0;
 }
 
 svg {
+  position: absolute;
+  left: 0;
+  top: 49%;
+  transform: translateY(-50%);
   width: 100%;
-  margin-top: 7.3em;
-}
-
-@media screen and (max-width: 724px){
-  h2 {
-    font-size: 1em;
-  }
-}
-@media screen and (min-width: 324px) {
-  h1 {
-    margin-top: 0.7em;
-    font-size: 180%;
-  }
-}
-@media screen and (min-width: 1083px) {
-  h1 {
-    margin-top: 0;
-    font-size: 320%;
-  }
 }

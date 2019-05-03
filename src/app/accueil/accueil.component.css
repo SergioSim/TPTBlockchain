@@ -1,109 +1,100 @@
-.mainBlackBackground::before {
-  background: black;
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-}
-
-.mainBackgroundImage::before {
-  background: url(../../assets/accueil/network.png) no-repeat center center fixed;
-  background-size: cover;
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.3;
-  z-index: -1;
-}
-
-.bigOval::before {
-  background: white;
-  content: "";
-  position: fixed;
-  top: 1%;
-  left: 0;
-  width: 100%;
-  height: 98%;
-  z-index: -1;
-  opacity: 0.3;
-  border-radius: 30%;
-}
-
-.smallOval::before {
-  background: white;
-  content: "";
-  position: absolute;
-  top: 21%;
-  left: 0;
-  width: 100%;
-  height: 60%;
-  z-index: -1;
-  opacity: 0.3;
-  border-radius: 30%;
-}
-
-.makeBottomhalfBrighter::before {
-  background: white;
-  content: "";
-  position: fixed;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-.lines {
-  border-top: 0.5em solid white;
-  border-bottom: 0.5em solid white;
-  position: absolute;
-  top: 20%;
-  left: 10%;
-  width: 80%;
-  height: 60%;
-}
-
-.mainContent {
-  font-family: "Tw Cen MT",Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-}
-
-.headers {
-  margin: 3vh auto 0;
-  width: 80%;
-  height: 13vh;
-  line-height: 6vh;
+.portal {
+  font-family: acumin-pro;
 }
 
 a {
-  font-size: 1em;
+  text-decoration: none;
+  color: #ffffff;
 }
 
-h1 {
-  font-size: 4vw;
-  margin: 2vw 0 1vw 0;
-  text-decoration: underline;
+.BRH-top-bar {
+  display: flex;
+  background-image: url(../../assets/accueil/bg-header.png);
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: cover;
 }
 
-h2 {
-  font-size: 3vw;
-  margin: 1vw 0 1vw 0;
+.BRH-top-bar img {
+  margin: 12px 35px;
 }
 
-svg {
+.BRH-top-bar h2 {
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  color: #171844;
+  font-size: 38px;
+}
+
+.portal-header-bar {
+  background-color: #171844;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.portal-header-bar p {
+  margin: 0;
+  padding-top: 3px;
+  padding-left: 35px;
+}
+
+.portal-body {
+  margin-left: 80px;
+}
+
+.portal-body h2 {
+  font-family: acumin-pro-bold;
+  margin-bottom: 0;
+}
+
+.portal-body fa-icon {
+  font-size: 18px;
+  padding-right: 10px;
+}
+
+.portal-body p {
+  font-family: acumin-pro-bold;
+  padding-left: 28px;
+  margin-top: 0;
+}
+
+.portal-body .bank-buttons {
+  display: flex;
+}
+
+.lower-bank-buttons {
+  padding-top: 15px;
+}
+
+.portal-footer {
+  background-color: #171844;
+  font-size: 14px;
+  color: #ffffff;
   position: absolute;
+  right: 0;
+  bottom: 0;
   left: 0;
-  top: 49%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 100%;
+}
+
+.portal-footer ul {
+  padding-inline-start: 0px;
+  margin-block-start: 0px;
+  margin-bottom: 3px;
+  margin-top: 5px;
+}
+
+.portal-footer ul li {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.portal-footer ul li a fa-icon{
+  font-size: 8px;    
+  justify-content: center;
+  display: inline-flex;
+  text-align: center;
+  flex-direction: column;
+  padding-right: 5px;
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { FormControl, Validators } from '@angular/forms';
 import { InputErrorStateMatcher } from './InputErrorStateMatcher';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-sogebank',
@@ -21,10 +22,13 @@ export class LoginSogebankComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sogebankService: SogebankService
+    private sogebankService: SogebankService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Authentification - Sogebank');
+
     this.displayLoginForm = this.sogebankService.displayLoginForm;
   }
 

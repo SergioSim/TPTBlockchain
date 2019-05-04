@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus, faUnlockAlt, faUser, faStoreAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { SogebankService } from '../sogebank.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-accueil-sogebank',
@@ -17,10 +18,12 @@ export class AccueilSogebankComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private sogebankService: SogebankService
+    private sogebankService: SogebankService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Accueil - Sogebank');
   }
 
   goToLoginConnect() {

@@ -2,11 +2,11 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { faCircle, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-accueil',
-  templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.css']
+  selector: 'app-portail',
+  templateUrl: './portail.component.html',
+  styleUrls: ['./portail.component.css']
 })
-export class AccueilComponent implements OnInit {
+export class PortailComponent implements OnInit {
   faCircle = faCircle;
   faPlay = faPlay;
   banks = [];
@@ -14,9 +14,9 @@ export class AccueilComponent implements OnInit {
 
   constructor(private renderer: Renderer2) {
     this.renderer.setStyle(document.body, 'height', '100%');
-    this.brh = {name: 'brh', image: 'assets/logos/brh_gradient_logo.jpeg', url: '/brh'};
+    this.brh = {name: 'brh', image: 'assets/logos/brh_gradient_logo.jpeg', url: '/brh/accueil'};
     this.banks = [
-      {name: 'sogebank', image: 'assets/logos/sogebank_logo.png', url: '/sogebank'},
+      {name: 'sogebank', image: 'assets/logos/sogebank_logo.png', url: '/sogebank/accueil'},
       {name: 'scotiabank', image: 'assets/logos/scotiabank_logo.png', url: 'scotiabank.com'},
       {name: 'capital bank', image: 'assets/logos/capital_bank_logo.jpg', url: 'capital-bank.com'},
       {name: 'buh', image: 'assets/logos/buh_logo.png', url: 'buh.com'},

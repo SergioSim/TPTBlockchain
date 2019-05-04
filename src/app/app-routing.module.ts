@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BrhComponent } from './brh/brh.component';
-import { SogebankComponent } from './sogebank/sogebank.component';
-import { AccueilComponent } from './accueil/accueil.component';
+import { AccueilBrhComponent } from './brh/accueil-brh/accueil-brh.component';
+import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
+import { PortailComponent } from './portail/portail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/accueil', pathMatch: 'full' },
-  { path: 'accueil', component: AccueilComponent },
-  { path: 'brh', component: BrhComponent },
-  { path: 'sogebank', component: SogebankComponent }
+  { path: '', redirectTo: '/portail', pathMatch: 'full' },
+  { path: 'portail', component: PortailComponent },
+  { path: 'brh/accueil', component: AccueilBrhComponent },
+  { path: 'sogebank/accueil', component: AccueilSogebankComponent }
 ];
 
 @NgModule({

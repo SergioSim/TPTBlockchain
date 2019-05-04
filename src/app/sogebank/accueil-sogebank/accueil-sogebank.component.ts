@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { faPlus, faUnlockAlt, faUser, faStoreAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-sogebank',
-  templateUrl: './sogebank.component.html',
-  styleUrls: ['./sogebank.component.css']
+  selector: 'app-accueil-sogebank',
+  templateUrl: './accueil-sogebank.component.html',
+  styleUrls: ['./accueil-sogebank.component.css']
 })
-export class SogebankComponent implements OnInit {
+export class AccueilSogebankComponent implements OnInit {
   faPlus = faPlus;
   faUnlockAlt = faUnlockAlt;
   faUser = faUser;

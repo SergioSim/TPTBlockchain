@@ -7,3 +7,33 @@
     font-family: acumin-pro-bold;
     src: url(../assets/fonts/Acumin-BdPro.woff);
 }
+
+@font-face {
+    font-family: raleway;
+    src: url(../assets/fonts/Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: raleway-italic;
+    src: url(../assets/fonts/Raleway-Italic.ttf);
+}
+
+@font-face {
+    font-family: raleway-medium;
+    src: url(../assets/fonts/Raleway-Medium.ttf);
+}
+
+@font-face {
+    font-family: roboto;
+    src: url(../assets/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: roboto-italic;
+    src: url(../assets/fonts/Roboto-Italic.ttf);
+}
+
+@font-face {
+    font-family: roboto-medium;
+    src: url(../assets/fonts/Roboto-Medium.ttf);
+}

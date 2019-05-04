@@ -1,5 +1,6 @@
 .portal {
   font-family: acumin-pro;
+  min-height: 100vh;
 }
 
 a {

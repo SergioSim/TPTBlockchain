@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BanqueCentraleComponent } from './banque-centrale/banque-centrale.component';
-import { BanqueCommercialeComponent } from './banque-commerciale/banque-commerciale.component';
-import { CommercantComponent } from './commercant/commercant.component';
-import { ParticulierComponent } from './particulier/particulier.component';
+import { BrhComponent } from './brh/brh.component';
+import { SogebankComponent } from './sogebank/sogebank.component';
 import { AccueilComponent } from './accueil/accueil.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
   { path: 'accueil', component: AccueilComponent },
-  { path: 'banqueCentrale', component: BanqueCentraleComponent },
-  { path: 'banqueCommerciale', component: BanqueCommercialeComponent },
-  { path: 'commercant', component: CommercantComponent },
-  { path: 'particulier', component: ParticulierComponent }
+  { path: 'brh', component: BrhComponent },
+  { path: 'sogebank', component: SogebankComponent }
 ];
 
 @NgModule({

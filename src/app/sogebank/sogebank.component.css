@@ -1,0 +1,142 @@
+.sogebank-content {
+    min-height: 100vh;
+    background: rgb(19,85,124);
+    background: linear-gradient(135deg, rgba(19,85,124,1) 0%, rgba(37,170,247,1) 100%);
+}
+
+.sogebank-header {
+  display: flex;
+}
+
+.sogebank-header img {
+    margin: 25px;
+}
+
+.header-buttons {
+    margin-left: auto;
+    display: flex;
+}
+
+.header-button {
+    font-family: roboto;
+    display: flex;
+    color: #171844;
+    font-size: 20px;
+    border-radius: 15px;
+    margin-top: -20px;
+    margin-right: 30px;
+}
+
+.header-button p {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.new-client-header {
+    background-color: #5BC8F0;
+}
+
+.connect-header {
+    background-color: #F0F0F0;
+}
+
+hr {
+    width: 95%;
+}
+
+.sogebank-body {
+    font-family: raleway;
+}
+
+h1 {
+    color: white;
+    font-size: 72px;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+
+h3 {
+    font-family: raleway-italic;
+    color: white;
+    font-size: 32px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.medium-raleway {
+    font-family: raleway-medium;
+    display: inline;
+}
+
+.italic-raleway {
+    font-family: raleway-italic;
+    display: inline;
+}
+
+.sogebank-info {
+    display: flex;
+    justify-content: center ;
+}
+
+.info-block {
+    background-color: rgb(255, 255, 255, 0.85);
+    border-radius: 5px;    
+    margin-right: 45px;
+    width: 25%;
+    margin-bottom: 35px;
+}
+
+.info-block hr {
+    border: 1px solid #25AAF7;
+    width: 85%;
+}
+
+.info-block a {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 12%;
+}
+
+.info-header {
+    font-family: raleway-medium;
+    color: #25AAF7;
+    display: flex;
+}
+
+.info-header fa-icon {
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  font-size: 48px;
+  padding: 15px;
+}
+
+.info-header p {
+    font-size: 28px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.info-text {
+    padding: 4% 8%;
+    font-size: 20px;
+    margin: 0;
+    height: 45%;
+}
+
+.info-button {
+    background-color: #25AAF7;
+    border-radius: 5px;
+    padding: 4% 8%;
+    font-size: 24px;
+    display: flex;
+}
+
+.info-button p {
+    margin: 0;
+    color: #ffffff;
+}

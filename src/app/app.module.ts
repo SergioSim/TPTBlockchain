@@ -5,10 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { BanqueCommercialeComponent } from './banque-commerciale/banque-commerciale.component';
-import { BanqueCentraleComponent } from './banque-centrale/banque-centrale.component';
-import { CommercantComponent } from './commercant/commercant.component';
-import { ParticulierComponent } from './particulier/particulier.component';
+import { BrhComponent } from './brh/brh.component';
+import { SogebankComponent } from './sogebank/sogebank.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { BankButtonComponent } from './accueil/bank-button/bank-button.component';
 
@@ -16,10 +14,8 @@ import { BankButtonComponent } from './accueil/bank-button/bank-button.component
   declarations: [
     AppComponent,
     BankButtonComponent,
-    BanqueCommercialeComponent,
-    BanqueCentraleComponent,
-    CommercantComponent,
-    ParticulierComponent,
+    BrhComponent,
+    SogebankComponent,
     AccueilComponent,
   ],
   imports: [

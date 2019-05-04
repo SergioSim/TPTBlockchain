@@ -14,9 +14,9 @@ export class AccueilComponent implements OnInit {
 
   constructor(private renderer: Renderer2) {
     this.renderer.setStyle(document.body, 'height', '100%');
-    this.brh = {name: 'brh', image: '../../../assets/logos/brh_gradient_logo.jpeg', url: 'brh.com'};
+    this.brh = {name: 'brh', image: '../../../assets/logos/brh_gradient_logo.jpeg', url: '/brh'};
     this.banks = [
-      {name: 'sogebank', image: '../../../assets/logos/sogebank_logo.png', url: 'sogebank.com'},
+      {name: 'sogebank', image: '../../../assets/logos/sogebank_logo.png', url: '/sogebank'},
       {name: 'scotiabank', image: '../../../assets/logos/scotiabank_logo.png', url: 'scotiabank.com'},
       {name: 'capital bank', image: '../../../assets/logos/capital_bank_logo.jpg', url: 'capital-bank.com'},
       {name: 'buh', image: '../../../assets/logos/buh_logo.png', url: 'buh.com'},

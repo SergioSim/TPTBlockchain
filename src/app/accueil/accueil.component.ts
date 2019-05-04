@@ -10,7 +10,7 @@ export class AccueilComponent implements OnInit {
   faCircle = faCircle;
   faPlay = faPlay;
   banks = [];
-  brh = {};
+  brh = <any>{};
 
   constructor(private renderer: Renderer2) {
     this.renderer.setStyle(document.body, 'height', '100%');

@@ -40,7 +40,7 @@ app.get('/', function(req,res) {
     res.send(JSON.stringify({"Hello":"World", "test":"test"})); 
 });
 
-app.get('/clients', [outils.validJWTNeeded], function(req, res) {
+app.get('/clients', [outils.validJWTNeeded, outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE)], function(req, res) {
     conn.query("SELECT Email, Address, Nom, Prenom, Banque FROM OpenchainUser.Client", function(err, result){
         res.send((err) ? "Error" : result);
     });
@@ -60,14 +60,11 @@ app.post('/createClient', function(req, res) {
 
 app.post('/auth', [ 
     check('email').isEmail().normalizeEmail(), 
-    check('password').isLength({ min: 5 }).escape()
+    check('password').isLength({ min: 5 }).escape(),
+    outils.handleValidationResult
     ], function(req, res) {
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-        return res.status(422).json({ errors: errors.array() });
-    
-    const aQuery = "SELECT Password, Address, Wallet FROM OpenchainUser.Client WHERE Email LIKE BINARY ?";
+    const aQuery = "SELECT Password, Address, Wallet, PermissionLevel FROM OpenchainUser.Client WHERE Email LIKE BINARY ?";
     conn.query(aQuery, [req.body.email], function(err, result){
         console.log(result);
         if(!err){
@@ -80,9 +77,11 @@ app.post('/auth', [
                     let refreshId = req.body.email + config.jwt_secret;
                     let salt = crypto.randomBytes(16).toString('base64');
                     let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
-                    req.body.refreshKey = salt;
-                    let token = jwt.sign(req.body, config.jwt_secret);
-                    let b = new Buffer(hash);
+                    aSecret = {};
+                    aSecret.PermissionLevel = result.PermissionLevel;
+                    aSecret.refreshKey = salt;
+                    let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
+                    let b = Buffer.from(hash);
                     let refresh_token = b.toString('base64');
                     return res.status(201).send({accessToken: token, refreshToken: refresh_token});
                 } catch (err) {

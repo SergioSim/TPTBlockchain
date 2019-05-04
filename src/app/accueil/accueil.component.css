@@ -1,6 +1,9 @@
 .portal {
   font-family: acumin-pro;
-  min-height: 100vh;
+}
+
+.portal-content {
+  min-height: calc(100vh - 25px);
 }
 
 a {
@@ -43,6 +46,7 @@ a {
 
 .portal-body {
   margin-left: 80px;
+  min-height: calc(100vh - 5%);
 }
 
 .portal-body h2 {
@@ -67,6 +71,7 @@ a {
 
 .lower-bank-buttons {
   padding-top: 15px;
+  padding-bottom: 30px;
 }
 
 .portal-footer {
@@ -74,18 +79,21 @@ a {
   font-size: 14px;
   color: #ffffff;
   width: 100%;
+  height: 25px;
 }
 
 .portal-footer ul {
   padding-inline-start: 0px;
   margin-block-start: 0px;
-  margin-bottom: 3px;
+  margin-block-end: 0px;
+  margin-bottom: 0px;
   margin-top: 5px;
 }
 
 .portal-footer ul li {
   display: inline-block;
   padding-left: 20px;
+  line-height: 25px;
 }
 
 .portal-footer ul li a fa-icon{

@@ -73,10 +73,7 @@ a {
   background-color: #171844;
   font-size: 14px;
   color: #ffffff;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  width: 100%;
 }
 
 .portal-footer ul {

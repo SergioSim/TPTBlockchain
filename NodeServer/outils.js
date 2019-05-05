@@ -18,7 +18,6 @@ exports.validJWTNeeded = (req, res, next) => {
               return res.status(401).send();
           } else {
               req.jwt = jwt.verify(authorization[1], config.jwt_secret);
-              console.log("check the value of jwt: " + util.inspect(req.jwt, {showHidden: false, depth: null}));
               return next();
           }
       } catch (err) {
@@ -38,4 +37,10 @@ exports.minimumPermissionLevelRequired = (required_permission_level) => {
           return res.status(403).send();
       }
   };
+};
+
+exports.hashPassword = (password) => {
+    let salt = crypto.randomBytes(16).toString('base64');
+    let hash = crypto.createHmac('sha512', salt).update(password).digest("base64");
+    return salt + "$" + hash;
 };

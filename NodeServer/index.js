@@ -1,5 +1,6 @@
 const config   = require('./env.config.js'),
  outils        = require('./outils.js'),
+ sql           = require('./sql.js'),
  express       = require('express'),
  fs            = require('fs'),
  https         = require('https'),
@@ -17,7 +18,7 @@ const key  = fs.readFileSync('private.key'),
 
 const app  = express()
  server    = https.createServer(options, app),
- conn      = mysql.createConnection({host: "82.255.166.104", user: "OpenchainUser", password: "OpenchainUserPassword13?"});
+ conn      = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass});
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -35,27 +36,38 @@ app.use(function (req, res, next) {
 server.listen(config.port);
 console.log("Serveur lancé sur le port : " + config.port);
 
-//ROUTES
-app.get('/', function(req,res) {
-    res.send(JSON.stringify({"Hello":"World", "test":"test"})); 
-});
+app.get('/clients', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('banque').isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
 
-app.get('/clients', [outils.validJWTNeeded, outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE)], function(req, res) {
-    conn.query("SELECT Email, Address, Nom, Prenom, Banque FROM OpenchainUser.Client", function(err, result){
+    conn.query(sql.findClientsByBanque_5_1, [req.query.banque], function(err, result){
         res.send((err) ? "Error" : result);
     });
 });
 
-app.post('/createClient', function(req, res) {
-    let salt = crypto.randomBytes(16).toString('base64');
-    let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-    req.body.password = salt + "$" + hash;
-    console.log(req.body.password);
-    const aQuery ="INSERT INTO OpenchainUser.Client  (Email, Password, Wallet, Address, Banque) VALUES (?,?,?,?,?)";
-    conn.query(aQuery, [req.body.email, req.body.password, req.body.wallet, req.body.address, req.body.banque], 
-	function(err, result) {
+app.get('/allClients', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN)], 
+    function(req, res) {
+
+    conn.query(sql.getAllClients_5_0, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
+app.post('/createClient', [
+    check('email').isEmail().normalizeEmail(),
+    check('password').isLength({ min: 5 }).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    req.body.password = outils.hashPassword(req.body.password);
+    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, req.body.wallet, req.body.address, req.body.banque], function(err, result) {
         return res.send(result);
-	});
+    });
 });
 
 app.post('/auth', [ 
@@ -64,9 +76,7 @@ app.post('/auth', [
     outils.handleValidationResult
     ], function(req, res) {
 
-    const aQuery = "SELECT Password, Address, Wallet, PermissionLevel FROM OpenchainUser.Client WHERE Email LIKE BINARY ?";
-    conn.query(aQuery, [req.body.email], function(err, result){
-        console.log(result);
+    conn.query(sql.findClientByEmail_4_1, [req.body.email], function(err, result){
         if(!err){
             result = result[0];
             let passwordFields = result.Password.split('$');

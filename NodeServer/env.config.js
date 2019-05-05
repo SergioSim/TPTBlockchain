@@ -7,5 +7,8 @@ module.exports = {
         "CLIENT": 1,
         "BANQUE": 2,
         "ADMIN" : 3
-    }
+    },
+    "mySqlHost": "82.255.166.104",
+    "mySqlUser": "OpenchainUser",
+    "mySqlPass": "OpenchainUserPassword13?"
 };

@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken'),
-    config = require('./env.config.js'),
-    util = require('util'),
+const jwt   = require('jsonwebtoken'),
+    config  = require('./env.config.js'),
+    crypto  = require('crypto'),
     { check, validationResult } = require('express-validator/check');
 
 exports.handleValidationResult = (req, res, next) => {

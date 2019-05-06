@@ -44,3 +44,25 @@ exports.hashPassword = (password) => {
     let hash = crypto.createHmac('sha512', salt).update(password).digest("base64");
     return salt + "$" + hash;
 };
+
+exports.getKeyFromPassword = (password) => {
+   return (password.substring(0, 16) + config.aes_secret).substring(0, 32);
+};
+
+exports.encryptAES = (text, ikey) => {
+    let iv = crypto.randomBytes(16);
+    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ikey), iv);
+    let encrypted = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return iv.toString('hex') + "$" + encrypted.toString('hex') 
+};
+   
+exports.decryptAES = (text, ikey) => {
+    let textFields = text.split('$');
+    let iv = Buffer.from(textFields[0], 'hex');
+    let encryptedText = Buffer.from(textFields[1], 'hex');
+    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ikey), iv);
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+};

@@ -10,6 +10,8 @@ const config   = require('./env.config.js'),
  mysql         = require('mysql'),
  helmet        = require('helmet'),
  crypto        = require('crypto'),
+ openchain     = require("openchain"),
+ bitcore       = require("bitcore-lib"),
  { check, validationResult } = require('express-validator/check');
 
 const key  = fs.readFileSync('private.key'),
@@ -19,6 +21,8 @@ const key  = fs.readFileSync('private.key'),
 const app  = express()
  server    = https.createServer(options, app),
  conn      = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass});
+
+const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -35,6 +39,10 @@ app.use(function (req, res, next) {
 
 server.listen(config.port);
 console.log("Serveur lancé sur le port : " + config.port);
+
+openchainValCli.initialize().then( function(res) {
+    console.log("Openchain initialized: " + openchainValCli.namespace.toHex());
+});
 
 app.get('/clients', [
     outils.validJWTNeeded, 
@@ -75,11 +83,25 @@ app.post('/createBank', [
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
+    check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
 
+    // create private key and store it ...
+    let privateKey = new bitcore.PrivateKey().toWIF();
+    console.log("plein private key:");
+    console.log(privateKey); // IT'S VERY SAFE TO LOG  CLIENTS PRIVATE KEY!!!
+    // retrive stored key
+    const imported = bitcore.PrivateKey.fromWIF(privateKey);
+    // convert it into its public key
+    const address = imported.toAddress().toString();
+    console.log("public key:");
+    console.log(address);
+    privateKey = outils.encryptAES(privateKey, outils.getKeyFromPassword(req.body.password));
+    console.log("encrypted private key:");
+    console.log(privateKey);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, req.body.wallet, req.body.address, req.body.banque], function(err, result) {
+    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, privateKey, address, req.body.banque], function(err, result) {
         return res.send({success: !err});
     });
 });

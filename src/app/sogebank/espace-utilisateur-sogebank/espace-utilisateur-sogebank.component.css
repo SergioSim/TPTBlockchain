@@ -1,0 +1,22 @@
+.espace-utilisateur {
+    min-height: 100vh;
+    font-family: roboto;
+}
+
+.sidenav-container {
+    display: flex;
+}
+
+.mat-drawer {
+    position: relative;
+}
+
+.sidenav {
+    height: 100vh;
+    width: 20%;
+}
+
+.content {
+    width: 80%;
+    margin-left: 0px !important; 
+}

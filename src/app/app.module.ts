@@ -11,11 +11,12 @@ import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-so
 import { PortailComponent } from './portail/portail.component';
 import { BankButtonComponent } from './portail/bank-button/bank-button.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
+import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
 import { MenuSogebankComponent } from './sogebank/menu-sogebank/menu-sogebank.component';
 import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashboard-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
-   MatTabsModule, MatInputModule, MatRadioModule } from '@angular/material';
+   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule } from '@angular/material';
 
 import 'hammerjs';
 
@@ -27,6 +28,7 @@ import 'hammerjs';
     AccueilBrhComponent,
     AccueilSogebankComponent,
     LoginSogebankComponent,
+    EspaceUtilisateurSogebankComponent,
     BreadcrumbSearchSogebankComponent,
     MenuSogebankComponent,
     DashboardSogebankComponent
@@ -46,6 +48,7 @@ import 'hammerjs';
     MatTabsModule,
     MatInputModule,
     MatRadioModule,
+    MatSidenavModule,
   ],
   providers: [
     Title,

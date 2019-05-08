@@ -88,15 +88,11 @@ app.post('/createClient', [
     function(req, res) {
 
     // create private key and store it ...
-    let privateKey = new bitcore.PrivateKey().toWIF();
-    console.log("plein private key:");
-    console.log(privateKey); // IT'S VERY SAFE TO LOG  CLIENTS PRIVATE KEY!!!
-    // retrive stored key
-    const imported = bitcore.PrivateKey.fromWIF(privateKey);
-    // convert it into its public key
-    const address = imported.toAddress().toString();
-    console.log("public key:");
-    console.log(address);
+    const hdPrivateKey = new bitcore.HDPrivateKey();
+    const address = hdPrivateKey.publicKey.toAddress().toString();
+    let privateKey = hdPrivateKey.toString();
+    console.log("plein private key:" + privateKey);  // IT'S VERY SAFE TO LOG  CLIENTS PRIVATE KEY!!!
+    console.log("public key:" + address);
     privateKey = outils.encryptAES(privateKey, outils.getKeyFromPassword(req.body.password));
     console.log("encrypted private key:");
     console.log(privateKey);
@@ -131,7 +127,55 @@ app.delete('/deleteContact', [
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });
+
+app.post('/submit', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('email').isEmail().normalizeEmail(),
+    check('password').isLength({ min: 5 }).escape(),
+    check('montant').isNumeric().isLength({min: 1}),
+    check('memo').optional().isAlphanumeric().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        const publicKey = "/p2pkh/" + req.jwt.Address + "/";
+        const untoAddress = "/p2pkh/" + result[0].Address + "/";
+        console.log("[INFO]: fromAddress : " + publicKey);
+        console.log("[INFO]: untoAddress : " + untoAddress);
+        conn.query(sql.findClientByEmail_4_1, [req.jwt.Email], function(err2, result2){
+            if(err2 || !result2[0]) return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
+            req.transactionWallet = result2[0].Wallet;
+            req.fromAddress = publicKey;
+            req.untoAddress = untoAddress;
+            return outils.transaction(req, res, openchainValCli);
+        });
+    });
+});
   
+app.post('/issueDHTG', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('password').isLength({ min: 5 }).escape(),
+    check('montant').isNumeric().isLength({min: 1}),
+    check('memo').optional().isAlphanumeric().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findClientByEmail_4_1, [req.jwt.Email], function(err, result){
+        if(err || !result[0]) {
+            console.error("Email not found in db : " + req.jwt.Email);
+            return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
+        }
+        req.transactionWallet = result[0].Wallet;
+        req.fromAddress = config.DHTGAssetPath;
+        req.untoAddress = "/p2pkh/" + req.jwt.Address + "/";
+        console.log("unto: " + req.untoAddress);
+        return outils.transaction(req, res, openchainValCli);
+    });
+});
+
 app.post('/auth', [ 
     check('email').isEmail().normalizeEmail(), 
     check('password').isLength({ min: 5 }).escape(),
@@ -152,12 +196,13 @@ app.post('/auth', [
                     aSecret = {};
                     aSecret.Email = req.body.email;
                     aSecret.PermissionLevel = result.PermissionLevel;
-                    aSecret.Banque = result.Banque
+                    aSecret.Banque = result.Banque;
+                    aSecret.Address = result.Address;
                     aSecret.refreshKey = salt;
                     let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
                     let b = Buffer.from(hash);
                     let refresh_token = b.toString('base64');
-                    return res.status(201).send({accessToken: token, refreshToken: refresh_token});
+                    return res.status(201).send({accessToken: token, refreshToken: refresh_token, address: result.Address});
                 } catch (err) {
                     return res.status(500).send({errors: err});
                 }

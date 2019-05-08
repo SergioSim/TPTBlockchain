@@ -10,7 +10,17 @@
         breadcrumbDetails="(tous portefeuilles confondus)">
       </app-breadcrumb-search-sogebank>
 
-      <app-dashboard-sogebank></app-dashboard-sogebank>
+      <app-dashboard-sogebank *ngIf="this.router.url == '/sogebank/dashboard'"></app-dashboard-sogebank>
+      
+      <!--
+      <app-portefeuilles-sogebank *ngIf="this.router.url == '/sogebank/portefeuilles'"></app-dashboard-sogebank>
+      
+      <app-cartes-sogebank *ngIf="this.router.url == '/sogebank/cartes'"></app-dashboard-sogebank>
+      
+      <app-virements-sogebank *ngIf="this.router.url == '/sogebank/virements'"></app-dashboard-sogebank>
+      
+      <app-releves-sogebank *ngIf="this.router.url == '/sogebank/releves'"></app-dashboard-sogebank>
+      -->
       
     </mat-sidenav-content>
   </mat-sidenav-container>

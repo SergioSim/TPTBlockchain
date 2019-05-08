@@ -1,0 +1,25 @@
+.dashboard-content {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 80%;
+    padding-top: 100px;
+}
+
+th, td {
+    text-align: center !important;
+}
+
+.download-button, a {
+    color: #25AAF7;
+}
+
+.debit-text {
+    color: #FF3B00;
+}
+
+.credit-text {
+    color: #23B708;
+}

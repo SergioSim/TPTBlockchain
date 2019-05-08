@@ -11,13 +11,19 @@
     position: relative;
 }
 
+mat-sidenav {
+    border: 0px;
+    box-shadow: 5px 0px 8px rgba(0, 0, 0, 0.2);
+}
+
 .sidenav {
     height: 100vh;
     width: 20%;
+    position: fixed;
 }
 
 .content {
     min-height: 100vh;
     width: 80%;
-    margin-left: 0px !important; 
+    margin-left: 20% !important; 
 }

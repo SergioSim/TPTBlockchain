@@ -1,5 +1,6 @@
 .menu-content {
   height: 100vh;
+  box-shadow: 10px 0px 8px rgba(0, 0, 0, 0.2);
   background: linear-gradient(rgba(3, 155, 229, 0.5),rgba(3, 155, 229, 0.5)), url(../../../assets/sogebank/vectors.jpg);
 }
 

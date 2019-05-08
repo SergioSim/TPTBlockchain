@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faPlus, faUnlockAlt, faUser, faStoreAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { FormControl, Validators } from '@angular/forms';
 import { InputErrorStateMatcher } from './InputErrorStateMatcher';
@@ -21,7 +20,7 @@ export class LoginSogebankComponent implements OnInit {
   displayLoginForm: boolean;
 
   constructor(
-    private route: ActivatedRoute,
+    private route: Router,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }
@@ -30,6 +29,14 @@ export class LoginSogebankComponent implements OnInit {
     this.titleService.setTitle('Authentification - Sogebank');
 
     this.displayLoginForm = this.sogebankService.displayLoginForm;
+  }
+
+  login() {
+    this.route.navigate(['/sogebank/dashboard']);
+  }
+
+  register() {
+    this.route.navigate(['/sogebank/dashboard']);
   }
 
 }

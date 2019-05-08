@@ -11,11 +11,13 @@ import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-so
 import { PortailComponent } from './portail/portail.component';
 import { BankButtonComponent } from './portail/bank-button/bank-button.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
+import { MenuSogebankComponent } from './sogebank/menu-sogebank/menu-sogebank.component';
+import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashboard-sogebank.component';
+import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule } from '@angular/material';
 
 import 'hammerjs';
-import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,9 @@ import { from } from 'rxjs';
     AccueilBrhComponent,
     AccueilSogebankComponent,
     LoginSogebankComponent,
+    BreadcrumbSearchSogebankComponent,
+    MenuSogebankComponent,
+    DashboardSogebankComponent
   ],
   imports: [
     BrowserModule,

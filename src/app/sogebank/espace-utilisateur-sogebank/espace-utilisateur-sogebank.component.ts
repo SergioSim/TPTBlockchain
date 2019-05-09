@@ -18,7 +18,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   faClipboardList = faClipboardList;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }

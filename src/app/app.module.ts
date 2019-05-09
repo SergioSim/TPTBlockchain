@@ -14,6 +14,10 @@ import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank
 import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
 import { MenuSogebankComponent } from './sogebank/menu-sogebank/menu-sogebank.component';
 import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashboard-sogebank.component';
+import { PortefeuillesSogebankComponent } from './sogebank/portefeuilles-sogebank/portefeuilles-sogebank.component';
+import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogebank.component';
+import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
+import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule } from '@angular/material';
@@ -31,7 +35,11 @@ import 'hammerjs';
     EspaceUtilisateurSogebankComponent,
     BreadcrumbSearchSogebankComponent,
     MenuSogebankComponent,
-    DashboardSogebankComponent
+    DashboardSogebankComponent,
+    PortefeuillesSogebankComponent,
+    CartesSogebankComponent,
+    VirementsSogebankComponent,
+    RelevesSogebankComponent
   ],
   imports: [
     BrowserModule,

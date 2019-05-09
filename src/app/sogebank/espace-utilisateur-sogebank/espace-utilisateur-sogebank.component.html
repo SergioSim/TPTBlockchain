@@ -5,22 +5,20 @@
     </mat-sidenav>
     <mat-sidenav-content class="content">
       <app-breadcrumb-search-sogebank
-        [faIcon]="faChartLine"
-        breadcrumbTitle="Tableau de bord"
-        breadcrumbDetails="(tous portefeuilles confondus)">
+        [faIcon]="breadcrumbIcon"
+        [breadcrumbTitle]="breadcrumbTitle"
+        [breadcrumbDetails]="breadcrumbDetails">
       </app-breadcrumb-search-sogebank>
 
       <app-dashboard-sogebank *ngIf="this.router.url == '/sogebank/dashboard'"></app-dashboard-sogebank>
       
-      <!--
-      <app-portefeuilles-sogebank *ngIf="this.router.url == '/sogebank/portefeuilles'"></app-dashboard-sogebank>
+      <app-portefeuilles-sogebank *ngIf="this.router.url == '/sogebank/portefeuilles'"></app-portefeuilles-sogebank>
       
-      <app-cartes-sogebank *ngIf="this.router.url == '/sogebank/cartes'"></app-dashboard-sogebank>
+      <app-cartes-sogebank *ngIf="this.router.url == '/sogebank/cartes'"></app-cartes-sogebank>
       
-      <app-virements-sogebank *ngIf="this.router.url == '/sogebank/virements'"></app-dashboard-sogebank>
+      <app-virements-sogebank *ngIf="this.router.url == '/sogebank/virements'"></app-virements-sogebank>
       
-      <app-releves-sogebank *ngIf="this.router.url == '/sogebank/releves'"></app-dashboard-sogebank>
-      -->
+      <app-releves-sogebank *ngIf="this.router.url == '/sogebank/releves'"></app-releves-sogebank>
       
     </mat-sidenav-content>
   </mat-sidenav-container>

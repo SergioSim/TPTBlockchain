@@ -7,10 +7,10 @@
   </div>
   <hr>
   <div class="menu-buttons">
-    <button mat-raised-button>Tableau de bord</button>
-    <button mat-raised-button>Mes portefeuilles</button>
-    <button mat-raised-button>Mes cartes</button>
-    <button mat-raised-button>Virements</button>
-    <button mat-raised-button>Relevés</button>
+    <button mat-raised-button (click)="goToDashboard()">Tableau de bord</button>
+    <button mat-raised-button (click)="goToWallets()">Mes portefeuilles</button>
+    <button mat-raised-button (click)="goToCards()">Mes cartes</button>
+    <button mat-raised-button (click)="goToTransfers()">Virements</button>
+    <button mat-raised-button (click)="goToStatements()">Relevés</button>
   </div>
 </div>

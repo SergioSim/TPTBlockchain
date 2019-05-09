@@ -1,6 +1,11 @@
 /* Application-wide Styles */
 @import "app/sogebank/sogebank-blue-material.css";
 
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;

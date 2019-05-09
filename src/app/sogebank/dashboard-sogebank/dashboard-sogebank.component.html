@@ -1,4 +1,31 @@
 <div class="dashboard-content">
+
+    <div class="stat-boxes">
+        <div class="stat-box-purple">
+            <div class="stat-header">
+                <h3>Solde</h3>
+            </div>
+            <h2>14 636 DHTG</h2>
+            <fa-icon [icon]="faSyncAlt" class="download-button"></fa-icon>
+        </div>
+        <div class="stat-box-green">
+            <div class="stat-header">
+                <h3>Crédit</h3>
+                <p>(30 derniers jours)</p>
+            </div>
+            <h2>1 704 DHTG</h2>
+            <fa-icon [icon]="faPlusCircle" class="download-button"></fa-icon>
+        </div>
+        <div class="stat-box-orange">
+                <div class="stat-header">
+                    <h3>Débit</h3>
+                    <p>(30 derniers jours)</p>
+                </div>
+            <h2>532 DHTG</h2>
+            <fa-icon [icon]="faMinusCircle" class="download-button"></fa-icon>
+        </div>
+    </div>
+
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         
         <ng-container matColumnDef="id">

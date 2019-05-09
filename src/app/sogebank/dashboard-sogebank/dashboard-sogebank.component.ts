@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 
@@ -13,6 +13,9 @@ export class DashboardSogebankComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any[];
   faDownload = faDownload;
+  faSyncAlt = faSyncAlt;
+  faPlusCircle = faPlusCircle;
+  faMinusCircle = faMinusCircle;
 
   constructor(
     private route: ActivatedRoute,

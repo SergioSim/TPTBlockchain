@@ -2,9 +2,19 @@
     display: flex;
 }
 
+.new-button {
+    border-radius: 50px;
+    padding: 5px 16px;
+    margin-bottom: 15px;
+    align-self: flex-end;
+}
+
 .liste-cartes {
     width: 55%;
-    margin-left: 45px;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
 }
 
 .carte-container {

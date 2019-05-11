@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-cartes-sogebank',
@@ -12,6 +12,7 @@ import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 export class CartesSogebankComponent implements OnInit {
   faPen = faPen;
   faTimes = faTimes;
+  faPlusCircle = faPlusCircle;
   cartes: any[];
   totalCards = 0;
   totalSolde = 14636;

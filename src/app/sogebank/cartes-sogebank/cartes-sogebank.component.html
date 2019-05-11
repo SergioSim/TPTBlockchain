@@ -1,5 +1,9 @@
 <div class="cartes-content">
         <div class="liste-cartes">
+            <button mat-flat-button color="primary" class="new-button">
+                <fa-icon [icon]="faPlusCircle"></fa-icon>
+                NOUVELLE CARTE
+            </button> 
             <div *ngFor="let carte of cartes">
                 <div class="carte-container">
                     <div class="carte-title">

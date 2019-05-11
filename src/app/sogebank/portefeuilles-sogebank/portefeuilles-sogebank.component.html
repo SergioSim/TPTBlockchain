@@ -1,5 +1,9 @@
 <div class="portefeuilles-content">
     <div class="liste-portefeuilles">
+        <button mat-flat-button color="primary" class="new-button">
+            <fa-icon [icon]="faPlusCircle"></fa-icon>
+            NOUVEAU PORTEFEUILLE
+        </button> 
         <div *ngFor="let portefeuille of portefeuilles">
             <div class="portefeuille-container">
                 <div class="portefeuille-title">

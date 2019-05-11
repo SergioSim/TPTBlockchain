@@ -1,3 +1,59 @@
 <div class="virements-content">
-    virements
-</div>
+        <div class="virements-boxes">
+            <div class="from-box">
+                <div class="box-header">
+                    <h2>Depuis le portefeuille</h2>
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faChevronDown"></fa-icon>
+                    </button>
+                </div>
+
+                <div *ngIf="isPortefeuilleSelected" class="box-item">
+                    <div class="wallet-info">
+                        <div><fa-icon [icon]="faCheck"></fa-icon></div>
+                        <div>
+                            <p>{{selectedPortefeuille.libelle}}</p>
+                            <p>Ouvert le {{selectedPortefeuille.ouverture}}</p>
+                        </div>
+                    </div>
+                    <div class="wallet-solde">
+                        <p>{{selectedPortefeuille.solde}}</p>
+                    </div>
+                </div>
+
+                <div *ngIf="!isPortefeuilleSelected">
+                    <div *ngFor="let portefeuille of portefeuilles" class="box-item">
+                        <div class="wallet-info">
+                            <div *ngIf="portefeuille.id === selectedPortefeuille.id">
+                                <fa-icon [icon]="faCheck"></fa-icon>
+                            </div>
+                            <div>
+                                <p>{{portefeuille.libelle}}</p>
+                                <p>Ouvert le {{portefeuille.ouverture}}</p>
+                            </div>
+                        </div>
+                        <div class="wallet-solde">
+                            <p>{{portefeuille.solde}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="to-box">
+                <div class="box-header">
+                    <h2>Vers le portefeuille</h2>
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faChevronDown"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="actions-virements">
+            <h2>Opérations</h2>
+            <hr>
+            <a href="#"><fa-icon [icon]="faClipboard"></fa-icon> Suivre mes virements</a>
+            <a href="#"><fa-icon [icon]="faUserFriends"></fa-icon> Gérer mes bénéficiaires</a>
+        </div>
+    </div>
+    

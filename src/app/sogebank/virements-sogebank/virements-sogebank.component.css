@@ -1,0 +1,101 @@
+.virements-content {
+    display: flex;
+}
+
+.virements-boxes {
+    width: 55%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.from-box, .to-box {
+    box-shadow: 3px 2px 8px rgba(112, 112, 112, 0.30), -3px 0px 8px rgba(112, 112, 112, 0.30);
+    border-radius: 5px;
+}
+
+.from-box {
+    border-top: 3px solid #23B708;
+    margin-bottom: 40px;
+}
+
+.to-box {
+    border-top: 3px solid rgba(31, 145, 211, 0.75);
+}
+
+.box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    color: #707070;
+    border-bottom: 2px solid rgba(216, 213, 213, 0.55);
+}
+
+.box-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #707070;
+    padding: 1em 20px;
+    border-bottom: 1px solid rgba(216, 213, 213, 0.55);
+}
+
+.box-item p {
+    margin: 0;
+}
+
+.wallet-info {
+    display: flex;
+    align-items: center;
+}
+
+.wallet-info fa-icon {
+    margin-right: 10px;
+    color: #23B708;
+}
+
+.actions-virements {
+    margin-left: auto;
+    width: 30%;
+    border-left: 1px solid #707070;
+    padding-left: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.actions-virements h2 {
+    color: #707070;
+    margin-bottom: 5px;
+}
+
+.actions-virements hr {
+    color: #707070;
+    width: 20%;
+    border: none;
+    height: 3px;
+    background-color: #707070;
+    margin: 0;
+    margin-bottom: 15px;
+    align-self: flex-start;
+    border-width: 3px;
+}
+
+.actions-virements a {
+    text-decoration: none;
+    color: #707070;
+    font-size: 1.25em;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.actions-virements a:hover {
+    color: #25AAF7;
+}
+
+.actions-virements fa-icon {
+    font-size: 1.75em;
+    padding-right: 10px;
+}

@@ -52,6 +52,18 @@ exports.getKeyFromPassword = (password) => {
    return (password.substring(0, 16) + config.aes_secret).substring(0, 32);
 };
 
+exports.generateEncryptedKeys = (password) => {
+    const hdPrivateKey = new bitcore.HDPrivateKey();
+    const address = hdPrivateKey.publicKey.toAddress().toString();
+    let privateKey = hdPrivateKey.toString();
+    console.log("plein private key:" + privateKey);  // IT'S VERY SAFE TO LOG  CLIENTS PRIVATE KEY!!!
+    console.log("public key:" + address);
+    privateKey = this.encryptAES(privateKey, this.getKeyFromPassword(password));
+    console.log("encrypted private key:");
+    console.log(privateKey);
+    return {privateKey: privateKey, address: address};
+}
+
 exports.encryptAES = (text, ikey) => {
     let iv = crypto.randomBytes(16);
     let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ikey), iv);

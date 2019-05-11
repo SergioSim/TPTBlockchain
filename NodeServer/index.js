@@ -87,17 +87,61 @@ app.post('/createClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    // create private key and store it ...
-    const hdPrivateKey = new bitcore.HDPrivateKey();
-    const address = hdPrivateKey.publicKey.toAddress().toString();
-    let privateKey = hdPrivateKey.toString();
-    console.log("plein private key:" + privateKey);  // IT'S VERY SAFE TO LOG  CLIENTS PRIVATE KEY!!!
-    console.log("public key:" + address);
-    privateKey = outils.encryptAES(privateKey, outils.getKeyFromPassword(req.body.password));
-    console.log("encrypted private key:");
-    console.log(privateKey);
+    keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, privateKey, address, req.body.banque], function(err, result) {
+    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, keys.privateKey, keys.address, req.body.banque], function(err, result) {
+        return res.send({success: !err});
+    });
+});
+
+app.put('/blockClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().normalizeEmail(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+
+        conn.query(sql.blockClient_0_1, [req.query.email], function(err, result){
+            return res.send({ succes: !err && result.affectedRows != 0});
+        });
+    });
+});
+
+app.put('/unBlockClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().normalizeEmail(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+
+        conn.query(sql.unBlockClient_0_1, [req.query.email], function(err, result){
+            return res.send({ succes: !err && result.affectedRows != 0});
+        });
+    });
+});
+
+app.post('/createBankClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('email').isEmail().normalizeEmail(),
+    check('password').isLength({ min: 5 }).escape(),
+    check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    keys = outils.generateEncryptedKeys(req.body.password);
+    req.body.password = outils.hashPassword(req.body.password);
+    conn.query(sql.insertBankClient_0_5, [req.body.email, req.body.password, keys.privateKey, keys.address, req.body.banque], function(err, result) {
         return res.send({success: !err});
     });
 });
@@ -116,6 +160,36 @@ app.post('/createContact', [
     });
 });
 
+app.delete('/deleteBank', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('name').isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    //TODO transfert all clients funds to BRH?
+    conn.query(sql.deleteBank_0_1, [req.query.name], function(err, result){
+		return res.send({ succes: !err && result.affectedRows != 0});
+	});
+});
+
+app.delete('/deleteClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().normalizeEmail(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+        // TODO - transfert all funds to banque account ... use admin account to do it ...
+        conn.query(sql.deleteClient_0_1, [req.query.email], function(err, result){
+            return res.send({ succes: !err && result.affectedRows != 0});
+        });
+    });
+});
+
 app.delete('/deleteContact', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
@@ -123,7 +197,7 @@ app.delete('/deleteContact', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.deleteContact_0_2, [req.jwt.Email, req.body.email], function(err, result){
+    conn.query(sql.deleteContact_0_2, [req.jwt.Email, req.query.email], function(err, result){
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });

@@ -1,3 +1,33 @@
 <div class="portefeuilles-content">
-    portefeuilles
+    <div class="liste-portefeuilles">
+        <div *ngFor="let portefeuille of portefeuilles">
+            <div class="portefeuille-container">
+                <div class="portefeuille-title">
+                    <h1>{{portefeuille.libelle}}</h1>
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
+                    </button> 
+                </div>    
+                <div class="portefeuille-footer">
+                    <div class="portefeuille-info">
+                        <p>Activité récente: {{portefeuille.activite}}</p>
+                        <p>Ouverture: {{portefeuille.ouverture}}</p>
+                    </div>
+                    <div class="portefeuille-solde">
+                        <h1>{{portefeuille.solde}}</h1>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-portefeuilles">
+        <h2>Informations (tous portefeuilles confondus)</h2>
+        <p>Nombre de portefeuilles :</p>
+        <h2>{{totalWallets}}</h2>
+        <p>Solde :</p>
+        <h2>{{totalSolde}} DHTG</h2>
+        <p>Activité (30 derniers jours) :</p>
+        <h2>{{totalActivite}} DHTG</h2>
+    </div>
 </div>

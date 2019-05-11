@@ -1,0 +1,61 @@
+.portefeuilles-content {
+    display: flex;
+}
+
+.liste-portefeuilles {
+    width: 55%;
+    margin-left: 45px;
+}
+
+.portefeuille-container {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgb(67,198,172);
+    background: linear-gradient(145deg, rgba(67,198,172,1) 0%, rgba(248,255,174,1) 100%);
+    margin-bottom: 30px;
+    box-shadow: 7px 7px 10px rgba(112, 112, 112, 0.55);
+    border-radius: 5px;
+}
+
+.portefeuille-title {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.portefeuille-title button {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #25AAF7;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.15);
+    margin-left: 10px;
+}
+
+.portefeuille-footer {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px; 
+}
+
+.portefeuille-info p {
+    margin: 0;
+}
+
+.portefeuille-solde {
+    margin-left: auto;
+    color: rgba(112, 112, 112, 0.55);
+}
+
+.stats-portefeuilles {
+    margin-left: auto;
+    width: 30%;
+    border-left: 1px solid #707070;
+    padding-left: 2%;
+}
+
+.stats-portefeuilles p {
+    color: rgba(112, 112, 112, 0.7);
+}
+
+.stats-portefeuilles h2 {
+    color: #25AAF7;
+}

@@ -1,3 +1,37 @@
 <div class="cartes-content">
-    cartes
-</div>
+        <div class="liste-cartes">
+            <div *ngFor="let carte of cartes">
+                <div class="carte-container">
+                    <div class="carte-title">
+                        <h1>{{carte.libelle}}</h1>
+                        <button mat-icon-button>
+                            <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
+                        </button> 
+                        <button mat-icon-button>
+                            <fa-icon [icon]="faTimes" class="delete-button"></fa-icon>
+                        </button> 
+                    </div>    
+                    <div class="carte-footer">
+                        <div class="carte-info">
+                            <p>Activité récente: {{carte.activite}}</p>
+                            <p>Création: {{carte.creation}}</p>
+                        </div>
+                        <div class="carte-rattachement">
+                            <h1>Rattachée à : {{carte.rattachement}}</h1>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    
+        <div class="stats-cartes">
+            <h2>Informations (tous cartes confondus)</h2>
+            <p>Nombre de cartes :</p>
+            <h2>{{totalCards}}</h2>
+            <p>Solde :</p>
+            <h2>{{totalSolde}} DHTG</h2>
+            <p>Activité (30 derniers jours) :</p>
+            <h2>{{totalActivite}} DHTG</h2>
+        </div>
+    </div>
+    

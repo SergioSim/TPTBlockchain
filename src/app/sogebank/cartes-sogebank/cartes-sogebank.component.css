@@ -1,0 +1,69 @@
+.cartes-content {
+    display: flex;
+}
+
+.liste-cartes {
+    width: 55%;
+    margin-left: 45px;
+}
+
+.carte-container {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgb(5,117,230);
+    background: linear-gradient(20deg, rgba(5,117,230,1) 0%, rgba(2,27,121,1) 100%);
+    margin-bottom: 30px;
+    box-shadow: 7px 7px 10px rgba(112, 112, 112, 0.55);
+    border-radius: 5px;
+}
+
+.carte-title {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.carte-title button {
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.15);
+    margin-left: 10px;
+}
+
+.edit-button {
+    color: #25AAF7;
+}
+
+.delete-button {
+    color: #FF3B00;
+}
+
+.carte-footer {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px; 
+}
+
+.carte-info p {
+    margin: 0;
+}
+
+.carte-rattachement {
+    margin-left: auto;
+    color: #707070;
+    font-size: 10px;
+}
+
+.stats-cartes {
+    margin-left: auto;
+    width: 30%;
+    border-left: 1px solid #707070;
+    padding-left: 2%;
+}
+
+.stats-cartes p {
+    color: rgba(112, 112, 112, 0.7);
+}
+
+.stats-cartes h2 {
+    color: #25AAF7;
+}

@@ -36,7 +36,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
       this.totalSolde += Number(portefeuille.solde.substring(0, portefeuille.solde.length - 5).replace(' ', ''));
-      this.totalActivite += Number(portefeuille.activite.substr(1).substring(0, portefeuille.activite.length - 5).replace(' ', ''));
+      this.totalActivite += Number(portefeuille.activite.substring(0, portefeuille.activite.length - 5).replace(' ', ''));
     });
   }
 

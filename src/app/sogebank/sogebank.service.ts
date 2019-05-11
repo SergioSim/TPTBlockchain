@@ -34,4 +34,12 @@ export class SogebankService {
     ];
   }
 
+  getUserCards() {
+    return [
+      {id: 1, libelle: 'Carte commerce', creation: '14/01/2019', activite: '+0 DHTG', rattachement: 'Portefeuille courant'},
+      {id: 2, libelle: 'Carte déplacements', creation: '20/01/2019', activite: '-30 DHTG', rattachement: 'Portefeuille courant'},
+      {id: 3, libelle: 'Carte réserve', creation: '28/02/2019', activite: '-100 DHTG', rattachement: 'Réserve'},
+    ];
+  }
+
 }

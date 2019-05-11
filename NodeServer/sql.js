@@ -12,5 +12,6 @@ module.exports = {
   "deleteClient_0_1" : "DELETE FROM OpenchainUser.Client WHERE Email=?",
   "deleteContact_0_2" : "DELETE FROM OpenchainUser.Contact WHERE EmailProprietaire=? AND EmailContact=?",
   "blockClient_0_1" : "UPDATE OpenchainUser.Client SET PermissionLevel = 0 WHERE Email=?",
-  "unBlockClient_0_1" : "UPDATE OpenchainUser.Client SET PermissionLevel = 1 WHERE Email=?"
+  "unBlockClient_0_1" : "UPDATE OpenchainUser.Client SET PermissionLevel = 1 WHERE Email=?",
+  "updateClient_0_8" : "UPDATE OpenchainUser.Client SET Email = ?, Nom = ?, Prenom = ?, Loc = ?, Password = ?, Wallet = ? WHERE Client.Email = ?"
 }

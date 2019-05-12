@@ -21,6 +21,8 @@ import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-so
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import { NodeapiService } from './nodeapi.service';
 
 import 'hammerjs';
 
@@ -58,9 +60,11 @@ import 'hammerjs';
     MatRadioModule,
     MatSidenavModule,
     MatTableModule,
+    HttpClientModule
   ],
   providers: [
     Title,
+    NodeapiService
   ],
   bootstrap: [AppComponent]
 })

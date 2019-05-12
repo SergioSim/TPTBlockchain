@@ -32,7 +32,7 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
     res.header('Access-Control-Expose-Headers', 'Content-Length');
-    res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range');
+    res.header('Access-Control-Allow-Headers', 'Origin, Accept, Authorization, Content-Type, X-Requested-With, Range, X-Content-Type-Options');
     console.log("[REQUEST] " + req.url + " : " + util.inspect(req.body, {showHidden: false, depth: null}));
     next();
 });
@@ -126,7 +126,7 @@ app.put('/updateClient', [
     function(req, res) {
 
     let aOldEmail = req.jwt.Email;
-    if(req.jwt.PermissionLevel >= 2 && req.body.bankEmail != '')
+    if(req.jwt.PermissionLevel >= 2 && req.body.bankEmail != undefined)
         aOldEmail = bankEmail;
     conn.query(sql.findClientByEmail_4_1, [aOldEmail], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });

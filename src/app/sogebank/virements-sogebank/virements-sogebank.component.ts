@@ -18,7 +18,7 @@ export class VirementsSogebankComponent implements OnInit {
   portefeuilles: any[];
   beneficiaires: any[];
   isPortefeuilleSelected = false;
-  isBeneficiaireSelecter = false;
+  isBeneficiaireSelected = false;
   selectedPortefeuille = {id: 1, libelle: 'Portefeuille courant', solde: '12 386 DHTG', ouverture: '14/01/2019', activite: '+1 189 DHTG'};
   selectedBeneficiaire = {};
 

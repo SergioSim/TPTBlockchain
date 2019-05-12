@@ -46,6 +46,38 @@
                         <fa-icon [icon]="faChevronDown"></fa-icon>
                     </button>
                 </div>
+
+                <div *ngIf="isBeneficiaireSelected" class="box-item">
+                    <div class="wallet-info">
+                        <div><fa-icon [icon]="faCheck"></fa-icon></div>
+                        <div>
+                            <p>{{selectedBeneficiaire.libelle}}</p>
+                            <p *ngIf="selectedBeneficiaire.ajout">Ajouté le {{selectedBeneficiaire.ajout}}</p>
+                            <p *ngIf="selectedBeneficiaire.ouverture">Ouvert le {{selectedBeneficiaire.ouverture}}</p>
+                        </div>
+                    </div>
+                    <div class="wallet-solde">
+                        <p *ngIf="selectedBeneficiaire.solde">{{selectedBeneficiaire.solde}}</p>
+                    </div>
+                </div>
+    
+                <div *ngIf="!isBeneficiaireSelected">
+                    <div *ngFor="let beneficiaire of beneficiaires" class="box-item">
+                        <div class="wallet-info">
+                            <div *ngIf="beneficiaire.id === selectedBeneficiaire.id">
+                                <fa-icon [icon]="faCheck"></fa-icon>
+                            </div>
+                            <div>
+                                <p>{{beneficiaire.libelle}}</p>
+                                <p *ngIf="beneficiaire.ajout">Ajouté le {{beneficiaire.ajout}}</p>
+                                <p *ngIf="beneficiaire.ouverture">Ouvert le {{beneficiaire.ouverture}}</p>
+                            </div>
+                        </div>
+                        <div class="wallet-solde">
+                            <p *ngIf="beneficiaire.solde">{{selectedBeneficiaire.solde}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     

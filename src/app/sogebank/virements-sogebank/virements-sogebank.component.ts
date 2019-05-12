@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faClipboard, faUserFriends, faChevronDown, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-virements-sogebank',
@@ -14,13 +14,20 @@ export class VirementsSogebankComponent implements OnInit {
   faUserFriends = faUserFriends;
   faChevronDown = faChevronDown;
   faCheck = faCheck;
+  faCheckCircle = faCheckCircle;
 
   portefeuilles: any[];
   beneficiaires: any[];
   isPortefeuilleSelected = false;
   isBeneficiaireSelected = false;
-  selectedPortefeuille = {id: 1, libelle: 'Portefeuille courant', solde: '12 386 DHTG', ouverture: '14/01/2019', activite: '+1 189 DHTG'};
+  selectedPortefeuille = {};
   selectedBeneficiaire = {};
+  typesVirement = [
+    {value: 'classique', viewValue: 'Classique'},
+    {value: 'paiement', viewValue: 'Paiement'},
+    {value: 'depot', viewValue: 'Dépôt'},
+    {value: 'retrait', viewValue: 'Retrait'}
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +40,24 @@ export class VirementsSogebankComponent implements OnInit {
 
     this.portefeuilles = this.sogebankService.getUserWallets();
     this.beneficiaires = this.sogebankService.getUserContacts();
+  }
+
+  selectPortefeuille(portefeuille) {
+    this.selectedPortefeuille = portefeuille;
+    this.isPortefeuilleSelected = true;
+  }
+
+  selectBeneficiaire(beneficiaire) {
+    this.selectedBeneficiaire = beneficiaire;
+    this.isBeneficiaireSelected = true;
+  }
+
+  choosePortefeuille() {
+    this.isPortefeuilleSelected = false;
+  }
+
+  chooseBeneficiaire() {
+    this.isBeneficiaireSelected = false;
   }
 
 }

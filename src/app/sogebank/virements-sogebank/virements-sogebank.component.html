@@ -3,7 +3,7 @@
             <div class="from-box">
                 <div class="box-header">
                     <h2>Depuis le portefeuille</h2>
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="choosePortefeuille()">
                         <fa-icon [icon]="faChevronDown"></fa-icon>
                     </button>
                 </div>
@@ -22,7 +22,7 @@
                 </div>
 
                 <div *ngIf="!isPortefeuilleSelected">
-                    <div *ngFor="let portefeuille of portefeuilles" class="box-item">
+                    <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectPortefeuille(portefeuille)">
                         <div class="wallet-info">
                             <div *ngIf="portefeuille.id === selectedPortefeuille.id">
                                 <fa-icon [icon]="faCheck"></fa-icon>
@@ -42,7 +42,7 @@
             <div class="to-box">
                 <div class="box-header">
                     <h2>Vers le portefeuille</h2>
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="chooseBeneficiaire()">
                         <fa-icon [icon]="faChevronDown"></fa-icon>
                     </button>
                 </div>
@@ -62,7 +62,7 @@
                 </div>
     
                 <div *ngIf="!isBeneficiaireSelected">
-                    <div *ngFor="let beneficiaire of beneficiaires" class="box-item">
+                    <div *ngFor="let beneficiaire of beneficiaires" class="box-item select-box-item" (click)="selectBeneficiaire(beneficiaire)">
                         <div class="wallet-info">
                             <div *ngIf="beneficiaire.id === selectedBeneficiaire.id">
                                 <fa-icon [icon]="faCheck"></fa-icon>
@@ -79,6 +79,25 @@
                     </div>
                 </div>
             </div>
+
+            <div class="virements-form">
+                <mat-form-field>
+                    <input matInput type="number" placeholder="Montant">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Type de virement</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let type of typesVirement" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <button mat-flat-button color="primary" class="confirm-button">
+                <fa-icon [icon]="faCheckCircle"></fa-icon>
+                CONFIRMER
+            </button> 
         </div>
     
         <div class="actions-virements">

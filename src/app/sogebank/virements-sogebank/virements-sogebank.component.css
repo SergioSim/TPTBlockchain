@@ -42,6 +42,11 @@
     border-bottom: 1px solid rgba(216, 213, 213, 0.55);
 }
 
+.select-box-item:hover {
+    background-color: #E0E0E0;
+    cursor: pointer;
+}
+
 .box-item p {
     margin: 0;
 }
@@ -54,6 +59,22 @@
 .wallet-info fa-icon {
     margin-right: 10px;
     color: #23B708;
+}
+
+.virements-form {
+    padding-top: 30px;
+    align-self: center;
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.confirm-button {
+    border-radius: 50px;
+    padding: 5px 16px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    align-self: center;
 }
 
 .actions-virements {

@@ -20,7 +20,8 @@ import { VirementsSogebankComponent } from './sogebank/virements-sogebank/vireme
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
-   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule } from '@angular/material';
+   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
+   MatSnackBarModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 
@@ -60,6 +61,8 @@ import 'hammerjs';
     MatRadioModule,
     MatSidenavModule,
     MatTableModule,
+    MatDialogModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [

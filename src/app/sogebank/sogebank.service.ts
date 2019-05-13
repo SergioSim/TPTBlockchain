@@ -44,8 +44,8 @@ export class SogebankService {
 
   getUserContacts() {
     return [
-      {id: 1, libelle: 'Marcus Dooling', ajout: '14/01/2019'},
-      {id: 2, libelle: 'Oleta Ulrich', ajout: '16/02/2019'},
+      {id: 3, libelle: 'Marcus Dooling', ajout: '14/01/2019'},
+      {id: 4, libelle: 'Oleta Ulrich', ajout: '16/02/2019'},
     ];
   }
 

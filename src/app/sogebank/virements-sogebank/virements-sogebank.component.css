@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.virements-content a {
+    cursor: pointer;
+}
+
 .virements-boxes {
     width: 55%;
     margin-left: 5%;
@@ -59,6 +63,15 @@
 .wallet-info fa-icon {
     margin-right: 10px;
     color: #23B708;
+}
+
+.new-wallet-info {
+    color: #FF3B00 !important;
+}
+
+.transfer-to-separator {
+    background-color: #EEEEEE;
+    padding: 0.5em 20px;
 }
 
 .virements-form {
@@ -186,4 +199,18 @@
 
 .dialog-cancel-button {
     background-color: #FF3B00;
+}
+
+.contact-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-dialog .dialog-header hr {
+    width: 50%;
+}
+
+.contact-dialog-form {
+    display: flex;
+    flex-direction: column;
 }

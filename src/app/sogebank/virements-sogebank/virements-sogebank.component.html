@@ -62,6 +62,34 @@
                 </div>
     
                 <div *ngIf="!isBeneficiaireSelected">
+                    <div class="box-item select-box-item" (click)="openContactDialog(ContactDialog)">
+                        <div class="wallet-info">
+                            <fa-icon [icon]="faPlus" class="new-wallet-info"></fa-icon>
+                            <div>
+                                <p>Ajouter un bénéficiaire</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transfer-to-separator box-item">
+                        PORTEFEUILLES PERSONNELS
+                    </div>
+                    <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectBeneficiaire(portefeuille)">
+                        <div class="wallet-info">
+                            <div *ngIf="portefeuille.id === selectedBeneficiaire.id">
+                                <fa-icon [icon]="faCheck"></fa-icon>
+                            </div>
+                            <div>
+                                <p>{{portefeuille.libelle}}</p>
+                                <p>Ouvert le {{portefeuille.ouverture}}</p>
+                            </div>
+                        </div>
+                        <div class="wallet-solde">
+                            <p>{{portefeuille.solde}}</p>
+                        </div>
+                    </div>
+                    <div class="transfer-to-separator box-item">
+                        BÉNÉFICIAIRES
+                    </div>
                     <div *ngFor="let beneficiaire of beneficiaires" class="box-item select-box-item" (click)="selectBeneficiaire(beneficiaire)">
                         <div class="wallet-info">
                             <div *ngIf="beneficiaire.id === selectedBeneficiaire.id">
@@ -69,12 +97,8 @@
                             </div>
                             <div>
                                 <p>{{beneficiaire.libelle}}</p>
-                                <p *ngIf="beneficiaire.ajout">Ajouté le {{beneficiaire.ajout}}</p>
-                                <p *ngIf="beneficiaire.ouverture">Ouvert le {{beneficiaire.ouverture}}</p>
+                                <p>Ajouté le {{beneficiaire.ajout}}</p>
                             </div>
-                        </div>
-                        <div class="wallet-solde">
-                            <p *ngIf="beneficiaire.solde">{{selectedBeneficiaire.solde}}</p>
                         </div>
                     </div>
                 </div>
@@ -147,13 +171,45 @@
                     </div>
                 </div>
             </ng-template>
+
+            <ng-template #ContactDialog>
+                <div class="contact-dialog">
+                    <div class="dialog-header">
+                        <h2>Confirmer le virement</h2>
+                        <hr>
+                    </div>
+                    <div class="contact-dialog-form">
+                        <mat-form-field>
+                            <mat-label>Sélectionner un bénéficiaire...</mat-label>
+                            <mat-select [(value)]="editBeneficiaire">
+                                <mat-option value="newContact">
+                                    <fa-icon [icon]="faPlus"></fa-icon> Nouveau bénéficiaire
+                                </mat-option>
+                                <mat-option *ngFor="let beneficiaire of beneficiaires" [value]="beneficiaire">
+                                    {{beneficiaire.libelle}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Nom du bénéficiaire" [(ngModel)]="editBeneficiaire.libelle">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput  placeholder="Identifiant du portefeuile" [(ngModel)]="editBeneficiaire.id">
+                        </mat-form-field>
+                    </div>
+                    <div class="dialog-buttons">
+                        <button mat-flat-button class="dialog-confirm-button" (click)="confirmContactEditCreate()">Confirmer</button> 
+                        <button mat-flat-button class="dialog-cancel-button" (click)="cancelContactEditCreate()">Annuler</button> 
+                    </div>
+                </div>
+            </ng-template>
         </div>
     
         <div class="actions-virements">
             <h2>Opérations</h2>
             <hr>
             <a href="#"><fa-icon [icon]="faClipboard"></fa-icon> Suivre mes virements</a>
-            <a href="#"><fa-icon [icon]="faUserFriends"></fa-icon> Gérer mes bénéficiaires</a>
+            <a (click)="openContactDialog(ContactDialog)"><fa-icon [icon]="faUserFriends"></fa-icon> Gérer mes bénéficiaires</a>
         </div>
     </div>
     

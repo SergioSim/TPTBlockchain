@@ -31,6 +31,7 @@ import 'hammerjs';
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
 import { AccueilComponent } from './sogebank/Particulier/accueil/accueil.component';
 import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
+import { AccueilFooterComponent } from './accueil-footer/accueil-footer.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/es
     RelevesSogebankComponent,
     LoginComponent,
     AccueilComponent,
-    EspaceUtilisateurParticulierComponent
+    EspaceUtilisateurParticulierComponent,
+    AccueilFooterComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,6 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./portail.component.css']
 })
 export class PortailComponent implements OnInit {
-  faCircle = faCircle;
   faPlay = faPlay;
   banks = [];
   brh = <any>{};

@@ -1,0 +1,35 @@
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.portal-footer{
+  background-color: #171844;
+  font-size: 14px;
+  color: #ffffff;
+  width: 100%;
+  height: 25px;
+}
+
+.portal-footer ul {
+  padding-inline-start: 0px;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  margin-bottom: 0px;
+}
+
+.portal-footer ul li {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 25px;
+}
+
+.portal-footer ul li a fa-icon{
+  font-size: 8px;    
+  justify-content: center;
+  display: inline-flex;
+  text-align: center;
+  flex-direction: column;
+  padding-right: 5px;
+}
+

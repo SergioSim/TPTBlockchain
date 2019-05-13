@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-  //  this.route.navigate(['/sogebank/dashboard']);
+     this.route.navigate(['sogebank/Particulier/accueil']);
   }
 
   register() {
-   // this.route.navigate(['/sogebank/dashboard']);
+    this.route.navigate(['/sogebank/dashboard']);
   }
 
 }

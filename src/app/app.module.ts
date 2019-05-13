@@ -29,6 +29,8 @@ import { NodeapiService } from './nodeapi.service';
 import 'hammerjs';
 
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
+import { AccueilComponent } from './sogebank/Particulier/accueil/accueil.component';
+import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { LoginComponent } from './sogebank/Particulier/login/login.component';
     CartesSogebankComponent,
     VirementsSogebankComponent,
     RelevesSogebankComponent,
-    LoginComponent
+    LoginComponent,
+    AccueilComponent,
+    EspaceUtilisateurParticulierComponent
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,7 @@ import { TableReleveSogebankComponent } from './sogebank/table-releve/table-rele
 
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-   MatSnackBarModule } from '@angular/material';
+   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 
@@ -50,11 +50,11 @@ import { AccueilFooterComponent } from './accueil-footer/accueil-footer.componen
     CartesSogebankComponent,
     VirementsSogebankComponent,
     RelevesSogebankComponent,
+    TableReleveSogebankComponent,
     LoginComponent,
     AccueilComponent,
     EspaceUtilisateurParticulierComponent,
-    AccueilFooterComponent,
-    TableReleveSogebankComponent
+    AccueilFooterComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +75,8 @@ import { AccueilFooterComponent } from './accueil-footer/accueil-footer.componen
     MatTableModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     HttpClientModule
   ],
   providers: [

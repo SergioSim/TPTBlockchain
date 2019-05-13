@@ -19,6 +19,7 @@ import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogeb
 import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
+import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
 
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
@@ -52,7 +53,8 @@ import { AccueilFooterComponent } from './accueil-footer/accueil-footer.componen
     LoginComponent,
     AccueilComponent,
     EspaceUtilisateurParticulierComponent,
-    AccueilFooterComponent
+    AccueilFooterComponent,
+    TableReleveSogebankComponent
   ],
   imports: [
     BrowserModule,

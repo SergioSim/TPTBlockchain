@@ -38,3 +38,7 @@
     align-self: center;
     margin-left: 15px;
 }
+
+.releves-content ::ng-deep table {
+    padding-top: 0;
+}

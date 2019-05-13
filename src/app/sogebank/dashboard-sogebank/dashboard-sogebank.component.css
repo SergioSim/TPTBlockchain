@@ -81,7 +81,7 @@ app-table-releve-sogebank {
     width: 80%;
 }
 
-::ng-deep table {
+.dashboard-content ::ng-deep table {
     width: 100%;
     padding-top: 100px;
 }

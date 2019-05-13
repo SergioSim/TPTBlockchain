@@ -1,0 +1,64 @@
+.login-content {
+    background-image: url(../../../../assets/sogebank/sogebank_bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;
+    min-height: 100vh;
+  }
+  
+  img {
+      margin-top: 5%;
+      margin-left: 5%;
+      height: 100px;
+  }
+  
+  .form-container {
+      background-color: rgba(255, 255, 255, 0.90);
+      width: 40%;
+      margin-left: 55%;
+  }
+  
+  mat-tab-group {
+      display: flex;
+      padding: 15px 80px;
+      flex-direction: column;
+  }
+  
+  .login-form {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+  }
+  
+  .create-form {
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .login-form mat-form-field, .login-form mat-checkbox {
+      padding: 15px 0px;
+  }
+  
+  .radio-type {
+      display: flex;
+  }
+  
+  .create-type-select {
+      display: flex;
+      flex-direction: column;
+      margin-left: 15px;
+  }
+  
+  .primary-login-button {
+      width: 100%;
+      align-self: center;
+      margin: 25px 0px;
+      padding: 5px;
+  }
+  
+  .create-warning-label {
+      color: #f44336;
+      font-size: 12px;
+      display: block;
+      text-align: center;
+  }

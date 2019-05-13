@@ -5,7 +5,7 @@ import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-so
 import { PortailComponent } from './portail/portail.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
 import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
-
+import { LoginComponent } from './sogebank/Particulier/login/login.component';
 const routes: Routes = [
   { path: '', redirectTo: '/portail', pathMatch: 'full' },
   { path: 'portail', component: PortailComponent },
@@ -17,6 +17,9 @@ const routes: Routes = [
   { path: 'sogebank/cartes', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/virements', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent},
+  { path: 'sogebank/Particulier/login', component:  LoginComponent}
+
+  
 ];
 
 @NgModule({

@@ -6,6 +6,8 @@ import { PortailComponent } from './portail/portail.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
 import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
 import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
+import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque-prive.component'
+import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component'
 
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
 
@@ -22,9 +24,8 @@ const routes: Routes = [
   { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/Particulier/login', component:  LoginComponent},
   { path: 'sogebank/Particulier/accueil', component:  EspaceUtilisateurParticulierComponent},
-  { path: 'sogebank/Particulier/releves-particulier', component:  EspaceUtilisateurParticulierComponent},
-  { path: 'sogebank/Particulier/cartes-particulier', component:  EspaceUtilisateurParticulierComponent},
-  { path: 'sogebank/Particulier/virements-particulier', component:  EspaceUtilisateurParticulierComponent}
+  { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
+  { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},
 
 
   

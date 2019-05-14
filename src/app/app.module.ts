@@ -19,10 +19,11 @@ import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogeb
 import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
+import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
 
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-   MatSnackBarModule } from '@angular/material';
+   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 
@@ -31,11 +32,11 @@ import 'hammerjs';
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
 import { AccueilComponent } from './sogebank/Particulier/accueil/accueil.component';
 import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
-import { MenuParticulierComponent } from './sogebank/Particulier/menu-particulier/menu-particulier.component';
-import { RelevesParticulierComponent } from './sogebank/Particulier/releves-particulier/releves-particulier.component';
-import { CartesParticulierComponent } from './sogebank/Particulier/cartes-particulier/cartes-particulier.component';
-import { VirementsParticulierComponent } from './sogebank/Particulier/virements-particulier/virements-particulier.component';
-import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/breadcrumb-search-particulier/breadcrumb-search-particulier.component';
+
+import { AccueilFooterComponent } from './accueil-footer/accueil-footer.component';
+import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque-prive.component';
+import { AlertComponent } from './brh/alert/alert.component';
+import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -53,14 +54,15 @@ import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/bre
     CartesSogebankComponent,
     VirementsSogebankComponent,
     RelevesSogebankComponent,
+    TableReleveSogebankComponent,
     LoginComponent,
     AccueilComponent,
     EspaceUtilisateurParticulierComponent,
-    MenuParticulierComponent,
-    RelevesParticulierComponent,
-    CartesParticulierComponent,
-    VirementsParticulierComponent,
-    BreadcrumbSearchParticulierComponent
+    AccueilFooterComponent,
+    TableReleveSogebankComponent,
+    LoginBanquePriveComponent,
+    AlertComponent,
+    EspaceUtilisateurBanquePriveComponent
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,8 @@ import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/bre
     MatTableModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     HttpClientModule
   ],
   providers: [

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar, MatDialogRef } from '@angular/material';
 
 @Component({
@@ -16,6 +16,7 @@ export class VirementsSogebankComponent implements OnInit {
   faChevronDown = faChevronDown;
   faCheck = faCheck;
   faCheckCircle = faCheckCircle;
+  faPlus = faPlus;
 
   portefeuilles: any[];
   beneficiaires: any[];
@@ -26,6 +27,8 @@ export class VirementsSogebankComponent implements OnInit {
   transferAmount: number;
   selectedType: string;
   confirmDialogRef: any;
+  contactDialogRef: any;
+  editBeneficiaire: {};
   dialogProperties = {
     from: '',
     to: '',
@@ -54,6 +57,7 @@ export class VirementsSogebankComponent implements OnInit {
 
     this.portefeuilles = this.sogebankService.getUserWallets();
     this.beneficiaires = this.sogebankService.getUserContacts();
+    this.editBeneficiaire = { id: '', libelle: '' };
   }
 
   selectPortefeuille(portefeuille) {
@@ -98,6 +102,10 @@ export class VirementsSogebankComponent implements OnInit {
         this.snackBar.open('Le montant du virement ne peut pas excéder le solde du portefeuille.', 'Fermer', {
           duration: 2000,
         });
+    } else if (this.selectedPortefeuille['id'] === this.selectedBeneficiaire['id']) {
+      this.snackBar.open('Les portefeuilles source et bénéficiaire ne peuvent pas être les même.', 'Fermer', {
+        duration: 2000,
+      });
     } else {
       this.updateDialogProperties();
       this.confirmDialogRef = this.dialog.open(templateRef);
@@ -118,6 +126,25 @@ export class VirementsSogebankComponent implements OnInit {
 
   cancelTransfer() {
     this.confirmDialogRef.close();
+  }
+
+  openContactDialog(templateRef) {
+    this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
+    this.contactDialogRef.afterClosed().subscribe(result => {
+
+   });
+  }
+
+  confirmContactEditCreate() {
+    this.contactDialogRef.close();
+    this.snackBar.open('Les informations du bénéficiaire ' + this.editBeneficiaire['libelle']
+    + ' ont bien été mises à jour.', 'Fermer', {
+      duration: 2000,
+    });
+  }
+
+  cancelContactEditCreate() {
+    this.contactDialogRef.close();
   }
 
 }

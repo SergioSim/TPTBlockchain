@@ -42,6 +42,7 @@ import { AccueilFooterComponent } from './accueil-footer/accueil-footer.componen
 import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque-prive.component';
 import { AlertComponent } from './brh/alert/alert.component';
 import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component';
+import { InscriptionParticulierComponent } from './sogebank/Particulier/inscription-particulier/inscription-particulier.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-
     TableReleveSogebankComponent,
     LoginBanquePriveComponent,
     AlertComponent,
-    EspaceUtilisateurBanquePriveComponent
+    EspaceUtilisateurBanquePriveComponent,
+    InscriptionParticulierComponent
   ],
   imports: [
     BrowserModule,

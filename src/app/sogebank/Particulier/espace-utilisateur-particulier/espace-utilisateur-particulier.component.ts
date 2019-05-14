@@ -42,6 +42,10 @@ export class EspaceUtilisateurParticulierComponent implements OnInit {
       this.breadcrumbIcon = faClipboardList;
       this.breadcrumbTitle = 'Mes relevés';
       this.breadcrumbDetails = '';
+    }else if (this.router.url === '/sogebank/Particulier/inscription-particulier') {
+      this.breadcrumbIcon = faClipboardList;
+      this.breadcrumbTitle = 'Validation incsription';
+      this.breadcrumbDetails = '';
     }
   }
 

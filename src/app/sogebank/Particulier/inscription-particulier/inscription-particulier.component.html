@@ -1,0 +1,47 @@
+<div class="login-content">
+
+  <div class="form-container">
+      <mat-tab-group mat-stretch-tabs dynamicHeight [selectedIndex]="displayLoginForm ? 0 : 1">
+      
+          <mat-tab label="NOUVEAU CLIENT">
+            <div class="create-form">
+            
+            <mat-form-field>
+                <input matInput placeholder="Nom" type="text">
+             </mat-form-field>
+            
+             <mat-form-field>
+              <input matInput placeholder="Prenom" type="text">
+             </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Civilité" type="text">
+              </mat-form-field>
+
+              <mat-form-field>
+                  <input matInput placeholder="Date de naissance" type="date">
+              </mat-form-field>
+            
+              <mat-form-field>
+                <input matInput placeholder="Téléphone" type="number">
+              </mat-form-field>
+         
+              <mat-form-field>
+                <input matInput placeholder="adresse, nom et numéro de la rue" type="text">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Code postal" type="number">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput placeholder="Ville" type="text">
+              </mat-form-field>
+            
+            
+            </div>
+            <button mat-flat-button (click)="register()" color="primary" class="primary-login-button">Envoyer</button>
+             </mat-tab>
+      </mat-tab-group>
+  </div>
+</div>

@@ -6,11 +6,12 @@ import { InputErrorStateMatcher } from './InputErrorStateMatcher';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-inscription-particulier',
+  templateUrl: './inscription-particulier.component.html',
+  styleUrls: ['./inscription-particulier.component.css']
+
 })
-export class LoginComponent implements OnInit {
+export class InscriptionParticulierComponent implements OnInit {
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-     this.route.navigate(['sogebank/Particulier/inscription-particulier']);
+     this.route.navigate(['sogebank/Particulier/accueil']);
   }
 
   register() {

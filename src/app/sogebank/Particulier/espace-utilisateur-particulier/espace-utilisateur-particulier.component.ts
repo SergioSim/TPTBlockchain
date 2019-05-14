@@ -30,9 +30,23 @@ export class EspaceUtilisateurParticulierComponent implements OnInit {
       this.breadcrumbIcon = faChartLine;
       this.breadcrumbTitle = 'Tableau de bord';
       this.breadcrumbDetails = '(tous portefeuilles confondus)';
-    } 
+    } else if (this.router.url === '/sogebank/Particulier/cartes-particulier') {
+      this.breadcrumbIcon = faCreditCard;
+      this.breadcrumbTitle = 'Mes cartes';
+      this.breadcrumbDetails = '';
+    } else if (this.router.url === '/sogebank/Particulier/virements-particulier') {
+      this.breadcrumbIcon = faExchangeAlt;
+      this.breadcrumbTitle = 'Virements';
+      this.breadcrumbDetails = '';
+    } else if (this.router.url === '/sogebank/Particulier/releves-particulier') {
+      this.breadcrumbIcon = faClipboardList;
+      this.breadcrumbTitle = 'Mes relevés';
+      this.breadcrumbDetails = '';
+    }
   }
 
 }
 
 
+
+  

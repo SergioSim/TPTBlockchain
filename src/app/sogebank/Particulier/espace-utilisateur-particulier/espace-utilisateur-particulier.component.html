@@ -1,24 +1,22 @@
 <div class="espace-utilisateur">
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" class="sidenav" opened>
-      <app-menu-sogebank></app-menu-sogebank>
+      <app-menu-particulier></app-menu-particulier>
     </mat-sidenav>
     <mat-sidenav-content class="content">
-      <app-breadcrumb-search-sogebank
+      <app-breadcrumb-search-particulier
         [faIcon]="breadcrumbIcon"
         [breadcrumbTitle]="breadcrumbTitle"
         [breadcrumbDetails]="breadcrumbDetails">
-      </app-breadcrumb-search-sogebank>
+      </app-breadcrumb-search-particulier>
 
-      <app-dashboard-sogebank *ngIf="this.router.url == '/sogebank/dashboard'"></app-dashboard-sogebank>
+      <app-accueil *ngIf="this.router.url == '/sogebank/Particulier/accueil'"></app-accueil>
+            
+      <app-cartes-particulier *ngIf="this.router.url == '/sogebank/Particulier/cartes-particulier'"></app-cartes-particulier>
       
-      <app-portefeuilles-sogebank *ngIf="this.router.url == '/sogebank/portefeuilles'"></app-portefeuilles-sogebank>
+      <app-virements-particulier *ngIf="this.router.url == '/sogebank/Particulier/virements-particulier'"></app-virements-particulier>
       
-      <app-cartes-sogebank *ngIf="this.router.url == '/sogebank/cartes'"></app-cartes-sogebank>
-      
-      <app-virements-sogebank *ngIf="this.router.url == '/sogebank/virements'"></app-virements-sogebank>
-      
-      <app-releves-sogebank *ngIf="this.router.url == '/sogebank/releves'"></app-releves-sogebank>
+      <app-releves-particulier *ngIf="this.router.url == '/sogebank/Particulier/releves-particulier'"></app-releves-particulier>
       
     </mat-sidenav-content>
   </mat-sidenav-container>

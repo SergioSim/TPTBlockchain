@@ -31,6 +31,11 @@ import 'hammerjs';
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
 import { AccueilComponent } from './sogebank/Particulier/accueil/accueil.component';
 import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
+import { MenuParticulierComponent } from './sogebank/Particulier/menu-particulier/menu-particulier.component';
+import { RelevesParticulierComponent } from './sogebank/Particulier/releves-particulier/releves-particulier.component';
+import { CartesParticulierComponent } from './sogebank/Particulier/cartes-particulier/cartes-particulier.component';
+import { VirementsParticulierComponent } from './sogebank/Particulier/virements-particulier/virements-particulier.component';
+import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/breadcrumb-search-particulier/breadcrumb-search-particulier.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +55,12 @@ import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/es
     RelevesSogebankComponent,
     LoginComponent,
     AccueilComponent,
-    EspaceUtilisateurParticulierComponent
+    EspaceUtilisateurParticulierComponent,
+    MenuParticulierComponent,
+    RelevesParticulierComponent,
+    CartesParticulierComponent,
+    VirementsParticulierComponent,
+    BreadcrumbSearchParticulierComponent
   ],
   imports: [
     BrowserModule,

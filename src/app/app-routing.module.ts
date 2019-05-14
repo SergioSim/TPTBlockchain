@@ -21,7 +21,10 @@ const routes: Routes = [
   { path: 'sogebank/virements', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/Particulier/login', component:  LoginComponent},
-  { path: 'sogebank/Particulier/accueil', component:  EspaceUtilisateurParticulierComponent}
+  { path: 'sogebank/Particulier/accueil', component:  EspaceUtilisateurParticulierComponent},
+  { path: 'sogebank/Particulier/releves-particulier', component:  EspaceUtilisateurParticulierComponent},
+  { path: 'sogebank/Particulier/cartes-particulier', component:  EspaceUtilisateurParticulierComponent},
+  { path: 'sogebank/Particulier/virements-particulier', component:  EspaceUtilisateurParticulierComponent}
 
 
   

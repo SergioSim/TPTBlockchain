@@ -1,0 +1,48 @@
+.breadcrumb-search-bar {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0px 30px 45px;
+}
+
+.icon-circle {
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.15);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: flex;
+    vertical-align: middle;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+fa-icon {
+    font-size: 25px;
+    color: #25AAF7;
+}
+
+.breadcrumb, .search-bar {
+    display: flex;
+    align-items: baseline;
+}
+
+.breadcrumb-title {
+    color: #707070;
+    font-size: 30px;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.breadcrumb-details {
+    color: #707070;
+    font-size: 16px;
+    margin: 0;
+    padding-left: 5px;
+}
+
+button {
+    margin-right: 15px
+}
+.search-button {
+    color: #707070;
+}

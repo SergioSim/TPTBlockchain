@@ -1,0 +1,15 @@
+<div class="espace-utilisateur">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" class="sidenav" opened>
+        <app-menu-brh></app-menu-brh>
+      </mat-sidenav>
+      <mat-sidenav-content class="content">
+      
+        <app-dashboard-brh *ngIf="this.router.url == '/brh/dashboard-brh'"></app-dashboard-brh>
+        <app-habilitation-brh *ngIf="this.router.url == '/brh/dashboard-brh'"></app-habilitation-brh>
+
+      
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  

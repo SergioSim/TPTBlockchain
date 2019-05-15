@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-brh',
@@ -6,12 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login-brh.component.css']
 })
 export class LoginBrhComponent implements OnInit {
+  
 
-  constructor() { }
+  displayLoginForm: boolean;
+
+  constructor(
+    private route: Router,
+  ) { }
 
   ngOnInit() {
+
   }
 
+
   register() {
+    this.route.navigate(['/brh/dashboard-brh']);
   }
+
 }
+
+

@@ -10,6 +10,7 @@ import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque
 import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component'
 
 import { LoginComponent } from './sogebank/Particulier/login/login.component';
+import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/portail', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'sogebank/virements', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/Particulier/login', component:  LoginComponent},
+  { path: 'brh/login-brh', component:  LoginBrhComponent},
   { path: 'sogebank/Particulier/accueil', component:  EspaceUtilisateurParticulierComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},

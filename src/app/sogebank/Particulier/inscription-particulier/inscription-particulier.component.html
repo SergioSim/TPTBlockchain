@@ -16,6 +16,10 @@
 
               <mat-form-field>
                 <input matInput placeholder="Civilité" type="text">
+                <mat-select placeholder = "Select">
+                    <mat-option value = "Homme">Homme</mat-option>
+                    <mat-option value = "Femme">Femme</mat-option>
+                 </mat-select>
               </mat-form-field>
 
               <mat-form-field>
@@ -27,7 +31,7 @@
               </mat-form-field>
          
               <mat-form-field>
-                <input matInput placeholder="adresse, nom et numéro de la rue" type="text">
+                <input matInput placeholder="Adresse, nom et numéro de la rue" type="text">
               </mat-form-field>
 
               <mat-form-field>
@@ -35,10 +39,18 @@
               </mat-form-field>
 
               <mat-form-field>
-                <input matInput placeholder="Ville" type="text">
+                <input matInput placeholder="  Ville" type="text">
               </mat-form-field>
-            
-            
+             
+             
+      <!--        <mat-form-field>
+                  <input matInput placeholder="Photo d'identité" type="file">
+              </mat-form-field>
+
+              <mat-form-field>
+                  <input matInput placeholder="Carte d'identité" type="file">
+              </mat-form-field>
+      -->      
             </div>
             <button mat-flat-button (click)="register()" color="primary" class="primary-login-button">Envoyer</button>
              </mat-tab>

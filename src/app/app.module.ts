@@ -43,6 +43,10 @@ import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque
 import { AlertComponent } from './brh/alert/alert.component';
 import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component';
 import { InscriptionParticulierComponent } from './sogebank/Particulier/inscription-particulier/inscription-particulier.component';
+import { EspaceUtilisateurBrhComponent } from './brh/espace-utilisateur-brh/espace-utilisateur-brh.component';
+import { DashboardBrhComponent } from './brh/dashboard-brh/dashboard-brh.component';
+import { MenuBrhComponent } from './brh/menu-brh/menu-brh.component';
+import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
 
 
 @NgModule({
@@ -75,7 +79,11 @@ import { InscriptionParticulierComponent } from './sogebank/Particulier/inscript
     LoginBanquePriveComponent,
     AlertComponent,
     EspaceUtilisateurBanquePriveComponent,
-    InscriptionParticulierComponent
+    InscriptionParticulierComponent,
+    EspaceUtilisateurBrhComponent,
+    DashboardBrhComponent,
+    MenuBrhComponent,
+    LoginBrhComponent
   ],
   imports: [
     BrowserModule,

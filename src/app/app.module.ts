@@ -50,7 +50,7 @@ import { EspaceAdminBrhComponent } from './brh/espace-admin-brh/espace-admin-brh
 import { HabilitationBrhComponent } from './brh/habilitation-brh/habilitation-brh.component';
 import { PortefeuilleBrhComponent } from './brh/portefeuille-brh/portefeuille-brh.component';
 import { LiquiditeBrhComponent } from './brh/liquidite-brh/liquidite-brh.component';
-import { ParamertreBrhComponent } from './brh/paramertre-brh/paramertre-brh.component';
+import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.component';
 
 
 @NgModule({
@@ -91,7 +91,7 @@ import { ParamertreBrhComponent } from './brh/paramertre-brh/paramertre-brh.comp
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
     LiquiditeBrhComponent,
-    ParamertreBrhComponent
+    ParametreBrhComponent
   ],
   imports: [
     BrowserModule,

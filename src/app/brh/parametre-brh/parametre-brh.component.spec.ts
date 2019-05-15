@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParamertreBrhComponent } from './paramertre-brh.component';
+import { ParametreBrhComponent } from './parametre-brh.component';
 
-describe('ParamertreBrhComponent', () => {
-  let component: ParamertreBrhComponent;
-  let fixture: ComponentFixture<ParamertreBrhComponent>;
+describe('ParametreBrhComponent', () => {
+  let component: ParametreBrhComponent;
+  let fixture: ComponentFixture<ParametreBrhComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParamertreBrhComponent ]
+      declarations: [ ParametreBrhComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParamertreBrhComponent);
+    fixture = TestBed.createComponent(ParametreBrhComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

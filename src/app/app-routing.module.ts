@@ -27,6 +27,11 @@ const routes: Routes = [
   { path: 'sogebank/Particulier/login', component:  LoginComponent},
   { path: 'brh/login-brh', component:  LoginBrhComponent},
   { path: 'brh/dashboard-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/liquidite-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/portefeuille-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/controle-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
+
   { path: 'sogebank/Particulier/accueil', component:  EspaceUtilisateurParticulierComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},
   { path: 'sogebank/Particulier/releves-particulier', component:  EspaceUtilisateurParticulierComponent},

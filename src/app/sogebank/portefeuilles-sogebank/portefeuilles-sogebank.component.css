@@ -69,3 +69,62 @@
 .stats-portefeuilles h2 {
     color: #25AAF7;
 }
+
+.confirm-dialog {
+    display: flex;
+    flex-direction: column;
+    color: #707070;
+}
+
+.dialog-header {
+    align-self: center;
+    margin-bottom: 15px;
+}
+
+.dialog-header h2 {
+    margin-bottom: 0;
+}
+
+.dialog-header hr {
+    margin-bottom: 0;
+    color: rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.dialog-buttons {
+    justify-content: space-around;
+    display: flex;
+    width: 60%;
+    align-self: center;
+    margin-top: 25px;
+}
+
+.dialog-buttons button {
+    border-radius: 50px;
+    padding: 5px 16px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.dialog-confirm-button {
+    background-color: #23B708;
+}
+
+.dialog-cancel-button {
+    background-color: #FF3B00;
+}
+
+.qrcode-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.qrcode-dialog .dialog-header hr {
+    width: 50%;
+}
+
+.qrcode-dialog-content {
+    text-align: center;
+}

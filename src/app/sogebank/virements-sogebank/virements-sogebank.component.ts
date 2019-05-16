@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -40,12 +40,12 @@ export class VirementsSogebankComponent implements OnInit {
   typesVirement = [
     {value: 'classique', viewValue: 'Classique'},
     {value: 'paiement', viewValue: 'Paiement'},
-    {value: 'depot', viewValue: 'Dépôt'},
-    {value: 'retrait', viewValue: 'Retrait'}
+    {value: 'depot', viewValue: 'Dépôt HTG'},
+    {value: 'retrait', viewValue: 'Retrait HTG'}
   ];
 
   constructor(
-    private route: ActivatedRoute,
+    private route: Router,
     private sogebankService: SogebankService,
     private titleService: Title,
     private dialog: MatDialog,
@@ -145,6 +145,10 @@ export class VirementsSogebankComponent implements OnInit {
 
   cancelContactEditCreate() {
     this.contactDialogRef.close();
+  }
+
+  goToTransfersStatement() {
+    this.route.navigate(['/sogebank/virements/suivi']);
   }
 
 }

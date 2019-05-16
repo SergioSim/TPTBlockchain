@@ -37,7 +37,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.breadcrumbIcon = faCreditCard;
       this.breadcrumbTitle = 'Mes cartes';
       this.breadcrumbDetails = '';
-    } else if (this.router.url === '/sogebank/virements') {
+    } else if (this.router.url === '/sogebank/virements' || this.router.url === '/sogebank/virements/suivi') {
       this.breadcrumbIcon = faExchangeAlt;
       this.breadcrumbTitle = 'Virements';
       this.breadcrumbDetails = '';

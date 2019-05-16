@@ -39,6 +39,7 @@ import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashbo
 import { PortefeuillesSogebankComponent } from './sogebank/portefeuilles-sogebank/portefeuilles-sogebank.component';
 import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogebank.component';
 import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
+import { SuiviVirementsSogebankComponent } from './sogebank/suivi-virements-sogebank/suivi-virements-sogebank.component';
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
@@ -49,9 +50,23 @@ import 'hammerjs';
 @NgModule({
   declarations: [
     AppComponent,
+    // Portal
     PortailComponent,
     BankButtonComponent,
+    // BRH
     AccueilBrhComponent,
+    DashboardBrhComponent,
+    MenuBrhComponent,
+    LoginBrhComponent,
+    EspaceAdminBrhComponent,
+    HabilitationBrhComponent,
+    PortefeuilleBrhComponent,
+    LiquiditeBrhComponent,
+    ParametreBrhComponent,
+    EspaceUtilisateurBanquePriveComponent,
+    LoginBanquePriveComponent,
+    AlertComponent,
+    // Sogebank
     AccueilSogebankComponent,
     LoginSogebankComponent,
     EspaceUtilisateurSogebankComponent,
@@ -65,17 +80,7 @@ import 'hammerjs';
     TableReleveSogebankComponent,
     AccueilFooterComponent,
     TableReleveSogebankComponent,
-    LoginBanquePriveComponent,
-    AlertComponent,
-    EspaceUtilisateurBanquePriveComponent,
-    DashboardBrhComponent,
-    MenuBrhComponent,
-    LoginBrhComponent,
-    EspaceAdminBrhComponent,
-    HabilitationBrhComponent,
-    PortefeuilleBrhComponent,
-    LiquiditeBrhComponent,
-    ParametreBrhComponent
+    SuiviVirementsSogebankComponent
   ],
   imports: [
     BrowserModule,

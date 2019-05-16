@@ -1,0 +1,38 @@
+<div class="releves-content">
+    <div class="releve-selector">
+        <mat-form-field class="wallet-selector">
+            <mat-label>Sélectionner un portefeuille...</mat-label>
+            <mat-select [(value)]="selectedPortefeuille" (selectionChange)="changePortefeuille($event)">
+                <mat-option *ngFor="let portefeuille of portefeuilles" [value]="portefeuille">
+                    {{portefeuille.libelle}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="date-selector">
+            <mat-form-field class="start-picker">
+                <input matInput [matDatepicker]="startPicker" placeholder="Date de début">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="endPicker" placeholder="Date de fin">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
+    
+    <div class="releves-actions">
+        <button mat-flat-button color="primary">
+            <fa-icon [icon]="faPrint"></fa-icon>
+            IMPRIMER
+        </button> 
+        <button mat-flat-button color="primary">
+            <fa-icon [icon]="faDownload"></fa-icon>
+            TELECHARGER
+        </button>
+    </div>
+</div>

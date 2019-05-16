@@ -26,7 +26,7 @@
     <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
     
     <div class="releves-actions">
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" (click)="sogebankService.print('releve-table')">
             <fa-icon [icon]="faPrint"></fa-icon>
             IMPRIMER
         </button> 

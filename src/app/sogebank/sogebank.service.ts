@@ -8,6 +8,22 @@ export class SogebankService {
 
   constructor() { }
 
+  print(elementToPrint: string) {
+    const printPopup = window.open('');
+    const tableToPrint = document.getElementById(elementToPrint);
+    let htmlToPrint = '' +
+        '<style type="text/css">' +
+        'table th, table td {' +
+        'border:1px solid #000;' +
+        'padding:0.5em;' +
+        '}' +
+        '</style>';
+    htmlToPrint += tableToPrint.outerHTML;
+    printPopup.document.write(htmlToPrint);
+    printPopup.print();
+    printPopup.close();
+  }
+
   getRecentTransactions() {
     return [
       {id: '7652b9e5a8f302d…', date: '22/04/2019', type: 'Virement', nature: 'Marcus Dooling',

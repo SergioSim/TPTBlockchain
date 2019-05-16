@@ -34,7 +34,4 @@ export class RelevesSogebankComponent implements OnInit {
   changePortefeuille(portefeuille) {
     this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
   }
-
 }
-
-

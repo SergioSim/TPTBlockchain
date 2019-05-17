@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { NodeapiService } from '../../nodeapi.service';
 @Component({
   selector: 'app-dashboard-brh',
   templateUrl: './dashboard-brh.component.html',
   styleUrls: ['./dashboard-brh.component.css']
 })
 export class DashboardBrhComponent implements OnInit {
-
-  constructor() { }
-
+  displayedColumns: string[];
+  dataSource: any[];
+  
+  constructor(
+    private service: NodeapiService,
+  ) { }
+  
   ngOnInit() {
+    this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
+    this.dataSource = this.service.getListBanque();
   }
 
 }
+
+

@@ -1,0 +1,26 @@
+.titte{
+    margin-top: 20px;
+    margin-left: 50px;
+    border-bottom: 4px solid green;
+}
+.tableau_banque{
+    margin-left: 100px;
+    margin-right: 100px;
+
+}
+
+.table-releve-content{
+    margin-left: 10%;
+}
+
+.mat-elevation-z8{
+    background-color: rgb(51, 161, 235);
+    width: 85%;
+}
+.infos-brh{
+    margin-top: 50px;
+    margin-left: 12%;
+    margin-bottom: 20px;
+    font-size: 17px;
+    color: blue;
+}

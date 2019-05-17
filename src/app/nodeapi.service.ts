@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Banque } from './banque.modele';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ import { map } from 'rxjs/operators';
 export class NodeapiService {
   public token: string;
   private readonly url: string = environment.apiUrl;
+  formData  : Banque;
+  list : Banque[];
 
   constructor(private http: HttpClient) {
     apilog("getting current User");
@@ -81,8 +84,28 @@ export class NodeapiService {
     this.token = null;
     localStorage.removeItem('currentUser');
   }
+  
+  getListBanque() {
+    return [
 
-}
+    //  this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
+
+      {id: '4587',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
+      totalActif:'45454115145', numPortefeuille:'454545454545'},
+      {id: '458',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
+      totalActif:'45454115145', numPortefeuille:'454545454545'},
+      {id: '45787',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
+      totalActif:'45454115145', numPortefeuille:'454545454545'},
+      {id: '45987',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
+      totalActif:'45454115145', numPortefeuille:'454545454545'},
+      {id: '455487',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
+      totalActif:'45454115145', numPortefeuille:'454545454545'}
+      
+    ];
+  }
+  }
+
+
 
 export enum apiUrl {
   clients = "GET$clients/",
@@ -99,7 +122,8 @@ export enum apiUrl {
   deleteClient = "DELETE$deleteClient/",
   deleteContact = "DELETE$deleteContact/",
   submit = "POST$submit",
-  issueDHTG = "POST$issueDHTG"
+  issueDHTG = "POST$issueDHTG",
+  allBanks = "GET$allBanks/", 
 }
 
 function apilog(ilog: string) {

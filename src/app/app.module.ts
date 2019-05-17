@@ -29,6 +29,9 @@ import { HabilitationBrhComponent } from './brh/habilitation-brh/habilitation-br
 import { PortefeuilleBrhComponent } from './brh/portefeuille-brh/portefeuille-brh.component';
 import { LiquiditeBrhComponent } from './brh/liquidite-brh/liquidite-brh.component';
 import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.component';
+import { BanqueComponent } from './brh/habilitation-brh/banque/banque.component';
+import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-list.component';
+
 
 // Sogebank components
 import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
@@ -45,7 +48,6 @@ import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-
 import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
 
 import 'hammerjs';
-
 
 @NgModule({
   declarations: [
@@ -80,6 +82,20 @@ import 'hammerjs';
     TableReleveSogebankComponent,
     AccueilFooterComponent,
     TableReleveSogebankComponent,
+    LoginBanquePriveComponent,
+    AlertComponent,
+    EspaceUtilisateurBanquePriveComponent,
+    InscriptionParticulierComponent,
+    DashboardBrhComponent,
+    MenuBrhComponent,
+    LoginBrhComponent,
+    EspaceAdminBrhComponent,
+    HabilitationBrhComponent,
+    PortefeuilleBrhComponent,
+    LiquiditeBrhComponent,
+    ParametreBrhComponent,
+    BanqueComponent,
+    BanqueListComponent,
     SuiviVirementsSogebankComponent
   ],
   imports: [
@@ -103,12 +119,17 @@ import 'hammerjs';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
   ],
   providers: [
     Title,
     NodeapiService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
+
 })
 export class AppModule { }

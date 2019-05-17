@@ -19,7 +19,7 @@ export class RelevesSogebankComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sogebankService: SogebankService,
+    public sogebankService: SogebankService,
     private titleService: Title,
     private adapter: DateAdapter<any>
   ) { }

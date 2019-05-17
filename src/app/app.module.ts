@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule, MatIconModule } from '@angular/material';
 
 // Portal components
 import { PortailComponent } from './portail/portail.component';
@@ -85,7 +85,6 @@ import 'hammerjs';
     LoginBanquePriveComponent,
     AlertComponent,
     EspaceUtilisateurBanquePriveComponent,
-    InscriptionParticulierComponent,
     DashboardBrhComponent,
     MenuBrhComponent,
     LoginBrhComponent,

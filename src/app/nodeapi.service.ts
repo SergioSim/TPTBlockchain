@@ -123,7 +123,6 @@ export enum apiUrl {
   deleteContact = "DELETE$deleteContact/",
   submit = "POST$submit",
   issueDHTG = "POST$issueDHTG",
-  allBanks = "GET$allBanks/", 
 }
 
 function apilog(ilog: string) {

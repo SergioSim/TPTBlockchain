@@ -8,7 +8,7 @@ import { NgForm } from '@angular/forms';
 })
 export class BanqueComponent implements OnInit {
 
-  constructor(private service: NodeapiService) 
+  constructor(public service: NodeapiService) 
      { }
 
      ngOnInit() {

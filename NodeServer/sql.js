@@ -8,6 +8,7 @@ module.exports = {
   "insertBanque_0_3" : "INSERT INTO OpenchainUser.Banque (Name) VALUES (?)",
   "insertContact_0_4" : "INSERT INTO OpenchainUser.Contact  (EmailProprietaire, EmailContact, Nom, Prenom) VALUES (?,?,?,?)",
   "getAllClients_5_0" : "SELECT Email, Address, Nom, Prenom, Banque FROM OpenchainUser.Client",
+  "getAllBanks_1_0" : "SELECT Name FROM OpenchainUser.Banque",
   "deleteBank_0_1" : "DELETE FROM OpenchainUser.Banque WHERE Name=?",
   "deleteClient_0_1" : "DELETE FROM OpenchainUser.Client WHERE Email=?",
   "deleteContact_0_2" : "DELETE FROM OpenchainUser.Contact WHERE EmailProprietaire=? AND EmailContact=?",

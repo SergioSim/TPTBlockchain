@@ -5,7 +5,7 @@
             NOUVEAU PORTEFEUILLE
         </button> 
         <div *ngFor="let portefeuille of portefeuilles">
-            <div class="portefeuille-container">
+            <div class="portefeuille-container" (click)="openQRcodeDialog(QRcodeDialog, portefeuille)">
                 <div class="portefeuille-title">
                     <h1>{{portefeuille.libelle}}</h1>
                     <button mat-icon-button>
@@ -34,4 +34,20 @@
         <p>Activité (30 derniers jours) :</p>
         <h2>{{totalActivite}} DHTG</h2>
     </div>
+
+    <ng-template #QRcodeDialog>
+            <div class="qrcode-dialog">
+                <div class="dialog-header">
+                    <h2>{{selectedPortefeuille.libelle}}</h2>
+                    <hr>
+                </div>
+                <div class="qrcode-dialog-content">
+                    <canvas id="QRcode-canvas" height="200" width="200"></canvas>
+                    <p>Numéro du portefeuille : {{selectedPortefeuille.id}}</p>
+                </div>
+                <div class="dialog-buttons">
+                    <button mat-flat-button class="dialog-cancel-button" (click)="closeQRcodeDialog()">Fermer</button> 
+                </div>
+            </div>
+        </ng-template>
 </div>

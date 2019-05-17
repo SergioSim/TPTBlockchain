@@ -14,6 +14,14 @@ export class AccueilBrhComponent implements OnInit {
 
   ngOnInit() {
     // //TEST NODEAPI
+    // Get list of banks
+    // this.nodeApi.makeRequest(apiUrl.allBanks, {}).subscribe(
+    //   res =>{
+    //     console.log("got result ");
+    //     console.log(res);
+    //   }, error => {
+    //     console.log("got an error"); console.log(error)
+    //   });
     // this.titleService.setTitle('Accueil - Banque de la république d\'Haïti');
     // this.nodeApi.login("brh@haiti.ht", "aPassword").subscribe(res =>{
     //   this.nodeApi.makeRequest(apiUrl.allClients, {}).subscribe(res =>{

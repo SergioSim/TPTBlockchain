@@ -68,6 +68,14 @@ app.get('/allClients', [
     });
 });
 
+app.get('/allBanks',
+    function(req, res) {
+
+    conn.query(sql.getAllBanks_1_0, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
 app.post('/createBank', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),

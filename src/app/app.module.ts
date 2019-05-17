@@ -1,48 +1,26 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AccueilBrhComponent } from './brh/accueil-brh/accueil-brh.component';
-import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
-import { PortailComponent } from './portail/portail.component';
-import { BankButtonComponent } from './portail/bank-button/bank-button.component';
-import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
-import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
-import { MenuSogebankComponent } from './sogebank/menu-sogebank/menu-sogebank.component';
-import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashboard-sogebank.component';
-import { PortefeuillesSogebankComponent } from './sogebank/portefeuilles-sogebank/portefeuilles-sogebank.component';
-import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogebank.component';
-import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
-import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
-import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
-import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
-import { MenuParticulierComponent } from './sogebank/Particulier/menu-particulier/menu-particulier.component';
-import { RelevesParticulierComponent } from './sogebank/Particulier/releves-particulier/releves-particulier.component';
-import { CartesParticulierComponent } from './sogebank/Particulier/cartes-particulier/cartes-particulier.component';
-import { VirementsParticulierComponent } from './sogebank/Particulier/virements-particulier/virements-particulier.component';
-import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/breadcrumb-search-particulier/breadcrumb-search-particulier.component';
-
-
-import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
-   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule, MatIcon, MatIconModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
+import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
+  MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
+  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
-import 'hammerjs';
-
-import { LoginComponent } from './sogebank/Particulier/login/login.component';
-import { AccueilComponent } from './sogebank/Particulier/accueil/accueil.component';
-import { EspaceUtilisateurParticulierComponent } from './sogebank/Particulier/espace-utilisateur-particulier/espace-utilisateur-particulier.component';
+// Portal components
+import { PortailComponent } from './portail/portail.component';
+import { BankButtonComponent } from './portail/bank-button/bank-button.component';
 import { AccueilFooterComponent } from './accueil-footer/accueil-footer.component';
+
+// BRH components
+import { AccueilBrhComponent } from './brh/accueil-brh/accueil-brh.component';
 import { LoginBanquePriveComponent } from './brh/login-banque-prive/login-banque-prive.component';
 import { AlertComponent } from './brh/alert/alert.component';
 import { EspaceUtilisateurBanquePriveComponent } from './brh/espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component';
-import { InscriptionParticulierComponent } from './sogebank/Particulier/inscription-particulier/inscription-particulier.component';
 import { DashboardBrhComponent } from './brh/dashboard-brh/dashboard-brh.component';
 import { MenuBrhComponent } from './brh/menu-brh/menu-brh.component';
 import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
@@ -53,12 +31,44 @@ import { LiquiditeBrhComponent } from './brh/liquidite-brh/liquidite-brh.compone
 import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.component';
 import { BanqueComponent } from './brh/habilitation-brh/banque/banque.component';
 import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-list.component';
+
+
+// Sogebank components
+import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
+import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
+import { EspaceUtilisateurSogebankComponent } from './sogebank/espace-utilisateur-sogebank/espace-utilisateur-sogebank.component';
+import { MenuSogebankComponent } from './sogebank/menu-sogebank/menu-sogebank.component';
+import { DashboardSogebankComponent } from './sogebank/dashboard-sogebank/dashboard-sogebank.component';
+import { PortefeuillesSogebankComponent } from './sogebank/portefeuilles-sogebank/portefeuilles-sogebank.component';
+import { CartesSogebankComponent } from './sogebank/cartes-sogebank/cartes-sogebank.component';
+import { VirementsSogebankComponent } from './sogebank/virements-sogebank/virements-sogebank.component';
+import { SuiviVirementsSogebankComponent } from './sogebank/suivi-virements-sogebank/suivi-virements-sogebank.component';
+import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
+import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
+import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
+
+import 'hammerjs';
+
 @NgModule({
   declarations: [
     AppComponent,
+    // Portal
     PortailComponent,
     BankButtonComponent,
+    // BRH
     AccueilBrhComponent,
+    DashboardBrhComponent,
+    MenuBrhComponent,
+    LoginBrhComponent,
+    EspaceAdminBrhComponent,
+    HabilitationBrhComponent,
+    PortefeuilleBrhComponent,
+    LiquiditeBrhComponent,
+    ParametreBrhComponent,
+    EspaceUtilisateurBanquePriveComponent,
+    LoginBanquePriveComponent,
+    AlertComponent,
+    // Sogebank
     AccueilSogebankComponent,
     LoginSogebankComponent,
     EspaceUtilisateurSogebankComponent,
@@ -70,14 +80,6 @@ import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-l
     VirementsSogebankComponent,
     RelevesSogebankComponent,
     TableReleveSogebankComponent,
-    LoginComponent,
-    AccueilComponent,
-    EspaceUtilisateurParticulierComponent,
-    MenuParticulierComponent,
-    RelevesParticulierComponent,
-    CartesParticulierComponent,
-    VirementsParticulierComponent,
-    BreadcrumbSearchParticulierComponent,
     AccueilFooterComponent,
     TableReleveSogebankComponent,
     LoginBanquePriveComponent,
@@ -93,7 +95,8 @@ import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-l
     LiquiditeBrhComponent,
     ParametreBrhComponent,
     BanqueComponent,
-    BanqueListComponent
+    BanqueListComponent,
+    SuiviVirementsSogebankComponent
   ],
   imports: [
     BrowserModule,

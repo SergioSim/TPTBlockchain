@@ -6,11 +6,11 @@ import { DateAdapter } from '@angular/material';
 import { faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-releves-sogebank',
-  templateUrl: './releves-sogebank.component.html',
-  styleUrls: ['./releves-sogebank.component.css']
+  selector: 'app-suivi-virements-sogebank',
+  templateUrl: './suivi-virements-sogebank.component.html',
+  styleUrls: ['./suivi-virements-sogebank.component.css']
 })
-export class RelevesSogebankComponent implements OnInit {
+export class SuiviVirementsSogebankComponent implements OnInit {
   dataSource: any[];
   selectedPortefeuille = {};
   portefeuilles: any[];
@@ -25,13 +25,16 @@ export class RelevesSogebankComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Relevés - Sogebank');
+    this.titleService.setTitle('Suivi virements - Sogebank');
     this.adapter.setLocale('fr');
 
     this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
   changePortefeuille(portefeuille) {
-    this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
+    this.dataSource = this.sogebankService.getTransfersforWalletWithDate(portefeuille.value.libelle, null, null);
   }
+
 }
+
+

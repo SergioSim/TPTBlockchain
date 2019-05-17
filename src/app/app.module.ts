@@ -29,7 +29,7 @@ import { BreadcrumbSearchParticulierComponent } from './sogebank/Particulier/bre
 
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
    MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule, MatIcon, MatIconModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 
@@ -51,8 +51,8 @@ import { HabilitationBrhComponent } from './brh/habilitation-brh/habilitation-br
 import { PortefeuilleBrhComponent } from './brh/portefeuille-brh/portefeuille-brh.component';
 import { LiquiditeBrhComponent } from './brh/liquidite-brh/liquidite-brh.component';
 import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.component';
-
-
+import { BanqueComponent } from './brh/habilitation-brh/banque/banque.component';
+import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +91,9 @@ import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.compone
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
     LiquiditeBrhComponent,
-    ParametreBrhComponent
+    ParametreBrhComponent,
+    BanqueComponent,
+    BanqueListComponent
   ],
   imports: [
     BrowserModule,
@@ -114,12 +116,17 @@ import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.compone
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
   ],
   providers: [
     Title,
     NodeapiService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
+
 })
 export class AppModule { }

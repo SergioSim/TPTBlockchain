@@ -1,3 +1,72 @@
-<p>
-  dashboard-brh works!
-</p>
+<div>
+  <div class="titte">
+    <h1>Dashboard</h1>
+  </div>
+  <div class="infos-brh">
+    <p>Noméro du portefeuille est 15451554544</p>
+    <p>Nombre de banque est 45451</p>
+    <p>Nombre de client est 52478552</p>
+    <p>Nombre de portefeuille est 784541 </p>
+    <p>Nombre total ddes actifs en circulation est 5541651 DHTG </p>
+  </div>
+ 
+  <div class="dashboard-content">
+
+  
+      <div class="table-releve-content">
+
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              
+              <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID Banque </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+              </ng-container>
+               
+              <ng-container matColumnDef="nom">
+                  <th mat-header-cell *matHeaderCellDef> Nom commercial </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+                  </ng-container>
+
+              <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date création </th>
+              <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+              </ng-container>
+                      
+              
+                      
+              <ng-container matColumnDef="nbClient">
+              <th mat-header-cell *matHeaderCellDef> Nombre de clients </th>
+              <td mat-cell *matCellDef="let element"> {{element.nbClient}} </td>
+              </ng-container>
+                      
+              <ng-container matColumnDef="nbPortefeuille">
+                  <th mat-header-cell *matHeaderCellDef> Nombre de portefeuilles </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nbPortefeuille}} </td>
+                  </ng-container>
+
+              <ng-container matColumnDef="totalActif">
+              <th mat-header-cell *matHeaderCellDef> Total actif </th>
+              <td mat-cell *matCellDef="let element" >
+                   {{element.totalActif}} 
+              </td>
+              </ng-container>
+
+              <ng-container matColumnDef="numPortefeuille">
+                  <th mat-header-cell *matHeaderCellDef> Numéro du portefeuille </th>
+                  <td mat-cell *matCellDef="let element" >
+                       {{element.numPortefeuille}} 
+                  </td>
+                  </ng-container>
+                      
+              
+                      
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+      </div>
+        </div>
+                      
+
+
+
+</div>

@@ -110,7 +110,6 @@ export class NodeapiService {
 export enum apiUrl {
   clients = "GET$clients/",
   allClients = "GET$allClients/",
-  allBanks = "GET$allBanks/",
   createBank = "POST$createBank/",
   createClient = "POST$createClient/",
   blockClient = "PUT$blockClient/",

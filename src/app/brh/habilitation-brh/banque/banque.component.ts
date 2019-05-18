@@ -29,6 +29,11 @@ export class BanqueComponent implements OnInit {
     }
     onSubmit(form: NgForm) {
       if (form.value.BanqueID == null)
-      this.service.makeRequest(apiUrl.createBank,form.value.FullName);
+        this.service.makeRequest(apiUrl.createBank, {name: form.value.FullName}).subscribe(res =>{
+          console.log("on a recu la response: " );
+        console.log(res);}
+        , error => {
+            console.log("got an error"); console.log(error);  
+          });
     }
 }

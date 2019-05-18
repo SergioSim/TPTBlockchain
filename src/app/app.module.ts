@@ -120,10 +120,7 @@ import { CommonLoginComponent } from './common/common-login/common-login.compone
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatIconModule,
+    HttpClientModule
   ],
   providers: [
     Title,

@@ -10,13 +10,20 @@ import { AlertService } from '../alert.service';
 export class AlertComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   message: any;
+  doShow = false;
 
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.subscription = this.alertService.getMessage().subscribe(message => { 
-      this.message = message; 
+    this.subscription = this.alertService.getMessage().subscribe(message => {
+      this.message = message;
+      this.doShow = true;
     });
+  }
+
+  clear() {
+    console.log('clearing alert!');
+    this.doShow = false;
   }
 
   ngOnDestroy(): void {

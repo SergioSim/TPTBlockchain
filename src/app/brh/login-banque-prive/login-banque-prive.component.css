@@ -1,0 +1,30 @@
+.head {
+  text-align: center;
+  background: url(../../../assets/accueil/bg-header.png);
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: cover;
+}
+
+h2 {
+  margin: 0;
+  padding: 1.5em 0;
+}
+
+.innerLogin {
+  padding: 2.5em;
+  background-color: #f0f3f0;
+  box-shadow: 0 1em 2em 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+
+.login {
+  margin: auto;
+  max-width: 25em;
+  padding: 2.5em;
+}
+
+.outerLogin {
+  background-image: linear-gradient(0deg, #d21034 0%, #dddddd 51%, #00209f 75%);
+}

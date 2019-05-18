@@ -1,1 +1,7 @@
-<div *ngIf="message" [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }">{{message.text}}</div>
+<div 
+[ngClass]="{ 'alert': message, 'alert-success': message && message.type === 'success', 'alert-danger':  message && message.type === 'error', 'parent':true, 'show':!doShow}">
+</div>
+<div *ngIf="message" class='alert' [ngClass]="{'show': !doShow}">
+    <span class="closebtn" (click)="clear()">&times;</span>
+    {{message.text}}
+</div>

@@ -70,20 +70,26 @@ export class NodeapiService {
     }
   }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string, saveToken: boolean = false): Observable<any> {
     return this.http.post<any>(this.url + 'auth/', { email, password })
       .pipe(
         map(res => {
           apilog('Got response:');
           console.log(res);
           if (res && res.accessToken) {
-            localStorage.setItem('currentUser', JSON.stringify(res));
+            if (saveToken) {
+              localStorage.setItem('currentUser', JSON.stringify(res));
+            }
             this.token = res.address && res.accessToken;
             apilog('token : ' + this.token);
           }
           return res;
         })
       );
+  }
+
+  isConnected() {
+    return this.token !== null && this.token !== 'undefined';
   }
 
   logout(): void {

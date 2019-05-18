@@ -14,31 +14,36 @@ export class CommonLoginComponent {
   emailFC: FormControl = new FormControl('', [Validators.required, Validators.email]) ;
   passwFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]); 
   loading = false;
+  resterConnecter = false;
 
-  constructor(    
+  constructor(
     private route: Router,
     private apiService: NodeapiService,
     private alertService: AlertService
   ) {
-    console.log("URL = " + this.url);
+    console.log('URL = ' + this.url);
    }
 
   login() {
     if (this.emailFC.invalid || this.passwFC.invalid) {
-      this.alertService.error("Les champs Email et Mot de passe sont requis!");
-        return;
+      this.alertService.error('Les champs Email et Mot de passe sont requis!');
+      return;
     }
     this.loading = true;
-    this.apiService.login(this.emailFC.value, this.passwFC.value).subscribe(
+    this.apiService.login(this.emailFC.value, this.passwFC.value, this.resterConnecter).subscribe(
       data => {
-        console.log("URL = " + this.url);
-          this.route.navigate([this.url]);
-          this.loading = false;
+        console.log('URL = ' + this.url);
+        this.route.navigate([this.url]);
+        this.loading = false;
       },
       error => {
-          console.log(error);
-          this.alertService.error("Email ou Mot de passe incorrecte");
-          this.loading = false;
+        console.log(error);
+        this.alertService.error('Email ou Mot de passe incorrecte');
+        this.loading = false;
       });
+  }
+
+  toggle(event) {
+    this.resterConnecter = event.checked;
   }
 }

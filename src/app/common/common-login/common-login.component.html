@@ -19,7 +19,7 @@
     </mat-error>
   </mat-form-field>
   
-  <mat-checkbox>Rester connecté</mat-checkbox>
+  <mat-checkbox (change)="toggle($event)">Rester connecté</mat-checkbox>
 
   <button mat-flat-button (click)="login()" color="primary" class="primary-login-button">SE CONNECTER</button>
 </div>

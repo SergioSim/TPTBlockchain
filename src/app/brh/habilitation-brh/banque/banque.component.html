@@ -1,25 +1,24 @@
-<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
-    <input type="hidden" name="BanqueID" #EmployeeID="ngModel" [(ngModel)]="service.formData.BanqueID">
+<form #form="ngForm" autocomplete="off">
     <div class="form-group">
       <label>Nom de la banque</label>
-      <input name="FullName" #FullName="ngModel" [(ngModel)]="service.formData.FullName" class="form-control" required>
-      <div class="validation-error" *ngIf="FullName.invalid && FullName.touched">This field is required.</div>
+      <input name="FullName" [formControl]="NomBanque" class="form-control" required>
+      <div class="validation-error" *ngIf="NomBanque.invalid && NomBanque.touched">This field is required.</div>
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input name="Position" #Position="ngModel" [(ngModel)]="service.formData.Position" class="form-control">
+      <input name="Position" [formControl]="Email" class="form-control">
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Mot de passe</label>
-        <input name="MotDePasse" #EMPCode="ngModel" [(ngModel)]="service.formData.MotDePasse" class="form-control">
+        <input name="MotDePasse" [formControl]="MotDePasse" class="form-control">
       </div>
       <div class="form-group  col-md-6">
         <label>Téléphone</label>
-        <input name="Mobile" #Mobile="ngModel" [(ngModel)]="service.formData.Mobile" class="form-control">
+        <input name="Mobile" [formControl]="Mobile" class="form-control">
       </div>
     </div>
     <div class="form-group">
-      <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-block">SUBMIT</button>
+      <button (click)="onSubmit()" [disabled]="NomBanque.invalid" class="btn btn-lg btn-block">SUBMIT</button>
     </div>
   </form>

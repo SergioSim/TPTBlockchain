@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-banque',
   templateUrl: './banque.component.html',
@@ -8,32 +8,28 @@ import { NgForm } from '@angular/forms';
 })
 export class BanqueComponent implements OnInit {
 
-  constructor(public service: NodeapiService) 
-     { }
+  NomBanque = new FormControl('');
+  Email = new FormControl('');
+  MotDePasse = new FormControl('');
+  Mobile = new FormControl('');
 
-     ngOnInit() {
+  constructor(public service: NodeapiService) {
+  }
 
-      this.resetForm();
-  
+  ngOnInit() {
+  }
+
+  onSubmit() {
+    console.log('on submit called!!!');
+    if (this.NomBanque.valid) {
+      this.service.makeRequest(apiUrl.createBank, {name: this.NomBanque.value}).subscribe(
+        res =>{
+        console.log('on a recu la response:' );
+        console.log(res);
+      }, error => {
+          console.log('got an error');
+          console.log(error);
+      });
     }
-  
-    resetForm(form?: NgForm) {
-      if (form != null)
-        form.resetForm();
-      this.service.formData = {
-        BanqueID: null,
-        Nom: '',
-        Email :'',
-        MotDePasse:''
-      }
-    }
-    onSubmit(form: NgForm) {
-      if (form.value.BanqueID == null)
-        this.service.makeRequest(apiUrl.createBank, {name: form.value.FullName}).subscribe(res =>{
-          console.log("on a recu la response: " );
-        console.log(res);}
-        , error => {
-            console.log("got an error"); console.log(error);  
-          });
-    }
+  }
 }

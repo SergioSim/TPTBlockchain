@@ -4,26 +4,7 @@
   <div class="form-container">
       <mat-tab-group mat-stretch-tabs dynamicHeight [selectedIndex]="displayLoginForm ? 0 : 1">
           <mat-tab label="CLIENT EXISTANT">
-            <div class="login-form">
-              <mat-form-field>
-                <input matInput placeholder="Email" [formControl]="emailFormControl"
-                       [errorStateMatcher]="matcher">
-                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                  Veuillez saisir un adresse mail valide
-                </mat-error>
-                <mat-error *ngIf="emailFormControl.hasError('required')">
-                  Ce champ est <strong>requis</strong>
-                </mat-error>
-              </mat-form-field>
-              
-              <mat-form-field>
-                <input matInput placeholder="Mot de passe" type="password">
-              </mat-form-field>
-              
-              <mat-checkbox>Rester connecté</mat-checkbox>
-
-              <button mat-flat-button (click)="login()" color="primary" class="primary-login-button">SE CONNECTER</button>
-            </div>
+            <app-common-login [url]="'/sogebank/dashboard'"></app-common-login>
           </mat-tab>
 
           <mat-tab label="NOUVEAU CLIENT">

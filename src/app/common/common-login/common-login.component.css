@@ -1,0 +1,29 @@
+mat-tab-group {
+    display: flex;
+    padding: 15px 80px;
+    flex-direction: column;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.login-form mat-form-field, .login-form mat-checkbox {
+    padding: 15px 0px;
+}
+
+.primary-login-button {
+    width: 100%;
+    align-self: center;
+    margin: 25px 0px;
+    padding: 5px;
+}
+
+.create-warning-label {
+    color: #f44336;
+    font-size: 12px;
+    display: block;
+    text-align: center;
+}

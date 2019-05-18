@@ -1,0 +1,25 @@
+<div class="login-form">
+  <mat-form-field>
+    <input matInput placeholder="Email" [formControl]="emailFC">
+    <mat-error *ngIf="emailFC.hasError('email') && !emailFC.hasError('required')">
+      Veuillez saisir un adresse mail valide
+    </mat-error>
+    <mat-error *ngIf="emailFC.hasError('required')">
+      Ce champ est <strong>requis</strong>
+    </mat-error>
+  </mat-form-field>
+  
+  <mat-form-field>
+    <input matInput placeholder="Mot de passe" [formControl]="passwFC" type="password">
+    <mat-error *ngIf="passwFC.hasError('minlength') && !passwFC.hasError('required')">
+      Le mot de passe doit etre de longueur d'au moins 6
+    </mat-error>
+    <mat-error *ngIf="passwFC.hasError('required')">
+      Ce champ est <strong>requis</strong>
+    </mat-error>
+  </mat-form-field>
+  
+  <mat-checkbox>Rester connecté</mat-checkbox>
+
+  <button mat-flat-button (click)="login()" color="primary" class="primary-login-button">SE CONNECTER</button>
+</div>

@@ -48,6 +48,7 @@ import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-
 import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
 
 import 'hammerjs';
+import { CommonLoginComponent } from './common/common-login/common-login.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import 'hammerjs';
     ParametreBrhComponent,
     BanqueComponent,
     BanqueListComponent,
-    SuiviVirementsSogebankComponent
+    SuiviVirementsSogebankComponent,
+    CommonLoginComponent
   ],
   imports: [
     BrowserModule,

@@ -21,5 +21,5 @@
   
   <mat-checkbox (change)="toggle($event)">Rester connecté</mat-checkbox>
 
-  <button mat-flat-button (click)="login()" color="primary" class="primary-login-button">SE CONNECTER</button>
+  <button mat-flat-button (click)="login()" color="primary" class="primary-login-button" [disabled]="emailFC.invalid || passwFC.invalid">SE CONNECTER</button>
 </div>

@@ -14,12 +14,17 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
     private router: Router,
     private apiService: NodeapiService
   ) {
-    if (!this.apiService.token) { 
-      this.router.navigate(['/brh/banque/accueil']);
+    if (!apiService.isConnected()) {
+      this.router.navigate(['/brh/accueil']);
     }
    }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.apiService.logout();
+    this.router.navigate(['/brh/accueil']);
   }
 
 }

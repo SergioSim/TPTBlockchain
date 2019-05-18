@@ -85,7 +85,6 @@ import 'hammerjs';
     LoginBanquePriveComponent,
     AlertComponent,
     EspaceUtilisateurBanquePriveComponent,
-    InscriptionParticulierComponent,
     DashboardBrhComponent,
     MenuBrhComponent,
     LoginBrhComponent,
@@ -119,10 +118,7 @@ import 'hammerjs';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatIconModule,
+    HttpClientModule
   ],
   providers: [
     Title,

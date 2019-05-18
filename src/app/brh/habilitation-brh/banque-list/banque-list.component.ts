@@ -18,7 +18,11 @@ export class BanqueListComponent implements OnInit {
      console.log(this.refreshListBanque());
   }
   refreshListBanque(){
-  /*  return this.service.makeRequest(apiUrl.allBanks,"efi").toPromise()
-    .then(res=>this.list = res as Banque[]); */
+    this.service.makeRequest(apiUrl.allBanks, {}).subscribe(res =>{
+          console.log("got result " );
+          console.log(res);
+        }, error => {
+            console.log("got an error"); console.log(error)
+          });
   }
 }

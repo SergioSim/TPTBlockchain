@@ -13,38 +13,56 @@ export class AccueilBrhComponent implements OnInit {
   constructor(private titleService: Title, private nodeApi: NodeapiService) { }
 
   ngOnInit() {
-    // //TEST NODEAPI
-    // Get list of banks
-    // this.nodeApi.makeRequest(apiUrl.allBanks, {}).subscribe(
-    //   res =>{
-    //     console.log("got result ");
-    //     console.log(res);
-    //   }, error => {
-    //     console.log("got an error"); console.log(error)
-    //   });
-    // this.titleService.setTitle('Accueil - Banque de la république d\'Haïti');
-    // this.nodeApi.login("brh@haiti.ht", "aPassword").subscribe(res =>{
-    //   this.nodeApi.makeRequest(apiUrl.allClients, {}).subscribe(res =>{
-    //     console.log("got result " + res)}, error => {
-    //       console.log("got an error"); console.log(error)
-    //     });
-    //   //ISSUE 500 DHTG
-    //   this.nodeApi.makeRequest(apiUrl.issueDHTG, {password: "aPassword", montant:500}).subscribe(res =>{
-    //     console.log("got result " + res);
-    //     //TRANSFERT 50 DHTG to bankold@test.test
-    //     this.nodeApi.makeRequest(apiUrl.submit, {email:"bankold@test.test", password:"aPassword", montant:50, memo:"merci"}).subscribe(res =>{
-    //       console.log("got result " + res)}, error => {
-    //         console.log("got an error"); console.log(error)
-    //       });
-    //     }, error => {
-    //       console.log("got an error"); console.log(error)
-    //     });
 
-    //   this.nodeApi.makeRequest(apiUrl.updateClient, {nom: "LaBRH", prenom:"delaBRH"}).subscribe(res =>{
-    //     console.log("got result " + res)}, error => {
-    //       console.log("got an error"); console.log(error)
-    //     });
-    //   }, error => { console.log("got an login error"); console.log(error)});
   }
-
 }
+
+// //TEST NODEAPI
+// this.nodeApi.login('brh@haiti.ht', 'aPassword').subscribe(
+//   res => {
+//     console.log(res);
+//     this.nodeApi.makeRequest(apiUrl.deleteBank, {name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}).subscribe(
+//       res2 => {
+//         console.log('delete request: ');
+//         console.log(res2);
+//       }, error2 => {
+//         console.log('delete error: ');
+//         console.log(error2);
+//       });
+//   }, error => {
+//     console.log('got an login error');
+//     console.log(error);
+//   });
+// Get list of banks
+// this.nodeApi.makeRequest(apiUrl.allBanks, {}).subscribe(
+//   res =>{
+//     console.log("got result ");
+//     console.log(res);
+//   }, error => {
+//     console.log("got an error"); console.log(error)
+//   });
+// this.nodeApi.makeRequest(apiUrl.allClients, {}).subscribe(
+//   res => {
+//     console.log('got result ' + res);
+//   }, error => {
+//     console.log('got an error'); console.log(error)
+//   });
+// ISSUE 500 DHTG
+// this.nodeApi.makeRequest(apiUrl.issueDHTG, {password: "aPassword", montant:500}).subscribe(
+//   res => {
+//     console.log('got result ' + res);
+//     //TRANSFERT 50 DHTG to bankold@test.test
+//     this.nodeApi.makeRequest(apiUrl.submit, {email:"bankold@test.test", password:"aPassword", montant:50, memo:"merci"}).subscribe(
+//       res => {
+//         console.log('got result ' + res);
+//       }, error => {
+//         console.log('got an error'); console.log(error)
+//       });
+//   }, error => {
+//     console.log('got an error'); console.log(error)
+//   });
+// this.nodeApi.makeRequest(apiUrl.updateClient, {nom: "LaBRH", prenom:"delaBRH"}).subscribe(res =>{
+//   console.log('got result ' + res);
+//   }, error => {
+//     console.log('got an error'); console.log(error)
+//   });

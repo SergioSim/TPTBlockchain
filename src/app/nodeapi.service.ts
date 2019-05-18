@@ -11,69 +11,75 @@ import { Banque } from './banque.modele';
 export class NodeapiService {
   public token: string;
   private readonly url: string = environment.apiUrl;
-  formData  : Banque;
-  list : Banque[];
+  formData: Banque;
+  list: Banque[];
 
   constructor(private http: HttpClient) {
-    apilog("getting current User");
+    apilog('getting current User');
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    apilog("currentUser " + currentUser);
+    apilog('currentUser ' + currentUser);
     this.token = currentUser && currentUser.address && currentUser.accessToken;
-    apilog("token " + this.token);
+    apilog('token ' + this.token);
   }
 
   createClient(email: string, password: string, banque: string): Observable<any> {
     const headers = { headers: new HttpHeaders({
-      'Content-Type':'application/json',
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       'X-Content-Type-Options': 'nosniff'
       })};
-    apilog("req: [ " + this.url + "createClient/ ] post {email: " + email + ", password: " + password + ", banque: " + banque + "}");
-    return this.http.post<any>(this.url + "createClient/", {
-        email: email, 
-        password: password, 
-        banque: banque 
-      }, headers).pipe(map(res => {apilog("Got response:"); console.log(res); return res;}));
+    apilog('req: [ ' + this.url + 'createClient/ ] post {email: ' + email + ', password: ' + password + ', banque: ' + banque + '}');
+    return this.http.post<any>(this.url + 'createClient/', {
+        email, password, banque }, headers).pipe(map(
+          res => {
+            apilog('Got response:');
+            console.log(res);
+            return res;
+          }));
   }
 
   makeRequest(iApiurl: apiUrl, data: any): Observable<any> {
-    let aUrls = iApiurl.split('$');
-    let atype = aUrls[0];
-    let aUrl = aUrls[1];
+    const aUrls = iApiurl.split('$');
+    const atype = aUrls[0];
+    const aUrl = aUrls[1];
     const headers = new HttpHeaders({
-      'Content-Type':'application/json',
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
       'X-Content-Type-Options': 'nosniff',
-      'authorization' : "Bearer " + this.token
+      authorization: 'Bearer ' + this.token
       });
-    apilog("req " + atype + " : [ " + this.url + aUrl + " ] data :");
+    apilog('req ' + atype + ' : [ ' + this.url + aUrl + ' ] data :');
     console.log(data);
-    if(atype == "POST")
-    return this.http.post<any>(this.url + aUrl, data, {headers}).pipe(map(res => {apilog("Got response:"); console.log(res); return res;}));
-    if(atype == "PUT")
-    return this.http.put<any>(this.url + aUrl, data, {headers}).pipe(map(res => {apilog("Got response:"); console.log(res); return res;}));
-    if(atype == "GET"){
-      data.observe = 'response'
-      const  params = new HttpParams(data);
-      return this.http.get<any>(this.url + aUrl, {headers, params}).pipe(map(res => {apilog("Got response:"); console.log(res); return res;}));
+    if (atype === 'POST') {
+      return this.http.post<any>(this.url + aUrl, data, {headers}).pipe(map(
+        res => {apilog('Got response:'); console.log(res); return res; }));
     }
-    if(atype == "DELETE"){
-      data.observe = 'response'
-      const params = new HttpParams(data);
-      return this.http.delete<any>(this.url + aUrl, {headers, params}).pipe(map(res => {apilog("Got response:"); console.log(res); return res;}));
+    if (atype === 'PUT') {
+      return this.http.put<any>(this.url + aUrl, data, {headers}).pipe(map(
+        res => {apilog('Got response:'); console.log(res); return res; }));
+    }
+    if (atype === 'GET') {
+      data.observe = 'response';
+      return this.http.get<any>(this.url + aUrl, {headers, params: data}).pipe(map(
+        res => {apilog('Got response:'); console.log(res); return res; }));
+    }
+    if (atype === 'DELETE') {
+      data.observe = 'response';
+      return this.http.delete<any>(this.url + aUrl, {headers, params: data}).pipe(map(
+        res => {apilog('Got response:'); console.log(res); return res; }));
     }
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(this.url + 'auth/', { email: email, password: password })
+    return this.http.post<any>(this.url + 'auth/', { email, password })
       .pipe(
         map(res => {
-          apilog("Got response:");
+          apilog('Got response:');
           console.log(res);
           if (res && res.accessToken) {
             localStorage.setItem('currentUser', JSON.stringify(res));
             this.token = res.address && res.accessToken;
-            apilog("token : " + this.token);
+            apilog('token : ' + this.token);
           }
           return res;
         })
@@ -84,7 +90,7 @@ export class NodeapiService {
     this.token = null;
     localStorage.removeItem('currentUser');
   }
-  
+
   getListBanque() {
     return [
 
@@ -108,24 +114,24 @@ export class NodeapiService {
 
 
 export enum apiUrl {
-  clients = "GET$clients/",
-  allClients = "GET$allClients/",
-  allBanks = "GET$allBanks/",
-  createBank = "POST$createBank/",
-  createClient = "POST$createClient/",
-  blockClient = "PUT$blockClient/",
-  unBlockClient = "PUT$unBlockClient/",
-  updateClient = "PUT$updateClient/",
-  createBankClient = "POST$createBankClient/",
-  createContact = "POST$createContact/",
-  deleteBank = "DELETE$deleteBank/",
-  deleteClient = "DELETE$deleteClient/",
-  deleteContact = "DELETE$deleteContact/",
-  submit = "POST$submit",
-  issueDHTG = "POST$issueDHTG",
+  clients = 'GET$clients',
+  allClients = 'GET$allClients',
+  allBanks = 'GET$allBanks',
+  createBank = 'POST$createBank/',
+  createClient = 'POST$createClient/',
+  blockClient = 'PUT$blockClient/',
+  unBlockClient = 'PUT$unBlockClient/',
+  updateClient = 'PUT$updateClient/',
+  createBankClient = 'POST$createBankClient/',
+  createContact = 'POST$createContact/',
+  deleteBank = 'DELETE$deleteBank',
+  deleteClient = 'DELETE$deleteClient',
+  deleteContact = 'DELETE$deleteContact',
+  submit = 'POST$submit',
+  issueDHTG = 'POST$issueDHTG',
 }
 
 function apilog(ilog: string) {
-  console.log("[NODEAPI] " + ilog);
+  console.log('[NODEAPI] ' + ilog);
 }
 

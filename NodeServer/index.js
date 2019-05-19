@@ -115,14 +115,32 @@ app.put('/blockClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
 
-        conn.query(sql.blockClient_0_1, [req.query.email], function(err, result){
+        conn.query(sql.blockClient_0_1, [req.body.email], function(err, result) {
             return res.send({ succes: !err && result.affectedRows != 0});
         });
+    });
+});
+
+app.put('/updateBanque', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    let aBanqueOld = req.jwt.Banque;
+    console.log('permission level : ' + req.jwt.PermissionLevel);
+    if(req.jwt.PermissionLevel >= 3 && req.body.banqueOld != undefined)
+        aBanqueOld = req.body.banqueOld;
+    console.log('banque old = ' + aBanqueOld);
+    conn.query(sql.updateBank_0_2, [req.body.banqueNew, aBanqueOld], function(err, result){
+        return res.send({ succes: !err && result.affectedRows != 0});
     });
 });
 
@@ -178,12 +196,12 @@ app.put('/unBlockClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
 
-        conn.query(sql.unBlockClient_0_1, [req.query.email], function(err, result){
+        conn.query(sql.unBlockClient_0_1, [req.body.email], function(err, result){
             return res.send({ succes: !err && result.affectedRows != 0});
         });
     });

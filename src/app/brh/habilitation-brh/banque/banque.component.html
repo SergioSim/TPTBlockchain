@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 <form #form="ngForm" autocomplete="off">
-=======
-<h2>Ajouter une banqe</h2>
-
-<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
-    <input type="hidden" name="BanqueID" #EmployeeID="ngModel" [(ngModel)]="service.formData.BanqueID">
->>>>>>> debug1
     <div class="form-group">
       <label>Nom de la banque</label>
       <input name="FullName" [formControl]="NomBanque" class="form-control" required>

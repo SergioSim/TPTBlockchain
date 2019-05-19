@@ -16,7 +16,6 @@ export class BanqueComponent implements OnInit {
   constructor(public service: NodeapiService) {
   }
 
-<<<<<<< HEAD
   ngOnInit() {
   }
 
@@ -31,33 +30,6 @@ export class BanqueComponent implements OnInit {
           console.log('got an error');
           console.log(error);
       });
-=======
-      this.resetForm();
-  
-    }
-  
-    resetForm(form?: NgForm) {
-      if (form != null)
-        form.resetForm();
-      this.service.formData = {
-        BanqueID: null,
-        Nom: '',
-        Email :'',
-        MotDePasse:''
-      }
-    }
-    onSubmit(form: NgForm) {
-      if (form.value.BanqueID == null)
-        this.service.makeRequest(apiUrl.createBank, {name: form.value.FullName}).subscribe(res =>{
-          this.service.makeRequest(apiUrl.allBanks, {});
-
-          console.log("on a recu la response: " );
-        console.log(res);
-      }
-        , error => {
-            console.log("got an error"); console.log(error);  
-          });
->>>>>>> debug1
     }
   }
 }

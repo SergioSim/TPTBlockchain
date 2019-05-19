@@ -9,6 +9,7 @@ import { NodeapiService } from '../../nodeapi.service';
 export class DashboardBrhComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any[];
+  p:number=1;
   
   constructor(
     private service: NodeapiService,

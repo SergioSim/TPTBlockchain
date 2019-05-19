@@ -14,9 +14,34 @@
 
   
       <div class="table-releve-content">
-
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-              
+<div class="row">
+  <input type="text" placeholder="Recherche par nom"
+  [(ngModel)]="rechercheText"
+  />
+</div>
+<br/>   <table  filter="rechercheText" >
+          <thead>
+            <tr>
+            <th>Nom de la banque</th>
+            <th>Date création</th>
+            <th>Nombre de clients</th>
+            <th>Numéro du portefeuille</th>
+            <th>Total actifs</th>
+            <th>Numéro du portefeuille</th>
+          </tr>
+          </thead> 
+          <tbody>
+            <tr *ngFor = "let game of dataSource | filter:rechercheText | paginate: { itemsPerPage:10,currentPage:p} ; let i=index" >
+              <td> {{game.nom}}</td>
+              <td> {{game.date}}</td>
+              <td> {{game.nbClient}}</td>
+              <td> {{game.nbPortefeuille}}</td>
+              <td> {{game.totalActif}}</td>
+              <td> {{game.numPortefeuille}}</td>
+            </tr>
+          </tbody>   
+          <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+  <!--
               <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef> ID Banque </th>
               <td mat-cell *matCellDef="let element"> {{element.id}}</td>
@@ -62,6 +87,7 @@
                       
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              -->
           </table>
       </div>
         </div>

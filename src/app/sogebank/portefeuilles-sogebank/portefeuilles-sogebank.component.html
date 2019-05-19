@@ -9,7 +9,7 @@
                 <div class="portefeuille-title">
                     <h1>{{portefeuille.libelle}}</h1>
                     <button mat-icon-button>
-                        <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
+                        <fa-icon [icon]="faPen" class="edit-button" (click)="openEditWalletDialog(EditWalletDialog, portefeuille)"></fa-icon>
                     </button> 
                 </div>    
                 <div class="portefeuille-footer">
@@ -72,6 +72,24 @@
            <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-confirm-button" (click)="confirmWalletCreate()">Confirmer</button> 
                 <button mat-flat-button class="dialog-cancel-button" (click)="cancelWalletCreate()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #EditWalletDialog>
+        <div class="new-wallet-dialog">
+            <div class="dialog-header">
+                <h2>Rennomer un portefeuille</h2>
+                <hr>
+            </div>
+            <div class="new-wallet-dialog-form">
+                <mat-form-field>
+                    <input matInput placeholder="Saisir un libellé pour le portefeuille…" [(ngModel)]="selectedPortefeuille.libelle">
+                </mat-form-field>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmWalletEdit()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelWalletEdit()">Annuler</button> 
             </div>
         </div>
     </ng-template>

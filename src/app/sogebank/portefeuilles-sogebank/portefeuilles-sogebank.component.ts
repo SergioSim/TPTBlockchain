@@ -22,9 +22,16 @@ export class PortefeuillesSogebankComponent implements OnInit {
   totalActivite = '0';
   QRcodeDialogRef: any;
   NewWalletDialogRef: any;
-  selectedPortefeuille: {};
+  editDialogRef: any;
   newWalletlibelle = '';
   newWalletTransferAmount: number;
+  selectedPortefeuille: {
+    id: '',
+    libelle: '',
+    solde: '',
+    ouverture: '',
+    activite: ''
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -87,6 +94,22 @@ export class PortefeuillesSogebankComponent implements OnInit {
     ' initial de ' + this.commonUtilsService.numberToCurrencyString(initialAmount) + '.', 'Fermer', {
       duration: 5000,
     });
+  }
+
+  openEditWalletDialog(templateRef, portefeuille) {
+    event.stopPropagation();
+    this.selectedPortefeuille = {...portefeuille};
+    this.editDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmWalletEdit() {
+    const index = this.portefeuilles.findIndex( portefeuille => portefeuille.id === this.selectedPortefeuille.id);
+    this.portefeuilles[index].libelle = this.selectedPortefeuille.libelle;
+    this.editDialogRef.close();
+  }
+
+  cancelWalletEdit() {
+    this.editDialogRef.close();
   }
 
 }

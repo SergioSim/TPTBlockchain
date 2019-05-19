@@ -24,6 +24,15 @@ export class CartesSogebankComponent implements OnInit {
   newCreateDialogRef: any;
   newCardSelectedWallet: {};
   newCardlibelle = '';
+  editDialogRef: any;
+  deleteDialogRef: any;
+  selectedCarte: {
+    id: '',
+    libelle: '',
+    creation: '',
+    activite: '',
+    rattachement: ''
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -47,6 +56,7 @@ export class CartesSogebankComponent implements OnInit {
 
   countTotals() {
     let activite = 0;
+    this.totalCards = 0;
     this.cartes.forEach( carte => {
       this.totalCards++;
       activite += this.commonUtilsService.currencyStringtoNumber(carte.activite);
@@ -68,6 +78,37 @@ export class CartesSogebankComponent implements OnInit {
     + ' rattaché au portefeuile "' + this.newCardSelectedWallet['libelle'] + '".', 'Fermer', {
       duration: 5000,
     });
+  }
+
+  openEditCardDialog(templateRef, carte) {
+    this.selectedCarte = {...carte};
+    this.editDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmCardEdit() {
+    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.id);
+    this.cartes[index].libelle = this.selectedCarte.libelle;
+    this.editDialogRef.close();
+  }
+
+  cancelCardEdit() {
+    this.editDialogRef.close();
+  }
+
+  openDeleteCardDialog(templateRef, carte) {
+    this.selectedCarte = carte;
+    this.deleteDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmCardDelete() {
+    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.id);
+    this.cartes.splice(index, 1);
+    this.countTotals();
+    this.deleteDialogRef.close();
+  }
+
+  cancelCardDelete() {
+    this.deleteDialogRef.close();
   }
 
 }

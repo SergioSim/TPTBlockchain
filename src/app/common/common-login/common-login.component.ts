@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { NodeapiService } from 'src/app/nodeapi.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/brh/alert.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-common-login',
@@ -19,14 +20,19 @@ export class CommonLoginComponent {
   constructor(
     private route: Router,
     private apiService: NodeapiService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private snackBar: MatSnackBar
   ) {
     console.log('URL = ' + this.url);
    }
 
   login() {
     if (this.emailFC.invalid || this.passwFC.invalid) {
-      this.alertService.error('Les champs Email et Mot de passe sont requis!');
+      this.snackBar.open('Les champs Email et Mot de passe sont requis!', 'Fermer', {
+        duration: 5000,
+        panelClass: ['alert-snackbar']
+      });
+      // this.alertService.error('Les champs Email et Mot de passe sont requis!');
       return;
     }
     this.loading = true;
@@ -38,7 +44,11 @@ export class CommonLoginComponent {
       },
       error => {
         console.log(error);
-        this.alertService.error('Email ou Mot de passe incorrecte');
+        this.snackBar.open('Email ou Mot de passe incorrecte.', 'Fermer', {
+          duration: 5000,
+          panelClass: ['alert-snackbar']
+        });
+        // this.alertService.error('Email ou Mot de passe incorrecte');
         this.loading = false;
       });
   }

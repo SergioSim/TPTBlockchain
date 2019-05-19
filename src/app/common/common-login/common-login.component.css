@@ -27,3 +27,12 @@ mat-tab-group {
     display: block;
     text-align: center;
 }
+
+::ng-deep .alert-snackbar {
+    background: #f44336;
+    color: #ffffff;
+}
+
+::ng-deep .alert-snackbar button {
+    color: #e6e6e6;
+}

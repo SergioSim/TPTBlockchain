@@ -100,11 +100,11 @@ export class VirementsSogebankComponent implements OnInit {
     if (this.transferAmount >
       Number(this.selectedPortefeuille['solde'].substring(0, this.selectedPortefeuille['solde'].length - 5).replace(' ', ''))) {
         this.snackBar.open('Le montant du virement ne peut pas excéder le solde du portefeuille.', 'Fermer', {
-          duration: 2000,
+          duration: 5000,
         });
     } else if (this.selectedPortefeuille['id'] === this.selectedBeneficiaire['id']) {
       this.snackBar.open('Les portefeuilles source et bénéficiaire ne peuvent pas être les même.', 'Fermer', {
-        duration: 2000,
+        duration: 5000,
       });
     } else {
       this.updateDialogProperties();
@@ -120,7 +120,7 @@ export class VirementsSogebankComponent implements OnInit {
 
     this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
       + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
-      duration: 2000,
+      duration: 5000,
     });
   }
 
@@ -139,7 +139,7 @@ export class VirementsSogebankComponent implements OnInit {
     this.contactDialogRef.close();
     this.snackBar.open('Les informations du bénéficiaire ' + this.editBeneficiaire['libelle']
     + ' ont bien été mises à jour.', 'Fermer', {
-      duration: 2000,
+      duration: 5000,
     });
   }
 

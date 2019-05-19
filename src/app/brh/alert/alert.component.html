@@ -1,4 +1,4 @@
-<div 
+<div class="alert-content"
 [ngClass]="{ 'alert': message, 'alert-success': message && message.type === 'success', 'alert-danger':  message && message.type === 'error', 'parent':true, 'show':!doShow}">
 </div>
 <div *ngIf="message" class='alert' [ngClass]="{'show': !doShow}">

@@ -11,14 +11,14 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./portefeuilles-sogebank.component.css']
 })
 export class PortefeuillesSogebankComponent implements OnInit {
- // QRCode = require('qrcode');
+  QRCode = require('qrcode');
   faPen = faPen;
   faPlusCircle = faPlusCircle;
   portefeuilles: any[];
   totalWallets = 0;
   totalSolde = 0;
   totalActivite = 0;
- // QRcodeDialogRef: any;
+  QRcodeDialogRef: any;
   selectedPortefeuille: {};
 
   constructor(
@@ -47,18 +47,18 @@ export class PortefeuillesSogebankComponent implements OnInit {
   }
 
   openQRcodeDialog(templateRef, portefeuille) {
-   /* this.selectedPortefeuille = portefeuille;
-    this.QRcodeDialogRef = this.dialog.open(templateRef, {width: '350px'});
+    this.selectedPortefeuille = portefeuille;
+    this.QRcodeDialogRef = this.dialog.open(templateRef, { width: '350px' });
     this.QRCode.toCanvas(document.getElementById('QRcode-canvas'), String(this.selectedPortefeuille['id']),
     { errorCorrectionLevel: 'H' }, (err, canvas) => {
       if (err) {
         console.log(err);
       }
-    });*/
+    });
   }
 
   closeQRcodeDialog() {
-  //  this.QRcodeDialogRef.close();
+    this.QRcodeDialogRef.close();
   }
 
 }

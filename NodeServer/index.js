@@ -244,6 +244,9 @@ app.delete('/deleteBank', [
     outils.handleValidationResult], 
     function(req, res) {
     //TODO transfert all clients funds to BRH?
+    if (req.jwt.Banque === req.query.name){
+        return res.send({error: "Administrator is not allowed to be deleted!"});
+    }
     conn.query(sql.deleteBank_0_1, [req.query.name], function(err, result){
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});

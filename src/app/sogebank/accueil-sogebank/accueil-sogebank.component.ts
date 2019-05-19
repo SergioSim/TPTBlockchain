@@ -31,8 +31,9 @@ export class AccueilSogebankComponent implements OnInit {
     this.route.navigate(['/sogebank/login']);
   }
 
-  goToLoginCreate() {
+  goToLoginCreate(isParticulier) {
     this.sogebankService.displayLoginForm = false;
+    this.sogebankService.isNewParticulier = isParticulier;
     this.route.navigate(['/sogebank/login']);
   }
 

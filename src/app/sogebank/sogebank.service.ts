@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SogebankService {
   displayLoginForm = true;
+  isNewParticulier: boolean;
 
   constructor() { }
 

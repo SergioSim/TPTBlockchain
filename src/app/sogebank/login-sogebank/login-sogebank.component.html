@@ -34,8 +34,8 @@
               <div class="radio-type">
                 <label id="create-type-label">Je suis :</label>
                 <mat-radio-group aria-labelledby="create-type-label" class="create-type-select">
-                  <mat-radio-button value="1">Particulier</mat-radio-button>
-                  <mat-radio-button value="2">Commerçant</mat-radio-button>
+                  <mat-radio-button value="1" [checked]="sogebankService.isNewParticulier === true">Particulier</mat-radio-button>
+                  <mat-radio-button value="2"[checked]="sogebankService.isNewParticulier === false">Commerçant</mat-radio-button>
                 </mat-radio-group>
               </div>
             </div>

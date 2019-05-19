@@ -4,6 +4,7 @@ import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { faPen, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-portefeuilles-sogebank',
@@ -16,14 +17,15 @@ export class PortefeuillesSogebankComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   portefeuilles: any[];
   totalWallets = 0;
-  totalSolde = 0;
-  totalActivite = 0;
+  totalSolde = '0';
+  totalActivite = '0';
   QRcodeDialogRef: any;
   selectedPortefeuille: {};
 
   constructor(
     private route: ActivatedRoute,
     private sogebankService: SogebankService,
+    private commonUtilsService: CommonUtilsService,
     private titleService: Title,
     private dialog: MatDialog
   ) { }
@@ -39,11 +41,15 @@ export class PortefeuillesSogebankComponent implements OnInit {
   }
 
   countTotals() {
+    let solde = 0;
+    let activite = 0;
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
-      this.totalSolde += Number(portefeuille.solde.substring(0, portefeuille.solde.length - 5).replace(' ', ''));
-      this.totalActivite += Number(portefeuille.activite.substring(0, portefeuille.activite.length - 5).replace(' ', ''));
+      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.solde);
+      activite += this.commonUtilsService.currencyStringtoNumber(portefeuille.activite);
     });
+    this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
+    this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
   }
 
   openQRcodeDialog(templateRef, portefeuille) {

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { faPen, faTimes, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-cartes-sogebank',
@@ -15,12 +16,13 @@ export class CartesSogebankComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   cartes: any[];
   totalCards = 0;
-  totalSolde = 14636;
-  totalActivite = 0;
+  totalSolde = '14 636 DHTG';
+  totalActivite = '0';
 
   constructor(
     private route: ActivatedRoute,
     private sogebankService: SogebankService,
+    private commonUtilsService: CommonUtilsService,
     private titleService: Title
   ) { }
 
@@ -35,10 +37,12 @@ export class CartesSogebankComponent implements OnInit {
   }
 
   countTotals() {
+    let activite = 0;
     this.cartes.forEach( carte => {
       this.totalCards++;
-      this.totalActivite += Number(carte.activite.substring(0, carte.activite.length - 5).replace(' ', ''));
+      activite += this.commonUtilsService.currencyStringtoNumber(carte.activite);
     });
+    this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
   }
 
 }

@@ -21,7 +21,7 @@ export class LoginSogebankComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private sogebankService: SogebankService,
+    public sogebankService: SogebankService,
     private titleService: Title
   ) { }
 

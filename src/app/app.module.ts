@@ -9,7 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NodeapiService } from './nodeapi.service';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
-  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule, MatIconModule } from '@angular/material';
+  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule,
+   MatIconModule, MatToolbarModule, MatListModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Portal components
 import { PortailComponent } from './portail/portail.component';
@@ -51,6 +53,8 @@ import { NgxPaginationModule  } from 'ngx-pagination';
 
 import 'hammerjs';
 import { CommonLoginComponent } from './common/common-login/common-login.component';
+import { MenuBanquePriveComponent } from './brh/menu-banque-prive/menu-banque-prive.component';
+import { SidenavBanquePriveComponent } from './brh/sidenav-banque-prive/sidenav-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +103,9 @@ import { CommonLoginComponent } from './common/common-login/common-login.compone
     BanqueComponent,
     BanqueListComponent,
     SuiviVirementsSogebankComponent,
-    CommonLoginComponent
+    CommonLoginComponent,
+    MenuBanquePriveComponent,
+    SidenavBanquePriveComponent
   ],
   imports: [
     BrowserModule,
@@ -122,9 +128,13 @@ import { CommonLoginComponent } from './common/common-login/common-login.compone
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
     HttpClientModule,
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FlexLayoutModule
   ],
   providers: [
     Title,

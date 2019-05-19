@@ -1,0 +1,11 @@
+<mat-nav-list>
+  <a mat-list-item routerLink="/home" (click)="onSidenavClose()">
+    <fa-icon [icon]="faHome"></fa-icon><span class="nav-caption">Home</span>
+  </a>
+  <a mat-list-item routerLink="/owner" (click)="onSidenavClose()">
+    <fa-icon [icon]="faUniversity"></fa-icon><span class="nav-caption">Owner Actions</span>   
+  </a>
+  <a mat-list-item routerLink="#" (click)="onSidenavClose()">
+    <fa-icon [icon]="faAddressBook"></fa-icon><span class="nav-caption">Account Actions</span>
+  </a>
+</mat-nav-list>

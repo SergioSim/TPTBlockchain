@@ -1,4 +1,11 @@
-<p>
-  espace-utilisateur-banque-prive works!
-</p>
-<button mat-flat-button (click)="logout()" color="primary" class="primary-logout-button">SE DECONNECTER</button>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation">
+    <app-sidenav-banque-prive (sidenavClose)="sidenav.close()"></app-sidenav-banque-prive>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-menu-banque-prive (sidenavToggle)="sidenav.toggle()"></app-menu-banque-prive>
+    <main>
+      <button mat-flat-button (click)="logout()" color="primary" class="primary-logout-button">SE DECONNECTER</button>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

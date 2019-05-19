@@ -11,7 +11,7 @@ import { NodeapiService } from 'src/app/nodeapi.service';
 export class EspaceUtilisateurBanquePriveComponent implements OnInit {
 
   constructor(
-    private router: Router,
+    public router: Router,
     private apiService: NodeapiService
   ) {
     if (!apiService.isConnected()) {

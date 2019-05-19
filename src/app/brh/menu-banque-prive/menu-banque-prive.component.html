@@ -1,20 +1,18 @@
 <mat-toolbar color="primary">
   <div fxHide.gt-xs>
       <button mat-icon-button (click)="onToggleSidenav()" id="menuButton">
-          <mat-icon>menu</mat-icon>
+        <fa-icon [icon]="faBars"></fa-icon>
       </button>
   </div>
   <div>
-      <a routerLink="/home">Owner-Account</a>
+      <a routerLink="/brh/banque/prive/dashboard">Accueil</a>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-          <li>
-              <a routerLink="/owner">Owner Actions</a>
-          </li>
-          <li>
-              <a routerLink="/account">Account Actions</a>
-          </li>
+          <li><a routerLink="/brh/banque/prive/portefeuille">Portefeuille</a></li>
+          <li><a routerLink="/brh/banque/prive/transactions">Transactions</a></li>
+          <li><a routerLink="/brh/banque/prive/clients">Clients</a></li>
+          <li><a routerLink="/brh/banque/prive/cartes">Cartes</a></li>
       </ul>
   </div>
 </mat-toolbar>

@@ -29,6 +29,10 @@ const routes: Routes = [
   { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},
+  { path: 'brh/banque/prive/portefeuille', component:  EspaceUtilisateurBanquePriveComponent},
+  { path: 'brh/banque/prive/transactions', component:  EspaceUtilisateurBanquePriveComponent},
+  { path: 'brh/banque/prive/clients', component:  EspaceUtilisateurBanquePriveComponent},
+  { path: 'brh/banque/prive/cartes', component:  EspaceUtilisateurBanquePriveComponent},
 
   { path: 'sogebank/accueil', component: AccueilSogebankComponent },
   { path: 'sogebank/login', component: LoginSogebankComponent},

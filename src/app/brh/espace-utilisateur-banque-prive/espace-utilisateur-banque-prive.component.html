@@ -5,6 +5,10 @@
   <mat-sidenav-content>
     <app-menu-banque-prive (sidenavToggle)="sidenav.toggle()"></app-menu-banque-prive>
     <main>
+      <app-portefeuille-banque-prive *ngIf="this.router.url == '/brh/banque/prive/portefeuille'"></app-portefeuille-banque-prive>
+      <app-transactions-banque-prive *ngIf="this.router.url == '/brh/banque/prive/transactions'"></app-transactions-banque-prive>
+      <app-clients-banque-prive *ngIf="this.router.url == '/brh/banque/prive/clients'"></app-clients-banque-prive>
+      <app-cartes-banque-prive *ngIf="this.router.url == '/brh/banque/prive/cartes'"></app-cartes-banque-prive>
       <button mat-flat-button (click)="logout()" color="primary" class="primary-logout-button">SE DECONNECTER</button>
     </main>
   </mat-sidenav-content>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faHome, faUniversity, faAddressBook } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUniversity, faAddressBook, faExchangeAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidenav-banque-prive',
@@ -12,6 +12,8 @@ export class SidenavBanquePriveComponent implements OnInit {
   faHome = faHome;
   faUniversity = faUniversity;
   faAddressBook = faAddressBook;
+  faExchangeAlt = faExchangeAlt;
+  faCreditCard = faCreditCard;
 
   constructor() { }
 

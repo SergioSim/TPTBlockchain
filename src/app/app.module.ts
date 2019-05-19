@@ -55,6 +55,10 @@ import 'hammerjs';
 import { CommonLoginComponent } from './common/common-login/common-login.component';
 import { MenuBanquePriveComponent } from './brh/menu-banque-prive/menu-banque-prive.component';
 import { SidenavBanquePriveComponent } from './brh/sidenav-banque-prive/sidenav-banque-prive.component';
+import { PortefeuilleBanquePriveComponent } from './brh/portefeuille-banque-prive/portefeuille-banque-prive.component';
+import { TransactionsBanquePriveComponent } from './brh/transactions-banque-prive/transactions-banque-prive.component';
+import { ClientsBanquePriveComponent } from './brh/clients-banque-prive/clients-banque-prive.component';
+import { CartesBanquePriveComponent } from './brh/cartes-banque-prive/cartes-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +109,11 @@ import { SidenavBanquePriveComponent } from './brh/sidenav-banque-prive/sidenav-
     SuiviVirementsSogebankComponent,
     CommonLoginComponent,
     MenuBanquePriveComponent,
-    SidenavBanquePriveComponent
+    SidenavBanquePriveComponent,
+    PortefeuilleBanquePriveComponent,
+    TransactionsBanquePriveComponent,
+    ClientsBanquePriveComponent,
+    CartesBanquePriveComponent
   ],
   imports: [
     BrowserModule,

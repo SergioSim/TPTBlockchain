@@ -1,9 +1,9 @@
-a {
+a, mat-icon {
   text-decoration: none;
   color: white;
 }
 
-a:hover, a:active{
+a:hover, a:active , mat-icon:hover, mat-icon:active {
   color: lightgray;
 }
 

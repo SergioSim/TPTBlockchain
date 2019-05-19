@@ -1,11 +1,17 @@
 <mat-nav-list>
-  <a mat-list-item routerLink="/home" (click)="onSidenavClose()">
-    <fa-icon [icon]="faHome"></fa-icon><span class="nav-caption">Home</span>
+  <a mat-list-item routerLink="/brh/banque/prive/dashboard" (click)="onSidenavClose()">
+    <fa-icon [icon]="faHome"></fa-icon><span class="nav-caption">Accueil</span>
   </a>
-  <a mat-list-item routerLink="/owner" (click)="onSidenavClose()">
-    <fa-icon [icon]="faUniversity"></fa-icon><span class="nav-caption">Owner Actions</span>   
+  <a mat-list-item routerLink="/brh/banque/prive/portefeuille" (click)="onSidenavClose()">
+    <fa-icon [icon]="faUniversity"></fa-icon><span class="nav-caption">Portefeuille</span>   
   </a>
-  <a mat-list-item routerLink="#" (click)="onSidenavClose()">
-    <fa-icon [icon]="faAddressBook"></fa-icon><span class="nav-caption">Account Actions</span>
+  <a mat-list-item routerLink="/brh/banque/prive/transactions" (click)="onSidenavClose()">
+    <fa-icon [icon]="faExchangeAlt"></fa-icon><span class="nav-caption">Transactions</span>
+  </a>
+  <a mat-list-item routerLink="/brh/banque/prive/clients" (click)="onSidenavClose()">
+    <fa-icon [icon]="faAddressBook"></fa-icon><span class="nav-caption">Clients</span>
+  </a>
+  <a mat-list-item routerLink="/brh/banque/prive/cartes" (click)="onSidenavClose()">
+    <fa-icon [icon]="faCreditCard"></fa-icon><span class="nav-caption">Cartes</span>
   </a>
 </mat-nav-list>

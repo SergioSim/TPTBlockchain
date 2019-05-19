@@ -8,6 +8,6 @@ export class Banque {
 
     Email :String;
 
-    MotDePasse: string;
+    Telephone: string;
 
 }

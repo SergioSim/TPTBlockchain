@@ -83,7 +83,7 @@ app.post('/createBank', [
     outils.handleValidationResult],
     function(req, res) {
     
-    conn.query(sql.insertBanque_0_3, [req.body.name], function(err, result) { 
+    conn.query(sql.insertBanque_0_3, [req.body.name,req.body.email,req.body.telephone], function(err, result) { 
         return res.send({success: !err});
     });
 });

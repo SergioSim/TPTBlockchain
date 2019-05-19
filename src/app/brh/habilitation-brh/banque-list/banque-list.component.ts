@@ -16,7 +16,7 @@ export class BanqueListComponent implements OnInit {
   displayedColumns: string[];
   ngOnInit() {
     this.refreshListBanque();
-    this.displayedColumns = ['Name','Supprimer','Editer','Permission'];
+    this.displayedColumns = ['Name','Email','Telephone','Supprimer','Editer','Permission'];
 
   }
   refreshListBanque(){
@@ -30,6 +30,7 @@ export class BanqueListComponent implements OnInit {
   }
      onDelete(nom: String){
        this.service.makeRequest(apiUrl.deleteBank,{name: nom}).subscribe(res =>{
+        this.service.makeRequest(apiUrl.allBanks, {}).toPromise().then(res=>this.list = res as Banque[]);
         console.log("got result " );
         console.log(res);
 

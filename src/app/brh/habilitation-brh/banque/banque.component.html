@@ -1,21 +1,17 @@
-<form #form="ngForm" autocomplete="off">
+<form class="formulaire" #form="ngForm" autocomplete="off">
     <div class="form-group">
-      <label>Nom de la banque</label>
+      <label>Banque</label>
       <input name="FullName" [formControl]="NomBanque" class="form-control" required>
       <div class="validation-error" *ngIf="NomBanque.invalid && NomBanque.touched">This field is required.</div>
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input name="Position" [formControl]="Email" class="form-control">
+      <input name="Email" [formControl]="Email" class="form-control">
     </div>
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Mot de passe</label>
-        <input name="MotDePasse" [formControl]="MotDePasse" class="form-control">
-      </div>
       <div class="form-group  col-md-6">
         <label>Téléphone</label>
-        <input name="Mobile" [formControl]="Mobile" class="form-control">
+        <input name="Telephone" [formControl]="Telephone" class="form-control">
       </div>
     </div>
     <div class="form-group">

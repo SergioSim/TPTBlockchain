@@ -18,7 +18,7 @@ export class DashboardBrhComponent implements OnInit {
   ngOnInit() {
     this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
     this.dataSource = this.service.getListBanque();
-  }
+  }                
 
 }
 

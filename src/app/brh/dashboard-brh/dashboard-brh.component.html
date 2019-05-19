@@ -14,33 +14,34 @@
 
   
       <div class="table-releve-content">
-<div class="row">
-  <input type="text" placeholder="Recherche par nom"
-  [(ngModel)]="rechercheText"
-  />
+<div class="recherche">
+  <input type="text" placeholder="Recherche par nom" [(ngModel)]="rechercheText"/>
 </div>
-<br/>   <table  filter="rechercheText" >
+<div style="margin-left: 25%;"> 
+      
+</div>
+      <table  filter="rechercheText" class="mat-elevation-z8" >
           <thead>
-            <tr>
-            <th>Nom de la banque</th>
-            <th>Date création</th>
-            <th>Nombre de clients</th>
-            <th>Numéro du portefeuille</th>
-            <th>Total actifs</th>
-            <th>Numéro du portefeuille</th>
-          </tr>
+            <tr class="header">
+                <th>Nom </th>
+                <th>Création</th>
+                <th>Nb de clients</th>
+                <th>Nb portefeuille</th>
+                <th>Total actifs</th>
+                <th>Numéro du portefeuille</th>
+           </tr>
           </thead> 
           <tbody>
-            <tr *ngFor = "let game of dataSource | filter:rechercheText | paginate: { itemsPerPage:10,currentPage:p} ; let i=index" >
-              <td> {{game.nom}}</td>
+            <tr *ngFor = "let game of dataSource | filter:rechercheText | paginate: { itemsPerPage:10,currentPage:p} ; " >
+              <td > {{game.nom}}</td>
               <td> {{game.date}}</td>
               <td> {{game.nbClient}}</td>
               <td> {{game.nbPortefeuille}}</td>
-              <td> {{game.totalActif}}</td>
+              <td> {{game.totalActif}} DGTH</td>
               <td> {{game.numPortefeuille}}</td>
             </tr>
-          </tbody>   
-          <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+          </tbody>  
+         
   <!--
               <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef> ID Banque </th>
@@ -89,6 +90,9 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               -->
           </table>
+          <div style="margin-left: 25%;"> 
+              <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+          </div>
       </div>
         </div>
                       

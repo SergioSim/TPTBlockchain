@@ -9,6 +9,7 @@ import { NodeapiService } from '../../nodeapi.service';
 export class DashboardBrhComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any[];
+  p:number=1;
   
   constructor(
     private service: NodeapiService,
@@ -17,7 +18,7 @@ export class DashboardBrhComponent implements OnInit {
   ngOnInit() {
     this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
     this.dataSource = this.service.getListBanque();
-  }
+  }                
 
 }
 

@@ -46,6 +46,8 @@ import { SuiviVirementsSogebankComponent } from './sogebank/suivi-virements-soge
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule  } from 'ngx-pagination';
 
 import 'hammerjs';
 import { CommonLoginComponent } from './common/common-login/common-login.component';
@@ -120,7 +122,9 @@ import { CommonLoginComponent } from './common/common-login/common-login.compone
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [
     Title,

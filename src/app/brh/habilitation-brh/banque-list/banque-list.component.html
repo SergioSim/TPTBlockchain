@@ -1,11 +1,50 @@
-<table class="table table-hover">
-
+<!--<table class="table table-hover">
     <tr *ngFor="let emp of list">
     
-      <td>{{emp.Nom}}</td>
+      <td>{{emp.Name}}</td>
   
-      <td><button class="btn btn-sm btn-outline-danger">X</button></td>
-  
+      <td><button (click)="onUpdate(emp.Name)" class="btn btn-sm btn-outline-danger">Editer</button></td>
+      <td><button (click)="onPermision(emp.Name)" class="btn btn-sm btn-outline-danger">Bloquer</button></td>
     </tr>
   
   </table>
+
+-->
+    <div class="dashboard-content">
+  
+    
+        <div class="table-releve-content">
+  
+            <table mat-table [dataSource]="list" class="mat-elevation-z8">
+                
+                <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef> Nom de la Banque </th>
+                <td mat-cell *matCellDef="let element"> {{element.Name}}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="Supprimer">
+                <th mat-header-cell *matHeaderCellDef> Suppression </th>
+                <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Supprimer</button></td>
+                </ng-container>
+
+                <ng-container matColumnDef="Editer">
+                    <th mat-header-cell *matHeaderCellDef> Edition </th>
+                    <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Editer</button></td>
+                </ng-container>
+
+                <ng-container matColumnDef="Permission">
+                    <th mat-header-cell *matHeaderCellDef> Permission </th>
+                    <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Permission</button></td>
+                 </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                
+            </table>
+        </div>
+    </div>
+                        
+  
+  
+  
+  

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Role } from './Role';
 
 @Injectable({
   providedIn: 'root',
@@ -6,24 +7,9 @@ import { Injectable } from '@angular/core';
 export class SogebankService {
   displayLoginForm = true;
   isNewParticulier: boolean;
+  currentUserRole = Role.COMMERCANT;
 
   constructor() { }
-
-  print(elementToPrint: string) {
-    const printPopup = window.open('');
-    const tableToPrint = document.getElementById(elementToPrint);
-    let htmlToPrint = '' +
-        '<style type="text/css">' +
-        'table th, table td {' +
-        'border:1px solid #000;' +
-        'padding:0.5em;' +
-        '}' +
-        '</style>';
-    htmlToPrint += tableToPrint.outerHTML;
-    printPopup.document.write(htmlToPrint);
-    printPopup.print();
-    printPopup.close();
-  }
 
   getRecentTransactions() {
     return [

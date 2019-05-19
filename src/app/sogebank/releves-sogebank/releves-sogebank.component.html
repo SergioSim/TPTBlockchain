@@ -24,15 +24,4 @@
     </div>
 
     <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
-    
-    <div class="releves-actions">
-        <button mat-flat-button color="primary" (click)="sogebankService.print('releve-table')">
-            <fa-icon [icon]="faPrint"></fa-icon>
-            IMPRIMER
-        </button> 
-        <button mat-flat-button color="primary">
-            <fa-icon [icon]="faDownload"></fa-icon>
-            TELECHARGER
-        </button>
-    </div>
 </div>

@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { DateAdapter } from '@angular/material';
-import { faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-releves-sogebank',
@@ -14,8 +13,6 @@ export class RelevesSogebankComponent implements OnInit {
   dataSource: any[];
   selectedPortefeuille = {};
   portefeuilles: any[];
-  faPrint = faPrint;
-  faDownload = faDownload;
 
   constructor(
     private route: ActivatedRoute,

@@ -26,19 +26,6 @@
     width: 100%;
 }
 
-.releves-actions {
-    display: flex;
-}
-
-.releves-actions button {
-    border-radius: 50px;
-    padding: 5px 16px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    align-self: center;
-    margin-left: 15px;
-}
-
 .releves-content ::ng-deep table {
     padding-top: 0;
 }

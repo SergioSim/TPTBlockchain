@@ -1,41 +1,70 @@
 <div class="cartes-content">
-        <div class="liste-cartes">
-            <button mat-flat-button color="primary" class="new-button">
-                <fa-icon [icon]="faPlusCircle"></fa-icon>
-                NOUVELLE CARTE
-            </button> 
-            <div *ngFor="let carte of cartes">
-                <div class="carte-container">
-                    <div class="carte-title">
-                        <h1>{{carte.libelle}}</h1>
-                        <button mat-icon-button>
-                            <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
-                        </button> 
-                        <button mat-icon-button>
-                            <fa-icon [icon]="faTimes" class="delete-button"></fa-icon>
-                        </button> 
-                    </div>    
-                    <div class="carte-footer">
-                        <div class="carte-info">
-                            <p>Activité récente: {{carte.activite}}</p>
-                            <p>Création: {{carte.creation}}</p>
-                        </div>
-                        <div class="carte-rattachement">
-                            <h1>Rattachée à : {{carte.rattachement}}</h1>
-                        </div>
-                    </div>    
+    <div class="liste-cartes">
+        <button mat-flat-button color="primary" class="new-button" (click)="openNewCardDialog(NewCardDialog)">
+            <fa-icon [icon]="faPlusCircle"></fa-icon>
+            NOUVELLE CARTE
+        </button>
+        <div *ngFor="let carte of cartes">
+            <div class="carte-container">
+                <div class="carte-title">
+                    <h1>{{carte.libelle}}</h1>
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faTimes" class="delete-button"></fa-icon>
+                    </button>
+                </div>
+                <div class="carte-footer">
+                    <div class="carte-info">
+                        <p>Activité récente: {{carte.activite}}</p>
+                        <p>Création: {{carte.creation}}</p>
+                    </div>
+                    <div class="carte-rattachement">
+                        <h1>Rattachée à : {{carte.rattachement}}</h1>
+                    </div>
                 </div>
             </div>
         </div>
-    
-        <div class="stats-cartes">
-            <h2>Informations (tous cartes confondus)</h2>
-            <p>Nombre de cartes :</p>
-            <h2>{{totalCards}}</h2>
-            <p>Solde :</p>
-            <h2>{{totalSolde}}</h2>
-            <p>Activité (30 derniers jours) :</p>
-            <h2>{{totalActivite}}</h2>
-        </div>
     </div>
-    
+
+    <div class="stats-cartes">
+        <h2>Informations (tous cartes confondus)</h2>
+        <p>Nombre de cartes :</p>
+        <h2>{{totalCards}}</h2>
+        <p>Solde :</p>
+        <h2>{{totalSolde}}</h2>
+        <p>Activité (30 derniers jours) :</p>
+        <h2>{{totalActivite}}</h2>
+    </div>
+
+    <ng-template #NewCardDialog>
+        <div class="new-card-dialog">
+            <div class="dialog-header">
+                <h2>Commander une nouvelle carte</h2>
+                <hr>
+            </div>
+            <div class="dialog-warning">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                <p>Attention : Cette opération débitera votre portefeuille principal de 150 DHTG</p>
+            </div>
+            <div class="new-card-dialog-form">
+                <mat-form-field>
+                    <input matInput placeholder="Saisir un libellé pour la nouvelle carte…" [(ngModel)]="newCardlibelle">
+                </mat-form-field>
+                <mat-form-field>
+                        <mat-label>Portefeuille rattaché</mat-label>
+                        <mat-select [(value)]="newCardSelectedWallet">
+                            <mat-option *ngFor="let portefeuille of portefeuilles" [value]="portefeuille">
+                                {{portefeuille.libelle}}
+                            </mat-option>
+                        </mat-select>
+                </mat-form-field>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardCreate()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelCardCreate()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
+</div>

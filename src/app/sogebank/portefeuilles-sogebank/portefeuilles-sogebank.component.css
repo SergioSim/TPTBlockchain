@@ -70,12 +70,6 @@
     color: #25AAF7;
 }
 
-.confirm-dialog {
-    display: flex;
-    flex-direction: column;
-    color: #707070;
-}
-
 .dialog-header {
     align-self: center;
     margin-bottom: 15px;
@@ -127,4 +121,35 @@
 
 .qrcode-dialog-content {
     text-align: center;
+}
+
+.new-wallet-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-wallet-dialog .dialog-header hr {
+    width: 50%;
+}
+
+.new-wallet-dialog-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-warning {
+    display: flex;
+    width: 90%;
+    align-self: center;
+    align-items: baseline;
+    color: #ffffff;
+    background-color: #F0AD4E;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 15px;
+}
+
+.dialog-warning fa-icon {
+    margin-right: 10px;
 }

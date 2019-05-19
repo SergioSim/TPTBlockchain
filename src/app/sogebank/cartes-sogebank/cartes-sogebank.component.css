@@ -77,3 +77,74 @@
 .stats-cartes h2 {
     color: #25AAF7;
 }
+
+.dialog-header {
+    align-self: center;
+    margin-bottom: 15px;
+}
+
+.dialog-header h2 {
+    margin-bottom: 0;
+}
+
+.dialog-header hr {
+    margin-bottom: 0;
+    color: rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.dialog-buttons {
+    justify-content: space-around;
+    display: flex;
+    width: 60%;
+    align-self: center;
+    margin-top: 25px;
+}
+
+.dialog-buttons button {
+    border-radius: 50px;
+    padding: 5px 16px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.dialog-confirm-button {
+    background-color: #23B708;
+}
+
+.dialog-cancel-button {
+    background-color: #FF3B00;
+}
+
+.new-card-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-card-dialog .dialog-header hr {
+    width: 50%;
+}
+
+.new-card-dialog-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-warning {
+    display: flex;
+    width: 90%;
+    align-self: center;
+    align-items: baseline;
+    color: #ffffff;
+    background-color: #F0AD4E;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 15px;
+}
+
+.dialog-warning fa-icon {
+    margin-right: 10px;
+}

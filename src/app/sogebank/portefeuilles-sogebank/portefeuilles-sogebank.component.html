@@ -1,6 +1,6 @@
 <div class="portefeuilles-content">
     <div class="liste-portefeuilles">
-        <button mat-flat-button color="primary" class="new-button">
+        <button mat-flat-button color="primary" class="new-button" (click)="openNewWalletDialog(NewWalletDialog)">
             <fa-icon [icon]="faPlusCircle"></fa-icon>
             NOUVEAU PORTEFEUILLE
         </button> 
@@ -9,7 +9,7 @@
                 <div class="portefeuille-title">
                     <h1>{{portefeuille.libelle}}</h1>
                     <button mat-icon-button>
-                        <fa-icon [icon]="faPen" class="edit-button"></fa-icon>
+                        <fa-icon [icon]="faPen" class="edit-button" (click)="openEditWalletDialog(EditWalletDialog, portefeuille)"></fa-icon>
                     </button> 
                 </div>    
                 <div class="portefeuille-footer">
@@ -36,18 +36,61 @@
     </div>
 
     <ng-template #QRcodeDialog>
-            <div class="qrcode-dialog">
-                <div class="dialog-header">
-                    <h2>{{selectedPortefeuille.libelle}}</h2>
-                    <hr>
-                </div>
-                <div class="qrcode-dialog-content">
-                    <canvas id="QRcode-canvas" height="200" width="200"></canvas>
-                    <p>Numéro du portefeuille : {{selectedPortefeuille.id}}</p>
-                </div>
-                <div class="dialog-buttons">
-                    <button mat-flat-button class="dialog-cancel-button" (click)="closeQRcodeDialog()">Fermer</button> 
-                </div>
+        <div class="qrcode-dialog">
+            <div class="dialog-header">
+                <h2>{{selectedPortefeuille.libelle}}</h2>
+                <hr>
             </div>
-        </ng-template>
+            <div class="qrcode-dialog-content">
+                <canvas id="QRcode-canvas" height="200" width="200"></canvas>
+                <p>Numéro du portefeuille : {{selectedPortefeuille.id}}</p>
+            </div>
+            <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-cancel-button" (click)="closeQRcodeDialog()">Fermer</button> 
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #NewWalletDialog>
+        <div class="new-wallet-dialog">
+            <div class="dialog-header">
+                <h2>Ouvrir un nouveau portefeuille</h2>
+                <hr>
+            </div>
+            <div class="dialog-warning">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                <p>Attention : Cette opération débitera votre portefeuille principal de 200 DHTG</p>
+            </div>
+            <div class="new-wallet-dialog-form">
+                <mat-form-field>
+                    <input matInput placeholder="Saisir un libellé pour le nouveau portefeuille…" [(ngModel)]="newWalletlibelle">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" placeholder="(Optionnel) DHTG à virer sur le portefeuille…" [(ngModel)]="newWalletTransferAmount">
+                </mat-form-field>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmWalletCreate()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelWalletCreate()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #EditWalletDialog>
+        <div class="new-wallet-dialog">
+            <div class="dialog-header">
+                <h2>Rennomer un portefeuille</h2>
+                <hr>
+            </div>
+            <div class="new-wallet-dialog-form">
+                <mat-form-field>
+                    <input matInput placeholder="Saisir un libellé pour le portefeuille…" [(ngModel)]="selectedPortefeuille.libelle">
+                </mat-form-field>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmWalletEdit()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelWalletEdit()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
 </div>

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faPen, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material';
+import { faPen, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
@@ -15,19 +15,31 @@ export class PortefeuillesSogebankComponent implements OnInit {
   QRCode = require('qrcode');
   faPen = faPen;
   faPlusCircle = faPlusCircle;
+  faExclamationTriangle = faExclamationTriangle;
   portefeuilles: any[];
   totalWallets = 0;
   totalSolde = '0';
   totalActivite = '0';
   QRcodeDialogRef: any;
-  selectedPortefeuille: {};
+  NewWalletDialogRef: any;
+  editDialogRef: any;
+  newWalletlibelle = '';
+  newWalletTransferAmount: number;
+  selectedPortefeuille: {
+    id: '',
+    libelle: '',
+    solde: '',
+    ouverture: '',
+    activite: ''
+  };
 
   constructor(
     private route: ActivatedRoute,
     private sogebankService: SogebankService,
     private commonUtilsService: CommonUtilsService,
     private titleService: Title,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -65,6 +77,39 @@ export class PortefeuillesSogebankComponent implements OnInit {
 
   closeQRcodeDialog() {
     this.QRcodeDialogRef.close();
+  }
+
+  openNewWalletDialog(templateRef) {
+    this.NewWalletDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  cancelWalletCreate() {
+    this.NewWalletDialogRef.close();
+  }
+
+  confirmWalletCreate() {
+    const initialAmount = this.newWalletTransferAmount === null ? 0 : this.newWalletTransferAmount;
+    this.NewWalletDialogRef.close();
+    this.snackBar.open('Le portefeuille "' + this.newWalletlibelle + '" à bien été créé avec un virement' +
+    ' initial de ' + this.commonUtilsService.numberToCurrencyString(initialAmount) + '.', 'Fermer', {
+      duration: 5000,
+    });
+  }
+
+  openEditWalletDialog(templateRef, portefeuille) {
+    event.stopPropagation();
+    this.selectedPortefeuille = {...portefeuille};
+    this.editDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmWalletEdit() {
+    const index = this.portefeuilles.findIndex( portefeuille => portefeuille.id === this.selectedPortefeuille.id);
+    this.portefeuilles[index].libelle = this.selectedPortefeuille.libelle;
+    this.editDialogRef.close();
+  }
+
+  cancelWalletEdit() {
+    this.editDialogRef.close();
   }
 
 }

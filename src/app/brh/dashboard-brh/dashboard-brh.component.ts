@@ -10,6 +10,7 @@ export class DashboardBrhComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any[];
   p:number=1;
+  rechercheText;
   
   constructor(
     private service: NodeapiService,

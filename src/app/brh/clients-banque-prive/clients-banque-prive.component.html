@@ -1,3 +1,32 @@
-<p>
-  clients-banque-prive works!
-</p>
+<mat-table class="clients-table mat-elevation-z8" [dataSource]="dataSource">
+
+  <ng-container matColumnDef="Email">
+      <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let client">{{client.Email}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="Address">
+      <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+      <mat-cell class="description-cell"
+                *matCellDef="let client">{{client.Address}}</mat-cell>
+
+  </ng-container>
+
+  <ng-container matColumnDef="Nom">
+      <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+      <mat-cell class="duration-cell"
+                *matCellDef="let client">{{client.Nom}}</mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="Prenom">
+      <mat-header-cell *matHeaderCellDef>Prenom</mat-header-cell>
+      <mat-cell class="duration-cell"
+                *matCellDef="let client">{{client.Prenom}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"
+  (click)="onRowClicked(row)"></mat-row>
+
+</mat-table>

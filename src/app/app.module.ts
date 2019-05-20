@@ -10,7 +10,7 @@ import { NodeapiService } from './nodeapi.service';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule,
-   MatIconModule, MatToolbarModule, MatListModule } from '@angular/material';
+   MatIconModule, MatToolbarModule, MatListModule, MatProgressSpinnerModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Portal components
@@ -134,11 +134,14 @@ import { CartesBanquePriveComponent } from './brh/cartes-banque-prive/cartes-ban
     MatTableModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,

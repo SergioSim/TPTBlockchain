@@ -356,7 +356,13 @@ app.post('/auth', [
                     let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
                     let b = Buffer.from(hash);
                     let refresh_token = b.toString('base64');
-                    return res.status(201).send({accessToken: token, refreshToken: refresh_token, address: result.Address});
+                    return res.status(201).send({
+                        accessToken: token,
+                        refreshToken: refresh_token,
+                        address: result.Address,
+                        banque: aSecret.Banque,
+                        email: aSecret.Email,
+                        permission: aSecret.PermissionLevel});
                 } catch (err) {
                     return res.status(500).send({errors: err});
                 }

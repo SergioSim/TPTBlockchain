@@ -118,8 +118,11 @@ app.post('/createClient', [
 
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertClient_0_5, [req.body.email, req.body.password, keys.privateKey, keys.address, req.body.banque], function(err, result) {
-        return res.send({success: !err});
+    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.banque], function(err, result) {
+        if(err) return res.send({success: !err});
+        conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email], function(err2, result2){
+            return res.send({success: !err});
+        });
     });
 });
 
@@ -351,38 +354,54 @@ app.post('/auth', [
     outils.handleValidationResult
     ], function(req, res) {
 
-    conn.query(sql.findClientByEmail_4_1, [req.body.email], function(err, result){
-        if(!err && result[0]){
-            result = result[0];
+    conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
+        if(err || !result[0]) return res.status(400).send({errors: ['Invalid e-mail or password']});
+        result = result[0];
+        console.log(result);
+        conn.query(sql.findPortefeuillesByEmail, [req.body.email], function(err2, result2){
+            if(err2 || !result2[0]) return res.status(400).send({errors: ['Invalid e-mail or password']});
             let passwordFields = result.Password.split('$');
             let salt = passwordFields[0];
             let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-            if (hash === passwordFields[1]) {
-                try {
-                    let refreshId = req.body.email + config.jwt_secret;
-                    let salt = crypto.randomBytes(16).toString('base64');
-                    let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
-                    aSecret = {};
-                    aSecret.Email = req.body.email;
-                    aSecret.PermissionLevel = result.PermissionLevel;
-                    aSecret.Banque = result.Banque;
-                    aSecret.Address = result.Address;
-                    aSecret.refreshKey = salt;
-                    let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
-                    let b = Buffer.from(hash);
-                    let refresh_token = b.toString('base64');
-                    return res.status(201).send({
-                        accessToken: token,
-                        refreshToken: refresh_token,
-                        address: result.Address,
-                        banque: aSecret.Banque,
-                        email: aSecret.Email,
-                        permission: aSecret.PermissionLevel});
-                } catch (err) {
-                    return res.status(500).send({errors: err});
+            console.log(passwordFields);
+            if (hash !== passwordFields[1]) return res.status(400).send({errors: ['Invalid e-mail or password']});
+            try {
+                let refreshId = req.body.email + config.jwt_secret;
+                let salt = crypto.randomBytes(16).toString('base64');
+                let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
+                aSecret = {};
+                aSecret.Email = req.body.email;
+                aSecret.PermissionLevel = result.PermissionLevel;
+                aSecret.Banque = result.Banque;
+                aSecret.Portefeuilles = [];
+                for(let i = 0; i < result2.length; i++){
+                    aSecret.Portefeuilles.push({Libelle: result2[i].Libelle, ClePub: result2[i].ClePub});
                 }
+                aSecret.refreshKey = salt;
+                let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
+                let b = Buffer.from(hash);
+                let refresh_token = b.toString('base64');
+                return res.status(201).send({
+                    accessToken: token,
+                    refreshToken: refresh_token,
+                    email: aSecret.Email,
+                    portefeuilles: aSecret.Portefeuilles,
+                    banque: aSecret.Banque,
+                    nom: result.Nom,
+                    prenom: result.Prenom,
+                    civilite: result.Civilite,
+                    situation_familiale: result.Situation_Familiale,
+                    profession: result.Profession,
+                    siret: result.Siret,
+                    tel: result.Tel,
+                    adresse: result.Adresse,
+                    ville: result.Ville,
+                    code_postal: result.Code_Postal,
+                    documents: result.Documents,
+                    permission: result.Libelle});
+            } catch (err) {
+                return res.status(500).send({errors: err});
             }
-        }
-        return res.status(400).send({errors: ['Invalid e-mail or password']});
+        });
     });
 });

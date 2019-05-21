@@ -10,6 +10,12 @@ import { Banque } from './banque.modele';
 })
 export class NodeapiService {
   public token: string;
+  public refreshToken: string;
+  public address: string;
+  public banque: string;
+  public email: string;
+  public permission: string;
+
   private readonly url: string = environment.apiUrl;
   formData: Banque;
   list: Banque[];
@@ -17,9 +23,10 @@ export class NodeapiService {
   constructor(private http: HttpClient) {
     apilog('getting current User');
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    apilog('currentUser ' + currentUser);
-    this.token = currentUser && currentUser.address && currentUser.accessToken;
-    apilog('token ' + this.token);
+    if(currentUser) {
+      this.setLogin(currentUser);
+    }
+    this.logLogin();
   }
 
   createClient(email: string, password: string, banque: string): Observable<any> {
@@ -80,12 +87,28 @@ export class NodeapiService {
             if (saveToken) {
               localStorage.setItem('currentUser', JSON.stringify(res));
             }
-            this.token = res.address && res.accessToken;
-            apilog('token : ' + this.token);
+            this.setLogin(res);
+            this.logLogin();
           }
           return res;
         })
       );
+  }
+
+  setLogin(obj: any) {
+    this.token = obj.accessToken;
+    this.refreshToken = obj.refreshToken;
+    this.address = obj.address;
+    this.banque = obj.banque;
+    this.email = obj.email;
+    this.permission = obj.permission;
+  }
+
+  logLogin() {
+    apilog('address : ' + this.address);
+    apilog('banque : ' + this.banque);
+    apilog('email : ' + this.email);
+    apilog('permission : ' + this.permission);
   }
 
   isConnected() {

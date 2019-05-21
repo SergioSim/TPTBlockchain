@@ -24,15 +24,14 @@ export class BanqueComponent implements OnInit {
   onSubmit() {
     console.log('on submit called!!!');
     if (this.NomBanque.valid) {
-      this.service.makeRequest(apiUrl.createBank, {name: this.NomBanque.value,email:this.Email.value,telephone: '878787877'}).subscribe(
+      this.service.makeRequest(apiUrl.createBank, {Nom: this.NomBanque.value,Email:this.Email.value,Tel: '878787877'}).subscribe(
         res =>{
         console.log('on a recu la response:' );
-        console.log(res);
+        console.log(res)
       }, error => {
           console.log('got an error');
           console.log(error);
       });
-    }      this.service.makeRequest(apiUrl.allBanks, {}).toPromise().then(res=>this.list = res as Banque[])
-
+    }     
   }
 }

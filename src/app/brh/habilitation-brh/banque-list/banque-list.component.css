@@ -1,0 +1,27 @@
+.nouvelBanque{
+    background-color:rgb(17, 184, 128);
+    margin-bottom: 1%;
+    margin-top: 3%;
+}
+.restaurBanque{
+    margin-left: 0.1%;
+    background-color: rgb(17, 184, 128);
+}
+.bouttonSuprimer{
+    background-color:red;
+}
+.bouttonEditer{
+    background-color:rgb(93, 15, 238);
+}
+.bouttonValider{
+    background-color:rgb(141, 221, 11);
+}
+.boutonConfirmer{
+    background-color: rgb(37, 182, 37);
+    border-radius: 10px;
+}
+.boutonAnnuler{
+    margin-left: 2%;
+    background-color: #acb625;
+    border-radius: 10px;
+}

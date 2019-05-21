@@ -137,6 +137,15 @@ export class NodeapiService {
       
     ];
   }
+
+  getBanque() {
+    return [
+
+    //  this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
+
+      {id: '4587',nom: 'jebfjbef', email: 'ZEFZEF',telephone:'54545545', portefeuille:'445454545445',}
+    ];
+  }
   }
 
 
@@ -145,6 +154,8 @@ export enum apiUrl {
   clients = 'GET$clients',
   allClients = 'GET$allClients',
   allBanks = 'GET$allBanks',
+  allBanksVisible = 'GET$allBanksVisible',
+  allBanksNotVisible = 'GET$allBanksNotVisible',
   createBank = 'POST$createBank/',
   createClient = 'POST$createClient/',
   blockClient = 'PUT$blockClient/',

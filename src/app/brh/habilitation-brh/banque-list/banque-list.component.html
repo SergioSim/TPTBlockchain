@@ -10,6 +10,58 @@
   </table>
 
 -->
+<div>
+    <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(ContactDialog)">Ajouter une nouvelle banque
+   
+           <ng-template #ContactDialog>
+              <div class="contact-dialog">
+                  <div class="dialog-header">
+                      <h4>Ajouter une nouvelle banque</h4>
+                      <hr>
+                  </div>
+                  <div class="contact-dialog-form">
+                      <mat-form-field>
+                          <input matInput placeholder="Nom de la banque">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput placeholder="Email">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput placeholder="Téléphone">
+                      </mat-form-field>
+                  </div>
+                  <div class="dialog-buttons">
+                      <button mat-flat-button class="boutonConfirmer" (click)="confirmAddBanque()">Confirmer</button> 
+                      <button mat-flat-button class="boutonAnnuler" (click)="cancelValidatBanque()">Annuler</button> 
+                  </div>
+              </div>
+          </ng-template>
+     </button>
+     <button class="restaurBanque" mat-raised-button (click)="openRestaurDialog(RestaurDialog)">Restaurer une banque
+            <ng-template #RestaurDialog>
+                <div class="contact-dialog">
+                    <div class="dialog-header">
+                        <h2>Restaurer une banque</h2>
+                        <hr>
+                    </div>
+                    <div class="contact-dialog-form">
+                        <mat-label>Sélectionner une banque</mat-label>
+                            <mat-form-field>
+                                    <mat-select>
+                                      <mat-option *ngFor="let elem of listRestaur" [value]="elem.Nom">     
+                                        {{elem.Nom}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                        </div>
+                    <div class="dialog-buttons">
+                        <button mat-flat-button class="boutonConfirmer" (click)="confirmRestaurBanque()">Confirmer</button> 
+                        <button mat-flat-button class="boutonAnnuler" (click)="cancelValidatBanque()">Annuler</button> 
+                    </div>
+                </div>
+            </ng-template>
+  </button>
+   
     <div class="dashboard-content">
   
     
@@ -17,9 +69,9 @@
   
             <table mat-table [dataSource]="list" class="mat-elevation-z8">
                 
-                <ng-container matColumnDef="Name">
+                <ng-container matColumnDef="Nom">
                 <th mat-header-cell *matHeaderCellDef> Banque </th>
-                <td mat-cell *matCellDef="let element"> {{element.Name}}</td>
+                <td mat-cell *matCellDef="let element"> {{element.Nom}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="Email">
@@ -29,23 +81,94 @@
 
                 <ng-container matColumnDef="Telephone">
                     <th mat-header-cell *matHeaderCellDef> Telephone </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Telephone}}</td>
+                    <td mat-cell *matCellDef="let element"> {{element.Tel}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Portefeuille">
+                    <th mat-header-cell *matHeaderCellDef> Portefeuille </th>
+                    <td mat-cell *matCellDef="let element"></td>
                 </ng-container>
                 
                 <ng-container matColumnDef="Supprimer">
                 <th mat-header-cell *matHeaderCellDef> Suppression </th>
-                <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Supprimer</button></td>
-                </ng-container>
-
+           <!-- <td mat-cell *matCellDef="let element"><button  mat-raised-button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Supprimer</button></td>
+-->
+               <td mat-cell *matCellDef="let element">
+                   <button  mat-raised-button (click)="openDeleteDialog(ContactDialog)" class="bouttonSuprimer">Supprimer</button>
+                   <ng-template #ContactDialog>
+                    <div class="contact-dialog">
+                        <div class="dialog-header">
+                            <h4>Vous voulez supprimer la banque {{element.Nom}} ?</h4>
+                            <hr>
+                        </div>
+                        <div class="dialog-buttons">
+                            <button mat-flat-button class="boutonConfirmer" (click)="deleteBanque(element.Nom)">Confirmer</button> 
+                            <button mat-flat-button class="boutonAnnuler" (click)="cancelValidatBanque()">Annuler</button> 
+                        </div>
+                    </div>
+                </ng-template>
+              </td>  
+              </ng-container>
                 <ng-container matColumnDef="Editer">
                     <th mat-header-cell *matHeaderCellDef> Edition </th>
-                    <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Editer</button></td>
-                </ng-container>
-
-                <ng-container matColumnDef="Permission">
-                    <th mat-header-cell *matHeaderCellDef> Permission </th>
-                    <td mat-cell *matCellDef="let element"><button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Permission</button></td>
-                 </ng-container>
+                    <td mat-cell *matCellDef="let element"><button mat-raised-button (click)="openContactDialog(ContactDialog,element)" class="bouttonEditer">Editer</button>
+                      <ng-template #ContactDialog>
+                          <div class="contact-dialog">
+                              <div class="dialog-header">
+                                  <h4>Mobification de la banque {{element.Nom}} </h4>
+                                  <hr>
+                              </div>
+                              <div class="contact-dialog-form">
+                                  <mat-form-field>
+                                      <input matInput placeholder="Nom de la banque" value={{element.Nom}} >
+                                  </mat-form-field>
+                                  <mat-form-field>
+                                      <input matInput placeholder="Email" value={{element.Email}}>
+                                  </mat-form-field>
+                                  <mat-form-field>
+                                      <input matInput placeholder="Téléphone" value= {{element.Tel}}>
+                                  </mat-form-field>
+                              </div>
+                              <div class="dialog-buttons">
+                                  <button mat-flat-button class="boutonConfirmer" (click)="confirmEditBanque(element)">Confirmer</button> 
+                                  <button mat-flat-button class="CoutonConfirmer" (click)="cancelValidatBanque()()">Annuler</button> 
+                              </div>
+                          </div>
+                      </ng-template>
+                    </td>
+               
+                  </ng-container>
+                <ng-container matColumnDef="Valider">
+                    <th mat-header-cell *matHeaderCellDef> Validation </th>
+                    <td mat-cell *matCellDef="let element"><button mat-raised-button  class="bouttonValider" (click)="openContactDialog(ContactDialog,element.nom)">Valider </button>
+                    <ng-template #ContactDialog>
+                        <div class="contact-dialog">
+                            <div class="dialog-header">
+                                <h4>Validaion de la banque {{element.Nom}} </h4>
+                                <hr>
+                            </div>
+                            <div class="contact-dialog-form">
+                                <mat-form-field>
+                                    <input matInput placeholder="Nom de la banque" value={{element.Nom}} >
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Email de la banque" [(ngModel)]="validBanque.email">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Mot de passe" [(ngModel)]="validBanque.password" >
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput  placeholder="Confirmer mot de passe" [(ngModel)]="validBanque.confirmPassword">
+                                </mat-form-field>
+                            </div>
+                            <div class="dialog-buttons">
+                                <button mat-flat-button class="boutonConfirmer" (click)="confirmCreateBanque(element)">Confirmer</button> 
+                                <button mat-flat-button class="boutonAnnuler" (click)="cancelValidatBanque()">Annuler</button> 
+                            </div>
+                        </div>
+                    </ng-template>    
+                  </td>                                        
+                  </ng-container>
         
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -53,7 +176,7 @@
             </table>
         </div>
     </div>
-                        
+</div>                      
   
   
   

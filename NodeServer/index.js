@@ -90,10 +90,25 @@ app.post('/createBank', [
 
 app.get('/allBanks', 
     function(req, res) { 
-    conn.query(sql.getAllBanks_1_0, function(err, result){ 
+    conn.query(sql.getAllBanks_NotVisible, function(err, result){ 
         res.send((err) ? "Error" : result); 
     });  
 }); 
+
+app.get('/allBanksVisible', 
+    function(req, res) { 
+    conn.query(sql.getAllBanks_Visible, function(err, result){ 
+        res.send((err) ? "Error" : result); 
+    }); 
+});   
+
+app.get('/allBanksNotVisible', 
+    function(req, res) { 
+    conn.query(sql.getAllBanks_NotVisible, function(err, result){ 
+        res.send((err) ? "Error" : result); 
+    }); 
+});  
+
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),

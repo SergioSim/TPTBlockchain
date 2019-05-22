@@ -1,6 +1,7 @@
 const config   = require('./env.config.js'),
  outils        = require('./outils.js'),
  sql           = require('./sql.js'),
+ bd            = require('./bd.js'),
  express       = require('express'),
  fs            = require('fs'),
  https         = require('https'),
@@ -44,6 +45,15 @@ openchainValCli.initialize().then( function(res) {
     console.log("Openchain initialized: " + openchainValCli.namespace.toHex());
 });
 
+app.get('/allBanks', function(req, res) {
+    let aQuerry = sql.getAllBanks;
+    if(req.query.visible === 'true') aQuerry = sql.getAllBanks_Visible;
+    if(req.query.visible === 'false') aQuerry = sql.getAllBanks_NotVisible;
+    conn.query(aQuerry, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
 app.get('/clients', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
@@ -53,7 +63,7 @@ app.get('/clients', [
     
     if(req.jwt.Banque !== req.query.banque && req.jwt.PermissionLevel !== config.permissionLevels.ADMIN)
         return res.status(403).send();
-    conn.query(sql.findClientsByBanque_5_1, [req.query.banque], function(err, result){
+    conn.query(sql.findClientsByBanque, [req.query.banque], function(err, result){
         res.send((err) ? "Error" : result);
     });
 });
@@ -63,15 +73,7 @@ app.get('/allClients', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN)], 
     function(req, res) {
 
-    conn.query(sql.getAllClients_5_0, function(err, result){
-        res.send((err) ? "Error" : result);
-    });
-});
-
-app.get('/allBanks',
-    function(req, res) {
-
-    conn.query(sql.getAllBanks_1_0, function(err, result){
+    conn.query(sql.getAllClients, function(err, result){
         res.send((err) ? "Error" : result);
     });
 });
@@ -80,6 +82,8 @@ app.post('/createBank', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
     check('name').isAlphanumeric().escape().trim(),
+    check('email').isEmail().escape().trim(),
+    check('telephone').isMobilePhone().escape().trim(),
     outils.handleValidationResult],
     function(req, res) {
     
@@ -87,27 +91,6 @@ app.post('/createBank', [
         return res.send({success: !err});
     });
 });
-
-app.get('/allBanks', 
-    function(req, res) { 
-    conn.query(sql.getAllBanks_NotVisible, function(err, result){ 
-        res.send((err) ? "Error" : result); 
-    });  
-}); 
-
-app.get('/allBanksVisible', 
-    function(req, res) { 
-    conn.query(sql.getAllBanks_Visible, function(err, result){ 
-        res.send((err) ? "Error" : result); 
-    }); 
-});   
-
-app.get('/allBanksNotVisible', 
-    function(req, res) { 
-    conn.query(sql.getAllBanks_NotVisible, function(err, result){ 
-        res.send((err) ? "Error" : result); 
-    }); 
-});  
 
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
@@ -133,7 +116,7 @@ app.put('/blockClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
@@ -178,7 +161,7 @@ app.put('/updateClient', [
     let aOldEmail = req.jwt.Email;
     if(req.jwt.PermissionLevel >= 2 && req.body.bankEmail != undefined)
         aOldEmail = bankEmail;
-    conn.query(sql.findClientByEmail_4_1, [aOldEmail], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [aOldEmail], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
@@ -214,12 +197,14 @@ app.put('/unBlockClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
 
         conn.query(sql.unBlockClient_0_1, [req.body.email], function(err, result){
+            console.log(err);
+            console.log(result);
             return res.send({ succes: !err && result.affectedRows != 0});
         });
     });
@@ -277,7 +262,7 @@ app.delete('/deleteClient', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_2_1, [req.query.email], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [req.query.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
@@ -310,13 +295,13 @@ app.post('/submit', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    conn.query(sql.findClientByEmail_2_1, [req.body.email], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         const publicKey = "/p2pkh/" + req.jwt.Address + "/";
         const untoAddress = "/p2pkh/" + result[0].Address + "/";
         console.log("[INFO]: fromAddress : " + publicKey);
         console.log("[INFO]: untoAddress : " + untoAddress);
-        conn.query(sql.findClientByEmail_4_1, [req.jwt.Email], function(err2, result2){
+        conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err2, result2){
             if(err2 || !result2[0]) return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
             req.transactionWallet = result2[0].Wallet;
             req.fromAddress = publicKey;
@@ -335,7 +320,7 @@ app.post('/issueDHTG', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.findClientByEmail_4_1, [req.jwt.Email], function(err, result){
+    conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err, result){
         if(err || !result[0]) {
             console.error("Email not found in db : " + req.jwt.Email);
             return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
@@ -359,7 +344,7 @@ app.post('/auth', [
         result = result[0];
         console.log(result);
         conn.query(sql.findPortefeuillesByEmail, [req.body.email], function(err2, result2){
-            if(err2 || !result2[0]) return res.status(400).send({errors: ['Invalid e-mail or password']});
+            if(err2 || !result2[0]) return res.status(400).send({errors: ['Ups, il semble vous n\'avez pas de portefeuille...']});
             let passwordFields = result.Password.split('$');
             let salt = passwordFields[0];
             let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");

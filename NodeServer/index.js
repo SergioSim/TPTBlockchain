@@ -221,8 +221,11 @@ app.post('/createBankClient', [
 
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertBankClient_0_5, [req.body.email, req.body.password, keys.privateKey, keys.address, req.body.banque], function(err, result) {
-        return res.send({success: !err});
+    conn.query(sql.insertUtilisateurBanque, [req.body.email, req.body.password, req.body.banque], function(err, result) {
+        if(err) return res.send({success: !err});
+        conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email], function(err2, result2){
+            return res.send({success: !err});
+        });
     });
 });
 

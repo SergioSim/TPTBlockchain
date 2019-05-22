@@ -1,9 +1,10 @@
 module.exports = {
-  "insertBankClient_0_5" : "INSERT INTO OpenchainUser.Client (Email, Password, Wallet, Address, Banque, PermissionLevel) VALUES (?,?,?,?,?,2)",
   "updateClient_0_8" : "UPDATE OpenchainUser.Client SET Email = ?, Nom = ?, Prenom = ?, Loc = ?, Password = ?, Wallet = ? WHERE Client.Email = ?",
 
   'insertUtilisateur' : 
         'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque) VALUES (?,?,?)',
+  'insertUtilisateurBanque' : 
+        'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,3)',
   'insertPortefeuille' : 
         'INSERT INTO OpenchainUser.portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email) VALUES (?,?,?,?)',
   'insertContact_0_4' : 

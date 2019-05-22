@@ -16,6 +16,18 @@ export class NodeapiService {
   public banque: string;
   public email: string;
   public permission: string;
+  public portefeuilles: any[];
+  public nom: string;
+  public prenom: string;
+  public civilite: string;
+  public situationFamiliale: string;
+  public profession: string;
+  public siret: string;
+  public tel: string;
+  public adresse: string;
+  public ville: string;
+  public codePostal: string;
+  public documents: any;
 
   private readonly url: string = environment.apiUrl;
   formData: Banque;
@@ -99,14 +111,43 @@ export class NodeapiService {
   setLogin(obj: any) {
     this.token = obj.accessToken;
     this.refreshToken = obj.refreshToken;
-    this.address = obj.address;
-    this.banque = obj.banque;
     this.email = obj.email;
+    this.portefeuilles = obj.portefeuilles;
+    this.banque = obj.banque;
+    this.nom = obj.nom;
+    this.prenom = obj.prenom;
+    this.civilite = obj.civilite;
+    this.situationFamiliale = obj.situation_familiale;
+    this.profession = obj.profession;
+    this.siret = obj.siret;
+    this.tel = obj.tel;
+    this.adresse = obj.adresse;
+    this.ville = obj.ville;
+    this.codePostal = obj.code_postal;
+    this.documents = obj.documents;
     this.permission = obj.permission;
   }
 
   logLogin() {
-    apilog('address : ' + this.address);
+    apilog('token: ' + this.token);
+    apilog('refreshToken: ' + this.refreshToken);
+    apilog('email: ' + this.email);
+    apilog('portefeuilles: ');
+    console.log(this.portefeuilles);
+    apilog('banque: ' + this.banque);
+    apilog('nom: ' + this.nom);
+    apilog('prenom: ' + this.prenom);
+    apilog('civilite: ' + this.civilite);
+    apilog('situationFamiliale: ' + this.situationFamiliale);
+    apilog('profession: ' + this.profession);
+    apilog('siret: ' + this.siret);
+    apilog('tel: ' + this.tel);
+    apilog('adresse: ' + this.adresse);
+    apilog('ville: ' + this.ville);
+    apilog('codePostal: ' + this.codePostal);
+    apilog('documents: ' + this.documents);
+    apilog('permission: ' + this.permission);
+    apilog('adresse : ' + this.adresse);
     apilog('banque : ' + this.banque);
     apilog('email : ' + this.email);
     apilog('permission : ' + this.permission);

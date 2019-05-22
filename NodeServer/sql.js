@@ -4,7 +4,7 @@ module.exports = {
   "findClientByEmail_2_1" : "SELECT Address, Banque FROM OpenchainUser.Client WHERE Email LIKE BINARY ?",
   "findClientsByBanque_5_1" : "SELECT Email, Address, Nom, Prenom FROM OpenchainUser.Client WHERE Banque LIKE BINARY ?",
   "insertBankClient_0_5" : "INSERT INTO OpenchainUser.Client (Email, Password, Wallet, Address, Banque, PermissionLevel) VALUES (?,?,?,?,?,2)",
-  "insertBanque_0_3" : "INSERT INTO OpenchainUser.banque (Nom,Email,Tel) VALUES (?,?,?)",
+  "insertBanque_0_3" : "INSERT INTO OpenchainUser.banque (Nom,Email,Tel,isVisible) VALUES (?,?,?,1)",
   "insertContact_0_4" : "INSERT INTO OpenchainUser.Contact  (EmailProprietaire, EmailContact, Nom, Prenom) VALUES (?,?,?,?)",
   "getAllClients_5_0" : "SELECT Email, Address, Nom, Prenom, Banque FROM OpenchainUser.Client",
   "getAllBanks_1_0" : "SELECT Nom, Email, Tel FROM OpenchainUser.banque",

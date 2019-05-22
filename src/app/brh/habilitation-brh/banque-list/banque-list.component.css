@@ -25,3 +25,9 @@
     background-color: #acb625;
     border-radius: 10px;
 }
+th, td {
+    text-align: center !important;
+}
+::ng-deep table {
+    width: 100%;
+}

@@ -1,17 +1,69 @@
 <div>
     <div class="titte">
       <h1>Gérer les portefeuilles</h1>
+    </div> 
+    <div >
+      <mat-card>
+        <mat-card-header>
+          <mat-toolbar class="toolbar">
+            <mat-card-title>Liste des portefeuilles</mat-card-title>
+            <span class="toolbar-spacer"></span>
+          </mat-toolbar>
+        </mat-card-header>
+      
+        <mat-card-content>
+          <div class="container">
+            <table class="table">
+              <thead>
+                <th>Nom de la banque</th>
+                <th>Portefeuille</th>
+                <th>Max Transaction</th>
+                <th>Max Transaction par Moi</th>
+                <th>Status</th>
+                <th>Action</th>
+                
+              </thead>
+              <tr *ngFor="let Contact of ContactList">
+                <td>{{Contact.Nom}}</td>
+                <td>{{Contact.Portefeuille}}</td>
+                <td>{{Contact.MaxTransaction}}</td>
+                <td>{{Contact.MaxTransactionMoi}}</td>
+                <td>{{Contact.Status}}</td>
+
+                <td><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"
+                  (click)="openEditCardDialog(EditCardDialog,Contact)">Edit</button> 
+                  <ng-template #EditCardDialog>
+                      <h3>Mettre à jours le portefeuille</h3>
+                    <div class="container">
+                    
+                        <div class="contact-dialog-form">
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="Contact.Nom" value={{Contact.Nom}}>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="Contact.Portefeuille" value={{Contact.Portefeuille}}>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="Contact.Date" value={{Contact.Date}}> 
+                            </mat-form-field>   
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="Contact.MaxTransaction" value={{Contact.MaxTransaction}}> 
+                            </mat-form-field>   
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="Contact.Status" value={{Contact.Status}}> 
+                            </mat-form-field>    
+                          </div>
+                          <div class="dialog-buttons">
+                              <button mat-flat-button class="boutonConfirmer" (click)="confirmEditPortefeuille(Contact)">Confirmer</button> 
+                              <button mat-flat-button class="CoutonConfirmer" (click)="cancelEditBanque()">Annuler</button> 
+                          </div>
+                     </div>
+                  </ng-template>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>    
     </div>
-    <div>
-      <p>info static</p>
-    </div>
-  
-    <div>
-      <p>tableau de banque</p>
-    </div>
-   
-                      
-  
-  
-  
   </div>

@@ -17,14 +17,22 @@
     background-color: rgb(51, 161, 235);
     width: 85%;
 }
-.infos-brh{
-    margin-top: 50px;
-    margin-left: 12%;
-    margin-bottom: 20px;
-    font-size: 17px;
-    color: blue;
-}
 
+.infos-brh{
+    border-radius: 10px;
+    border: 1px solid rgba(112, 112, 112, 0.3);
+    width: 550px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+    margin-left: 10%;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    justify-content: center;
+    align-items: center;
+    color: blue;
+    }
+.infos-brh p {
+    margin-left: 25px;
+    }
 table, th , td {
     border: 1px solid grey;
     border-collapse: collapse;
@@ -40,4 +48,11 @@ table, th , td {
   }
   .recherche{
       margin-bottom: 15px;
+  }
+  td, th {
+      text-align: center;
+  }
+  .barNavigation{
+      margin-bottom: 35px;
+      margin-left: 25%;
   }

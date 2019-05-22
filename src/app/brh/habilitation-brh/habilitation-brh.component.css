@@ -32,3 +32,15 @@ margin-left:10%;
 margin-right: 10%;
 margin-bottom: 2%;
 }
+.infos-habilitation{
+border-radius: 10px;
+border: 1px solid rgba(112, 112, 112, 0.3);
+width: 550px;
+box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+margin-left: 10%;
+justify-content: center;
+align-items: center;
+}
+.infos-habilitation p {
+    margin-left: 25px;
+}

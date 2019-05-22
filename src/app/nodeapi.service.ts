@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Banque } from './banque.modele';
+import { Portefeuille } from './Portefeuille.modele';
 
 @Injectable({
   providedIn: 'root'
@@ -159,6 +160,31 @@ export class NodeapiService {
       totalActif:'45454115145', numPortefeuille:'454545454545'}
       
     ];
+  }
+
+  ID: Number;
+  Nom: string;
+  Portefeuille: string;
+  Date: string;
+  MaxTransaction :number
+  MaxTransactionMoi:number;
+  Status :string
+  _contactList: Portefeuille[] =  [
+     { ID: 1 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 2, Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 3 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 4 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ];
+
+  editContact(contact: Portefeuille) {
+    const index = this._contactList.findIndex(c => c.ID === contact.ID);
+    console.log(contact);
+    this._contactList[index] = contact;
+    console.log("nadir")
+  }
+
+  getAllContacts() {
+    return this._contactList;
   }
 
   getBanque() {

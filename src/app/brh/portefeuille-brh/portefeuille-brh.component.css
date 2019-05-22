@@ -34,4 +34,8 @@ td, th{
 ::ng-deep table {
     width: 100%;
 }
+.barNavigation{
+    margin-bottom: 35px;
+    margin-left: 35%;
+}
 

@@ -23,7 +23,7 @@
                 <th>Action</th>
                 
               </thead>
-              <tr *ngFor="let Contact of ContactList">
+              <tr *ngFor="let Contact of ContactList | paginate: { itemsPerPage:5,currentPage:p} ; " >
                 <td>{{Contact.Nom}}</td>
                 <td>{{Contact.Portefeuille}}</td>
                 <td>{{Contact.MaxTransaction}}</td>
@@ -62,6 +62,9 @@
                 </td>
               </tr>
             </table>
+            <div class="barNavigation"> 
+                <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+            </div>
           </div>
         </mat-card-content>
       </mat-card>    

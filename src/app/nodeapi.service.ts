@@ -212,10 +212,13 @@ export class NodeapiService {
   Status :string
   _contactList: Portefeuille[] =  [
      { ID: 1 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 2, Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 3 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 4 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ];
+    ,{ ID: 2, Nom: "sdvsdvsd", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 3 , Nom: "ggfhfghfg", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 4 , Nom: "aaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 5 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+    ,{ ID: 6 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+  ]
+    ;
 
   editContact(contact: Portefeuille) {
     const index = this._contactList.findIndex(c => c.ID === contact.ID);

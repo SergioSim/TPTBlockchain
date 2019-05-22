@@ -12,6 +12,7 @@ export class PortefeuilleBrhComponent implements OnInit {
 
     _contactList: Portefeuille ;
     contactDialogRef: any;
+    p:number=1;
 
 
   constructor( 

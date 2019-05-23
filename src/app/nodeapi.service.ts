@@ -30,6 +30,8 @@ export class NodeapiService {
   public documents: any;
 
   private readonly url: string = environment.apiUrl;
+  private readonly urlOpenchain: string = environment.openchainUrl;
+
   formData: Banque;
   list: Banque[];
 
@@ -174,6 +176,16 @@ export class NodeapiService {
     localStorage.removeItem('currentUser');
   }
 
+  getAllAccountsFromOpenchain() {
+    return this.http.get<any>(this.urlOpenchain + 'query/subaccounts?account=%2F', {}).pipe(map(
+      res => {apilog('Got response:'); console.log(res); return res; }));
+  }
+
+  getRecord(adress) {
+    return this.http.get<any>(this.urlOpenchain + 'query/account?account=%2Fp2pkh%2F' + adress + '%2F', {}).pipe(map(
+      res => {apilog('Got response:'); console.log(res); return res; }));
+  }
+
   getListBanque() {
     return [
 
@@ -263,6 +275,7 @@ export enum apiUrl {
   allBanksNotVisible = 'GET$allBanksNotVisible',
   createBank = 'POST$createBank/',
   createClient = 'POST$createClient/',
+  createPortefeuille = 'POST$createPortefeuille/',
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',
   updateClient = 'PUT$updateClient/',
@@ -272,6 +285,7 @@ export enum apiUrl {
   deleteBank = 'DELETE$deleteBank',
   deleteClient = 'DELETE$deleteClient',
   deleteContact = 'DELETE$deleteContact',
+  deletePortefeuille = 'DELETE$deletePortefeuille',
   submit = 'POST$submit',
   issueDHTG = 'POST$issueDHTG',
 }

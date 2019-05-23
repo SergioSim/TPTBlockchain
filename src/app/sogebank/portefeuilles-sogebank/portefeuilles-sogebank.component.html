@@ -7,18 +7,18 @@
         <div *ngFor="let portefeuille of portefeuilles">
             <div class="portefeuille-container" (click)="openQRcodeDialog(QRcodeDialog, portefeuille)">
                 <div class="portefeuille-title">
-                    <h1>{{portefeuille.libelle}}</h1>
+                    <h1>{{portefeuille.Libelle}}</h1>
                     <button mat-icon-button>
                         <fa-icon [icon]="faPen" class="edit-button" (click)="openEditWalletDialog(EditWalletDialog, portefeuille)"></fa-icon>
                     </button> 
                 </div>    
                 <div class="portefeuille-footer">
                     <div class="portefeuille-info">
-                        <p>Activité récente: {{portefeuille.activite}}</p>
-                        <p>Ouverture: {{portefeuille.ouverture}}</p>
+                        <p>Activité récente: {{portefeuille.Activite}}</p>
+                        <p>Ouverture: {{formatDate(portefeuille.Ouverture)}}</p>
                     </div>
                     <div class="portefeuille-solde">
-                        <h1>{{portefeuille.solde}}</h1>
+                        <h1>{{portefeuille.Solde}}</h1>
                     </div>
                 </div>    
             </div>
@@ -38,12 +38,12 @@
     <ng-template #QRcodeDialog>
         <div class="qrcode-dialog">
             <div class="dialog-header">
-                <h2>{{selectedPortefeuille.libelle}}</h2>
+                <h2>{{selectedPortefeuille.Libelle}}</h2>
                 <hr>
             </div>
             <div class="qrcode-dialog-content">
                 <canvas id="QRcode-canvas" height="200" width="200"></canvas>
-                <p>Numéro du portefeuille : {{selectedPortefeuille.id}}</p>
+                <p>Numéro du portefeuille : {{selectedPortefeuille.ClePub}}</p>
             </div>
             <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-cancel-button" (click)="closeQRcodeDialog()">Fermer</button> 
@@ -84,7 +84,7 @@
             </div>
             <div class="new-wallet-dialog-form">
                 <mat-form-field>
-                    <input matInput placeholder="Saisir un libellé pour le portefeuille…" [(ngModel)]="selectedPortefeuille.libelle">
+                    <input matInput placeholder="Saisir un libellé pour le portefeuille…" [(ngModel)]="selectedPortefeuille.Libelle">
                 </mat-form-field>
             </div>
            <div class="dialog-buttons">

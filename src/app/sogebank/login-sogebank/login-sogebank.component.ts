@@ -23,6 +23,7 @@ export class LoginSogebankComponent implements OnInit {
   passwordConfirmFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   clientType = this.sogebankService.isNewParticulier === (true || null || undefined) ? 1 : 2;
   matcher = new InputErrorStateMatcher();
+  dashboardUrl = '/sogebank/dashboard';
 
   displayLoginForm: boolean;
 
@@ -42,10 +43,6 @@ export class LoginSogebankComponent implements OnInit {
 
   onClientTypeChange(event) {
     this.clientType = event.value;
-  }
-
-  login() {
-    this.route.navigate(['/sogebank/dashboard']);
   }
 
   register() {
@@ -74,7 +71,7 @@ export class LoginSogebankComponent implements OnInit {
               this.sogebankService.userEmail = loginData.email;
               this.sogebankService.userAccessToken = loginData.accessToken;
               this.sogebankService.userRefreshToken = loginData.refreshToken;
-              this.route.navigate(['/sogebank/dashboard']);
+              this.route.navigate([this.dashboardUrl]);
             },
             error => {
               console.log(error);

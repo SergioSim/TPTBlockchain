@@ -26,11 +26,11 @@ export class PortefeuillesSogebankComponent implements OnInit {
   newWalletlibelle = '';
   newWalletTransferAmount: number;
   selectedPortefeuille: {
-    id: '',
-    libelle: '',
-    solde: '',
-    ouverture: '',
-    activite: ''
+    ClePub: '',
+    Libelle: '',
+    Solde: '',
+    Ouverture: '',
+    Activite: ''
   };
 
   constructor(
@@ -45,7 +45,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Mes portefeuilles - Sogebank');
 
-    this.portefeuilles = this.sogebankService.getUserWallets();
+    this.portefeuilles = this.sogebankService.portefeuilles;
 
     if (this.portefeuilles.length > 0) {
       this.countTotals();
@@ -57,17 +57,23 @@ export class PortefeuillesSogebankComponent implements OnInit {
     let activite = 0;
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
-      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.solde);
-      activite += this.commonUtilsService.currencyStringtoNumber(portefeuille.activite);
+      solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
+      activite += portefeuille.Activite ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Activite) : 0;
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
     this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
   }
 
+  formatDate(date) {
+    const dateParts = date.split('-');
+    const convertedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    return convertedDate.getDate()  + '/' + (convertedDate.getMonth() + 1) + '/' + convertedDate.getFullYear();
+  }
+
   openQRcodeDialog(templateRef, portefeuille) {
     this.selectedPortefeuille = portefeuille;
-    this.QRcodeDialogRef = this.dialog.open(templateRef, { width: '350px' });
-    this.QRCode.toCanvas(document.getElementById('QRcode-canvas'), String(this.selectedPortefeuille['id']),
+    this.QRcodeDialogRef = this.dialog.open(templateRef, { minWidth: '350px' });
+    this.QRCode.toCanvas(document.getElementById('QRcode-canvas'), String(this.selectedPortefeuille['ClePub']),
     { errorCorrectionLevel: 'H' }, (err, canvas) => {
       if (err) {
         console.log(err);
@@ -103,8 +109,8 @@ export class PortefeuillesSogebankComponent implements OnInit {
   }
 
   confirmWalletEdit() {
-    const index = this.portefeuilles.findIndex( portefeuille => portefeuille.id === this.selectedPortefeuille.id);
-    this.portefeuilles[index].libelle = this.selectedPortefeuille.libelle;
+    const index = this.portefeuilles.findIndex( portefeuille => portefeuille.ClePub === this.selectedPortefeuille.ClePub);
+    this.portefeuilles[index].Libelle = this.selectedPortefeuille.Libelle;
     this.editDialogRef.close();
   }
 

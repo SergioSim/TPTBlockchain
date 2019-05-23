@@ -17,7 +17,7 @@ module.exports = {
          'SELECT Email, Nom, Tel, isVisible ' + 
          'FROM OpenchainUser.banque WHERE Nom LIKE BINARY ?',
   'findPortefeuillesByEmail' :
-        'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
+        'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Id = ?',
   'findClientsByBanque' : 

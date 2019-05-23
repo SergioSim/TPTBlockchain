@@ -450,7 +450,7 @@ app.post('/auth', [
                 aSecret.Banque = result.Banque;
                 aSecret.Portefeuilles = [];
                 for(let i = 0; i < result2.length; i++){
-                    aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, ClePub: result2[i].ClePub});
+                    aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, Ouverture: result2[i].Ouverture, ClePub: result2[i].ClePub});
                 }
                 aSecret.refreshKey = salt;
                 let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});

@@ -43,6 +43,7 @@ export class CommonLoginComponent {
           this.service.currentUserRole = data.permission;
           this.service.portefeuilles = data.portefeuilles;
           this.service.userEmail = data.email;
+          this.service.userFullName = data.prenom + ' ' + data.nom;
           this.service.userAccessToken = data.accessToken;
           this.service.userRefreshToken = data.refreshToken;
         }
@@ -56,7 +57,6 @@ export class CommonLoginComponent {
           duration: 5000,
           panelClass: ['alert-snackbar']
         });
-        // this.alertService.error('Email ou Mot de passe incorrecte');
         this.loading = false;
       });
   }

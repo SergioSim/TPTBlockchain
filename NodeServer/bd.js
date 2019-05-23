@@ -45,6 +45,7 @@ exports.portefeuille = {
   Id: 'Id',
   Utilisateur_Email: 'Utilisateur_Email',
   Libelle: 'Libelle',
+  Ouverture: 'Ouverture',
   ClePub: 'ClePub',
   ClePrive: 'ClePrive',
 }

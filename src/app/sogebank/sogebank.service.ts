@@ -10,6 +10,7 @@ export class SogebankService {
   currentUserRole: string;
   portefeuilles = [];
   userEmail = '';
+  userFullName = '';
   userAccessToken = '';
   userRefreshToken = '';
 

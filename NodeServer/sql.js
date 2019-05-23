@@ -15,7 +15,9 @@ module.exports = {
         'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Libelle, PermissionLevel ' + 
         'FROM OpenchainUser.utilisateur ut INNER JOIN OpenchainUser.role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
   'findPortefeuillesByEmail' :
-        'SELECT Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
+        'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
+  'findPortefeuillesById' :
+        'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Id = ?',
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, ' +
         'GROUP_CONCAT(CONCAT(\'{Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 

@@ -293,23 +293,33 @@ app.post('/submit', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
+    check('id').isNumeric().isLength({min: 1}),
     check('montant').isNumeric().isLength({min: 1}),
     check('memo').optional().isAlphanumeric().escape(),
     outils.handleValidationResult], 
     function(req, res) {
     
+    const monPortefeuille = req.jwt.Portefeuilles.find(pt => pt.Id === req.body.id);
+    if(!monPortefeuille) return res.status(404).send({ succes: false, errors: ["Mauvais ID!"] });
     conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
-        const publicKey = "/p2pkh/" + req.jwt.Address + "/";
-        const untoAddress = "/p2pkh/" + result[0].Address + "/";
-        console.log("[INFO]: fromAddress : " + publicKey);
-        console.log("[INFO]: untoAddress : " + untoAddress);
-        conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err2, result2){
-            if(err2 || !result2[0]) return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
-            req.transactionWallet = result2[0].Wallet;
-            req.fromAddress = publicKey;
-            req.untoAddress = untoAddress;
-            return outils.transaction(req, res, openchainValCli);
+        conn.query(sql.findPortefeuillesByEmail, [req.body.email], function(err1, result1){
+            if(err1 || !result1[0]) return res.status(404).send({ succes: false, errors: ["Ups, il semble " + req.body.email + " n\'a pas de portefeuille..."] });
+            const publicKey = "/p2pkh/" + monPortefeuille.ClePub + "/";
+            const untoAddress = "/p2pkh/" + result1[0].ClePub + "/";
+            console.log("[INFO]: fromAddress : " + publicKey);
+            console.log("[INFO]: untoAddress : " + untoAddress);
+            conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err2, result2){
+                if(err2 || !result2[0]) return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
+                conn.query(sql.findPortefeuillesById, [req.body.id], function(err3, result3){
+                    if(err3 || !result3[0]) return res.status(404).send({ succes: false, errors: ["Ups, il semble vous n\'avez pas de portefeuille..."] });
+                    if(result3[0].Utilisateur_Email !== req.jwt.Email) return res.status(404).send({ succes: false, errors: ["Ce portefeuille ne vous apartient pas!"] });
+                    req.transactionWallet = result3[0].ClePrive;
+                    req.fromAddress = publicKey;
+                    req.untoAddress = untoAddress;
+                    return outils.transaction(req, res, openchainValCli);
+                });
+            });
         });
     });
 });
@@ -318,21 +328,28 @@ app.post('/issueDHTG', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
     check('password').isLength({ min: 5 }).escape(),
+    check('id').isNumeric().isLength({min: 1}),
     check('montant').isNumeric().isLength({min: 1}),
     check('memo').optional().isAlphanumeric().escape(),
     outils.handleValidationResult], 
     function(req, res) {
 
+    const monPortefeuille = req.jwt.Portefeuilles.find(pt => pt.Id === req.body.id);
+    if(!monPortefeuille) return res.status(404).send({ succes: false, errors: ["Mauvais ID!"] });
     conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err, result){
         if(err || !result[0]) {
             console.error("Email not found in db : " + req.jwt.Email);
             return res.status(404).send({ succes: false, errors: ["you are a ghost!"] });
         }
-        req.transactionWallet = result[0].Wallet;
-        req.fromAddress = config.DHTGAssetPath;
-        req.untoAddress = "/p2pkh/" + req.jwt.Address + "/";
-        console.log("unto: " + req.untoAddress);
-        return outils.transaction(req, res, openchainValCli);
+        conn.query(sql.findPortefeuillesById, [req.body.id], function(err1, result1){
+            if(err1 || !result1[0]) return res.status(404).send({ succes: false, errors: ["Ups, il semble vous n\'avez pas de portefeuille..."] });
+            if(result1[0].Utilisateur_Email !== req.jwt.Email) return res.status(404).send({ succes: false, errors: ["Ce portefeuille ne vous apartient pas!"] });
+            req.transactionWallet = result1[0].ClePrive;
+            req.fromAddress = config.DHTGAssetPath;
+            req.untoAddress = "/p2pkh/" + monPortefeuille.ClePub + "/";
+            console.log("unto: " + req.untoAddress);
+            return outils.transaction(req, res, openchainValCli);
+        });
     });
 });
 
@@ -363,7 +380,7 @@ app.post('/auth', [
                 aSecret.Banque = result.Banque;
                 aSecret.Portefeuilles = [];
                 for(let i = 0; i < result2.length; i++){
-                    aSecret.Portefeuilles.push({Libelle: result2[i].Libelle, ClePub: result2[i].ClePub});
+                    aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, ClePub: result2[i].ClePub});
                 }
                 aSecret.refreshKey = salt;
                 let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});

@@ -98,7 +98,7 @@ app.post('/createClient', [
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
     check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
-    check('roleId').isLength({ min: 1 }).isNumeric(),
+    check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
     function(req, res) {
     keys = outils.generateEncryptedKeys(req.body.password);
@@ -149,7 +149,7 @@ app.put('/updateBanque', [
 
 app.put('/updateClient', [
     outils.validJWTNeeded, 
-    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
     check('email').optional().isEmail().normalizeEmail(),
     check('bankEmail').optional().isEmail().normalizeEmail(),
     check('nom').optional().isAlpha().escape().trim(),

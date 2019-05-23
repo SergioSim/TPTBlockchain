@@ -3,7 +3,7 @@ module.exports = {
   'insertUtilisateur' : 
         'INSERT INTO OpenchainUser.utilisateur (Email, Password, Nom, Prenom, Banque, Role_Id) VALUES (?,?,?,?,?,?)',
   'insertUtilisateurBanque' : 
-        'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,3)',
+        'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,5)',
   'insertPortefeuille' : 
         'INSERT INTO OpenchainUser.portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email) VALUES (?,?,?,?)',
   'insertContact_0_4' : 
@@ -52,6 +52,6 @@ module.exports = {
   'blockClient_0_1' : 
         'UPDATE OpenchainUser.utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
-        'UPDATE OpenchainUser.utilisateur SET Role_Id = 1 WHERE Email=?'
+        'UPDATE OpenchainUser.utilisateur SET Role_Id = 3 WHERE Email=?'
 
 }

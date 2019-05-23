@@ -1,15 +1,3 @@
-<!--<table class="table table-hover">
-    <tr *ngFor="let emp of list">
-    
-      <td>{{emp.Name}}</td>
-  
-      <td><button (click)="onUpdate(emp.Name)" class="btn btn-sm btn-outline-danger">Editer</button></td>
-      <td><button (click)="onPermision(emp.Name)" class="btn btn-sm btn-outline-danger">Bloquer</button></td>
-    </tr>
-  
-  </table>
-
--->
 <div>
     <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(ContactDialog)">Ajouter une nouvelle banque
    
@@ -21,13 +9,13 @@
                   </div>
                   <div class="contact-dialog-form">
                       <mat-form-field>
-                          <input matInput placeholder="Nom de la banque">
+                          <input matInput placeholder="Nom de la banque" [(ngModel)]="nouvelBanqueNom" >
                       </mat-form-field>
                       <mat-form-field>
-                          <input matInput placeholder="Email">
+                          <input matInput placeholder="Email" [(ngModel)]="nouvelBanqueEmail">
                       </mat-form-field>
                       <mat-form-field>
-                          <input matInput placeholder="Téléphone">
+                          <input matInput placeholder="Téléphone" [(ngModel)]="nouvelBanqueTel">
                       </mat-form-field>
                   </div>
                   <div class="dialog-buttons">
@@ -48,7 +36,7 @@
                         <mat-label>Sélectionner une banque</mat-label>
                             <mat-form-field>
                                     <mat-select>
-                                      <mat-option *ngFor="let elem of listRestaur" [value]="elem.Nom">     
+                                      <mat-option *ngFor="let elem of listBanqueNotVisible" [value]="elem.Nom">     
                                         {{elem.Nom}}
                                       </mat-option>
                                     </mat-select>
@@ -67,7 +55,7 @@
     
         <div class="table-releve-content">
   
-            <table mat-table [dataSource]="list" class="mat-elevation-z8">
+            <table mat-table [dataSource]="listBanqueVisible" class="mat-elevation-z8">
                 
                 <ng-container matColumnDef="Nom">
                 <th mat-header-cell *matHeaderCellDef> Banque </th>

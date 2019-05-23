@@ -28,7 +28,8 @@ export class BanqueListComponent implements OnInit {
   validBanque: {};
   dataSource: [];
   formData : Banque;
-  list : any [];
+  listBanqueVisible : any [];
+  listBanqueNotVisible : any [];
   listRestaur: any [];
   displayedColumns: string[];
   Form = new FormGroup({
@@ -36,6 +37,10 @@ export class BanqueListComponent implements OnInit {
   Email : new FormControl(''),
   Telephone : new FormControl('')
   });
+  nouvelBanqueNom:'';
+  nouvelBanqueEmail:'';
+  nouvelBanqueTel:'';
+
   ngOnInit() {
     this.validBanque={nom:'',email:'',password:'',confirmPassword:''};
     this.refreshListBanque();
@@ -44,18 +49,11 @@ export class BanqueListComponent implements OnInit {
   }
 
   getListBanqueRestaur(){
-    this.service.makeRequest(apiUrl.allBanksNotVisible, {}).toPromise().then(res=>this.listRestaur = res as Banque[]);
+    this.service.makeRequest(apiUrl.allBanks, {visible:false}).toPromise().then(res=>this.listBanqueNotVisible = res as Banque[]);
   }
 
   refreshListBanque(){
-    this.service.makeRequest(apiUrl.allBanksVisible, {}).toPromise().then(res=>this.list = res as Banque[] );
-  // this.service.getBanque();
-   /*  subscribe(res =>{
-          console.log("got result " );
-          console.log(res);
-        }, error => {
-            console.log("got an error"); console.log(error)
-          });  */
+    this.service.makeRequest(apiUrl.allBanks, {visible:true}).toPromise().then(res=>this.listBanqueVisible = res as Banque[] );1
   }
       deleteBanque(nom: String){
        this.service.makeRequest(apiUrl.deleteBank,{name: nom}).subscribe(res =>{
@@ -73,6 +71,7 @@ export class BanqueListComponent implements OnInit {
         
       }
       openAddBankDialog(templateRef){
+        
         this.contactDialogRef = this.dialog.open(templateRef, {width: '270px'});
       }
 
@@ -95,9 +94,10 @@ export class BanqueListComponent implements OnInit {
         this.contactDialogRef.close();     
         this.snackBar.open('La banque a bien été restauré avec succès.', 'Fermer', { duration: 5000,});
       }
+
       confirmAddBanque(){
 
-        this.service.makeRequest(apiUrl.createBank, {Nom:"99kjkhsdfde@de.ef",Email:"efzonzefn",Tel:'54545454'}).
+        this.service.makeRequest(apiUrl.createBank, {name:this.nouvelBanqueNom,email:this.nouvelBanqueEmail,telephone:this.nouvelBanqueTel,isVisible:1}).
         subscribe( res =>{
           console.log('on a recu la response:' );
           console.log(res);
@@ -105,6 +105,7 @@ export class BanqueListComponent implements OnInit {
             console.log('got an error');
             console.log(error);
         });
+        this.refreshListBanque();
         this.contactDialogRef.close();     
         this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
       }

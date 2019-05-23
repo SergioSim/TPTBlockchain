@@ -17,17 +17,17 @@ module.exports = {
          'SELECT Email, Nom, Tel, isVisible ' + 
          'FROM OpenchainUser.banque WHERE Nom LIKE BINARY ?',
   'findPortefeuillesByEmail' :
-        'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
+        'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Id = ?',
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, ' +
-        'GROUP_CONCAT(CONCAT(\'{Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
+        'GROUP_CONCAT(CONCAT(\'{Id:"\', Id ,\'" Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
         'FROM OpenchainUser.utilisateur ut INNER JOIN OpenchainUser.portefeuille pt ON ut.Email = pt.Utilisateur_Email WHERE Banque LIKE BINARY ? GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllClients' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, ' +
-        'GROUP_CONCAT(CONCAT(\'{Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
+        'GROUP_CONCAT(CONCAT(\'{Id:"\', Id ,\'" Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
         'FROM OpenchainUser.utilisateur ut INNER JOIN OpenchainUser.portefeuille pt ON ut.Email = pt.Utilisateur_Email GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllBanks' : 
@@ -42,6 +42,8 @@ module.exports = {
         'DELETE FROM OpenchainUser.utilisateur WHERE Email=?',
   'deleteContact_0_2' : 
         'DELETE FROM OpenchainUser.beneficiaire WHERE Utilisateur_Email=? AND Beneficiaire_Email=?',
+  'deletePortefeuille' : 
+        'DELETE FROM OpenchainUser.portefeuille WHERE Id=?',
   'updateBank_0_2' : 
         'UPDATE OpenchainUser.banque SET Name = ? WHERE Name = ?',
   'updateClient' : 

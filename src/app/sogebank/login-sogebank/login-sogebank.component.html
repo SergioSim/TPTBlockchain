@@ -4,7 +4,7 @@
   <div class="form-container">
       <mat-tab-group mat-stretch-tabs dynamicHeight [selectedIndex]="displayLoginForm ? 0 : 1">
           <mat-tab label="CLIENT EXISTANT">
-            <app-common-login url="/sogebank/dashboard" banque="Sogebank" [service]="sogebankService"></app-common-login>
+            <app-common-login [url]="dashboardUrl" banque="Sogebank" [service]="sogebankService"></app-common-login>
           </mat-tab>
 
           <mat-tab label="NOUVEAU CLIENT">

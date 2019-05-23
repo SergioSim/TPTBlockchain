@@ -21,6 +21,9 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.sogebankService.userEmail === '') {
+      this.router.navigate(['/sogebank/login']);
+    }
     this.setBreadcrumbContent();
   }
 

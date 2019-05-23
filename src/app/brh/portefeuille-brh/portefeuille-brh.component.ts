@@ -13,7 +13,14 @@ export class PortefeuilleBrhComponent implements OnInit {
     _contactList: Portefeuille ;
     contactDialogRef: any;
     p:number=1;
-
+    selectedPortefeuille: {
+      id: '',
+      Nom: '',
+      Portefeuille: '',
+      MaxTransaction: '',
+      MaxTransactionMoi: '',
+      Status:''
+    };
 
   constructor( 
     private service :NodeapiService,
@@ -27,8 +34,10 @@ export class PortefeuilleBrhComponent implements OnInit {
     return this.service.getAllContacts();
   }
 
-  openEditCardDialog(templateRef, carte) {
-    this.contactDialogRef = this.dialog.open(templateRef, { width: '300px' });
+  openEditCardDialog(templateRef, portefeuille) {
+    event.stopPropagation();
+    this.selectedPortefeuille = {...portefeuille};
+    this.contactDialogRef = this.dialog.open(templateRef, { width: '330px' });
   }
   cancelEditBanque() {
     this.contactDialogRef.close();
@@ -38,8 +47,7 @@ export class PortefeuilleBrhComponent implements OnInit {
     this.service.editContact(contact);
     console.log(contact.FirstName);
     this.contactDialogRef.close();     
-    this.snackBar.open('Le portefeuille '+ contact.Email +'a bien été modifié', 'Fermer', { duration: 5000,});
-  
+    this.snackBar.open('Le portefeuille '+ contact.Nom +'a bien été modifié', 'Fermer', { duration: 5000,});
   }
 
 }

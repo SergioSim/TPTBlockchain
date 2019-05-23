@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'brh/portefeuille-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/controle-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/releve-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},
   { path: 'brh/banque/prive/portefeuille', component:  EspaceUtilisateurBanquePriveComponent},

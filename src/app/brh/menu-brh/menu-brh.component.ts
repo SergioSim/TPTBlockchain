@@ -37,5 +37,8 @@ export class MenuBrhComponent implements OnInit {
   goToliquidite() {
     this.route.navigate(['/brh/liquidite-brh']);
   }
+  goToreleve(){
+    this.route.navigate(['/brh/releve-brh']);
+  }
 
 }

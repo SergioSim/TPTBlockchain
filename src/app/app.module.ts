@@ -59,6 +59,7 @@ import { PortefeuilleBanquePriveComponent } from './brh/portefeuille-banque-priv
 import { TransactionsBanquePriveComponent } from './brh/transactions-banque-prive/transactions-banque-prive.component';
 import { ClientsBanquePriveComponent } from './brh/clients-banque-prive/clients-banque-prive.component';
 import { CartesBanquePriveComponent } from './brh/cartes-banque-prive/cartes-banque-prive.component';
+import { ReleveBrhComponent } from './brh/releve-brh/releve-brh.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { CartesBanquePriveComponent } from './brh/cartes-banque-prive/cartes-ban
     PortefeuilleBanquePriveComponent,
     TransactionsBanquePriveComponent,
     ClientsBanquePriveComponent,
-    CartesBanquePriveComponent
+    CartesBanquePriveComponent,
+    ReleveBrhComponent
   ],
   imports: [
     BrowserModule,

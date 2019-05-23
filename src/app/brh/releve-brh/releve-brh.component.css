@@ -1,0 +1,80 @@
+.titte{
+    margin-top: 20px;
+    margin-left: 50px;
+    border-bottom: 4px solid green;
+}
+.tableau_banque{
+    margin-left: 100px;
+    margin-right: 100px;
+
+}
+
+.table-releve-content{
+    margin-left: 10%;
+}
+
+.mat-elevation-z8{
+    background-color: rgb(51, 161, 235);
+    width: 85%;
+}
+.infos-habilitation{
+    margin-top: 50px;
+    margin-left: 12%;
+    margin-bottom: 20px;
+    font-size: 17px;
+    color: blue;
+}
+.contener-habilitation{
+    margin-left: 5%;
+}
+.table-banque{
+margin-left:10%;
+margin-right: 10%;
+margin-bottom: 2%;
+}
+.infos-habilitation{
+border-radius: 10px;
+border: 1px solid rgba(112, 112, 112, 0.3);
+width: 550px;
+box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+margin-left: 10%;
+justify-content: center;
+align-items: center;
+}
+.infos-habilitation p {
+    margin-left: 25px;
+}
+
+.releves-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.releve-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-top: 10%
+}
+
+.releve-selector, app-table-releve-sogebank {
+    width: 80%;
+}
+
+.wallet-selector {
+    width: 30%;
+}
+
+.start-picker {
+    margin-right: 15px;
+}
+
+::ng-deep table {
+    width: 100%;
+}
+
+.releves-content ::ng-deep table {
+    padding-top: 0;
+}

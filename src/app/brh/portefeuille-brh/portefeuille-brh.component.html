@@ -38,23 +38,24 @@
                     
                         <div class="contact-dialog-form">
                             <mat-form-field>
-                                <input matInput [(ngModel)]="Contact.Nom" value={{Contact.Nom}}>
+                                <input matInput [(ngModel)]="selectedPortefeuille.Nom">
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput [(ngModel)]="Contact.Portefeuille" value={{Contact.Portefeuille}}>
+                                <input matInput [(ngModel)]="selectedPortefeuille.Portefeuille">
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput [(ngModel)]="Contact.Date" value={{Contact.Date}}> 
+                                <input matInput [(ngModel)]="selectedPortefeuille.MaxTransaction"> 
                             </mat-form-field>   
                             <mat-form-field>
-                                <input matInput [(ngModel)]="Contact.MaxTransaction" value={{Contact.MaxTransaction}}> 
-                            </mat-form-field>   
-                            <mat-form-field>
-                                <input matInput [(ngModel)]="Contact.Status" value={{Contact.Status}}> 
-                            </mat-form-field>    
+                                <input matInput [(ngModel)]="selectedPortefeuille.MaxTransactionMoi"> 
+                            </mat-form-field>   <br/>
+                            <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Status">
+                                <mat-radio-button   value="Actif">Activer</mat-radio-button>
+                                <mat-radio-button   value="Bloqué">Bloqué</mat-radio-button>
+                              </mat-radio-group> 
                           </div>
                           <div class="dialog-buttons">
-                              <button mat-flat-button class="boutonConfirmer" (click)="confirmEditPortefeuille(Contact)">Confirmer</button> 
+                              <button mat-flat-button class="boutonConfirmer" (click)="confirmEditPortefeuille(selectedPortefeuille)">Confirmer</button> 
                               <button mat-flat-button class="CoutonConfirmer" (click)="cancelEditBanque()">Annuler</button> 
                           </div>
                      </div>

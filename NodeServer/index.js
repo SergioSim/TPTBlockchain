@@ -111,6 +111,29 @@ app.post('/createClient', [
     });
 });
 
+app.post('/createPortefeuille', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('password').isLength({ min: 5 }).escape(),
+    check('libelle').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.findUtilisateurByEmail, [req.jwt.Email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        result = result[0];
+        let passwordFields = result.Password.split('$');
+        let salt = passwordFields[0];
+        let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
+        if (hash !== passwordFields[1]) return res.status(400).send({errors: ['Invalid password']});
+        keys = outils.generateEncryptedKeys(req.body.password);
+        if(err) return res.send({success: !err});
+        conn.query(sql.insertPortefeuille, [req.body.libelle, keys.address, keys.privateKey, req.jwt.Email], function(err2, result2){
+            return res.send({success: !err2});
+    });
+    });
+});
+
 app.put('/blockClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
@@ -283,6 +306,26 @@ app.delete('/deleteBank', [
     conn.query(sql.deleteBank_0_1, [req.query.name], function(err, result){
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
+});
+
+app.delete('/deletePortefeuille', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('id').isNumeric().isLength({min: 1}),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.findPortefeuillesById, [req.query.id], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["portefeuille not found!"] });
+        conn.query(sql.findUtilisateurByEmail, [result[0].Utilisateur_Email], function(err1, result1){
+            if(err1 || !result1[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+            if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result1[0].Banque)
+                return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+            conn.query(sql.deletePortefeuille, [req.query.id], function(err3, result3){
+                return res.send({success: !err3 && result3.affectedRows != 0});
+            });
+        });
+    });
 });
 
 app.delete('/deleteClient', [

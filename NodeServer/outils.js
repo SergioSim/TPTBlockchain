@@ -52,6 +52,10 @@ exports.getKeyFromPassword = (password) => {
    return (password.substring(0, 16) + config.aes_secret).substring(0, 32);
 };
 
+exports.hasChanged = (inBody, inQuerry) => {
+    return (inBody === undefined) ? ((inQuerry === undefined) ? '' : inQuerry) : inBody;
+}
+
 exports.generateEncryptedKeys = (password) => {
     const hdPrivateKey = new bitcore.HDPrivateKey();
     const address = hdPrivateKey.publicKey.toAddress().toString();

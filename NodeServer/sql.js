@@ -1,5 +1,4 @@
 module.exports = {
-  "updateClient_0_8" : "UPDATE OpenchainUser.Client SET Email = ?, Nom = ?, Prenom = ?, Loc = ?, Password = ?, Wallet = ? WHERE Client.Email = ?",
 
   'insertUtilisateur' : 
         'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque) VALUES (?,?,?)',
@@ -42,8 +41,14 @@ module.exports = {
         'DELETE FROM OpenchainUser.beneficiaire WHERE Utilisateur_Email=? AND Beneficiaire_Email=?',
   'updateBank_0_2' : 
         'UPDATE OpenchainUser.banque SET Name = ? WHERE Name = ?',
+  'updateClient' : 
+        'UPDATE OpenchainUser.utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
+        ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
+  'updatePortefeuille' : 
+        'UPDATE OpenchainUser.portefeuille SET Libelle = ?, ClePub = ?, ClePrive = ? WHERE Utilisateur_Email = ?',
   'blockClient_0_1' : 
         'UPDATE OpenchainUser.utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
-        'UPDATE OpenchainUser.utilisateur SET Role_Id = 1 WHERE Email=?',
+        'UPDATE OpenchainUser.utilisateur SET Role_Id = 1 WHERE Email=?'
+
 }

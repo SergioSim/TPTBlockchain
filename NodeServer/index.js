@@ -152,7 +152,14 @@ app.put('/updateClient', [
     check('bankEmail').optional().isEmail().normalizeEmail(),
     check('nom').optional().isAlpha().escape().trim(),
     check('prenom').optional().isAlpha().escape().trim(),
-    check('loc').optional().isString().escape(),
+    check('civilite').optional().isAlpha().escape().trim(),
+    check('situation_familiale').optional().isAlpha().escape().trim(),
+    check('profession').optional().isAlpha().escape().trim(),
+    check('siret').optional().isAlpha().escape().trim(),
+    check('tel').optional().isMobilePhone().escape().trim(),
+    check('adresse').optional().isString().escape(),
+    check('ville').optional().isString().escape(),
+    check('code_postal').optional().isString().escape(),
     check('oldPassword').optional().isLength({ min: 5 }).escape(),
     check('newPassword').optional().isLength({ min: 5 }).escape(),
     outils.handleValidationResult], 
@@ -166,25 +173,43 @@ app.put('/updateClient', [
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
         const aEmail = (req.body.email === undefined) ? aOldEmail : req.body.email;
-        const aNom = (req.body.nom === undefined) ? ((result[0].Nom === undefined) ? '' : result[0].Nom) : req.body.nom;
-        const aPrenom = (req.body.prenom === undefined) ? ((result[0].Prenom === undefined) ? '' : result[0].Prenom) : req.body.prenom;
-        const aLoc = (req.body.loc === undefined) ? ((result[0].Loc === undefined) ? '' : result[0].Loc) : req.body.loc;
+        const aNom = outils.hasChanged(req.body.Nom, result[0].Nom);
+        const aPrenom = outils.hasChanged(req.body.prenom, result[0].Prenom);
+        const aCivilite = outils.hasChanged(req.body.civilite, result[0].Civilite);
+        const asituation_familiale = outils.hasChanged(req.body.situation_familiale, result[0].Situation_Familiale);
+        const aprofession = outils.hasChanged(req.body.profession, result[0].Profession);
+        const asiret = outils.hasChanged(req.body.siret, result[0].Siret);
+        const atel = outils.hasChanged(req.body.tel, result[0].Tel);
+        const aadresse = outils.hasChanged(req.body.adresse, result[0].Adresse);
+        const aville = outils.hasChanged(req.body.ville, result[0].Ville);
+        const acode_postal = outils.hasChanged(req.body.code_postal, result[0].Code_postal);
         const skipPassword = req.body.oldPassword === undefined || req.body.newPassword === undefined;
         let aPassword = (skipPassword) ? result[0].Password : outils.hashPassword(req.body.newPassword);
-        let aWallet; 
-        if(skipPassword){
-            aWallet = result[0].Wallet;
-        } else {
-            let decryptedHDK;
-            try {
-                decryptedHDK = outils.decryptAES(result[0].Wallet, outils.getKeyFromPassword(req.body.oldPassword));
-                aWallet = outils.encryptAES(decryptedHDK, outils.getKeyFromPassword(req.body.newPassword)) 
-            } catch(error) {
-                console.log("[ERROR]: " + error);
-                return res.status(400).send({ succes: false, errors: ["wrong password!"] });
-            }
+        if(!skipPassword){
+            conn.query(sql.findPortefeuillesByEmail, [aOldEmail], function(err1, result1){
+                if(err1 || !result1[0]) return res.status(404).send({ succes: false, errors: ["Ups, il semble vous n\'avez pas de portefeuille..."] });
+                for (let i = 0; i < result1.length; i++) {
+                    let aportefeuille = result1[i];
+                    console.log('portefeuille: ');
+                    console.log(aportefeuille);
+                    let aWallet; 
+                    let decryptedHDK;
+                    try {
+                        decryptedHDK = outils.decryptAES(aportefeuille.ClePrive, outils.getKeyFromPassword(req.body.oldPassword));
+                        aWallet = outils.encryptAES(decryptedHDK, outils.getKeyFromPassword(req.body.newPassword)) 
+                        conn.query(sql.updatePortefeuille, [aportefeuille.Libelle, aportefeuille.ClePub, aWallet, aOldEmail], function(err2, result2){
+                            if(err2) res.status(500).send({ succes: false, errors: ["some thing bad happend while updating your wallets!"] });
+                        });
+                    } catch(error) {
+                        console.log("[ERROR]: " + error);
+                        return res.status(400).send({ succes: false, errors: ["wrong password!"] });
+                    }
+                }
+            });
         }
-        conn.query(sql.updateClient_0_8, [aEmail, aNom, aPrenom, aLoc, aPassword, aWallet, aOldEmail], function(err, result){
+        conn.query(sql.updateClient, [aEmail, aPassword, aNom, aPrenom, aCivilite,asituation_familiale, aprofession, asiret, atel, aadresse, aville, acode_postal, aOldEmail], function(err, result){
+            console.log(err);
+            console.log(result);
             return res.send({ succes: !err && result.affectedRows != 0});
         });
     });

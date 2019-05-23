@@ -12,8 +12,10 @@ import { MatSnackBar } from '@angular/material';
 })
 export class CommonLoginComponent {
   @Input() url: string;
+  @Input() banque: string;
+  @Input() service: any;
   emailFC: FormControl = new FormControl('', [Validators.required, Validators.email]) ;
-  passwFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]); 
+  passwFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   loading = false;
   resterConnecter = false;
 
@@ -32,12 +34,17 @@ export class CommonLoginComponent {
         duration: 5000,
         panelClass: ['alert-snackbar']
       });
-      // this.alertService.error('Les champs Email et Mot de passe sont requis!');
       return;
     }
     this.loading = true;
     this.apiService.login(this.emailFC.value, this.passwFC.value, this.resterConnecter).subscribe(
       data => {
+        this.service.currentUserRole = data.permission;
+        this.service.portefeuilles = data.portefeuilles;
+        this.service.userEmail = data.email;
+        this.service.userAccessToken = data.accessToken;
+        this.service.userRefreshToken = data.refreshToken;
+
         console.log('URL = ' + this.url);
         this.route.navigate([this.url]);
         this.loading = false;

@@ -1,7 +1,7 @@
 module.exports = {
 
   'insertUtilisateur' : 
-        'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque) VALUES (?,?,?)',
+        'INSERT INTO OpenchainUser.utilisateur (Email, Password, Nom, Prenom, Banque, Role_Id) VALUES (?,?,?,?,?,?)',
   'insertUtilisateurBanque' : 
         'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,3)',
   'insertPortefeuille' : 
@@ -13,6 +13,9 @@ module.exports = {
   'findUtilisateurByEmail' : 
         'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Libelle, PermissionLevel ' + 
         'FROM OpenchainUser.utilisateur ut INNER JOIN OpenchainUser.role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
+  'findBanqueByName' : 
+         'SELECT Email, Nom, Tel, isVisible ' + 
+         'FROM OpenchainUser.banque WHERE Nom LIKE BINARY ?',
   'findPortefeuillesByEmail' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM OpenchainUser.portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :

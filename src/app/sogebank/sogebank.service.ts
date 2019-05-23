@@ -7,7 +7,11 @@ import { Role } from './Role';
 export class SogebankService {
   displayLoginForm = true;
   isNewParticulier: boolean;
-  currentUserRole = Role.COMMERCANT;
+  currentUserRole: string;
+  portefeuilles = [];
+  userEmail = '';
+  userAccessToken = '';
+  userRefreshToken = '';
 
   constructor() { }
 

@@ -95,13 +95,15 @@ app.post('/createBank', [
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
+    check('prenom').isLength({ min: 3 }),
+    check('nom').isLength({ min: 3 }),
     check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('roleId').isLength({ min: 1 }).isNumeric(),
     outils.handleValidationResult], 
     function(req, res) {
-
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.banque], function(err, result) {
+    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.banque, req.body.roleId], function(err, result) {
         if(err) return res.send({success: !err});
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email], function(err2, result2){
             return res.send({success: !err});

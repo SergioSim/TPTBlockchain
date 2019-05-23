@@ -4,38 +4,62 @@
   <div class="form-container">
       <mat-tab-group mat-stretch-tabs dynamicHeight [selectedIndex]="displayLoginForm ? 0 : 1">
           <mat-tab label="CLIENT EXISTANT">
-            <app-common-login [url]="'/sogebank/dashboard'"></app-common-login>
+            <app-common-login url="/sogebank/dashboard" banque="Sogebank" [service]="sogebankService"></app-common-login>
           </mat-tab>
 
           <mat-tab label="NOUVEAU CLIENT">
             <div class="create-form">
               <mat-form-field>
-                  <input matInput placeholder="Prénom">
+                  <input matInput placeholder="Prénom" [formControl]="prenomFC">
+                  <mat-error *ngIf="prenomFC.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                  </mat-error>
+                  <mat-error *ngIf="prenomFC.hasError('minlength')">
+                    Le prénom doit contenir au moins 3 caractères
+                  </mat-error>
               </mat-form-field>
               <mat-form-field>
-                  <input matInput placeholder="Nom">
+                  <input matInput placeholder="Nom" [formControl]="nomFC">
+                  <mat-error *ngIf="nomFC.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                  </mat-error>
+                  <mat-error *ngIf="nomFC.hasError('minlength')">
+                    Le nom doit contenir au moins 3 caractères
+                  </mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input matInput placeholder="Email" [formControl]="emailFormControl"
+                <input matInput placeholder="Email" [formControl]="emailFC"
                        [errorStateMatcher]="matcher">
-                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                <mat-error *ngIf="emailFC.hasError('email') && !emailFC.hasError('required')">
                   Veuillez saisir un adresse mail valide
                 </mat-error>
-                <mat-error *ngIf="emailFormControl.hasError('required')">
+                <mat-error *ngIf="emailFC.hasError('required')">
                   Ce champ est <strong>requis</strong>
                 </mat-error>
               </mat-form-field>
               <mat-form-field>
-                  <input matInput placeholder="Mot de passe" type="password">
+                  <input matInput placeholder="Mot de passe" type="password" [formControl]="passwordFC">
+                  <mat-error *ngIf="passwordFC.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                  </mat-error>
+                  <mat-error *ngIf="passwordFC.hasError('minlength')">
+                    Le mot de passe doit contenir au moins 6 caractères
+                  </mat-error>
               </mat-form-field>
               <mat-form-field>
-                  <input matInput placeholder="Confirmer le mot de passe" type="password">
+                  <input matInput placeholder="Confirmer le mot de passe" type="password" [formControl]="passwordConfirmFC">
+                  <mat-error *ngIf="passwordConfirmFC.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                  </mat-error>
+                  <mat-error *ngIf="passwordConfirmFC.hasError('minlength')">
+                    Le mot de passe doit contenir au moins 6 caractères
+                  </mat-error>
               </mat-form-field>
               <div class="radio-type">
                 <label id="create-type-label">Je suis :</label>
-                <mat-radio-group aria-labelledby="create-type-label" class="create-type-select">
-                  <mat-radio-button value="1" [checked]="sogebankService.isNewParticulier === true">Particulier</mat-radio-button>
-                  <mat-radio-button value="2"[checked]="sogebankService.isNewParticulier === false">Commerçant</mat-radio-button>
+                <mat-radio-group aria-labelledby="create-type-label" required class="create-type-select" (change)="onClientTypeChange($event)">
+                  <mat-radio-button value="1" [checked]="clientType === 1">Particulier</mat-radio-button>
+                  <mat-radio-button value="2"[checked]="clientType === 2">Commerçant</mat-radio-button>
                 </mat-radio-group>
               </div>
             </div>

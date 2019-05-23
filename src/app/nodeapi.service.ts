@@ -42,15 +42,16 @@ export class NodeapiService {
     this.logLogin();
   }
 
-  createClient(email: string, password: string, banque: string): Observable<any> {
+  createClient(email: string, password: string, prenom: string, nom: string, banque: string): Observable<any> {
     const headers = { headers: new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
       'X-Content-Type-Options': 'nosniff'
       })};
-    apilog('req: [ ' + this.url + 'createClient/ ] post {email: ' + email + ', password: ' + password + ', banque: ' + banque + '}');
+    apilog('req: [ ' + this.url + 'createClient/ ] post {email: ' + email + ', password: ' + password +
+      ', prenom: ' + prenom + ', nom: ' + nom + ', banque: ' + banque + '}');
     return this.http.post<any>(this.url + 'createClient/', {
-        email, password, banque }, headers).pipe(map(
+        email, password, prenom, nom, banque }, headers).pipe(map(
           res => {
             apilog('Got response:');
             console.log(res);
@@ -103,6 +104,17 @@ export class NodeapiService {
             this.setLogin(res);
             this.logLogin();
           }
+          return res;
+        })
+      );
+  }
+
+  register(email: string, password: string, prenom: string, nom: string, banque: string, roleId: number): Observable<any> {
+    return this.http.post<any>(this.url + 'createClient/', { email, password, prenom, nom, banque, roleId })
+      .pipe(
+        map(res => {
+          apilog('Got response:');
+          console.log(res);
           return res;
         })
       );

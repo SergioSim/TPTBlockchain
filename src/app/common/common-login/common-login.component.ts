@@ -39,12 +39,13 @@ export class CommonLoginComponent {
     this.loading = true;
     this.apiService.login(this.emailFC.value, this.passwFC.value, this.resterConnecter).subscribe(
       data => {
-        this.service.currentUserRole = data.permission;
-        this.service.portefeuilles = data.portefeuilles;
-        this.service.userEmail = data.email;
-        this.service.userAccessToken = data.accessToken;
-        this.service.userRefreshToken = data.refreshToken;
-
+        if (this.service) {
+          this.service.currentUserRole = data.permission;
+          this.service.portefeuilles = data.portefeuilles;
+          this.service.userEmail = data.email;
+          this.service.userAccessToken = data.accessToken;
+          this.service.userRefreshToken = data.refreshToken;
+        }
         console.log('URL = ' + this.url);
         this.route.navigate([this.url]);
         this.loading = false;

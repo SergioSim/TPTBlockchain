@@ -159,6 +159,8 @@ app.put('/updateBanque', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
     check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('email').optional().isEmail().normalizeEmail(),
+    check('tel').optional().isMobilePhone().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -167,8 +169,13 @@ app.put('/updateBanque', [
     if(req.jwt.PermissionLevel >= 3 && req.body.banqueOld != undefined)
         aBanqueOld = req.body.banqueOld;
     console.log('banque old = ' + aBanqueOld);
-    conn.query(sql.updateBank_0_2, [req.body.banqueNew, aBanqueOld], function(err, result){
-        return res.send({ succes: !err && result.affectedRows != 0});
+    conn.query(sql.findBanqueByName, [aBanqueOld], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["banque not found!"] });
+        const aEmail = outils.hasChanged(req.body.email, result[0].Email);
+        const aTel = outils.hasChanged(req.body.tel, result[0].Tel);
+        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel, aBanqueOld], function(err1, result1){
+            return res.send({ succes: !err1 && result1.affectedRows != 0});
+        });
     });
 });
 

@@ -24,7 +24,7 @@
                 <div *ngIf="!isPortefeuilleSelected">
                     <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectPortefeuille(portefeuille)">
                         <div class="wallet-info">
-                            <div *ngIf="portefeuille.id === selectedPortefeuille.id">
+                            <div *ngIf="portefeuille.Id === selectedPortefeuille.Id">
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
@@ -75,7 +75,7 @@
                     </div>
                     <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectBeneficiaire(portefeuille)">
                         <div class="wallet-info">
-                            <div *ngIf="portefeuille.id === selectedBeneficiaire.id">
+                            <div *ngIf="portefeuille.Id === selectedBeneficiaire.Id">
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>

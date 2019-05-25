@@ -42,6 +42,7 @@ export class CommonLoginComponent {
         if (this.service) {
           this.service.currentUserRole = data.permission;
           this.service.portefeuilles = data.portefeuilles;
+          this.service.cartes = data.cartes;
           this.service.userEmail = data.email;
           this.service.userFullName = data.prenom + ' ' + data.nom;
           this.service.userAccessToken = data.accessToken;

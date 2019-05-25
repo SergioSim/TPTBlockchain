@@ -17,6 +17,7 @@ export class NodeapiService {
   public email: string;
   public permission: string;
   public portefeuilles: any[];
+  public cartes: any[];
   public nom: string;
   public prenom: string;
   public civilite: string;
@@ -127,6 +128,7 @@ export class NodeapiService {
     this.refreshToken = obj.refreshToken;
     this.email = obj.email;
     this.portefeuilles = obj.portefeuilles;
+    this.cartes = obj.cartes;
     this.banque = obj.banque;
     this.nom = obj.nom;
     this.prenom = obj.prenom;
@@ -276,6 +278,7 @@ export enum apiUrl {
   createBank = 'POST$createBank/',
   createClient = 'POST$createClient/',
   createPortefeuille = 'POST$createPortefeuille/',
+  cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',
   updateClient = 'PUT$updateClient/',

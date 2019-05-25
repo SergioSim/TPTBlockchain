@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { IconDefinition, faChartLine, faWallet, faCreditCard, faExchangeAlt, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { NodeapiService } from 'src/app/nodeapi.service';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-espace-utilisateur-sogebank',
@@ -16,8 +18,9 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private apiService: NodeapiService,
     private sogebankService: SogebankService,
-    private titleService: Title
+    private commonUtilsService: CommonUtilsService,
   ) { }
 
   ngOnInit() {
@@ -25,6 +28,18 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.router.navigate(['/sogebank/login']);
     }
     this.setBreadcrumbContent();
+
+    if (this.sogebankService.portefeuilles.length > 0) {
+      for (const portefeuille of this.sogebankService.portefeuilles) {
+        this.apiService.getRecord(portefeuille.ClePub).subscribe(
+          data => {
+            portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+          },
+          error => {
+            console.log(error);
+          });
+      }
+    }
   }
 
   setBreadcrumbContent() {

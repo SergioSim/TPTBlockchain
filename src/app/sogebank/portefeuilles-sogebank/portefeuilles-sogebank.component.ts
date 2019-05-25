@@ -45,21 +45,8 @@ export class PortefeuillesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes portefeuilles - Sogebank');
-
     this.portefeuilles = this.sogebankService.portefeuilles;
-
-    if (this.portefeuilles.length > 0) {
-      for (const portefeuille of this.portefeuilles) {
-        this.apiService.getRecord(portefeuille.ClePub).subscribe(
-          data => {
-            portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-            this.countTotals();
-          },
-          error => {
-            console.log(error);
-          });
-      }
-    }
+    this.countTotals();
   }
 
   countTotals() {

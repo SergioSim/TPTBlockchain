@@ -13,7 +13,7 @@ export class MenuSogebankComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private sogebankService: SogebankService
+    public sogebankService: SogebankService
   ) { }
 
   ngOnInit() {

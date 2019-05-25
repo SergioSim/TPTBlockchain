@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { faPen, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-portefeuilles-sogebank',
@@ -34,7 +35,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
   };
 
   constructor(
-    private route: ActivatedRoute,
+    private apiService: NodeapiService,
     private sogebankService: SogebankService,
     private commonUtilsService: CommonUtilsService,
     private titleService: Title,
@@ -48,7 +49,16 @@ export class PortefeuillesSogebankComponent implements OnInit {
     this.portefeuilles = this.sogebankService.portefeuilles;
 
     if (this.portefeuilles.length > 0) {
-      this.countTotals();
+      for (const portefeuille of this.portefeuilles) {
+        this.apiService.getRecord(portefeuille.ClePub).subscribe(
+          data => {
+            portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+            this.countTotals();
+          },
+          error => {
+            console.log(error);
+          });
+      }
     }
   }
 
@@ -57,8 +67,8 @@ export class PortefeuillesSogebankComponent implements OnInit {
     let activite = 0;
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
-      solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
-      activite += portefeuille.Activite ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Activite) : 0;
+      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
+      //activite += this.commonUtilsService.currencyStringtoNumber(portefeuille.Activite);
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
     this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);

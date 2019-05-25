@@ -84,6 +84,7 @@ app.post('/createBank', [
     check('name').isAlphanumeric().escape().trim(),
     check('email').isEmail().escape().trim(),
     check('telephone').isMobilePhone().escape().trim(),
+    check('isVisible').isLength({ min: 1 }).isNumeric().isIn([0,1]),
     outils.handleValidationResult],
     function(req, res) {
     

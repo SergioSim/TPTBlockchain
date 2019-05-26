@@ -1,7 +1,7 @@
 <div>
-    <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(ContactDialog)">Ajouter une nouvelle banque
+    <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(AddDialog)">Ajouter une nouvelle banque
    
-           <ng-template #ContactDialog>
+           <ng-template #AddDialog>
               <div class="contact-dialog">
                   <div class="dialog-header">
                       <h4>Ajouter une nouvelle banque</h4>
@@ -82,15 +82,15 @@
            <!-- <td mat-cell *matCellDef="let element"><button  mat-raised-button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Supprimer</button></td>
 -->
                <td mat-cell *matCellDef="let element">
-                   <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(ContactDialog)" >Supprimer</button>
-                   <ng-template #ContactDialog>
+                   <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(DeleteDialog)" >Supprimer</button>
+                   <ng-template #DeleteDialog>
                     <div class="contact-dialog">
                         <div class="dialog-header">
                             <h4>Vous voulez supprimer la banque {{element.Nom}} ?</h4>
                             <hr>
                         </div>
                         <div class="dialog-buttons">
-                            <button mat-flat-button class="boutonConfirmer" (click)="deleteBanque(element.Nom)">Confirmer</button> 
+                            <button mat-flat-button class="boutonConfirmer" (click)="deleteBanque()">Confirmer</button> 
                             <button mat-flat-button class="boutonAnnuler" (click)="cancelValidatBanque()">Annuler</button> 
                         </div>
                     </div>
@@ -99,7 +99,7 @@
               </ng-container>
                 <ng-container matColumnDef="Editer">
                     <th mat-header-cell *matHeaderCellDef> Edition </th>
-                    <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"  (click)="openContactDialog(ContactDialog,element)">Editer</button>
+                    <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"  (click)="openEditDialog(ContactDialog,element)">Editer</button>
                       <ng-template #ContactDialog>
                           <div class="contact-dialog">
                               <div class="dialog-header">
@@ -108,17 +108,17 @@
                               </div>
                               <div class="contact-dialog-form">
                                   <mat-form-field>
-                                      <input matInput placeholder="Nom de la banque" value={{element.Nom}} >
+                                      <input matInput placeholder="Nom de la banque"  [(ngModel)]="selectedBanque.Nom" >
                                   </mat-form-field>
                                   <mat-form-field>
-                                      <input matInput placeholder="Email" value={{element.Email}}>
+                                      <input matInput placeholder="Email" [(ngModel)]="selectedBanque.Email">
                                   </mat-form-field>
                                   <mat-form-field>
-                                      <input matInput placeholder="Téléphone" value= {{element.Tel}}>
-                                  </mat-form-field>
+                                    <input matInput placeholder="Téléphone" [(ngModel)]="selectedBanque.Tel">
+                                </mat-form-field>
                               </div>
                               <div class="dialog-buttons">
-                                  <button mat-flat-button class="boutonConfirmer" (click)="confirmEditBanque(element)">Confirmer</button> 
+                                  <button mat-flat-button class="boutonConfirmer" (click)="confirmEditBanque(selectedBanque,element.Nom)">Confirmer</button> 
                                   <button mat-flat-button class="CoutonConfirmer" (click)="cancelValidatBanque()()">Annuler</button> 
                               </div>
                           </div>

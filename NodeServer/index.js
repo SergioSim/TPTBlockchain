@@ -161,6 +161,7 @@ app.put('/updateBanque', [
     check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('email').optional().isEmail().normalizeEmail(),
     check('tel').optional().isMobilePhone().escape().trim(),
+    check('isVisible').optional().isNumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -173,7 +174,8 @@ app.put('/updateBanque', [
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["banque not found!"] });
         const aEmail = outils.hasChanged(req.body.email, result[0].Email);
         const aTel = outils.hasChanged(req.body.tel, result[0].Tel);
-        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel, aBanqueOld], function(err1, result1){
+        const aIsVisible = outils.hasChanged(req.body.isVisible, result[0].isVisible);
+        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aBanqueOld], function(err1, result1){
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });
     });

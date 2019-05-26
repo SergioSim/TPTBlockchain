@@ -37,9 +37,17 @@ export class BanqueListComponent implements OnInit {
   Email : new FormControl(''),
   Telephone : new FormControl('')
   });
+  ancienBanque:''
   nouvelBanqueNom:'';
   nouvelBanqueEmail:'';
   nouvelBanqueTel:'';
+
+  selectedBanque: {
+    Nom: '',
+    Email: '',
+    Tel: '',
+    isVisible: ''
+  };
 
   ngOnInit() {
     this.validBanque={nom:'',email:'',password:'',confirmPassword:''};
@@ -55,21 +63,22 @@ export class BanqueListComponent implements OnInit {
   refreshListBanque(){
     this.service.makeRequest(apiUrl.allBanks, {visible:true}).toPromise().then(res=>this.listBanqueVisible = res as Banque[] );1
   }
-      deleteBanque(nom: String){
-       this.service.makeRequest(apiUrl.deleteBank,{name: nom}).subscribe(res =>{
-     //   this.service.makeRequest(apiUrl.allBanks, {}).toPromise().then(res=>this.list = res as Banque[]);
-        console.log("got result " );
-        console.log(res);
-        console.log(nom);
-        this.snackBar.open('Vous avez supprimé la banque ' + nom, 'Fermer', {
-          duration: 5000,
+  
+      deleteBanque(){
+        this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
+          banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
+          isVisible:0 }).      
+        subscribe( res =>{
+          this.refreshListBanque();
+          this.confirmRestaurBanque();
+        }, error => {
+            console.log('got an error');
+            console.log(error);
         });
-      }, error => {
-          console.log("got an error"); console.log(error)
-        });  
-        this.contactDialogRef.close();     
-        
+        this.contactDialogRef.close();  
+        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
       }
+      
       openAddBankDialog(templateRef){
         
         this.contactDialogRef = this.dialog.open(templateRef, {width: '270px'});
@@ -83,9 +92,17 @@ export class BanqueListComponent implements OnInit {
         this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
       }
 
-      openContactDialog(templateRef) {
+      openEditDialog(templateRef,banque) {
+        event.stopPropagation();
+        this.selectedBanque={...banque};
         this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
       }
+
+      cancelEditBanque() {
+        this.contactDialogRef.close();
+      }
+    
+
       cancelValidatBanque() {
         this.contactDialogRef.close();
       }
@@ -110,18 +127,23 @@ export class BanqueListComponent implements OnInit {
         this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
       }
 
-      confirmEditBanque(test) {
-
-        this.service.makeRequest(apiUrl.createBankClient, {email:"99kjkhsdfde@de.ef",password:"efzonzefn",banque:"BRH"}).
+      confirmEditBanque() {
+        this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
+          banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
+          isVisible:this.selectedBanque.isVisible
+        }).      
         subscribe( res =>{
           console.log('on a recu la response:' );
-          console.log(res);
+          console.log(this.selectedBanque.isVisible)
+          console.log()
+          this.refreshListBanque();
+
         }, error => {
             console.log('got an error');
             console.log(error);
         });
         this.contactDialogRef.close();     
-        this.snackBar.open('La banque ' + test.Nom + ' a bien été modifié.', 'Fermer', { duration: 5000,});
+        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été modifié.', 'Fermer', { duration: 5000,});
       }
 
       confirmCreateBanque(test) {

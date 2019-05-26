@@ -45,7 +45,7 @@ module.exports = {
   'deletePortefeuille' : 
         'DELETE FROM OpenchainUser.portefeuille WHERE Id=?',
   'updateBank_0_2' : 
-        'UPDATE OpenchainUser.banque SET Nom = ?,  Email = ?, Tel = ? WHERE Nom = ?',
+        'UPDATE OpenchainUser.banque SET Nom = ?,  Email = ?, Tel = ?, isVisible= ? WHERE Nom = ?',
   'updateClient' : 
         'UPDATE OpenchainUser.utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',

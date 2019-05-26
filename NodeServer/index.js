@@ -78,6 +78,13 @@ app.get('/allClients', [
     });
 });
 
+app.post('/cardsByPortefeuilleIds', function(req, res) {
+    conn.query(sql.findCartesByPortefeuilleIds, req.body.Ids, function(err, result){
+        if(err || !result[0]) return res.status(400).send({errors: ['Could not fetch cards']});
+        res.send((err) ? "Error" : result);
+    });
+})
+
 app.post('/createBank', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),

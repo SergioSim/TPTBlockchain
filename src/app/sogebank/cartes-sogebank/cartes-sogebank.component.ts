@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { faPen, faTimes, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
+import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-cartes-sogebank',
@@ -19,7 +20,7 @@ export class CartesSogebankComponent implements OnInit {
   cartes: any[];
   portefeuilles: any[];
   totalCards = 0;
-  totalSolde = '14 636 DHTG';
+  totalSolde = '0';
   totalActivite = '0';
   newCreateDialogRef: any;
   newCardSelectedWallet: {};
@@ -35,7 +36,7 @@ export class CartesSogebankComponent implements OnInit {
   };
 
   constructor(
-    private route: ActivatedRoute,
+    private apiService: NodeapiService,
     private sogebankService: SogebankService,
     private commonUtilsService: CommonUtilsService,
     private titleService: Title,
@@ -45,23 +46,35 @@ export class CartesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes cartes - Sogebank');
+    this.portefeuilles = this.sogebankService.portefeuilles;
+    const portefeuilleIds = this.portefeuilles.map(pf => pf.Id);
 
-    this.cartes = this.sogebankService.getUserCards();
-    this.portefeuilles = this.sogebankService.getUserWallets();
+    this.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).toPromise()
+      .then(res => {
+        this.cartes = res;
+        this.cartes.forEach(carte => {
+          const attached = this.portefeuilles.filter(portefeuille => portefeuille.Id = carte.Portefeuille_Id);
+          carte.rattachement = attached[0].Libelle;
+        });
 
-    if (this.cartes.length > 0) {
-      this.countTotals();
-    }
+        this.sogebankService.cartes = this.cartes;
+        this.countTotals();
+      });
   }
 
   countTotals() {
     let activite = 0;
+    let solde = 0;
     this.totalCards = 0;
     this.cartes.forEach( carte => {
       this.totalCards++;
-      activite += this.commonUtilsService.currencyStringtoNumber(carte.activite);
+      //activite += this.commonUtilsService.currencyStringtoNumber(carte.activite);
+    });
+    this.portefeuilles.forEach( portefeuille => {
+      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
     });
     this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
+    this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
   }
 
   openNewCardDialog(templateRef) {

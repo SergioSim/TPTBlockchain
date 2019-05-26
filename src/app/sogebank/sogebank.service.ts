@@ -9,6 +9,7 @@ export class SogebankService {
   isNewParticulier: boolean;
   currentUserRole: string;
   portefeuilles = [];
+  cartes = [];
   userEmail = '';
   userFullName = '';
   userAccessToken = '';

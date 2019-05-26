@@ -13,6 +13,9 @@ module.exports = {
   'findUtilisateurByEmail' : 
         'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Libelle, PermissionLevel ' + 
         'FROM OpenchainUser.utilisateur ut INNER JOIN OpenchainUser.role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
+  'findCartesByPortefeuilleIds' : 
+        'SELECT Id, Libelle, Portefeuille_Id ' + 
+        'FROM OpenchainUser.carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
          'SELECT Email, Nom, Tel, isVisible ' + 
          'FROM OpenchainUser.banque WHERE Nom LIKE BINARY ?',

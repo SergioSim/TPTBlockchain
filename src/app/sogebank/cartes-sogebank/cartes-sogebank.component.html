@@ -7,7 +7,7 @@
         <div *ngFor="let carte of cartes">
             <div class="carte-container">
                 <div class="carte-title">
-                    <h1>{{carte.libelle}}</h1>
+                    <h1>{{carte.Libelle}}</h1>
                     <button mat-icon-button>
                         <fa-icon [icon]="faPen" class="edit-button" (click)="openEditCardDialog(EditCardDialog, carte)"></fa-icon>
                     </button>
@@ -17,8 +17,8 @@
                 </div>
                 <div class="carte-footer">
                     <div class="carte-info">
-                        <p>Activité récente: {{carte.activite}}</p>
-                        <p>Création: {{carte.creation}}</p>
+                        <p>Activité récente: {{carte.Activite}}</p>
+                        <p>Création: {{carte.cCreation}}</p>
                     </div>
                     <div class="carte-rattachement">
                         <h1>Rattachée à : {{carte.rattachement}}</h1>
@@ -56,7 +56,7 @@
                         <mat-label>Portefeuille rattaché</mat-label>
                         <mat-select [(value)]="newCardSelectedWallet">
                             <mat-option *ngFor="let portefeuille of portefeuilles" [value]="portefeuille">
-                                {{portefeuille.libelle}}
+                                {{portefeuille.Libelle}}
                             </mat-option>
                         </mat-select>
                 </mat-form-field>
@@ -76,7 +76,7 @@
             </div>
             <div class="new-card-dialog-form">
                 <mat-form-field>
-                    <input matInput placeholder="Saisir un libellé pour la carte…" [(ngModel)]="selectedCarte.libelle">
+                    <input matInput placeholder="Saisir un libellé pour la carte…" [(ngModel)]="selectedCarte.Libelle">
                 </mat-form-field>
             </div>
            <div class="dialog-buttons">

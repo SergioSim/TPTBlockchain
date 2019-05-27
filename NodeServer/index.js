@@ -79,6 +79,7 @@ app.get('/allClients', [
 });
 
 app.post('/cardsByPortefeuilleIds', function(req, res) {
+    check('Ids').isArray().isLength({ min: 1 });
     conn.query(sql.findCartesByPortefeuilleIds, req.body.Ids, function(err, result){
         if(err || !result[0]) return res.status(400).send({errors: ['Could not fetch cards']});
         res.send((err) ? "Error" : result);

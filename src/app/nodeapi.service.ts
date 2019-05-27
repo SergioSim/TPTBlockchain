@@ -243,8 +243,25 @@ export class NodeapiService {
     ,{ ID: 4 , Nom: "aaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
     ,{ ID: 5 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
     ,{ ID: 6 , Nom: "aaaaaaaaaaaaa", Portefeuille: "zzzzzz", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-  ]
-    ;
+  ];
+
+  _monnieElectronqueList =  [
+    { ID: 1 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "BITCOIN", UniteMonnieY:5},
+    { ID: 2 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "ETHERHOM", UniteMonnieY:15},
+    { ID: 3 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "RANK", UniteMonnieY:0.5},
+    { ID: 4 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "MONNECIE", UniteMonnieY:0.15},
+    { ID: 5 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "XXX", UniteMonnieY:0.15},
+    { ID: 6 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "YYY", UniteMonnieY:0.15},
+    { ID: 7 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "ZZZ", UniteMonnieY:0.15}
+
+ ];
+ _monniePysiqueList =  [
+  { ID: 1 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "EUROS", UniteMonniePhysiqueY:5},
+  { ID: 2 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DOLLAR AMERCICAIN", UniteMonniePhysiqueY:15},
+  { ID: 3 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DOLLAR CANADIEN", UniteMonniePhysiqueY:0.5},
+  { ID: 4 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DINAR ALGERIEN", UniteMonniePhysiqueY:0.15},
+
+];
 
   editContact(contact: Portefeuille) {
     const index = this._contactList.findIndex(c => c.ID === contact.ID);
@@ -255,6 +272,15 @@ export class NodeapiService {
 
   getAllContacts() {
     return this._contactList;
+  }
+
+  getAllMonnieElectronique(){
+    return this._monnieElectronqueList;
+  }
+
+  
+  getAllMonniePhysique(){
+    return this._monniePysiqueList;
   }
 
   getBanque() {

@@ -35,9 +35,9 @@
                     <div class="contact-dialog-form">
                         <mat-label>Sélectionner une banque</mat-label>
                             <mat-form-field>
-                                    <mat-select>
-                                      <mat-option *ngFor="let elem of listBanqueNotVisible" [value]="elem.Nom">     
-                                        {{elem.Nom}}
+                                    <mat-select placeholder="Select Banque" [value]="Banque">
+                                      <mat-option *ngFor="let banque of listBanqueNotVisible" [value]="banque" >     
+                                        {{banque.Nom}} 
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
@@ -82,7 +82,7 @@
            <!-- <td mat-cell *matCellDef="let element"><button  mat-raised-button (click)="onDelete(element.Name)" class="btn btn-sm btn-outline-danger">Supprimer</button></td>
 -->
                <td mat-cell *matCellDef="let element">
-                   <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(DeleteDialog)" >Supprimer</button>
+                   <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(DeleteDialog,element)" >Supprimer</button>
                    <ng-template #DeleteDialog>
                     <div class="contact-dialog">
                         <div class="dialog-header">

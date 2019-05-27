@@ -24,7 +24,6 @@ export class BanqueListComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
     ) { }
-
   validBanque: {};
   dataSource: [];
   formData : Banque;
@@ -41,7 +40,6 @@ export class BanqueListComponent implements OnInit {
   nouvelBanqueNom:'';
   nouvelBanqueEmail:'';
   nouvelBanqueTel:'';
-
   selectedBanque: {
     Nom: '',
     Email: '',
@@ -70,7 +68,7 @@ export class BanqueListComponent implements OnInit {
           isVisible:0 }).      
         subscribe( res =>{
           this.refreshListBanque();
-          this.confirmRestaurBanque();
+          this.getListBanqueRestaur();
         }, error => {
             console.log('got an error');
             console.log(error);
@@ -85,10 +83,13 @@ export class BanqueListComponent implements OnInit {
       }
 
       openRestaurDialog(templateRef){
+   //     event.stopPropagation();
         this.contactDialogRef = this.dialog.open(templateRef, {width: '310px'});
       }
 
-      openDeleteDialog(templateRef){
+      openDeleteDialog(templateRef,banque){
+        event.stopPropagation();
+        this.selectedBanque={...banque};
         this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
       }
 
@@ -108,7 +109,17 @@ export class BanqueListComponent implements OnInit {
       }
 
       confirmRestaurBanque(){
-        this.contactDialogRef.close();     
+/*        this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
+          banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
+          isVisible:1 }).      
+        subscribe( res =>{
+          this.refreshListBanque();
+          this.refreshListBanque(); 
+        }, error => {
+            console.log('got an error');
+            console.log(error);
+        });
+     */   this.contactDialogRef.close();     
         this.snackBar.open('La banque a bien été restauré avec succès.', 'Fermer', { duration: 5000,});
       }
 

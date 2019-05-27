@@ -30,8 +30,8 @@ export class MenuBrhComponent implements OnInit {
     this.route.navigate(['/brh/portefeuille-brh']);
   }
 
-  goTocontrole() {
-    this.route.navigate(['/brh/controle-brh']);
+  goToparametre() {
+    this.route.navigate(['/brh/parametre-brh']);
   }
 
   goToliquidite() {

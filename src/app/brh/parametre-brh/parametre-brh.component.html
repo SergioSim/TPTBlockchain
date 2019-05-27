@@ -1,17 +1,134 @@
 <div>
-    <div class="titte">
-      <h1>Dashboard</h1>
-    </div>
-    <div>
-      <p>info static</p>
-    </div>
-  
-    <div>
-      <p>tableau de banque</p>
-    </div>
-   
-                      
-  
-  
-  
+  <div class="titte">
+    <h1>Gérer les paramètres</h1>
+  </div> 
+  <div >
+      <div >
+          <h2>Gérer le taux de référence avec d’autres crypto monnaies</h2>
+      </div>
+    <mat-card>
+      <mat-card-content>
+        <div class="container">
+            <button  mat-raised-button color="primary" matBadgePosition="before" 
+            style="float: right;margin-bottom:5px;background-color:green">Ajouter une référence</button>          <table class="table">
+            <thead>
+              <th>Monnie éléctronique</th>
+              <th>Unité</th>
+              <th>Monnie éléctronique</th>
+              <th>Unité</th>
+              <th>Action</th>
+              
+            </thead>
+            <tr *ngFor="let Contact of ContactList | paginate: { itemsPerPage:5,currentPage:p} ; " >
+              <td>{{Contact.NomMonnieX}}</td>
+              <td>{{Contact.UniteMonnieX}}</td>
+              <td>{{Contact.NomMonnieY}}</td>
+              <td>{{Contact.UniteMonnieY}}</td>
+
+              <td><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"
+                (click)="openEditCardDialog(EditCardDialog,Contact)">Edit</button> 
+                <ng-template #EditCardDialog>
+                    <h3>Mettre à jours le portefeuille</h3>
+                  <div class="container">
+                  
+                      <div class="contact-dialog-form">
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.Nom">
+                          </mat-form-field>
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.Portefeuille">
+                          </mat-form-field>
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.MaxTransaction"> 
+                          </mat-form-field>   
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.MaxTransactionMoi"> 
+                          </mat-form-field>   <br/>
+                          <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Status">
+                              <mat-radio-button   value="Actif">Activer</mat-radio-button>
+                              <mat-radio-button   value="Bloqué">Bloqué</mat-radio-button>
+                            </mat-radio-group> 
+                        </div>
+                        <div class="dialog-buttons">
+                            <button mat-flat-button class="boutonConfirmer" (click)="confirmEditPortefeuille(selectedPortefeuille)">Confirmer</button> 
+                            <button mat-flat-button class="CoutonConfirmer" (click)="cancelEditBanque()">Annuler</button> 
+                        </div>
+                   </div>
+                </ng-template>
+                <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(DeleteDialog,element)" >Supprimer</button>
+              </td>
+            </tr>
+          </table>
+          <div class="barNavigation"> 
+              <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>    
   </div>
+  <div class="table_2">
+      <div >
+          <h2>Gérer le taux de référence avec d’autres monnaies physique</h2>
+      </div>
+    <mat-card>
+      <mat-card-content>
+        <div class="container">
+            <button  mat-raised-button color="primary" matBadgePosition="before" 
+             style="float: right;margin-bottom:5px;background-color:green">Ajouter une référence</button>
+          <table class="table">
+            <thead>
+              <th>Monnie éléctronique</th>
+              <th>Unité</th>
+              <th>Monnie physique</th>
+              <th>Unité</th>
+              <th>Action</th>
+              
+            </thead>
+            <tr *ngFor="let MP of ContactListPhysique | paginate: { itemsPerPage:5,currentPage:q} ; " >
+              <td>{{MP.NomMonnieElectroniqueX}}</td>
+              <td>{{MP.UniteMonniePhysiqueX}}</td>
+              <td>{{MP.NomMonniePhysiqueY}}</td>
+              <td>{{MP.UniteMonniePhysiqueY}}</td>
+
+              <td><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"
+                (click)="openEditCardDialog(EditCardDialog,Contact)">Edit</button> 
+                <ng-template #EditCardDialog>
+                    <h3>Mettre à jours le portefeuille</h3>
+                  <div class="container">
+                  
+                      <div class="contact-dialog-form">
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.Nom">
+                          </mat-form-field>
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.Portefeuille">
+                          </mat-form-field>
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.MaxTransaction"> 
+                          </mat-form-field>   
+                          <mat-form-field>
+                              <input matInput [(ngModel)]="selectedPortefeuille.MaxTransactionMoi"> 
+                          </mat-form-field>   <br/>
+                          <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Status">
+                              <mat-radio-button   value="Actif">Activer</mat-radio-button>
+                              <mat-radio-button   value="Bloqué">Bloqué</mat-radio-button>
+                            </mat-radio-group> 
+                        </div>
+                        <div class="dialog-buttons">
+                            <button mat-flat-button class="boutonConfirmer" (click)="confirmEditPortefeuille(selectedPortefeuille)">Confirmer</button> 
+                            <button mat-flat-button class="CoutonConfirmer" (click)="cancelEditBanque()">Annuler</button> 
+                        </div>
+                   </div>
+                </ng-template>                  
+                <button  mat-raised-button color="warn" matBadgePosition="before"  (click)="openDeleteDialog(DeleteDialog,element)" >Supprimer</button>
+              </td>
+            </tr>
+          </table>
+          <div class="barNavigation"> 
+              <pagination-controls (pageChange)="p=$event"></pagination-controls>   
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>    
+  </div>
+</div>

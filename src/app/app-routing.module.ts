@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'brh/dashboard-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/liquidite-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/portefeuille-brh', component:  EspaceAdminBrhComponent},
-  { path: 'brh/controle-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/parametre-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/releve-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},

@@ -1,0 +1,39 @@
+<div>
+    <div class="titte">
+      <h1>Gérer le portefeuille principal</h1>
+    </div>
+    <div class="infos-brh">
+      <p>Numéro du portefeuille est 116456154515545VEORUOHZEVZ44</p>
+      <p>Débit total : 10 000 DHTG</p>
+      <p>Débit en monnie electronique : 5000 DHTG </p>
+      <p>Débit en billets : 5000 DHTG </p>
+    </div>
+    <div class="dashboard-content">
+        <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(AddDialog)">Augmenter mes avoirs
+   
+            <ng-template #AddDialog>
+               <div class="contact-dialog">
+                   <div class="dialog-header">
+                       <h4>Augmenter mes avoirs</h4>
+                       <hr class="titre_fenetre">
+                   </div>
+                   <div class="contact-dialog-form">
+                       <mat-form-field>
+                           <input matInput placeholder="Saisir la quantité" [(ngModel)]="quantite" >
+                       </mat-form-field>
+                       <mat-radio-group aria-label="Select an option" [(ngModel)]="typeMonnie">
+                          <mat-radio-button   value="electronique">Gourde éléctronique</mat-radio-button>
+                          <mat-radio-button   value="physique">Gourde physique</mat-radio-button>
+                       </mat-radio-group>                   
+                   </div>
+                   <div class="dialog-buttons">
+                       <button mat-flat-button class="boutonConfirmer" (click)="confirmAddMonnie()">Confirmer</button> 
+                       <button mat-flat-button class="boutonAnnuler" (click)="cancelAddMonnie()">Annuler</button> 
+                   </div>
+               </div>
+           </ng-template>
+      </button>
+      <hr>
+    </div>
+</div>
+  

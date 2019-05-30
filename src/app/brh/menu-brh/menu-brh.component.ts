@@ -17,6 +17,9 @@ export class MenuBrhComponent implements OnInit {
   ngOnInit() {
   }
 
+  goToPortefeuillePrincipal(){
+    this.route.navigate(['/brh/portefeuille-principal-brh']);
+  }
 
   goToDashboard() {
     this.route.navigate(['/brh/dashboard-brh']);

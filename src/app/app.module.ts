@@ -60,6 +60,7 @@ import { TransactionsBanquePriveComponent } from './brh/transactions-banque-priv
 import { ClientsBanquePriveComponent } from './brh/clients-banque-prive/clients-banque-prive.component';
 import { CartesBanquePriveComponent } from './brh/cartes-banque-prive/cartes-banque-prive.component';
 import { ReleveBrhComponent } from './brh/releve-brh/releve-brh.component';
+import { PortefeuillePrincipalBrhComponent } from './brh/portefeuille-principal-brh/portefeuille-principal-brh.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { ReleveBrhComponent } from './brh/releve-brh/releve-brh.component';
     TransactionsBanquePriveComponent,
     ClientsBanquePriveComponent,
     CartesBanquePriveComponent,
-    ReleveBrhComponent
+    ReleveBrhComponent,
+    PortefeuillePrincipalBrhComponent
   ],
   imports: [
     BrowserModule,

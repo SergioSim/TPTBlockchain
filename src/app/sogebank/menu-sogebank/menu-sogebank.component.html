@@ -3,7 +3,12 @@
   <hr>
   <div class="user-info">
     <img src="assets/sogebank/avatar.jpg" alt="Avatar" class="avatar-img">
-    <p>{{apiService.fullname}}</p>
+    <button mat-button [matMenuTriggerFor]="disconectMenu">
+      {{apiService.fullname}}&nbsp;<i class="triangle-down"></i>
+    </button>
+    <mat-menu #disconectMenu="matMenu">
+        <button mat-menu-item (click)="disconnect()">Se déconnecter</button>
+      </mat-menu>
   </div>
   <hr>
   <div class="menu-buttons">

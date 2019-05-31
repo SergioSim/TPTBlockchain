@@ -46,6 +46,11 @@ export class MenuSogebankComponent implements OnInit {
     this.route.navigate(['/sogebank/documents']);
   }
 
+  disconnect() {
+    localStorage.removeItem('currentUser');
+    this.route.navigate(['/sogebank/login']);
+  }
+
 }
 
 

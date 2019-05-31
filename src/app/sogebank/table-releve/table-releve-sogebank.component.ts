@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { faDownload, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { SogebankService } from '../sogebank.service';
 import { Role } from '../Role';
+import { NodeapiService } from 'src/app/nodeapi.service';
 declare let jsPDF;
 
 @Component({
@@ -17,6 +18,7 @@ export class TableReleveSogebankComponent implements OnInit {
   roles = Role;
 
   constructor(
+    private apiService: NodeapiService,
     public sogebankService: SogebankService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -26,7 +28,7 @@ export class TableReleveSogebankComponent implements OnInit {
   }
 
   setColumnsToDisplay() {
-    this.displayedColumns = this.sogebankService.currentUserRole === Role.COMMERCANT
+    this.displayedColumns = this.apiService.permission === Role.COMMERCANT
       ? ['id', 'date', 'type', 'nature', 'montant', 'portefeuille', 'recu']
       : ['id', 'date', 'type', 'nature', 'montant', 'portefeuille'];
   }
@@ -34,9 +36,9 @@ export class TableReleveSogebankComponent implements OnInit {
   print() {
     let isCommercant = false;
 
-    if (this.sogebankService.currentUserRole === Role.COMMERCANT) {
+    if (this.apiService.permission === Role.COMMERCANT) {
       isCommercant = true;
-      this.sogebankService.currentUserRole = Role.PARTICULIER;
+      this.apiService.permission = Role.PARTICULIER;
       this.setColumnsToDisplay();
     }
 
@@ -57,7 +59,7 @@ export class TableReleveSogebankComponent implements OnInit {
     printPopup.close();
 
     if (isCommercant) {
-      this.sogebankService.currentUserRole = Role.COMMERCANT;
+      this.apiService.permission = Role.COMMERCANT;
       this.setColumnsToDisplay();
     }
   }
@@ -65,9 +67,9 @@ export class TableReleveSogebankComponent implements OnInit {
   download() {
     let isCommercant = false;
 
-    if (this.sogebankService.currentUserRole === Role.COMMERCANT) {
+    if (this.apiService.permission === Role.COMMERCANT) {
       isCommercant = true;
-      this.sogebankService.currentUserRole = Role.PARTICULIER;
+      this.apiService.permission = Role.PARTICULIER;
       this.setColumnsToDisplay();
     }
 
@@ -78,7 +80,7 @@ export class TableReleveSogebankComponent implements OnInit {
     doc.save('releve.pdf');
 
     if (isCommercant) {
-      this.sogebankService.currentUserRole = Role.COMMERCANT;
+      this.apiService.permission = Role.COMMERCANT;
       this.setColumnsToDisplay();
     }
   }

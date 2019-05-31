@@ -25,16 +25,16 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.sogebankService.userEmail === '') {
+    if (this.apiService.email === '' || this.apiService.email === null) {
       this.router.navigate(['/sogebank/login']);
-    } else if (this.sogebankService.currentUserRole === Role.DEMANDECOMMERCANT ||
-      this.sogebankService.currentUserRole === Role.DEMANDEPARTICULIER) {
+    } else if (this.apiService.permission === Role.DEMANDECOMMERCANT ||
+      this.apiService.permission === Role.DEMANDEPARTICULIER) {
       this.router.navigate(['/sogebank/documents']);
     }
     this.setBreadcrumbContent();
 
-    if (this.sogebankService.portefeuilles.length > 0) {
-      for (const portefeuille of this.sogebankService.portefeuilles) {
+    if (this.apiService.portefeuilles.length > 0) {
+      for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getRecord(portefeuille.ClePub).subscribe(
           data => {
             portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);

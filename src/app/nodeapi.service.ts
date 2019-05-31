@@ -20,6 +20,7 @@ export class NodeapiService {
   public cartes: any[];
   public nom: string;
   public prenom: string;
+  public fullname: string;
   public civilite: string;
   public situationFamiliale: string;
   public profession: string;
@@ -39,7 +40,7 @@ export class NodeapiService {
   constructor(private http: HttpClient) {
     apilog('getting current User');
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if(currentUser) {
+    if (currentUser) {
       this.setLogin(currentUser);
     }
     this.logLogin();
@@ -132,6 +133,7 @@ export class NodeapiService {
     this.banque = obj.banque;
     this.nom = obj.nom;
     this.prenom = obj.prenom;
+    this.fullname = obj.prenom + ' ' + obj.nom;
     this.civilite = obj.civilite;
     this.situationFamiliale = obj.situation_familiale;
     this.profession = obj.profession;

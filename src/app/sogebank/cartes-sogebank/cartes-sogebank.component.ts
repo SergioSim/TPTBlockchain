@@ -46,7 +46,7 @@ export class CartesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes cartes - Sogebank');
-    this.portefeuilles = this.sogebankService.portefeuilles;
+    this.portefeuilles = this.apiService.portefeuilles;
     const portefeuilleIds = this.portefeuilles.map(pf => pf.Id);
 
     this.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).toPromise()
@@ -57,7 +57,7 @@ export class CartesSogebankComponent implements OnInit {
           carte.rattachement = attached[0].Libelle;
         });
 
-        this.sogebankService.cartes = this.cartes;
+        this.apiService.cartes = this.cartes;
         this.countTotals();
       });
   }

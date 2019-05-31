@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Role } from '../Role';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-menu-sogebank',
@@ -9,13 +10,13 @@ import { Role } from '../Role';
   styleUrls: ['./menu-sogebank.component.css']
 })
 export class MenuSogebankComponent implements OnInit {
-  userFullname: string;
   userAvatarUrl: string;
   roles = Role;
 
   constructor(
     private route: Router,
-    public sogebankService: SogebankService
+    public sogebankService: SogebankService,
+    private apiService: NodeapiService
   ) { }
 
   ngOnInit() {

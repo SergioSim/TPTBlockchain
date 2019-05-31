@@ -67,11 +67,6 @@ export class LoginSogebankComponent implements OnInit {
           if (registerData.success !== false) {
             this.apiService.login(this.emailFC.value, this.passwordFC.value).subscribe(
               loginData => {
-                this.sogebankService.currentUserRole = loginData.permission;
-                this.sogebankService.portefeuilles = loginData.portefeuilles;
-                this.sogebankService.userEmail = loginData.email;
-                this.sogebankService.userAccessToken = loginData.accessToken;
-                this.sogebankService.userRefreshToken = loginData.refreshToken;
                 this.route.navigate([this.dashboardUrl]);
               },
               error => {

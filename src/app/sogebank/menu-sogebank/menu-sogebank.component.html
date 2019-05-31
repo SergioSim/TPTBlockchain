@@ -3,26 +3,26 @@
   <hr>
   <div class="user-info">
     <img src="assets/sogebank/avatar.jpg" alt="Avatar" class="avatar-img">
-    <p>{{sogebankService.userFullName}}</p>
+    <p>{{apiService.fullname}}</p>
   </div>
   <hr>
   <div class="menu-buttons">
-    <button mat-raised-button (click)="goToDashboard()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
-    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Tableau de bord</button>
+    <button mat-raised-button (click)="goToDashboard()" *ngIf="apiService.permission !== roles.DEMANDEPARTICULIER &&
+    apiService.permission !== roles.DEMANDECOMMERCANT">Tableau de bord</button>
 
-    <button mat-raised-button (click)="goToWallets()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
-    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Mes portefeuilles</button>
+    <button mat-raised-button (click)="goToWallets()" *ngIf="apiService.permission !== roles.DEMANDEPARTICULIER &&
+    apiService.permission !== roles.DEMANDECOMMERCANT">Mes portefeuilles</button>
 
-    <button mat-raised-button (click)="goToCards()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
-    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Mes cartes</button>
+    <button mat-raised-button (click)="goToCards()" *ngIf="apiService.permission !== roles.DEMANDEPARTICULIER &&
+    apiService.permission !== roles.DEMANDECOMMERCANT">Mes cartes</button>
 
-    <button mat-raised-button (click)="goToTransfers()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
-      sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Virements</button>
+    <button mat-raised-button (click)="goToTransfers()" *ngIf="apiService.permission !== roles.DEMANDEPARTICULIER &&
+      apiService.permission !== roles.DEMANDECOMMERCANT">Virements</button>
 
-    <button mat-raised-button (click)="goToStatements()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
-      sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Relevés</button>
+    <button mat-raised-button (click)="goToStatements()" *ngIf="apiService.permission !== roles.DEMANDEPARTICULIER &&
+      apiService.permission !== roles.DEMANDECOMMERCANT">Relevés</button>
 
-    <button mat-raised-button (click)="goToDocuments()"*ngIf="sogebankService.currentUserRole === roles.DEMANDEPARTICULIER ||
-    sogebankService.currentUserRole === roles.DEMANDECOMMERCANT">Mes documents</button>
+    <button mat-raised-button (click)="goToDocuments()"*ngIf="apiService.permission === roles.DEMANDEPARTICULIER ||
+    apiService.permission === roles.DEMANDECOMMERCANT">Mes documents</button>
   </div>
 </div>

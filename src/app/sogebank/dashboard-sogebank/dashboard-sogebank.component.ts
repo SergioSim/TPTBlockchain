@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-dashboard-sogebank',
@@ -19,6 +20,7 @@ export class DashboardSogebankComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private apiService: NodeapiService,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }

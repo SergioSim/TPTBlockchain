@@ -4,6 +4,7 @@ import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { Role } from '../Role';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-documents-sogebank',
@@ -20,13 +21,14 @@ export class DocumentsSogebankComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private apiService: NodeapiService,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }
 
   ngOnInit() {
-    if (this.sogebankService.currentUserRole !== Role.DEMANDEPARTICULIER &&
-      this.sogebankService.currentUserRole !== Role.DEMANDECOMMERCANT) {
+    if (this.apiService.permission !== Role.DEMANDEPARTICULIER &&
+      this.apiService.permission !== Role.DEMANDECOMMERCANT) {
       this.router.navigate(['/sogebank/dashboard']);
     }
     this.titleService.setTitle('Mes documents - Sogebank');

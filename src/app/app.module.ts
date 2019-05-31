@@ -34,7 +34,6 @@ import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.compone
 import { BanqueComponent } from './brh/habilitation-brh/banque/banque.component';
 import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-list.component';
 
-
 // Sogebank components
 import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
@@ -48,6 +47,7 @@ import { SuiviVirementsSogebankComponent } from './sogebank/suivi-virements-soge
 import { RelevesSogebankComponent } from './sogebank/releves-sogebank/releves-sogebank.component';
 import { BreadcrumbSearchSogebankComponent } from './sogebank/breadcrumb-search-sogebank/breadcrumb-search-sogebank.component';
 import { TableReleveSogebankComponent } from './sogebank/table-releve/table-releve-sogebank.component';
+import { DocumentsSogebankComponent } from './sogebank/documents-sogebank/documents-sogebank.component'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule  } from 'ngx-pagination';
 
@@ -94,7 +94,7 @@ import { PortefeuillePrincipalBrhComponent } from './brh/portefeuille-principal-
     RelevesSogebankComponent,
     TableReleveSogebankComponent,
     AccueilFooterComponent,
-    TableReleveSogebankComponent,
+    DocumentsSogebankComponent,
     LoginBanquePriveComponent,
     AlertComponent,
     EspaceUtilisateurBanquePriveComponent,

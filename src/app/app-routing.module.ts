@@ -43,7 +43,8 @@ const routes: Routes = [
   { path: 'sogebank/cartes', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/virements', component: EspaceUtilisateurSogebankComponent},
   { path: 'sogebank/virements/suivi', component: EspaceUtilisateurSogebankComponent},
-  { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent}
+  { path: 'sogebank/releves', component: EspaceUtilisateurSogebankComponent},
+  { path: 'sogebank/documents', component: EspaceUtilisateurSogebankComponent}
 ];
 
 @NgModule({

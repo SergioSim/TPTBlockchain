@@ -4,5 +4,5 @@ export enum Role {
     COMMERCANT = 'Commercant',
     PARTICULIER = 'Particulier',
     DEMANDEPARTICULIER = 'DemandeParticulier',
-    DEMANDECOMMERCANT = 'DemandeCommercan'
+    DEMANDECOMMERCANT = 'DemandeCommercant'
 }

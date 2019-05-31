@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
-import { Title } from '@angular/platform-browser';
-import { IconDefinition, faChartLine, faWallet, faCreditCard, faExchangeAlt, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faChartLine, faWallet, faCreditCard, faExchangeAlt,
+  faClipboardList, faFileUpload } from '@fortawesome/free-solid-svg-icons';
 import { NodeapiService } from 'src/app/nodeapi.service';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
+import { Role } from '../Role';
 
 @Component({
   selector: 'app-espace-utilisateur-sogebank',
@@ -26,6 +27,9 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   ngOnInit() {
     if (this.sogebankService.userEmail === '') {
       this.router.navigate(['/sogebank/login']);
+    } else if (this.sogebankService.currentUserRole === Role.DEMANDECOMMERCANT ||
+      this.sogebankService.currentUserRole === Role.DEMANDEPARTICULIER) {
+      this.router.navigate(['/sogebank/documents']);
     }
     this.setBreadcrumbContent();
 
@@ -62,6 +66,10 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
     } else if (this.router.url === '/sogebank/releves') {
       this.breadcrumbIcon = faClipboardList;
       this.breadcrumbTitle = 'Mes relevés';
+      this.breadcrumbDetails = '';
+    } else if (this.router.url === '/sogebank/documents') {
+      this.breadcrumbIcon = faFileUpload;
+      this.breadcrumbTitle = 'Mes documents';
       this.breadcrumbDetails = '';
     }
   }

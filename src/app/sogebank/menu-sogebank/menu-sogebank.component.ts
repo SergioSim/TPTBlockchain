@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
+import { Role } from '../Role';
 
 @Component({
   selector: 'app-menu-sogebank',
@@ -10,6 +11,7 @@ import { SogebankService } from '../sogebank.service';
 export class MenuSogebankComponent implements OnInit {
   userFullname: string;
   userAvatarUrl: string;
+  roles = Role;
 
   constructor(
     private route: Router,
@@ -37,6 +39,10 @@ export class MenuSogebankComponent implements OnInit {
 
   goToStatements() {
     this.route.navigate(['/sogebank/releves']);
+  }
+
+  goToDocuments() {
+    this.route.navigate(['/sogebank/documents']);
   }
 
 }

@@ -7,10 +7,22 @@
   </div>
   <hr>
   <div class="menu-buttons">
-    <button mat-raised-button (click)="goToDashboard()">Tableau de bord</button>
-    <button mat-raised-button (click)="goToWallets()">Mes portefeuilles</button>
-    <button mat-raised-button (click)="goToCards()">Mes cartes</button>
-    <button mat-raised-button (click)="goToTransfers()">Virements</button>
-    <button mat-raised-button (click)="goToStatements()">Relevés</button>
+    <button mat-raised-button (click)="goToDashboard()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
+    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Tableau de bord</button>
+
+    <button mat-raised-button (click)="goToWallets()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
+    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Mes portefeuilles</button>
+
+    <button mat-raised-button (click)="goToCards()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
+    sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Mes cartes</button>
+
+    <button mat-raised-button (click)="goToTransfers()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
+      sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Virements</button>
+
+    <button mat-raised-button (click)="goToStatements()" *ngIf="sogebankService.currentUserRole !== roles.DEMANDEPARTICULIER &&
+      sogebankService.currentUserRole !== roles.DEMANDECOMMERCANT">Relevés</button>
+
+    <button mat-raised-button (click)="goToDocuments()"*ngIf="sogebankService.currentUserRole === roles.DEMANDEPARTICULIER ||
+    sogebankService.currentUserRole === roles.DEMANDECOMMERCANT">Mes documents</button>
   </div>
 </div>

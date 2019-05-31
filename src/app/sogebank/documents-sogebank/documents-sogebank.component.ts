@@ -12,12 +12,16 @@ import { NodeapiService } from 'src/app/nodeapi.service';
   styleUrls: ['./documents-sogebank.component.css']
 })
 export class DocumentsSogebankComponent implements OnInit {
-  displayedColumns: string[];
-  dataSource: any[];
-  faDownload = faDownload;
-  faSyncAlt = faSyncAlt;
-  faPlusCircle = faPlusCircle;
-  faMinusCircle = faMinusCircle;
+  roles = Role;
+  pieceIdentite: File;
+  justificatifDomicile: File;
+  selectedCivilite: string;
+  selectedSituation: string;
+  profession: string;
+  tel: number;
+  addresse: string;
+  ville: string;
+  codePostal: number;
 
   constructor(
     private router: Router,
@@ -32,6 +36,22 @@ export class DocumentsSogebankComponent implements OnInit {
       this.router.navigate(['/sogebank/dashboard']);
     }
     this.titleService.setTitle('Mes documents - Sogebank');
+  }
+
+  openPieceIdentiteInput() {
+    document.getElementById('pieceIdentiteInput').click();
+  }
+
+  pieceIdentiteChange(file) {
+    this.pieceIdentite = file[0];
+  }
+
+  openJustificatifDomicileInput() {
+    document.getElementById('justificatifDomicileInput').click();
+  }
+
+  justificatifDomicileChange(file) {
+    this.justificatifDomicile = file[0];
   }
 
 }

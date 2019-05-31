@@ -1,3 +1,87 @@
 <div class="documents-content">
+    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDEPARTICULIER">
+        <h1>Vos informations personnelles</h1>
+        <hr>
 
+        <mat-form-field class="civilite-selector">
+            <mat-label>Saisissez votre civilité</mat-label>
+            <mat-select [(value)]="selectedCivilite">
+                <mat-option value="M">
+                    Monsieur
+                </mat-option>
+                <mat-option value="Mme">
+                    Madame
+                </mat-option>
+                <mat-option value="Mlle">
+                    Mademoiselle
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="situation-selector">
+            <mat-label>Saisissez votre situation familialle</mat-label>
+            <mat-select [(value)]="selectedSituation">
+                <mat-option value="celibataire">
+                    Célibataire
+                </mat-option>
+                <mat-option value="marie">
+                    Marié(e)
+                </mat-option>
+                <mat-option value="pacse">
+                    Pacsé(e)
+                </mat-option>
+                <mat-option value="divorce">
+                    Divorcé(e)
+                </mat-option>
+                <mat-option value="veuf">
+                    Veuf(ve)
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre profession…" [(ngModel)]="profession">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput maxlength="10" placeholder="Saisissez votre numéro de téléphone" [(ngModel)]="tel">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre adresse" [(ngModel)]="addresse">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre ville" [(ngModel)]="ville">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput maxlength="5" placeholder="Saisissez votre code postal" [(ngModel)]="codePostal">
+        </mat-form-field>
+
+        <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openPieceIdentiteInput()">Joindre une pièce d'identité</button>
+            <input id="pieceIdentiteInput" hidden type="file" (change)="pieceIdentiteChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="piece-identite-input">
+                <input matInput disabled [value]="pieceIdentite?.name">
+            </mat-form-field>
+        </div>
+
+        <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openJustificatifDomicileInput()">Joindre un justificatif de domicile</button>
+            <input id="justificatifDomicileInput" hidden type="file" (change)="justificatifDomicileChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="justificatif-domicile-input">
+                <input matInput disabled [value]="justificatifDomicile?.name">
+            </mat-form-field>
+        </div>
+
+        <div class="submit-box">
+            <button mat-raised-button color="primary" class="submit-button" (click)="submitParticulierDocs()">
+                Soumettre
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDECOMMERCANT">
+    
+    </div>
 </div>

@@ -116,7 +116,7 @@ app.post('/createClient', [
     conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.banque, req.body.roleId], function(err, result) {
         if(err) return res.send({success: !err});
         let currDate = new Date();
-        let dateStr = currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDay();
+        let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
             return res.send({success: !err});
         });
@@ -141,7 +141,7 @@ app.post('/createPortefeuille', [
         keys = outils.generateEncryptedKeys(req.body.password);
         if(err) return res.send({success: !err});
         let currDate = new Date();
-        let dateStr = currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDay();
+        let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
         conn.query(sql.insertPortefeuille, [req.body.libelle, keys.address, keys.privateKey, req.jwt.Email, dateStr], function(err2, result2){
             return res.send({success: !err2});
     });

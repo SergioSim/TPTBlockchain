@@ -25,7 +25,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.apiService.email === '' || this.apiService.email === null) {
+    if (this.apiService.email === '' || this.apiService.email === undefined) {
       this.router.navigate(['/sogebank/login']);
     } else if (this.apiService.permission === Role.DEMANDECOMMERCANT ||
       this.apiService.permission === Role.DEMANDEPARTICULIER) {
@@ -37,7 +37,11 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getRecord(portefeuille.ClePub).subscribe(
           data => {
-            portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+            if (data[0] && data[0].balance) {
+              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+            } else {
+              portefeuille.Solde = 0;
+            }
           },
           error => {
             console.log(error);

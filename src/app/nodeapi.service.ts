@@ -96,6 +96,7 @@ export class NodeapiService {
   }
 
   login(email: string, password: string, saveToken: boolean = false): Observable<any> {
+    localStorage.removeItem('currentUser');
     return this.http.post<any>(this.url + 'auth/', { email, password })
       .pipe(
         map(res => {

@@ -64,22 +64,30 @@ export class LoginSogebankComponent implements OnInit {
     this.apiService.register(this.emailFC.value, this.passwordFC.value, this.prenomFC.value,
       this.nomFC.value, 'Sogebank', this.clientType).subscribe(
         registerData => {
-          this.apiService.login(this.emailFC.value, this.passwordFC.value).subscribe(
-            loginData => {
-              this.sogebankService.currentUserRole = loginData.permission;
-              this.sogebankService.portefeuilles = loginData.portefeuilles;
-              this.sogebankService.userEmail = loginData.email;
-              this.sogebankService.userAccessToken = loginData.accessToken;
-              this.sogebankService.userRefreshToken = loginData.refreshToken;
-              this.route.navigate([this.dashboardUrl]);
-            },
-            error => {
-              console.log(error);
-              this.snackBar.open('Votre compte à été créé, vous pouvez désormais vous connecter.', 'Fermer', {
-                duration: 5000,
-                panelClass: ['alert-snackbar']
+          if (registerData.success !== false) {
+            this.apiService.login(this.emailFC.value, this.passwordFC.value).subscribe(
+              loginData => {
+                this.sogebankService.currentUserRole = loginData.permission;
+                this.sogebankService.portefeuilles = loginData.portefeuilles;
+                this.sogebankService.userEmail = loginData.email;
+                this.sogebankService.userAccessToken = loginData.accessToken;
+                this.sogebankService.userRefreshToken = loginData.refreshToken;
+                this.route.navigate([this.dashboardUrl]);
+              },
+              error => {
+                console.log(error);
+                this.snackBar.open('Votre compte à été créé, vous pouvez désormais vous connecter.', 'Fermer', {
+                  duration: 5000,
+                  panelClass: ['alert-snackbar']
+                });
               });
+          }
+          else {
+            this.snackBar.open('Ce compte existe déjà.', 'Fermer', {
+              duration: 5000,
+              panelClass: ['alert-snackbar']
             });
+          }
         },
         error => {
           console.log(error);

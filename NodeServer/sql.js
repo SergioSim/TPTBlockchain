@@ -5,7 +5,7 @@ module.exports = {
   'insertUtilisateurBanque' : 
         'INSERT INTO OpenchainUser.utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,5)',
   'insertPortefeuille' : 
-        'INSERT INTO OpenchainUser.portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email) VALUES (?,?,?,?)',
+        'INSERT INTO OpenchainUser.portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email, Ouverture) VALUES (?,?,?,?,?)',
   'insertContact_0_4' : 
         'INSERT INTO OpenchainUser.beneficiaire  (Utilisateur_Email, Beneficiaire_Email, Nom, Prenom) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 

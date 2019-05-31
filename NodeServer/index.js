@@ -115,7 +115,9 @@ app.post('/createClient', [
     req.body.password = outils.hashPassword(req.body.password);
     conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.banque, req.body.roleId], function(err, result) {
         if(err) return res.send({success: !err});
-        conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email], function(err2, result2){
+        let currDate = new Date();
+        let dateStr = currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDay();
+        conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
             return res.send({success: !err});
         });
     });
@@ -138,7 +140,9 @@ app.post('/createPortefeuille', [
         if (hash !== passwordFields[1]) return res.status(400).send({errors: ['Invalid password']});
         keys = outils.generateEncryptedKeys(req.body.password);
         if(err) return res.send({success: !err});
-        conn.query(sql.insertPortefeuille, [req.body.libelle, keys.address, keys.privateKey, req.jwt.Email], function(err2, result2){
+        let currDate = new Date();
+        let dateStr = currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDay();
+        conn.query(sql.insertPortefeuille, [req.body.libelle, keys.address, keys.privateKey, req.jwt.Email, dateStr], function(err2, result2){
             return res.send({success: !err2});
     });
     });

@@ -61,8 +61,8 @@ export class LoginSogebankComponent implements OnInit {
       });
       return;
     }
-    this.apiService.register(this.emailFC.value, this.passwordFC.value, this.prenomFC.value,
-      this.nomFC.value, 'Sogebank', this.clientType).subscribe(
+    this.apiService.register(this.emailFC.value, this.passwordFC.value, this.capitalizeName(this.prenomFC.value),
+      this.capitalizeName(this.nomFC.value), 'Sogebank', this.clientType).subscribe(
         registerData => {
           if (registerData.success !== false) {
             this.apiService.login(this.emailFC.value, this.passwordFC.value).subscribe(
@@ -81,8 +81,7 @@ export class LoginSogebankComponent implements OnInit {
                   panelClass: ['alert-snackbar']
                 });
               });
-          }
-          else {
+          } else {
             this.snackBar.open('Ce compte existe déjà.', 'Fermer', {
               duration: 5000,
               panelClass: ['alert-snackbar']
@@ -97,6 +96,10 @@ export class LoginSogebankComponent implements OnInit {
           });
         }
       );
+  }
+
+  capitalizeName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
 }

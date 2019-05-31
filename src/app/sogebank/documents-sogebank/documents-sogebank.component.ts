@@ -13,15 +13,22 @@ import { NodeapiService } from 'src/app/nodeapi.service';
 })
 export class DocumentsSogebankComponent implements OnInit {
   roles = Role;
+  // Particulier fields
   pieceIdentite: File;
   justificatifDomicile: File;
   selectedCivilite: string;
   selectedSituation: string;
   profession: string;
-  tel: number;
+  // Commerçant fields
+  annonceLegale: File;
+  selectedStatutJuridique: string;
+  siret: number;
+  secteurActivite: string;
+  // Common fields
+  tel: string;
   addresse: string;
   ville: string;
-  codePostal: number;
+  codePostal: string;
 
   constructor(
     private router: Router,
@@ -52,6 +59,22 @@ export class DocumentsSogebankComponent implements OnInit {
 
   justificatifDomicileChange(file) {
     this.justificatifDomicile = file[0];
+  }
+
+  openAnnonceLegaleInput() {
+    document.getElementById('annonceLegaleInput').click();
+  }
+
+  annonceLegaleChange(file) {
+    this.annonceLegale = file[0];
+  }
+
+  submitParticulierDocs() {
+    return;
+  }
+
+  submitCommercantDocs() {
+    return;
   }
 
 }

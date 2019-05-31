@@ -43,16 +43,16 @@
             <input matInput placeholder="Saisissez votre profession…" [(ngModel)]="profession">
         </mat-form-field>
         <mat-form-field>
-            <input matInput maxlength="10" placeholder="Saisissez votre numéro de téléphone" [(ngModel)]="tel">
+            <input matInput maxlength="10" placeholder="Saisissez votre numéro de téléphone..." [(ngModel)]="tel">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Saisissez votre adresse" [(ngModel)]="addresse">
+            <input matInput placeholder="Saisissez votre adresse..." [(ngModel)]="addresse">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Saisissez votre ville" [(ngModel)]="ville">
+            <input matInput placeholder="Saisissez votre ville..." [(ngModel)]="ville">
         </mat-form-field>
         <mat-form-field>
-            <input matInput maxlength="5" placeholder="Saisissez votre code postal" [(ngModel)]="codePostal">
+            <input matInput maxlength="5" placeholder="Saisissez votre code postal..." [(ngModel)]="codePostal">
         </mat-form-field>
 
         <div class="upload-button">
@@ -82,6 +82,61 @@
 
 
     <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDECOMMERCANT">
-    
+        <h1>Vos informations professionnelles</h1>
+        <hr>
+
+        <mat-form-field class="civilite-selector">
+            <mat-label>Saisissez votre statut juridique</mat-label>
+            <mat-select [(value)]="selectedStatutJuridique">
+                <mat-option value="EI">
+                    Entreprise individuelle (EI)
+                </mat-option>
+                <mat-option value="EURL">
+                    Entreprise unipersonnelle à responsabilité limitée (EURL)
+                </mat-option>
+                <mat-option value="SARL">
+                    Société à responsabilité limitée (SARL)
+                </mat-option>
+                <mat-option value="SA">
+                    Société anonyme (SA)
+                </mat-option>
+                <mat-option value="SAS">
+                    Société par actions simplifiée (SAS)
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="number" placeholder="Saisissez votre numéro siret..." [(ngModel)]="siret">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre secteur d'activité..." [(ngModel)]="secteurActivite">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput maxlength="10" placeholder="Saisissez votre numéro de téléphone..." [(ngModel)]="tel">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre adresse..." [(ngModel)]="addresse">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Saisissez votre ville..." [(ngModel)]="ville">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput maxlength="5" placeholder="Saisissez votre code postal..." [(ngModel)]="codePostal">
+        </mat-form-field>
+
+        <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openAnnonceLegaleInput()">Joindre votre annonce légale</button>
+            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="annonce-legale-input">
+                <input matInput disabled [value]="annonceLegale?.name">
+            </mat-form-field>
+        </div>
+
+        <div class="submit-box">
+            <button mat-raised-button color="primary" class="submit-button" (click)="submitCommercantDocs()">
+                Soumettre
+            </button>
+        </div>
     </div>
 </div>

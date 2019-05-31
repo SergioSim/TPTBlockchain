@@ -65,7 +65,7 @@ export class LoginSogebankComponent implements OnInit {
       this.capitalizeName(this.nomFC.value), 'Sogebank', this.clientType).subscribe(
         registerData => {
           if (registerData.success !== false) {
-            this.apiService.login(this.emailFC.value, this.passwordFC.value).subscribe(
+            this.apiService.login(this.emailFC.value, this.passwordFC.value, true).subscribe(
               loginData => {
                 this.route.navigate([this.dashboardUrl]);
               },

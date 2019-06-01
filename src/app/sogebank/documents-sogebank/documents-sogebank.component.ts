@@ -32,7 +32,7 @@ export class DocumentsSogebankComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiService: NodeapiService,
+    public apiService: NodeapiService,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }

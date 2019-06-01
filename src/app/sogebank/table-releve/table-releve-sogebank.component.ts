@@ -18,7 +18,7 @@ export class TableReleveSogebankComponent implements OnInit {
   roles = Role;
 
   constructor(
-    private apiService: NodeapiService,
+    public apiService: NodeapiService,
     public sogebankService: SogebankService,
     private cdr: ChangeDetectorRef
   ) { }

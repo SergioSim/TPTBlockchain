@@ -16,7 +16,7 @@ export class MenuSogebankComponent implements OnInit {
   constructor(
     private route: Router,
     public sogebankService: SogebankService,
-    private apiService: NodeapiService
+    public apiService: NodeapiService
   ) { }
 
   ngOnInit() {

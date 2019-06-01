@@ -7,6 +7,10 @@ a:hover, a:active , mat-icon:hover, mat-icon:active {
   color: lightgray;
 }
 
+.highlight {
+  color: greenyellow;
+}
+
 .navigation-items{
   list-style-type: none;
   padding: 0;

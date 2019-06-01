@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NodeapiService } from 'src/app/nodeapi.service';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -12,10 +13,16 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private apiService: NodeapiService
+    private apiService: NodeapiService,
+    private snackBar: MatSnackBar
   ) {
-    if (!apiService.isConnected()) {
+    if (!apiService.isConnected() || !(apiService.permission === 'Banque' || apiService.permission === 'Admin' )) {
       this.router.navigate(['/brh/accueil']);
+      this.snackBar.open('Utilisateur Non Autorise!', 'Fermer', {
+        duration: 5000,
+        panelClass: ['alert-snackbar']
+      });
+      apiService.logout();
     }
    }
 

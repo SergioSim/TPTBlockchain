@@ -5,14 +5,14 @@
       </button>
   </div>
   <div>
-      <a routerLink="/brh/banque/prive/dashboard">Accueil</a>
+      <a [ngClass]="{'highlight': selectedIndexs[4] === 1}" (click)="onClick(4)">Accueil</a>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-          <li><a routerLink="/brh/banque/prive/portefeuille">Portefeuille</a></li>
-          <li><a routerLink="/brh/banque/prive/transactions">Transactions</a></li>
-          <li><a routerLink="/brh/banque/prive/clients">Clients</a></li>
-          <li><a routerLink="/brh/banque/prive/cartes">Cartes</a></li>
+          <li><a [ngClass]="{'highlight': selectedIndexs[0] === 1}" (click)="onClick(0)">Portefeuille</a></li>
+          <li><a [ngClass]="{'highlight': selectedIndexs[1] === 1}" (click)="onClick(1)">Transactions</a></li>
+          <li><a [ngClass]="{'highlight': selectedIndexs[2] === 1}" (click)="onClick(2)">Clients</a></li>
+          <li><a [ngClass]="{'highlight': selectedIndexs[3] === 1}" (click)="onClick(3)">Cartes</a></li>
       </ul>
   </div>
 </mat-toolbar>

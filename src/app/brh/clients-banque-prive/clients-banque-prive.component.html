@@ -18,6 +18,12 @@
                 *matCellDef="let client" data-label="Prenom">{{client.Prenom}}</mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="Status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+      <mat-cell class="duration-cell"
+                *matCellDef="let client" data-label="Status">{{client.Status}}</mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
   <mat-row *matRowDef="let row; columns: displayedColumns"

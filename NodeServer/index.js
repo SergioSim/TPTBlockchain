@@ -21,7 +21,7 @@ const key  = fs.readFileSync('private.key'),
 
 const app  = express()
  server    = https.createServer(options, app),
- conn      = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass});
+ conn      = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass, database: config.mySqlUser});
 
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
@@ -64,6 +64,8 @@ app.get('/clients', [
     if(req.jwt.Banque !== req.query.banque && req.jwt.PermissionLevel !== config.permissionLevels.ADMIN)
         return res.status(403).send();
     conn.query(sql.findClientsByBanque, [req.query.banque], function(err, result){
+        console.log(result);
+        console.log(err);
         res.send((err) ? "Error" : result);
     });
 });

@@ -11,10 +11,11 @@ import { Router } from '@angular/router';
 export class ClientsBanquePriveComponent implements OnInit {
 
   dataSource: MatTableDataSource<BanqueClient>;
-  displayedColumns = ['Email', 'Nom', 'Prenom'];
+  displayedColumns = ['Email', 'Nom', 'Prenom', 'Status'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  private roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
   constructor(
     private router: Router,
     private apiService: NodeapiService,
@@ -25,6 +26,9 @@ export class ClientsBanquePriveComponent implements OnInit {
       res => {
         const result = res as BanqueClient[];
         console.log(result);
+        for (const i of res) {
+          i.Status = this.roles[i.Role_Id];
+        }
         this.dataSource = new MatTableDataSource(result);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -53,4 +57,13 @@ export interface BanqueClient {
   Email: string;
   Nom: string;
   Prenom: string;
+  Adresse: string;
+  Ville: string;
+  Code_Postal: string;
+  Civilite: string;
+  Profession: string;
+  Siret: string;
+  Situation_Familiale: string;
+  Tel: string;
+  Status: string;
 }

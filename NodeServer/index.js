@@ -64,8 +64,9 @@ app.get('/clients', [
     if(req.jwt.Banque !== req.query.banque && req.jwt.PermissionLevel !== config.permissionLevels.ADMIN)
         return res.status(403).send();
     conn.query(sql.findClientsByBanque, [req.query.banque], function(err, result){
-        console.log(result);
-        console.log(err);
+        for (const i of result) {
+            i.Portefeuille = JSON.parse(i.Portefeuille);
+        }
         res.send((err) ? "Error" : result);
     });
 });
@@ -76,6 +77,9 @@ app.get('/allClients', [
     function(req, res) {
 
     conn.query(sql.getAllClients, function(err, result){
+        for (const i of result) {
+            i.Portefeuille = JSON.parse(i.Portefeuille);
+        }
         res.send((err) ? "Error" : result);
     });
 });

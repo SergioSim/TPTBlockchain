@@ -15,7 +15,7 @@ export class ClientsBanquePriveComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  private roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
   constructor(
     private router: Router,
     private apiService: NodeapiService,
@@ -47,8 +47,18 @@ export class ClientsBanquePriveComponent implements OnInit {
     );
   }
 
-  onRowClicked(row) {
+  onRowClicked(row: BanqueClient) {
     console.log('Row clicked: ', row);
+  }
+
+  applyFilter(filterValue: string, itype: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filterPredicate = (data: BanqueClient, filter: string) => {
+      if (itype === 'Status') { return data[itype].toLowerCase() === filter; }
+      return data[itype].toLowerCase().indexOf(filter) !== -1;
+    };
+    this.dataSource.filter = filterValue;
   }
 
 }
@@ -66,4 +76,11 @@ export interface BanqueClient {
   Situation_Familiale: string;
   Tel: string;
   Status: string;
+  Portefeuilles: Portefeuille[];
+}
+
+export interface Portefeuille {
+  Id: string;
+  Libelle: string;
+  ClePub: string;
 }

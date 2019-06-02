@@ -25,12 +25,12 @@ module.exports = {
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Role_Id,  ' +
-        'GROUP_CONCAT(CONCAT(\'{Id:"\', Id ,\'" Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
+        'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille ' + 
         'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email WHERE Banque LIKE BINARY ? GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllClients' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Role_Id, ' +
-        'GROUP_CONCAT(CONCAT(\'{Id:"\', Id ,\'" Libelle:"\', Libelle , \'", ClePub:"\', ClePub,\'"}\')) as Portefeuille ' + 
+        'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille ' + 
         'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllBanks' : 

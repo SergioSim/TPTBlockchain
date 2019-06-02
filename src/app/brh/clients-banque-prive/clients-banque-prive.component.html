@@ -1,3 +1,26 @@
+<div class="example-header" fxLayout="row wrap">
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value, 'Email')" placeholder="Filter">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value, 'Nom')" placeholder="Filter">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Prenom</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value, 'Prenom')" placeholder="Filter">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select>
+            <mat-option (click)="applyFilter('', 'Status')">Tout</mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role" (click)="applyFilter(role, 'Status')">
+                {{role}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
 <div class="example-container mat-elevation-z8">
 <mat-table class="clients-table mat-elevation-z8" [dataSource]="dataSource" matSort>
 

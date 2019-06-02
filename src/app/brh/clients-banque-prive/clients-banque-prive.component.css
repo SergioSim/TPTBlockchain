@@ -5,6 +5,11 @@
 .mat-table .mat-row:hover {
   background:rgb(214, 243, 209);
 }
+
+.mat-form-field {
+  padding: 0 0.3em; 
+}
+
 @media screen and (max-width: 960px) {
   .mat-table {
     border: 0;

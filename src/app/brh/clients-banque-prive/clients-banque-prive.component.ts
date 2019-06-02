@@ -76,7 +76,7 @@ export interface BanqueClient {
   Situation_Familiale: string;
   Tel: string;
   Status: string;
-  Portefeuilles: Portefeuille[];
+  Portefeuille: Portefeuille[];
 }
 
 export interface Portefeuille {

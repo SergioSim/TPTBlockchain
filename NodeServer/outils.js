@@ -42,6 +42,18 @@ exports.minimumPermissionLevelRequired = (required_permission_level) => {
   };
 };
 
+exports.fixPortefeuilles = (result) => {
+    for (const i of result) {
+        i.Portefeuille = i.Portefeuille.replace("},{", "}\n{");
+        let aPortefeuillesResultat = [];
+        let aPortefeuilles = i.Portefeuille.split("\n");
+        for (const aPortefeuille of aPortefeuilles) {
+            aPortefeuillesResultat.push(JSON.parse(aPortefeuille));
+        }
+        i.Portefeuille = aPortefeuillesResultat;
+    }
+}
+
 exports.hashPassword = (password) => {
     let salt = crypto.randomBytes(16).toString('base64');
     let hash = crypto.createHmac('sha512', salt).update(password).digest("base64");

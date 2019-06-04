@@ -9,7 +9,7 @@ module.exports = {
   'insertContact_0_4' : 
         'INSERT INTO beneficiaire  (Utilisateur_Email, Beneficiaire_Email, Nom, Prenom) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
-        'INSERT INTO banque (Nom,Email,Tel,isVisible) VALUES (?,?,?,1)',
+        'INSERT INTO banque (Nom,Email,Tel,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
   'findUtilisateurByEmail' : 
         'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
@@ -34,11 +34,15 @@ module.exports = {
         'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllBanks' : 
-        'SELECT Nom, Email, Tel FROM banque',
+        'SELECT Nom, Email, Tel, Statut FROM banque',
   'getAllBanks_NotVisible' : 
-        'SELECT Nom, Email, Tel FROM banque WHERE isVisible=0',
+        'SELECT Nom, Email, Tel, Statut FROM banque WHERE isVisible=0',
   'getAllBanks_Visible' : 
-        'SELECT Nom, Email, Tel FROM banque WHERE isVisible=1',
+        'SELECT Nom, Email, Tel, Statut FROM banque WHERE isVisible=1',
+  'getAllBanks_Valid' : 
+        'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut=? && Nom!=?',
+  'getAllBanks_NotValid' : 
+        'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut!=? && isVisible=1',
   'deleteBank_0_1' : 
         'DELETE FROM banque WHERE Nom=?',
   'deleteClient_0_1' : 

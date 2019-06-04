@@ -303,6 +303,8 @@ export enum apiUrl {
   allBanks = 'GET$allBanks',
   allBanksVisible = 'GET$allBanksVisible',
   allBanksNotVisible = 'GET$allBanksNotVisible',
+  allBanksValid = 'GET$allBanksValid',
+  allBanksNotValid = 'GET$allBanksNotValid',
   createBank = 'POST$createBank/',
   createClient = 'POST$createClient/',
   createPortefeuille = 'POST$createPortefeuille/',

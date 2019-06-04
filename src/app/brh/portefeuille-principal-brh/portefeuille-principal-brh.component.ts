@@ -12,6 +12,8 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   contactDialogRef: any;
   typeMonnie:'';
   quantitte:'';
+  transferAmount: number;
+  confirmDialogRef: any;
 
  
   constructor(
@@ -36,4 +38,32 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
    
     this.contactDialogRef.close();     
   }
-}
+
+  openConfirmDialog(templateRef) {
+
+      this.confirmDialogRef = this.dialog.open(templateRef);
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+
+      });
+    }
+    checkConfirmState() {
+      if ( this.transferAmount !== undefined && this.transferAmount !== null) {
+        return false;
+      }
+      return true;
+    }
+
+    confirmTransfer() {
+      this.confirmDialogRef.close();
+  
+      this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+        +  + ' à bien été effectué.', 'Fermer', {
+        duration: 5000,
+      });
+    }
+  
+    cancelTransfer() {
+      this.confirmDialogRef.close();
+    }
+  }
+

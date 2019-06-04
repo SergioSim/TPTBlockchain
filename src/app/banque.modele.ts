@@ -10,4 +10,6 @@ export class Banque {
 
     Tel: String;
 
+    Statut :String;
+
 }

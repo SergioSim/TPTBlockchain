@@ -44,3 +44,11 @@ align-items: center;
 .infos-habilitation p {
     margin-left: 25px;
 }
+.block-valid-habil{
+    margin-left: 10%;
+    margin-bottom: 10%;
+    margin-top: 5%
+}
+table{
+    background-color: aliceblue;
+}

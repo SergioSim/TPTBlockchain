@@ -49,7 +49,20 @@ app.get('/allBanks', function(req, res) {
     let aQuerry = sql.getAllBanks;
     if(req.query.visible === 'true') aQuerry = sql.getAllBanks_Visible;
     if(req.query.visible === 'false') aQuerry = sql.getAllBanks_NotVisible;
+
     conn.query(aQuerry, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
+app.get('/allBanksValid', function(req, res) {
+    conn.query(sql.getAllBanks_Valid,["valide","brh"], function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
+app.get('/allBanksNotValid', function(req, res) {
+    conn.query(sql.getAllBanks_NotValid,["valide"], function(err, result){
         res.send((err) ? "Error" : result);
     });
 });

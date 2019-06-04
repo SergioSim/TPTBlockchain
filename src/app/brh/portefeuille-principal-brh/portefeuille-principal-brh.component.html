@@ -35,5 +35,82 @@
       </button>
       <hr>
     </div>
+    <div class="block-virement" style="margin-left: 10%">
+        <h3>
+          Effectuer un virement
+        </h3>
+        <h4>
+            Depuis le portefeuille principal :
+        </h4>
+        <div class="infos-virement">
+            <p>Numéro du portefeuille est 116456154515545VEORUOHZEVZ44</p>
+            <p>Débit total : 10 000 DHTG</p>
+        </div>
+        <h4>
+            Vers le portefeuille :
+        </h4>
+        <mat-form-field>
+          <mat-label>Sélectionner une banque</mat-label>
+          <select matNativeControl required>
+            <option value="volvo">Sogebank</option>
+            <option value="saab">Citibank</option>
+            <option value="mercedes">Société général</option>
+            <option value="audi">Crédit agricole</option>
+          </select>
+        </mat-form-field>
+        <div class="virements-form">
+            <mat-form-field>
+                <input matInput type="number" placeholder="Montant" [(ngModel)]="transferAmount" min="1" oninput="validity.valid||(value='1')">
+            </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" class="confirm-button" (click)="openConfirmDialog(ConfirmDialog)" 
+        [disabled]="checkConfirmState()">
+        CONFIRMER
+    </button>
+    <ng-template #ConfirmDialog>
+        <div class="confirm-dialog">
+            <div class="dialog-header">
+                <h2>Confirmer le virement</h2>
+                <hr>
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-info-left">
+                    <div class="dialog-info">
+                        <p>De :</p>
+                        <p><strong>{{dialogProperties.from}}</strong></p>
+                        <hr>
+                    </div>
+                    <div class="dialog-info">
+                        <p>Montant débité :</p>
+                        <p><strong>{{dialogProperties.amout}} DHTG</strong></p>
+                        <hr>
+                    </div>
+                    <div class="dialog-info">
+                        <p>Date du virement :</p>
+                        <p><strong>{{dialogProperties.date}}</strong></p>
+                    </div>
+                </div>
+                <div class="dialog-info-right">
+                    <div class="dialog-info">
+                        <p>Vers :</p>
+                        <p><strong>{{dialogProperties.to}}</strong></p>
+                        <hr>
+                    </div>
+                    <div class="dialog-info">
+                        <p>Solde après opération :</p>
+                        <p><strong>{{dialogProperties.afterTransfer}} DHTG</strong></p>
+                        <hr>
+                    </div>
+                   
+                </div>
+            </div>
+            
+            <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmTransfer()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelTransfer()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template> 
+    </div>
 </div>
   

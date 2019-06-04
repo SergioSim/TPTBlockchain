@@ -15,6 +15,7 @@ import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
 // Sogebank components
 import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
+import { DemandeHabilitationComponent } from './brh/demande-habilitation/demande-habilitation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/portail', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'brh/parametre-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/releve-brh', component:  EspaceAdminBrhComponent},
+  { path: 'brh/demande-habilitation', component:  DemandeHabilitationComponent},  
   { path: 'brh/portefeuille-principal-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},

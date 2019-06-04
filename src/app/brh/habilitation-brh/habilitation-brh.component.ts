@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { apiUrl, NodeapiService } from 'src/app/nodeapi.service';
+import { Banque } from 'src/app/banque.modele';
 
 @Component({
   selector: 'app-habilitation-brh',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HabilitationBrhComponent implements OnInit {
 
-  constructor() { }
+  listBanqueValid : any [];
+  displayedColumns : any[]
+
+  constructor(
+    private service :NodeapiService,
+  ) { }
+
 
   ngOnInit() {
-  }
+    this.refreshListBanqueValid();
+    this.displayedColumns = ['Nom','Email','Telephone','Portefeuille','Statut'];
 
+  }
+  refreshListBanqueValid(){
+    this.service.makeRequest(apiUrl.allBanksValid, {}).toPromise().then(res=>this.listBanqueValid = res as Banque[] );
+
+  }
 }

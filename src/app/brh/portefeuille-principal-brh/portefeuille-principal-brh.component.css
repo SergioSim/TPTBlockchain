@@ -30,6 +30,19 @@
     align-items: center;
     color: blue;
     }
+
+.infos-virement{
+    border-radius: 10px;
+    border: 1px solid rgba(112, 112, 112, 0.3);
+    width: 550px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+    justify-content: center;
+    align-items: center;
+    color: blue;
+}
+.infos-virement p {
+    margin-left: 5%;
+}
 .infos-brh p {
     margin-left: 25px;
     }
@@ -71,18 +84,35 @@ hr {
     margin-left: 10%;
     margin-top: 5%;
 }
-.boutonConfirmer{
-    background-color: rgb(37, 182, 37);
-    border-radius: 10px;
-}
-.boutonAnnuler{
-    margin-left: 2%;
-    background-color: #acb625;
-    border-radius: 10px;
-}
+
 .dialog-buttons{
     margin-top: 5%;
 }
 .titre_fenetre{
     margin-left: -5%;
+}
+.dialog-content {
+    display: flex;
+    justify-content: space-between;
+}
+.dialog-info-left .dialog-info p {
+    padding-right: 75px;
+}
+.dialog-confirm-button {
+    background-color: #23B708;
+}
+
+.dialog-cancel-button {
+    background-color: #FF3B00;
+    margin-left: 2%;
+}
+
+.boutonConfirmer{
+    background-color: rgb(37, 182, 37);
+    border-radius: 10px;
+}
+.boutonAnnuler{
+    margin-left: 2px;
+    background-color: #acb625;
+    border-radius: 10px;
 }

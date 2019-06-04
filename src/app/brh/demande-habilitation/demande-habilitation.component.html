@@ -1,0 +1,23 @@
+<div>
+    <div class="dialog-header">
+        <h4>Ajouter une nouvelle banque</h4>
+        <hr>
+    </div>
+    <div class="contact-dialog-form">
+        <mat-form-field>
+            <input matInput placeholder="Nom de la banque" [(ngModel)]="nouvelBanqueNom" >
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Email" [(ngModel)]="nouvelBanqueEmail">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Téléphone" [(ngModel)]="nouvelBanqueTel">
+        </mat-form-field>
+        <br>
+    </div>
+    <div class="dialog-buttons">
+        <button mat-flat-button class="boutonConfirmer" (click)="confirmAddBanque()">Envoyer</button> 
+    </div>
+</div>

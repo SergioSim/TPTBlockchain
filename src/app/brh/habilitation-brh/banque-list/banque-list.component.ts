@@ -51,7 +51,7 @@ export class BanqueListComponent implements OnInit {
     this.validBanque={nom:'',email:'',password:'',confirmPassword:''};
     this.refreshListBanque();
     this.getListBanqueRestaur();
-    this.displayedColumns = ['Nom','Email','Telephone','Portefeuille','Supprimer','Editer','Valider'];
+    this.displayedColumns = ['Nom','Email','Telephone','Statut','Supprimer','Refuser','Valider'];
   }
 
   getListBanqueRestaur(){
@@ -59,13 +59,13 @@ export class BanqueListComponent implements OnInit {
   }
 
   refreshListBanque(){
-    this.service.makeRequest(apiUrl.allBanks, {visible:true}).toPromise().then(res=>this.listBanqueVisible = res as Banque[] );1
+    this.service.makeRequest(apiUrl.allBanksNotValid, {visible:true}).toPromise().then(res=>this.listBanqueVisible = res as Banque[] );
   }
   
       deleteBanque(){
         this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
           banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
-          isVisible:0 }).      
+          isVisible:1 }).      
         subscribe( res =>{
           this.refreshListBanque();
           this.getListBanqueRestaur();

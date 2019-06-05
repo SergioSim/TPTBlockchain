@@ -73,6 +73,38 @@ export class BanqueListComponent implements OnInit {
         this.contactDialogRef.close();  
         this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
       }
+
+      refuseBanque(){
+        this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
+          banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
+          isVisible:1, statut:"refusé" }).      
+        subscribe( res =>{
+          this.refreshListBanque();
+          this.getListBanqueRestaur();
+        }, error => {
+            console.log('got an error');
+            console.log(error);
+        });
+        this.contactDialogRef.close();  
+        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
+     
+      }
+
+      validateBanque(){
+        this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
+          banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
+          isVisible:1, statut:"validé" }).      
+        subscribe( res =>{
+          this.refreshListBanque();
+          this.getListBanqueRestaur();
+        }, error => {
+            console.log('got an error');
+            console.log(error);
+        });
+        this.contactDialogRef.close();  
+        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
+     
+      }
       
       openAddBankDialog(templateRef){
         
@@ -85,6 +117,12 @@ export class BanqueListComponent implements OnInit {
       }
 
       openDeleteDialog(templateRef,banque){
+        event.stopPropagation();
+        this.selectedBanque={...banque};
+        this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
+      }
+
+      openValidateDialog(templateRef,banque){
         event.stopPropagation();
         this.selectedBanque={...banque};
         this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});

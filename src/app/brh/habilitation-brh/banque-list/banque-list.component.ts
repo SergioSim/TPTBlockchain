@@ -4,10 +4,6 @@ import { Banque } from 'src/app/banque.modele';
 import { FormControl, FormGroup } from '@angular/forms';
 import {MatDialog, MatSnackBar} from '@angular/material';
 
-export interface DialogData {
-  animal: string;
-  name: string;
-}
 @Component({
   
   selector: 'app-banque-list',
@@ -44,7 +40,8 @@ export class BanqueListComponent implements OnInit {
     Nom: '',
     Email: '',
     Tel: '',
-    isVisible: ''
+    isVisible: '',
+    Statut:''
   };
 
   ngOnInit() {
@@ -65,7 +62,7 @@ export class BanqueListComponent implements OnInit {
       deleteBanque(){
         this.service.makeRequest(apiUrl.updateBanque,{ banqueNew:this.selectedBanque.Nom, 
           banqueOld:this.selectedBanque.Nom, tel:this.selectedBanque.Tel, email:this.selectedBanque.Email,
-          isVisible:1 }).      
+          isVisible:0, statut:this.selectedBanque.Statut }).      
         subscribe( res =>{
           this.refreshListBanque();
           this.getListBanqueRestaur();

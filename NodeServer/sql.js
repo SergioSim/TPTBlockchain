@@ -52,7 +52,7 @@ module.exports = {
   'deletePortefeuille' : 
         'DELETE FROM portefeuille WHERE Id=?',
   'updateBank_0_2' : 
-        'UPDATE banque SET Nom = ?,  Email = ?, Tel = ?, isVisible= ? WHERE Nom = ?',
+        'UPDATE banque SET Nom = ?,  Email = ?, Tel = ?, isVisible= ?, Statut=? WHERE Nom = ?',
   'updateClient' : 
         'UPDATE utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',

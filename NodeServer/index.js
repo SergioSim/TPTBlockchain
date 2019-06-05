@@ -202,7 +202,9 @@ app.put('/updateBanque', [
         const aEmail = outils.hasChanged(req.body.email, result[0].Email);
         const aTel = outils.hasChanged(req.body.tel, result[0].Tel);
         const aIsVisible = outils.hasChanged(req.body.isVisible, result[0].isVisible);
-        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aBanqueOld], function(err1, result1){
+        const aStatut = outils.hasChanged(req.body.statut, result[0].statut);
+
+        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aStatut, aBanqueOld], function(err1, result1){
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });
     });

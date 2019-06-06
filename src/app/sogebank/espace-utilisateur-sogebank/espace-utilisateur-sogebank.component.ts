@@ -33,7 +33,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
     }
     this.setBreadcrumbContent();
 
-    if (this.apiService.portefeuilles.length > 0) {
+    if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
       for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getRecord(portefeuille.ClePub).subscribe(
           data => {

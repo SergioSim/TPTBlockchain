@@ -1,5 +1,13 @@
 <div class="documents-content">
-    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDEPARTICULIER">
+
+    <div class="alert warning" *ngIf="apiService.statut === statut.EN_COURS">
+        <fa-icon [icon]="faTimesCircle"></fa-icon> Vos pièces justificatives sont en cours de validation, un mail vous avertira de la création de votre portefeuille.
+    </div>
+    <div class="alert" *ngIf="apiService.statut === statut.INVALIDE">
+        <fa-icon [icon]="faTimesCircle"></fa-icon> Les pièces justificatives que vous avez fourni n'ont pas été acceptés, veuillez les fournir à nouveaux.
+    </div>
+
+    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDEPARTICULIER && (apiService.statut === statut.EN_ATTENTE || apiService.statut === statut.INVALIDE)">
         <h1>Vos informations personnelles</h1>
         <hr>
 
@@ -81,7 +89,7 @@
 
 
 
-    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDECOMMERCANT">
+    <div class="documents-form" *ngIf="apiService.permission === roles.DEMANDECOMMERCANT && (apiService.statut === statut.EN_ATTENTE || apiService.statut === statut.INVALIDE)">
         <h1>Vos informations professionnelles</h1>
         <hr>
 

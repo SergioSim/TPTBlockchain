@@ -30,6 +30,7 @@ export class NodeapiService {
   public ville: string;
   public codePostal: string;
   public documents: any;
+  public statut: number;
 
   private readonly url: string = environment.apiUrl;
   private readonly urlOpenchain: string = environment.openchainUrl;
@@ -143,6 +144,7 @@ export class NodeapiService {
     this.adresse = obj.adresse;
     this.ville = obj.ville;
     this.codePostal = obj.code_postal;
+    this.statut = obj.statut;
     this.documents = obj.documents;
     this.permission = obj.permission;
   }
@@ -169,6 +171,7 @@ export class NodeapiService {
     apilog('adresse : ' + this.adresse);
     apilog('banque : ' + this.banque);
     apilog('email : ' + this.email);
+    apilog('statut : ' + this.statut);
     apilog('permission : ' + this.permission);
   }
 

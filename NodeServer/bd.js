@@ -28,6 +28,7 @@ exports.utilisateur = {
   Ville: 'Ville',
   Code_Postal: 'Code_Postal',
   Documents: 'Documents',
+  Status: 'Status',
   Banque: 'Banque',
   Role_Id: 'Role_Id'
 }
@@ -53,7 +54,6 @@ exports.portefeuille = {
 exports.document = {
   table: 'OpenchainUser.document',
   Id: 'Id',
-  Status: 'Status',
   Piece_Identite: 'Piece_Identite',
   Justificatif_Domicile: 'Justificatif_Domicile',
   Annonce_Legale: 'Annonce_Legale'

@@ -512,6 +512,7 @@ app.post('/auth', [
                     adresse: result.Adresse,
                     ville: result.Ville,
                     code_postal: result.Code_Postal,
+                    statut: result.Status,
                     documents: result.Documents,
                     permission: result.Libelle});
             } catch (err) {

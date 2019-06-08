@@ -28,11 +28,11 @@ export class CartesSogebankComponent implements OnInit {
   editDialogRef: any;
   deleteDialogRef: any;
   selectedCarte: {
-    id: '',
-    libelle: '',
-    creation: '',
-    activite: '',
-    rattachement: ''
+    Id: '',
+    Libelle: '',
+    Creation: '',
+    Activite: '',
+    Rattachement: ''
   };
 
   constructor(
@@ -115,9 +115,22 @@ export class CartesSogebankComponent implements OnInit {
   }
 
   confirmCardEdit() {
-    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.id);
-    this.cartes[index].libelle = this.selectedCarte.libelle;
-    this.editDialogRef.close();
+    const editCardDetails = {
+      libelle: this.selectedCarte.Libelle,
+      id: this.selectedCarte.Id
+    };
+    this.apiService.makeRequest(apiUrl.updateCarte, editCardDetails).toPromise()
+      .then(res => {
+        this.getCartes();
+        this.editDialogRef.close();
+        this.snackBar.open(this.selectedCarte.Libelle + '" à bien été mis à jour.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La carte n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
   }
 
   cancelCardEdit() {
@@ -130,7 +143,7 @@ export class CartesSogebankComponent implements OnInit {
   }
 
   confirmCardDelete() {
-    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.id);
+    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.Id);
     this.cartes.splice(index, 1);
     this.countTotals();
     this.deleteDialogRef.close();

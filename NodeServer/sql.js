@@ -70,6 +70,8 @@ module.exports = {
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
   'updatePortefeuille' : 
         'UPDATE portefeuille SET Libelle = ?, ClePub = ?, ClePrive = ? WHERE Utilisateur_Email = ?',
+  'updateCarte' : 
+        'UPDATE carte SET Libelle = ? WHERE Id = ?',
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 

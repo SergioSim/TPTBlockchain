@@ -225,6 +225,21 @@ app.put('/updateBanque', [
     });
 });
 
+app.put('/updateCarte', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().escape(),
+    // Regex to allow spaces between alphanumeric characters
+    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.updateCarte, [req.body.libelle, req.body.id], function(err, result){
+        if(err) return res.status(400).send({ succes: false, errors: ["Could not update carte with id: " + req.body.id] });
+        return res.send({success: !err});
+    });
+});
+
 app.put('/updateClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),

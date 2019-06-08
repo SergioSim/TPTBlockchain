@@ -316,6 +316,7 @@ export enum apiUrl {
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',
   updateClient = 'PUT$updateClient/',
+  updateCarte = 'PUT$updateCarte/',
   updateBanque = 'PUT$updateBanque/',
   createBankClient = 'POST$createBankClient/',
   createContact = 'POST$createContact/',

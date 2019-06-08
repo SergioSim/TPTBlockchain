@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { Role } from '../Role';
+import { Statut } from '../Statut';
 import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
@@ -13,6 +14,8 @@ import { NodeapiService } from 'src/app/nodeapi.service';
 })
 export class DocumentsSogebankComponent implements OnInit {
   roles = Role;
+  statut = Statut;
+  faTimesCircle = faTimesCircle;
   // Particulier fields
   pieceIdentite: File;
   justificatifDomicile: File;

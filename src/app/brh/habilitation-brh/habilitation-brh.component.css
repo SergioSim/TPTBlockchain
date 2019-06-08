@@ -52,3 +52,10 @@ align-items: center;
 table{
     background-color: aliceblue;
 }
+
+th, td {
+    text-align: center !important;
+}
+::ng-deep table {
+    width: 100%;
+}

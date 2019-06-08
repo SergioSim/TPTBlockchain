@@ -1,7 +1,7 @@
   import { Component, OnInit } from '@angular/core';
-  import { NodeapiService } from 'src/app/nodeapi.service';
   import { MatDialog, MatSnackBar } from '@angular/material';
-  import { Portefeuille } from 'src/app/Portefeuille.modele';
+  import { NodeapiService ,apiUrl} from 'src/app/nodeapi.service';
+
   
   @Component({
     selector: 'app-parametre-brh',
@@ -27,8 +27,18 @@
       private dialog: MatDialog,
       private snackBar: MatSnackBar
       ){ }
+
+      listMonnieVisible : any [];
+      displayedColumns :any[];
+
   
     ngOnInit() {
+   //   this.getMonnieVisible();
+ //     this.displayedColumns = ['DHTG','DHTGUnite','Nom','Unite','Supprimer'];
+    }
+
+    getMonnieVisible(){
+   //   this.service.makeRequest(apiUrl.allMonnies , {type:"electronique"}).toPromise().then(res=>this.listMonnieVisible = res as Monnie[] );
     }
     get ContactList() {
       return this.service.getAllMonnieElectronique();
@@ -53,5 +63,5 @@
       this.snackBar.open('Le portefeuille '+ contact.Nom +'a bien été modifié', 'Fermer', { duration: 5000,});
     }
   
+    
   }
-  

@@ -301,6 +301,7 @@ export enum apiUrl {
   clients = 'GET$clients',
   allClients = 'GET$allClients',
   allBanks = 'GET$allBanks',
+  allMonnies = 'GET$allMonnies',
   allBanksVisible = 'GET$allBanksVisible',
   allBanksNotVisible = 'GET$allBanksNotVisible',
   allBanksValid = 'GET$allBanksValid',

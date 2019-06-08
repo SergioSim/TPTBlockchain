@@ -102,7 +102,7 @@ export class BanqueListComponent implements OnInit {
             console.log(error);
         });
         this.contactDialogRef.close();  
-        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
+        this.snackBar.open('La banque'+ this.selectedBanque.Nom+' a bien été validé.', 'Fermer', { duration: 5000,});
      
       }
       

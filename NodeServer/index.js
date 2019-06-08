@@ -45,6 +45,15 @@ openchainValCli.initialize().then( function(res) {
     console.log("Openchain initialized: " + openchainValCli.namespace.toHex());
 });
 
+app.get('/allMonnies', function(req, res) {
+    let aQuerry = sql.getAllMonnies;
+    console.log("dsddfdfdf"+req.query.type);
+
+    conn.query(aQuerry,[req.query.type],function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
 app.get('/allBanks', function(req, res) {
     let aQuerry = sql.getAllBanks;
     if(req.query.visible === 'true') aQuerry = sql.getAllBanks_Visible;

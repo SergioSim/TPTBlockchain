@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NodeapiService } from 'src/app/nodeapi.service';
 import { MatSnackBar } from '@angular/material';
+import { BanqueClient } from '../clients-banque-prive/clients-banque-prive.component';
 
 
 @Component({
@@ -10,6 +11,9 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./espace-utilisateur-banque-prive.component.css']
 })
 export class EspaceUtilisateurBanquePriveComponent implements OnInit {
+
+  selectedClient: BanqueClient;
+  showClients = true;
 
   constructor(
     public router: Router,
@@ -32,6 +36,11 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
   logout() {
     this.apiService.logout();
     this.router.navigate(['/brh/accueil']);
+  }
+
+  handleSelectedClient(event) {
+    this.selectedClient = event;
+    this.showClients = false;
   }
 
 }

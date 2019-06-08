@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { MatSnackBar, MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ export class ClientsBanquePriveComponent implements OnInit {
   displayedColumns = ['Email', 'Nom', 'Prenom', 'Status'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Output() selectedClient = new EventEmitter<BanqueClient>();
 
   public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
   constructor(
@@ -49,6 +50,7 @@ export class ClientsBanquePriveComponent implements OnInit {
 
   onRowClicked(row: BanqueClient) {
     console.log('Row clicked: ', row);
+    this.selectedClient.emit(row);
   }
 
   applyFilter(filterValue: string, itype: string) {
@@ -83,4 +85,5 @@ export interface Portefeuille {
   Id: string;
   Libelle: string;
   ClePub: string;
+  Ouverture: string;
 }

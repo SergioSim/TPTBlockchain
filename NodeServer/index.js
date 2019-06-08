@@ -43,6 +43,8 @@ console.log("Serveur lancé sur le port : " + config.port);
 
 openchainValCli.initialize().then( function(res) {
     console.log("Openchain initialized: " + openchainValCli.namespace.toHex());
+    openchainValCli.getRecordMutations('/p2pkh/XoKzFaNq6K3vc63akCwLopagaTzsZ3t9HW/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/').then(res =>
+        console.log(res));
 });
 
 app.get('/allMonnies', function(req, res) {

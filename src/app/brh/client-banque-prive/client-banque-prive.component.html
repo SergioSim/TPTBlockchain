@@ -1,0 +1,51 @@
+<div class="content">
+  <h2>Client en detail:</h2>
+  <ul class="heroes">
+    <li><span class="badge">Email</span> {{selectedClient.Email}}</li>
+    <li><span class="badge">Nom</span> {{selectedClient.Nom}}</li>
+    <li><span class="badge">Prenom</span> {{selectedClient.Prenom}}</li>
+    <li><span class="badge">Adresse</span> {{selectedClient.Adresse}}</li>
+    <li><span class="badge">Ville</span> {{selectedClient.Ville}}</li>
+    <li><span class="badge">Code_Postal</span> {{selectedClient.Code_Postal}}</li>
+    <li><span class="badge">Civilite</span> {{selectedClient.Civilite}}</li>
+    <li><span class="badge">Profession</span> {{selectedClient.Profession}}</li>
+    <li><span class="badge">Siret</span> {{selectedClient.Siret}}</li>
+    <li><span class="badge">Situation_Familiale</span> {{selectedClient.Situation_Familiale}}</li>
+    <li><span class="badge">Tel</span> {{selectedClient.Tel}}</li>
+    <li><span class="badge">Status</span> {{selectedClient.Status}}</li>
+    <li><span class="badge">Tel</span> {{selectedClient.Tel}}</li>
+  </ul>
+  <h2>Portefeuilles:</h2>
+  <div class="example-container mat-elevation-z8">
+      <mat-table class="clients-table mat-elevation-z8" [dataSource]="selectedClient.Portefeuille" matSort>
+      
+        <ng-container matColumnDef="Id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+            <mat-cell *matCellDef="let client" data-label="Id">{{client.Id}}</mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="ClePub">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ClePub</mat-header-cell>
+            <mat-cell class="duration-cell"
+                      *matCellDef="let client" data-label="ClePub">{{client.ClePub}}</mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="Libelle">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Libelle</mat-header-cell>
+            <mat-cell class="duration-cell"
+                      *matCellDef="let client" data-label="Libelle">{{client.Libelle}}</mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="Ouverture">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Ouverture</mat-header-cell>
+            <mat-cell class="duration-cell"
+                      *matCellDef="let client" data-label="Status">{{client.Ouverture}}</mat-cell>
+        </ng-container>
+      
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      
+        <mat-row *matRowDef="let row; columns: displayedColumns"
+        (click)="onRowClicked(row)"></mat-row>
+      
+      </mat-table>
+</div>

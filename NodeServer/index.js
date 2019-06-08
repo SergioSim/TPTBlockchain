@@ -163,6 +163,21 @@ app.post('/createPortefeuille', [
     });
 });
 
+app.post('/createCarte', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('portefeuille_id').isNumeric().escape(),
+    // Regex to allow spaces between alphanumeric characters
+    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.insertCarte, [req.body.libelle, req.body.portefeuille_id], function(err, result){
+        if(err) return res.status(400).send({ succes: false, errors: ["Could not insert carte for portefeuille id: " + req.body.portefeuille_id] });
+        return res.send({success: !err});
+    });
+});
+
 app.put('/blockClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),

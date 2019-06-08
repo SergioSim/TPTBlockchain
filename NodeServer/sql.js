@@ -14,6 +14,8 @@ module.exports = {
         'INSERT INTO document (Status,Annonce_Legale) VALUES (2,?) WHERE Id = ?',
   'insertParticulierDocs' : 
         'INSERT INTO document (Status,Piece_Identite,Justificatif_Domicile) VALUES (2,?,?) WHERE Id = ?',
+  'insertCarte' : 
+        'INSERT INTO carte (Libelle,Portefeuille_id) VALUES (?,?)',
   'findUtilisateurByEmail' : 
         'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',

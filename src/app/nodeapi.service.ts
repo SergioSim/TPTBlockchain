@@ -311,6 +311,7 @@ export enum apiUrl {
   createBank = 'POST$createBank/',
   createClient = 'POST$createClient/',
   createPortefeuille = 'POST$createPortefeuille/',
+  createCarte = 'POST$createCarte/',
   cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',

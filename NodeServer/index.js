@@ -234,6 +234,25 @@ app.put('/updateBanque', [
     });
 });
 
+app.put('/updateMonnie', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+      check('monnieNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+      check('monnieUnite').isNumeric({ min: 1 }).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+        console.log('permission level : ' + req.jwt.PermissionLevel);
+    if(req.jwt.PermissionLevel >= 3)
+   // aMonnieOld = req.body.monnieOld;
+       // aBanqueOld = req.body.banqueOld;
+   // console.log('banque old = ' + aBanqueOld);
+     //   const monnieNew = outils.hasChanged(req.body.Nom, result[0].Nom);
+
+        conn.query(sql.updateMonnie, [req.body.monnieNew, req.body.monnieUnite, req.body.monnieId], function(err1, result1){
+            return res.send({ succes: !err1 && result1.affectedRows != 0});
+        });
+    });
+
 app.put('/updateCarte', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
@@ -386,6 +405,25 @@ app.delete('/deleteBank', [
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });
+
+
+app.delete('/deleteMonnieElectronique', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('name').isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    //TODO transfert all clients funds to BRH?
+    if (req.jwt.Banque === req.query.name){
+        return res.send({error: "Administrator is not allowed to be deleted!"});
+    }
+    conn.query(sql.deleteMonnie, [req.query.name], function(err, result){
+		return res.send({ succes: !err && result.affectedRows != 0});
+	});
+});
+
+
+
 
 app.delete('/deletePortefeuille', [
     outils.validJWTNeeded, 

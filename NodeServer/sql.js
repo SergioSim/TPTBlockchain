@@ -24,7 +24,7 @@ module.exports = {
         'FROM carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
          'SELECT Email, Nom, Tel, isVisible ' + 
-         'FROM banque WHERE Nom LIKE BINARY ?',
+         'FROM banque WHERE Nom LIKE BINARY ?',    
   'findPortefeuillesByEmail' :
         'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
@@ -40,7 +40,7 @@ module.exports = {
         'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllMonnies' : 
-        'SELECT Nom, Unite, Type FROM monnie WHERE Type=?',
+        'SELECT Id, Nom, Unite, Type FROM monnie WHERE Type=?',
   'getAllBanks' : 
         'SELECT Nom, Email, Tel, Statut FROM banque',
   'getAllBanks_NotVisible' : 
@@ -51,6 +51,8 @@ module.exports = {
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut=? && Nom!=?',
   'getAllBanks_NotValid' : 
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut!=? && isVisible=1',
+  'deleteMonnie' : 
+        'DELETE FROM monnie WHERE Nom=?',
   'deleteBank_0_1' : 
         'DELETE FROM banque WHERE Nom=?',
   'deleteClient_0_1' : 
@@ -59,6 +61,8 @@ module.exports = {
         'DELETE FROM beneficiaire WHERE Utilisateur_Email=? AND Beneficiaire_Email=?',
   'deletePortefeuille' : 
         'DELETE FROM portefeuille WHERE Id=?',
+  'updateMonnie' : 
+        'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 
         'UPDATE banque SET Nom = ?,  Email = ?, Tel = ?, isVisible= ?, Statut=? WHERE Nom = ?',
   'updateClient' : 

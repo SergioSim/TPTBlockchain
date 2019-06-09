@@ -12,6 +12,12 @@ export class TableMonniePhysiqueComponent implements OnInit {
     contactDialogRef: any;
     p:number=1;
     q:number=1;
+
+    selectedMonnie: {
+      Nom: '',
+      Unite: ''
+      };
+
     selectedPortefeuille: {
       id: '',
       Nom: '',
@@ -33,12 +39,51 @@ export class TableMonniePhysiqueComponent implements OnInit {
 
   ngOnInit() {
     this.getMonnieVisible();
-    this.displayedColumns = ['DHTG','DHTGUnite','Nom','Unite','Supprimer'];
+    this.displayedColumns = ['DHTG','DHTGUnite','Nom','Unite','Supprimer','Editer'];
   }
 
   getMonnieVisible(){
     this.service.makeRequest(apiUrl.allMonnies , {type:"physique"}).toPromise().then(res=>this.listMonnieVisible = res as Monnie[] );
   }
+
+  
+  openDeleteDialog(templateRef,monnie){
+    event.stopPropagation();
+    this.selectedMonnie={...monnie};
+    this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
+  }
+
+  deleteMonnie(){
+    this.service.makeRequest(apiUrl.deleteMonnieElectronique,{ name:this.selectedMonnie.Nom}).      
+    subscribe( res =>{
+      this.getMonnieVisible();
+    }, error => {
+        console.log('got an error');
+        console.log(error);
+    });
+    this.contactDialogRef.close();  
+    this.snackBar.open('La banque'+ this.selectedMonnie.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
+  }
+
+  confirmEditMonnie() {
+    
+    this.service.makeRequest(apiUrl.updateMonnie,{}).   
+     
+    subscribe( res =>{
+      console.log('on a recu la response:' );
+      this.getMonnieVisible();
+    }, error => {
+        console.log('got an error');
+        console.log(error);
+    });
+    this.contactDialogRef.close();     
+    this.snackBar.open('La monnie éléctronique'+ this.selectedMonnie.Nom+' a bien été modifié.', 'Fermer', { duration: 5000,});
+   }
+   
+  cancelDiologueMonnie () {
+    this.contactDialogRef.close();
+  }
+
 
 }  
   export interface Monnie {

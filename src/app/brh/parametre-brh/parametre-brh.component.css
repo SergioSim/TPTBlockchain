@@ -6,8 +6,10 @@
 h2
 {
     margin-top: 5%;
-    margin-left: 5%;
+    margin-left: 0%;
+    color:blue;;
 }
+
 .toolbar{
     background-color: blue;
     width: 95%;
@@ -39,6 +41,16 @@ td, th{
 .barNavigation{
     margin-left: 35%;
 }
-.table_2{
+.TAB_MONNIE1{
+
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+.TAB_MONNIE2{
+    margin-left: 10%;
+    margin-right: 10%;
+
     margin-bottom: 5%;
 }

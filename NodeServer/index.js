@@ -128,6 +128,19 @@ app.post('/createBank', [
     });
 });
 
+app.post('/createMonnie', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('name').isAlphanumeric().escape().trim(),
+    check('unite').isLength({ min: 1 }).isNumeric().trim(),
+    outils.handleValidationResult],
+    function(req, res) {
+    
+    conn.query(sql.insertMonnie, [req.body.name,req.body.unite,req.body.type], function(err, result) { 
+        return res.send({success: !err});
+    });
+});
+
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),

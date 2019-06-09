@@ -14,6 +14,8 @@ export class TableMonnieElectroniqueComponent implements OnInit {
     p:number=1;
     q:number=1;
     monnieOld="";
+    monnieNom="";
+    monnieUnite="";
     selectedMonnie: {
       Id:'';
       Nom: '',
@@ -77,6 +79,28 @@ export class TableMonnieElectroniqueComponent implements OnInit {
     this.contactDialogRef.close();     
     this.snackBar.open('La monnie éléctronique'+ this.selectedMonnie.Nom+' a bien été modifié.', 'Fermer', { duration: 5000,});
    }
+
+   
+  openAddMonnieDialog(templateRef,monnie){
+    event.stopPropagation();
+    this.selectedMonnie={...monnie};
+    this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
+  }
+
+  confirmAddMonnie(){    
+    this.service.makeRequest(apiUrl.createMonnie, {name:this.monnieNom,unite:this.monnieUnite,type:"electronique"}).
+    subscribe( res =>{
+      console.log('on a recu la response:' );
+      this.getMonnieVisible();
+    }, error => {
+        console.log('got an error');
+        console.log(error);
+    });
+    this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
+}
+
+
+
    
   cancelDiologueMonnie () {
     this.contactDialogRef.close();

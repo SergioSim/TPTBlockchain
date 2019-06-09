@@ -12,8 +12,12 @@ export class TableMonniePhysiqueComponent implements OnInit {
     contactDialogRef: any;
     p:number=1;
     q:number=1;
+    monnieOld="";
+    monnieNom="";
+    monnieUnite="";
 
     selectedMonnie: {
+      Id:'',
       Nom: '',
       Unite: ''
       };
@@ -65,9 +69,22 @@ export class TableMonniePhysiqueComponent implements OnInit {
     this.snackBar.open('La banque'+ this.selectedMonnie.Nom+' a bien été supprimé.', 'Fermer', { duration: 5000,});
   }
 
-  confirmEditMonnie() {
-    
-    this.service.makeRequest(apiUrl.updateMonnie,{}).   
+  openEditDialog(templateRef,monnie){
+    event.stopPropagation();
+    this.selectedMonnie={...monnie};
+    this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
+  }
+
+  openAddMonnieDialog(templateRef,monnie){
+    event.stopPropagation();
+    this.selectedMonnie={...monnie};
+    this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
+  }
+
+
+  confirmEditMonnie() {    
+    this.service.makeRequest(apiUrl.updateMonnie,{monnieNew:this.selectedMonnie.Nom,
+      monnieUnite:this.selectedMonnie.Unite,monnieId:this.selectedMonnie.Id}).   
      
     subscribe( res =>{
       console.log('on a recu la response:' );
@@ -79,11 +96,22 @@ export class TableMonniePhysiqueComponent implements OnInit {
     this.contactDialogRef.close();     
     this.snackBar.open('La monnie éléctronique'+ this.selectedMonnie.Nom+' a bien été modifié.', 'Fermer', { duration: 5000,});
    }
-   
+
+
+  confirmAddMonnie(){    
+    this.service.makeRequest(apiUrl.createMonnie, {name:this.monnieNom,unite:this.monnieUnite,type:"physique"}).
+    subscribe( res =>{
+      console.log('on a recu la response:' );
+      this.getMonnieVisible();
+    }, error => {
+        console.log('got an error');
+        console.log(error);
+    });
+    this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
+} 
   cancelDiologueMonnie () {
     this.contactDialogRef.close();
   }
-
 
 }  
   export interface Monnie {

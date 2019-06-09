@@ -81,9 +81,8 @@ export class TableMonnieElectroniqueComponent implements OnInit {
    }
 
    
-  openAddMonnieDialog(templateRef,monnie){
+  openAddMonnieDialog(templateRef){
     event.stopPropagation();
-    this.selectedMonnie={...monnie};
     this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
   }
 
@@ -98,10 +97,7 @@ export class TableMonnieElectroniqueComponent implements OnInit {
     });
     this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
 }
-
-
-
-   
+ 
   cancelDiologueMonnie () {
     this.contactDialogRef.close();
   }

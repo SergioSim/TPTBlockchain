@@ -75,9 +75,8 @@ export class TableMonniePhysiqueComponent implements OnInit {
     this.contactDialogRef = this.dialog.open(templateRef, {width: '450px'});
   }
 
-  openAddMonnieDialog(templateRef,monnie){
+  openAddMonnieDialog(templateRef){
     event.stopPropagation();
-    this.selectedMonnie={...monnie};
     this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
   }
 

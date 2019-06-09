@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Banque } from './banque.modele';
 import { Portefeuille } from './Portefeuille.modele';
@@ -192,6 +192,95 @@ export class NodeapiService {
   getRecord(adress) {
     return this.http.get<any>(this.urlOpenchain + 'query/account?account=%2Fp2pkh%2F' + adress + '%2F', {}).pipe(map(
       res => {apilog('Got response:'); console.log(res); return res; }));
+  }
+
+  Utf8ToHex(str) {
+    try {
+      return unescape(encodeURIComponent(str)).split('').map( v => {
+        return v.charCodeAt(0).toString(16);
+          }).join('');
+    } catch (e) {
+      console.log('invalid text input: ' + str);
+    }
+  }
+
+  HexToString(s) {
+    return decodeURIComponent(s.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+  }
+
+  arrayHexInteger(hexString) {
+    let items = '';
+    const res = [];
+    hexString.split('').map(item => {
+      items += item;
+      if (items.length === 2) {
+        res.push(parseInt(items, 16));
+        items = '';
+      }
+    });
+    return res;
+  }
+
+readVarint64(buffer) {
+    let offset = 0;
+    offset >>>= 0;
+    // ref: src/google/protobuf/io/coded_stream.cc
+    const start = offset;
+    let part0 = 0;
+    let part1 = 0;
+    let part2 = 0;
+    let b     = 0;
+    b = buffer[offset++]; part0  = (b & 0x7F)      ; if ( b & 0x80                              ) {
+    b = buffer[offset++]; part0 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part0 |= (b & 0x7F) << 14; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part0 |= (b & 0x7F) << 21; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part1  = (b & 0x7F)      ; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part1 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part1 |= (b & 0x7F) << 14; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part1 |= (b & 0x7F) << 21; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part2  = (b & 0x7F)      ; if ((b & 0x80) || (typeof b === 'undefined')) {
+    b = buffer[offset++]; part2 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
+    throw Error("Buffer overrun"); }}}}}}}}}}
+    return part0 | (part1 << 28);
+}
+
+getTransactions(address) {
+  address = '/p2pkh/' + address + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
+  address = this.Utf8ToHex(address);
+  return this.http.get<any>(this.urlOpenchain + 'query/recordmutations?key=' + address, {}).pipe(map(
+      res => {
+        apilog('Got response:');
+        console.log(res);
+        const transactions = [];
+        const observables = [];
+        res.forEach(element => {
+          element = element.mutation_hash;
+          console.log('calling mutation: ', element);
+          observables.push(this.http.get(
+            this.urlOpenchain + 'query/transaction?format=raw&mutation_hash=' + element));
+          });
+        return forkJoin(observables).pipe(map(
+          result => {
+            console.log('raw transaction: ', result);
+            result.forEach( raw => {
+              raw = raw.raw;
+              raw = raw.substr(36, raw.length).split('120a0a08');
+              raw[0] = this.HexToString(raw[0]);
+              raw[0] = raw[0].substr(7, raw[0].length).split('/:ACC:/')[0];
+              raw[4] = parseInt(raw[1].substr(0, 16), 16);
+              raw[1] = raw[1].split('126d0a5f')[1];
+              raw[1] = this.HexToString(raw[1]);
+              raw[1] = raw[1].substr(7, raw[1].length).split('/:ACC:/')[0];
+              raw[3] = parseInt(raw[2].substr(0, 16), 16);
+              raw[2] = raw[2].substr(18, raw[2].lenght);
+              raw[2] = this.arrayHexInteger(raw[2]);
+              raw[2] = this.readVarint64(raw[2]);
+              transactions.push(raw);
+            });
+            console.log('transactions: ', transactions);
+            return transactions;
+        }));
+    }));
   }
 
   getListBanque() {

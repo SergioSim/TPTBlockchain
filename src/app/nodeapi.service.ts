@@ -5,6 +5,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Banque } from './banque.modele';
 import { Portefeuille } from './Portefeuille.modele';
+import { TransactionsBanquePriveComponent } from './brh/transactions-banque-prive/transactions-banque-prive.component';
 
 @Injectable({
   providedIn: 'root'
@@ -244,14 +245,16 @@ readVarint64(buffer) {
     return part0 | (part1 << 28);
 }
 
-getTransactions(address) {
-  address = '/p2pkh/' + address + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
+getTransactions(iaddress) {
+  let address = '/p2pkh/' + iaddress + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
   address = this.Utf8ToHex(address);
+  const options = {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
   return this.http.get<any>(this.urlOpenchain + 'query/recordmutations?key=' + address, {}).pipe(map(
       res => {
         apilog('Got response:');
         console.log(res);
-        const transactions = [];
+        const transactions: Transaction[] = [];
         const observables = [];
         res.forEach(element => {
           element = element.mutation_hash;
@@ -263,27 +266,31 @@ getTransactions(address) {
           result => {
             console.log('raw transaction: ', result);
             result.forEach( raw => {
+              const aTransaction: Transaction = {
+                Expediteur: '', Destinataire: '', Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
               raw = raw.raw;
               raw = raw.substr(36, raw.length).split('120a0a08');
               raw[0] = this.HexToString(raw[0]);
-              raw[0] = raw[0].substr(7, raw[0].length).split('/:ACC:/')[0];
-              raw[4] = parseInt(raw[1].substr(0, 16), 16);
+              aTransaction.Expediteur = raw[0].substr(7, raw[0].length).split('/:ACC:/')[0];
+              aTransaction.Solde =  parseInt(raw[1].substr(0, 16), 16);
               raw[1] = raw[1].split('126d0a5f')[1];
               raw[1] = this.HexToString(raw[1]);
-              raw[1] = raw[1].substr(7, raw[1].length).split('/:ACC:/')[0];
-              raw[3] = parseInt(raw[2].substr(0, 16), 16);
+              aTransaction.Destinataire = raw[1].substr(7, raw[1].length).split('/:ACC:/')[0];
+              aTransaction.Montant = parseInt(raw[2].substr(0, 16), 16);
+              aTransaction.Nature = 'Recu';
+              if (iaddress === aTransaction.Expediteur) {
+                aTransaction.Montant = -aTransaction.Montant;
+                aTransaction.Nature = 'Virement';
+              }
               raw[2] = raw[2].substr(18, raw[2].lenght);
               raw[2] = this.arrayHexInteger(raw[2]);
-              raw[2] = this.readVarint64(raw[2]);
-              transactions.push(raw);
+              aTransaction.Timestamp = this.readVarint64(raw[2]);
+              const d = new Date(0);
+              d.setUTCSeconds(aTransaction.Timestamp);
+              aTransaction.Date = d.toLocaleDateString('fr-FR', options);
+              transactions.push(aTransaction);
             });
-            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-            transactions.sort(function(x, y){ return x[2] - y[2]});
-            transactions.forEach(tr => {
-              let d = new Date(0);
-              d.setUTCSeconds(tr[2]);
-              tr[2] = d.toLocaleDateString('fr-FR', options);
-            })
+            transactions.sort((x, y) => y.Timestamp - x.Timestamp);
             console.log('transactions: ', transactions);
             return transactions;
         }));
@@ -379,7 +386,6 @@ getTransactions(address) {
     return this._monnieElectronqueList;
   }
 
-  
   getAllMonniePhysique(){
     return this._monniePysiqueList;
   }
@@ -432,3 +438,12 @@ function apilog(ilog: string) {
   console.log('[NODEAPI] ' + ilog);
 }
 
+export interface Transaction {
+  Expediteur: string;
+  Destinataire: string;
+  Nature: string;
+  Date: string;
+  Timestamp: number;
+  Montant: number;
+  Solde: number;
+}

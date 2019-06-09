@@ -2,7 +2,7 @@
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width:30em;
 }
 .heroes li {
   cursor: pointer;
@@ -14,6 +14,16 @@
   height: 1.6em;
   border-radius: 4px;
 }
+
+.heroes li p {
+  margin: auto;
+  height: 1.5em;
+  padding-right: 1em;
+  padding-top: .2em;
+  size: 1em;
+  float: right;
+}
+
 .heroes li.selected:hover {
   background-color: #BBD8DC !important;
   color: white;

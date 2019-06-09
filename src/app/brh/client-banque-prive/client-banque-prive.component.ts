@@ -13,6 +13,7 @@ export class ClientBanquePriveComponent implements OnInit {
   @Input() selectedClient: BanqueClient;
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
   showTransactions = false;
+  public selectedPortefeuille: Portefeuille;
 
   constructor(private apiService: NodeapiService) { }
 
@@ -24,6 +25,7 @@ export class ClientBanquePriveComponent implements OnInit {
   onRowClicked(row: Portefeuille) {
     console.log('Row clicked: ', row);
     this.showTransactions = true;
+    this.selectedPortefeuille = row;
     this.apiService.getTransactions(row.ClePub).subscribe(
       sub => sub.subscribe( res => {
           console.log(res);

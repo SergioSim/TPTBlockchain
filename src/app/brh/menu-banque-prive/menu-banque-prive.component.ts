@@ -28,7 +28,8 @@ export class MenuBanquePriveComponent implements OnInit {
   }
 
   public onClick(i: number) {
-    this.router.navigate([this.baseUrl + this.endUrl[i]]);
+    console.log('navigating to ', i , this.endUrl[i]);
+    this.router.navigateByUrl(this.baseUrl + this.endUrl[i]);
   }
 
 }

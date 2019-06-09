@@ -277,6 +277,13 @@ getTransactions(address) {
               raw[2] = this.readVarint64(raw[2]);
               transactions.push(raw);
             });
+            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            transactions.sort(function(x, y){ return x[2] - y[2]});
+            transactions.forEach(tr => {
+              let d = new Date(0);
+              d.setUTCSeconds(tr[2]);
+              tr[2] = d.toLocaleDateString('fr-FR', options);
+            })
             console.log('transactions: ', transactions);
             return transactions;
         }));

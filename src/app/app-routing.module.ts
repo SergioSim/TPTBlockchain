@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'brh/parametre-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/habilitation-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/releve-brh', component:  EspaceAdminBrhComponent},
-  { path: 'brh/demande-habilitation', component:  DemandeHabilitationComponent},  
+  { path: 'brh/demande-habilitation', component:  DemandeHabilitationComponent},
   { path: 'brh/portefeuille-principal-brh', component:  EspaceAdminBrhComponent},
   { path: 'brh/banque/login', component:  LoginBanquePriveComponent},
   { path: 'brh/banque/prive/dashboard', component:  EspaceUtilisateurBanquePriveComponent},

@@ -64,6 +64,7 @@ import { PortefeuillePrincipalBrhComponent } from './brh/portefeuille-principal-
 import { DemandeHabilitationComponent } from './brh/demande-habilitation/demande-habilitation.component';
 import { TableMonnieElectroniqueComponent } from './brh/parametre-brh/table-monnie-electronique/table-monnie-electronique.component';
 import { TableMonniePhysiqueComponent } from './brh/parametre-brh/table-monnie-physique/table-monnie-physique.component';
+import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { TableMonniePhysiqueComponent } from './brh/parametre-brh/table-monnie-p
     PortefeuillePrincipalBrhComponent,
     DemandeHabilitationComponent,
     TableMonnieElectroniqueComponent,
-    TableMonniePhysiqueComponent
+    TableMonniePhysiqueComponent,
+    ClientBanquePriveComponent
   ],
   imports: [
     BrowserModule,

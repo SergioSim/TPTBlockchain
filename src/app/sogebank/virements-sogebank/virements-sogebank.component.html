@@ -24,7 +24,7 @@
                 <div *ngIf="!isPortefeuilleSelected">
                     <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectPortefeuille(portefeuille)">
                         <div class="wallet-info">
-                            <div *ngIf="portefeuille.Id === selectedPortefeuille.Id">
+                            <div *ngIf="portefeuille.ClePub === selectedPortefeuille.ClePub">
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
@@ -51,13 +51,13 @@
                     <div class="wallet-info">
                         <div><fa-icon [icon]="faCheck"></fa-icon></div>
                         <div>
-                            <p>{{selectedBeneficiaire.libelle}}</p>
-                            <p *ngIf="selectedBeneficiaire.ajout">Ajouté le {{selectedBeneficiaire.ajout}}</p>
-                            <p *ngIf="selectedBeneficiaire.ouverture">Ouvert le {{selectedBeneficiaire.ouverture}}</p>
+                            <p>{{selectedBeneficiaire.Libelle}}</p>
+                            <p *ngIf="selectedBeneficiaire.Ajout">Ajouté le {{commonUtilsService.formatDate(selectedBeneficiaire.Ajout)}}</p>
+                            <p *ngIf="selectedBeneficiaire.Ouverture">Ouvert le {{commonUtilsService.formatDate(selectedBeneficiaire.Ouverture)}}</p>
                         </div>
                     </div>
                     <div class="wallet-solde">
-                        <p *ngIf="selectedBeneficiaire.solde">{{selectedBeneficiaire.solde}}</p>
+                        <p *ngIf="selectedBeneficiaire.Solde">{{selectedBeneficiaire.Solde}}</p>
                     </div>
                 </div>
     
@@ -75,7 +75,7 @@
                     </div>
                     <div *ngFor="let portefeuille of portefeuilles" class="box-item select-box-item" (click)="selectBeneficiaire(portefeuille)">
                         <div class="wallet-info">
-                            <div *ngIf="portefeuille.Id === selectedBeneficiaire.Id">
+                            <div *ngIf="portefeuille.ClePub === selectedBeneficiaire.ClePub">
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
@@ -92,12 +92,12 @@
                     </div>
                     <div *ngFor="let beneficiaire of beneficiaires" class="box-item select-box-item" (click)="selectBeneficiaire(beneficiaire)">
                         <div class="wallet-info">
-                            <div *ngIf="beneficiaire.id === selectedBeneficiaire.id">
+                            <div *ngIf="beneficiaire.ClePub === selectedBeneficiaire.ClePub">
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
-                                <p>{{beneficiaire.libelle}}</p>
-                                <p>Ajouté le {{beneficiaire.ajout}}</p>
+                                <p>{{beneficiaire.Libelle}}</p>
+                                <p>Ajouté le {{commonUtilsService.formatDate(beneficiaire.Ajout)}}</p>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
             <ng-template #ContactDialog>
                 <div class="contact-dialog">
                     <div class="dialog-header">
-                        <h2>Confirmer le virement</h2>
+                        <h2>Vos bénéficiaires</h2>
                         <hr>
                     </div>
                     <div class="contact-dialog-form">
@@ -186,15 +186,15 @@
                                     <fa-icon [icon]="faPlus"></fa-icon> Nouveau bénéficiaire
                                 </mat-option>
                                 <mat-option *ngFor="let beneficiaire of beneficiaires" [value]="beneficiaire">
-                                    {{beneficiaire.libelle}}
+                                    {{beneficiaire.Libelle}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput placeholder="Nom du bénéficiaire" [(ngModel)]="editBeneficiaire.libelle">
+                            <input matInput placeholder="Nom du bénéficiaire" [(ngModel)]="editBeneficiaire.Libelle" (change)="changeBeneficiaireLibelle($event)">
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput  placeholder="Identifiant du portefeuile" [(ngModel)]="editBeneficiaire.id">
+                            <input matInput  placeholder="Identifiant du portefeuile" [(ngModel)]="editBeneficiaire.ClePub" (change)="changeBeneficiaireClePub($event)">
                         </mat-form-field>
                     </div>
                     <div class="dialog-buttons">

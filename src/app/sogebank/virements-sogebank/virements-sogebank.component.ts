@@ -4,7 +4,7 @@ import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar, MatDialogRef } from '@angular/material';
-import { NodeapiService } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
@@ -31,6 +31,8 @@ export class VirementsSogebankComponent implements OnInit {
   confirmDialogRef: any;
   contactDialogRef: any;
   editBeneficiaire: {};
+  newBeneficiaireLibelle: string;
+  newBeneficiaireClePub: string;
   dialogProperties = {
     from: '',
     to: '',
@@ -58,12 +60,20 @@ export class VirementsSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Virements - Sogebank');
-    this.editBeneficiaire = { id: '', libelle: '' };
+    this.editBeneficiaire = { ClePub: '', Libelle: '' };
   }
 
   initData() {
     this.portefeuilles = this.apiService.portefeuilles;
-    this.beneficiaires = this.sogebankService.getUserContacts();
+    this.beneficiaires = this.apiService.contacts;
+  }
+
+  getContacts() {
+    this.apiService.makeRequest(apiUrl.contactsByUserEmail, {}).toPromise()
+      .then(res => {
+        this.apiService.contacts = res;
+        this.initData();
+      });
   }
 
   selectPortefeuille(portefeuille) {
@@ -93,22 +103,22 @@ export class VirementsSogebankComponent implements OnInit {
   }
 
   updateDialogProperties() {
-    this.dialogProperties.from = this.selectedPortefeuille['libelle'];
-    this.dialogProperties.to = this.selectedBeneficiaire['libelle'];
+    this.dialogProperties.from = this.selectedPortefeuille['Libelle'];
+    this.dialogProperties.to = this.selectedBeneficiaire['Libelle'];
     this.dialogProperties.amount = this.transferAmount.toString();
-    this.dialogProperties.afterTransfer = (Number(this.selectedPortefeuille['solde']
-      .substring(0, this.selectedPortefeuille['solde'].length - 5).replace(' ', '')) - this.transferAmount).toString();
+    this.dialogProperties.afterTransfer = (Number(this.selectedPortefeuille['Solde']
+      .substring(0, this.selectedPortefeuille['Solde'].length - 5).replace(' ', '')) - this.transferAmount).toString();
     this.dialogProperties.type = this.typesVirement.find(obj => obj.value === this.selectedType).viewValue;
     this.dialogProperties.date = new Date().toLocaleDateString();
   }
 
   openConfirmDialog(templateRef) {
     if (this.transferAmount >
-      Number(this.selectedPortefeuille['solde'].substring(0, this.selectedPortefeuille['solde'].length - 5).replace(' ', ''))) {
+      Number(this.selectedPortefeuille['Solde'].substring(0, this.selectedPortefeuille['Solde'].length - 5).replace(' ', ''))) {
         this.snackBar.open('Le montant du virement ne peut pas excéder le solde du portefeuille.', 'Fermer', {
           duration: 5000,
         });
-    } else if (this.selectedPortefeuille['id'] === this.selectedBeneficiaire['id']) {
+    } else if (this.selectedPortefeuille['Id'] === this.selectedBeneficiaire['Id']) {
       this.snackBar.open('Les portefeuilles source et bénéficiaire ne peuvent pas être les même.', 'Fermer', {
         duration: 5000,
       });
@@ -142,11 +152,69 @@ export class VirementsSogebankComponent implements OnInit {
   }
 
   confirmContactEditCreate() {
-    this.contactDialogRef.close();
-    this.snackBar.open('Les informations du bénéficiaire ' + this.editBeneficiaire['libelle']
-    + ' ont bien été mises à jour.', 'Fermer', {
-      duration: 5000,
-    });
+    if (this.editBeneficiaire === 'newContact') {
+      // Create
+      if (!this.newBeneficiaireLibelle && !this.newBeneficiaireClePub) {
+        this.snackBar.open('Veuillez renseigner tous les champs.', 'Fermer', {
+          duration: 5000,
+        });
+        return;
+      }
+      const newContactDetails = {
+        libelle: this.newBeneficiaireLibelle,
+        clePub: this.newBeneficiaireClePub
+      };
+      this.apiService.makeRequest(apiUrl.createContact, newContactDetails).toPromise()
+        .then(res => {
+          this.getContacts();
+          this.contactDialogRef.close();
+          this.snackBar.open(newContactDetails.libelle + ' à bien été ajouté à vos bénéficiaires.', 'Fermer', {
+            duration: 5000,
+          });
+        }, error => {
+          this.snackBar.open('Le bénéficiaire n\'a pas pu être ajouté, veuillez réessayer.', 'Fermer', {
+            duration: 5000,
+          });
+        });
+    } else {
+      // Edit
+      if (!this.editBeneficiaire['Libelle'] && !this.editBeneficiaire['ClePub']) {
+        this.snackBar.open('Veuillez renseigner tous les champs.', 'Fermer', {
+          duration: 5000,
+        });
+        return;
+      }
+      const editContactDetails = {
+        libelle: this.editBeneficiaire['Libelle'],
+        clePub: this.editBeneficiaire['ClePub'],
+        id: this.editBeneficiaire['Id']
+      };
+      this.apiService.makeRequest(apiUrl.updateContact, editContactDetails).toPromise()
+        .then(res => {
+          this.getContacts();
+          this.contactDialogRef.close();
+          this.snackBar.open('Les informations du bénéficiaire ' + this.editBeneficiaire['Libelle']
+          + ' ont bien été mises à jour.', 'Fermer', {
+            duration: 5000,
+          });
+        }, error => {
+          this.snackBar.open('Le bénéficiaire n\'a pas pu être mis à jour, veuillez réessayer.', 'Fermer', {
+            duration: 5000,
+          });
+        });
+    }
+  }
+
+  changeBeneficiaireLibelle(event) {
+    if (this.editBeneficiaire === 'newContact') {
+      this.newBeneficiaireLibelle = event.target.value;
+    }
+  }
+
+  changeBeneficiaireClePub(event) {
+    if (this.editBeneficiaire === 'newContact') {
+      this.newBeneficiaireClePub = event.target.value;
+    }
   }
 
   cancelContactEditCreate() {

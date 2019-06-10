@@ -104,10 +104,27 @@ app.get('/allClients', [
     });
 });
 
-app.post('/cardsByPortefeuilleIds', function(req, res) {
-    check('Ids').isArray().isLength({ min: 1 });
+app.post('/cardsByPortefeuilleIds', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('Ids').isArray().isLength({ min: 1 }),
+    outils.handleValidationResult],
+    function(req, res) {
+        
     conn.query(sql.findCartesByPortefeuilleIds, req.body.Ids, function(err, result){
         if(err || !result[0]) return res.status(400).send({errors: ['Could not fetch cards']});
+        res.send((err) ? "Error" : result);
+    });
+})
+
+app.get('/contactsByUserEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    outils.handleValidationResult],
+    function(req, res) {
+        
+    conn.query(sql.findContactsByEmail, req.jwt.Email, function(err, result) {
+        if(err || !result[0]) return res.status(400).send({errors: ['Could not fetch contacts']});
         res.send((err) ? "Error" : result);
     });
 })
@@ -285,6 +302,22 @@ app.put('/updateCarte', [
     });
 });
 
+app.put('/updateContact', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().escape(),
+    // Regex to allow spaces between alphanumeric characters
+    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('clePub').isLength({ min: 1 }).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.updateContact, [req.body.libelle, req.body.clePub, req.body.id], function(err, result){
+        if(err) return res.status(400).send({ succes: false, errors: ["Could not update contact with id: " + req.body.id] });
+        return res.send({success: !err});
+    });
+});
+
 app.put('/updateClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
@@ -397,15 +430,14 @@ app.post('/createBankClient', [
 app.post('/createContact', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
-    check('email').isEmail().normalizeEmail(),
-    check('nom').isLength({ min: 1 }).escape(),
-    check('clePortefeuille').isLength({ min: 1 }).escape(),
+    check('libelle').isLength({ min: 1 }).escape(),
+    check('clePub').isLength({ min: 1 }).escape(),
     outils.handleValidationResult], 
     function(req, res) {
 
     let currDate = new Date();
     let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
-    conn.query(sql.insertContact_0_4, [req.jwt.Email, req.body.nom, req.body.ClePortefeuille, dateStr], function(err, result){
+    conn.query(sql.insertContact_0_4, [req.jwt.Email, req.body.libelle, req.body.clePub, dateStr], function(err, result){
         return res.send({ succes: !err});
     });
 });
@@ -603,7 +635,7 @@ app.post('/auth', [
                 conn.query(sql.findContactsByEmail, [req.body.email], function(err3, result3){  
                     let contacts = [];
                     for(let i = 0; i < result3.length; i++){
-                        contacts.push({Id: result3[i].Id, Nom: result3[i].Nom, Ajout: result3[i].Ajout, ClePortefeuille: result3[i].ClePortefeuille});
+                        contacts.push({Id: result3[i].Id, Libelle: result3[i].Libelle, Ajout: result3[i].Ajout, ClePub: result3[i].ClePub});
                     }
                     return res.status(201).send({
                         accessToken: token,

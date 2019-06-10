@@ -7,7 +7,7 @@ module.exports = {
   'insertPortefeuille' : 
         'INSERT INTO portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email, Ouverture) VALUES (?,?,?,?,?)',
   'insertContact_0_4' : 
-        'INSERT INTO beneficiaire  (Utilisateur_Email, Nom, ClePortefeuille, Ajout) VALUES (?,?,?,?)',
+        'INSERT INTO beneficiaire  (Utilisateur_Email, Libelle, ClePub, Ajout) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
         'INSERT INTO banque (Nom,Email,Tel,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
   'insertCommercantDocs' : 
@@ -30,7 +30,7 @@ module.exports = {
   'findPortefeuillesByEmail' :
         'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findContactsByEmail' :
-        'SELECT Id, Nom, Ajout, ClePortefeuille FROM beneficiaire WHERE Utilisateur_Email LIKE BINARY ?',
+        'SELECT Id, Libelle, Ajout, ClePub FROM beneficiaire WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
   'findClientsByBanque' : 
@@ -82,6 +82,8 @@ module.exports = {
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
   'updatePortefeuille' : 
         'UPDATE portefeuille SET Libelle = ?, ClePub = ?, ClePrive = ? WHERE Utilisateur_Email = ?',
+  'updateContact' : 
+        'UPDATE beneficiaire SET Libelle = ?, ClePub = ? WHERE Id = ?',
   'updateCarte' : 
         'UPDATE carte SET Libelle = ? WHERE Id = ?',
   'blockClient_0_1' : 

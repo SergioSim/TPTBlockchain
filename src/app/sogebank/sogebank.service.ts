@@ -23,7 +23,6 @@ export class SogebankService {
       for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getTransactions(portefeuille.ClePub).subscribe(
           sub => sub.subscribe( res => {
-            console.log(res);
             portefeuille.Transactions = res;
             if (portefeuille.Transactions && portefeuille.Transactions.length > 0) {
               portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(portefeuille.Transactions[0].Solde);
@@ -160,15 +159,7 @@ export class SogebankService {
   }
 
   getContactLibelle(clePub) {
-    const libelleContact = this.getUserContacts().find(contact => contact.ClePub === clePub);
-    return libelleContact === undefined ? 'Inconnu' : libelleContact.libelle;
+    const libelleContact = this.apiService.contacts.find(contact => contact.ClePub === clePub);
+    return libelleContact === undefined ? 'Inconnu' : libelleContact.Nom;
   }
-
-  getUserContacts() {
-    return [
-      {id: 3, libelle: 'Marcus Dooling', ajout: '14/01/2019', ClePub: 'Xtb98pbdMCUr6YTLU8MCfhkaFmoJNPatWg'},
-      {id: 4, libelle: 'Oleta Ulrich', ajout: '16/02/2019', ClePub: 'XwgYCe9koAgPnbiayEjDnoFfXrTkPgDDMX'},
-    ];
-  }
-
 }

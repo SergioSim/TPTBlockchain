@@ -195,8 +195,10 @@ app.post('/createCarte', [
     check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
-    
-    conn.query(sql.insertCarte, [req.body.libelle, req.body.portefeuille_id], function(err, result){
+
+    let currDate = new Date();
+    let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
+    conn.query(sql.insertCarte, [req.body.libelle, req.body.portefeuille_id, dateStr], function(err, result){
         if(err) return res.status(400).send({ succes: false, errors: ["Could not insert carte for portefeuille id: " + req.body.portefeuille_id] });
         return res.send({success: !err});
     });
@@ -397,11 +399,13 @@ app.post('/createContact', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('email').isEmail().normalizeEmail(),
     check('nom').isLength({ min: 1 }).escape(),
-    check('prenom').isLength({ min: 1 }).escape(),
+    check('clePortefeuille').isLength({ min: 1 }).escape(),
     outils.handleValidationResult], 
     function(req, res) {
 
-    conn.query(sql.insertContact_0_4, [req.jwt.Email, req.body.email, req.body.nom, req.body.prenom], function(err, result){
+    let currDate = new Date();
+    let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
+    conn.query(sql.insertContact_0_4, [req.jwt.Email, req.body.nom, req.body.ClePortefeuille, dateStr], function(err, result){
         return res.send({ succes: !err});
     });
 });
@@ -436,9 +440,6 @@ app.delete('/deleteMonnieElectronique', [
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });
-
-
-
 
 app.delete('/deletePortefeuille', [
     outils.validJWTNeeded, 
@@ -486,6 +487,17 @@ app.delete('/deleteContact', [
     function(req, res) {
 
     conn.query(sql.deleteContact_0_2, [req.jwt.Email, req.query.email], function(err, result){
+		return res.send({ succes: !err && result.affectedRows != 0});
+	});
+});
+
+app.delete('/deleteCarte', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().isLength({min: 1}),
+    outils.handleValidationResult], 
+    function(req, res) {
+    conn.query(sql.deleteCarte, [req.query.id], function(err, result){
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });
@@ -588,25 +600,32 @@ app.post('/auth', [
                 let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
                 let b = Buffer.from(hash);
                 let refresh_token = b.toString('base64');
-                return res.status(201).send({
-                    accessToken: token,
-                    refreshToken: refresh_token,
-                    email: aSecret.Email,
-                    portefeuilles: aSecret.Portefeuilles,
-                    banque: aSecret.Banque,
-                    nom: result.Nom,
-                    prenom: result.Prenom,
-                    civilite: result.Civilite,
-                    situation_familiale: result.Situation_Familiale,
-                    profession: result.Profession,
-                    siret: result.Siret,
-                    tel: result.Tel,
-                    adresse: result.Adresse,
-                    ville: result.Ville,
-                    code_postal: result.Code_Postal,
-                    statut: result.Status,
-                    documents: result.Documents,
-                    permission: result.Libelle});
+                conn.query(sql.findContactsByEmail, [req.body.email], function(err3, result3){  
+                    let contacts = [];
+                    for(let i = 0; i < result3.length; i++){
+                        contacts.push({Id: result3[i].Id, Nom: result3[i].Nom, Ajout: result3[i].Ajout, ClePortefeuille: result3[i].ClePortefeuille});
+                    }
+                    return res.status(201).send({
+                        accessToken: token,
+                        refreshToken: refresh_token,
+                        email: aSecret.Email,
+                        portefeuilles: aSecret.Portefeuilles,
+                        contacts: contacts,
+                        banque: aSecret.Banque,
+                        nom: result.Nom,
+                        prenom: result.Prenom,
+                        civilite: result.Civilite,
+                        situation_familiale: result.Situation_Familiale,
+                        profession: result.Profession,
+                        siret: result.Siret,
+                        tel: result.Tel,
+                        adresse: result.Adresse,
+                        ville: result.Ville,
+                        code_postal: result.Code_Postal,
+                        statut: result.Status,
+                        documents: result.Documents,
+                        permission: result.Libelle});
+                });
             } catch (err) {
                 return res.status(500).send({errors: err});
             }

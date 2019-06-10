@@ -89,10 +89,10 @@ export class SogebankService {
             id: transaction.MutationHash,
             date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
             type: transaction.Nature,
-            nature: transaction.Expediteur,
+            nature: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: transaction.Destinataire
+            portefeuille: this.determineLibelle(transaction.Destinataire)
           });
         }
       });
@@ -149,10 +149,25 @@ export class SogebankService {
     return formattedTransactions;
   }
 
+  determineLibelle(clePub) {
+    const libelle = this.getPortefeuilleLibelle(clePub);
+    return libelle === undefined ? this.getContactLibelle(clePub) : libelle;
+  }
+
+  getPortefeuilleLibelle(clePub) {
+    const libelle = this.apiService.portefeuilles.find(portefeuille => portefeuille.ClePub === clePub);
+    return libelle === undefined ? libelle : libelle.Libelle;
+  }
+
+  getContactLibelle(clePub) {
+    const libelleContact = this.getUserContacts().find(contact => contact.ClePub === clePub);
+    return libelleContact === undefined ? 'Inconnu' : libelleContact.libelle;
+  }
+
   getUserContacts() {
     return [
-      {id: 3, libelle: 'Marcus Dooling', ajout: '14/01/2019'},
-      {id: 4, libelle: 'Oleta Ulrich', ajout: '16/02/2019'},
+      {id: 3, libelle: 'Marcus Dooling', ajout: '14/01/2019', ClePub: 'Xtb98pbdMCUr6YTLU8MCfhkaFmoJNPatWg'},
+      {id: 4, libelle: 'Oleta Ulrich', ajout: '16/02/2019', ClePub: 'XwgYCe9koAgPnbiayEjDnoFfXrTkPgDDMX'},
     ];
   }
 

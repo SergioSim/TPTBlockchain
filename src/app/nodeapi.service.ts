@@ -18,6 +18,7 @@ export class NodeapiService {
   public email: string;
   public permission: string;
   public portefeuilles: any[];
+  public contacts: any[];
   public cartes: any[];
   public nom: string;
   public prenom: string;
@@ -132,6 +133,7 @@ export class NodeapiService {
     this.refreshToken = obj.refreshToken;
     this.email = obj.email;
     this.portefeuilles = obj.portefeuilles;
+    this.contacts = obj.contacts;
     this.cartes = obj.cartes;
     this.banque = obj.banque;
     this.nom = obj.nom;
@@ -156,6 +158,8 @@ export class NodeapiService {
     apilog('email: ' + this.email);
     apilog('portefeuilles: ');
     console.log(this.portefeuilles);
+    apilog('contacts: ');
+    console.log(this.contacts);
     apilog('banque: ' + this.banque);
     apilog('nom: ' + this.nom);
     apilog('prenom: ' + this.prenom);
@@ -429,6 +433,7 @@ export enum apiUrl {
   createBankClient = 'POST$createBankClient/',
   createContact = 'POST$createContact/',
   deleteBank = 'DELETE$deleteBank',
+  deleteCarte = 'DELETE$deleteCarte',
   deleteMonnieElectronique = 'DELETE$deleteMonnieElectronique',
   deleteClient = 'DELETE$deleteClient',
   deleteContact = 'DELETE$deleteContact',

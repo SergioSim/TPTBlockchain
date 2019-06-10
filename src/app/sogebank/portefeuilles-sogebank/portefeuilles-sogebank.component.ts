@@ -49,6 +49,10 @@ export class PortefeuillesSogebankComponent implements OnInit {
     this.countTotals();
   }
 
+  initData() {
+    console.log('child init !');
+  }
+
   countTotals() {
     let solde = 0;
     let activite = 0;

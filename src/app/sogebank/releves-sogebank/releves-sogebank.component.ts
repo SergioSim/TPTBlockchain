@@ -28,6 +28,10 @@ export class RelevesSogebankComponent implements OnInit {
     this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
+  initData() {
+    console.log('child init !');
+  }
+
   changePortefeuille(portefeuille) {
     this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
   }

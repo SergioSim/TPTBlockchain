@@ -48,6 +48,10 @@ export class DocumentsSogebankComponent implements OnInit {
     this.titleService.setTitle('Mes documents - Sogebank');
   }
 
+  initData() {
+    console.log('child init !');
+  }
+
   openPieceIdentiteInput() {
     document.getElementById('pieceIdentiteInput').click();
   }

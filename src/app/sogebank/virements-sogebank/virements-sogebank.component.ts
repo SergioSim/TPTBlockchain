@@ -55,9 +55,13 @@ export class VirementsSogebankComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Virements - Sogebank');
 
-    this.portefeuilles = this.sogebankService.getUserWallets();
+    //this.portefeuilles = this.sogebankService.getUserWallets();
     this.beneficiaires = this.sogebankService.getUserContacts();
     this.editBeneficiaire = { id: '', libelle: '' };
+  }
+
+  initData() {
+    console.log('child init !');
   }
 
   selectPortefeuille(portefeuille) {

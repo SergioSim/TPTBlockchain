@@ -29,10 +29,13 @@ export class DashboardSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Tableau de bord - Sogebank');
-
     this.displayedColumns = ['id', 'date', 'type', 'nature', 'montant', 'portefeuille', 'recu'];
   }
 
+  initData() {
+    console.log(this.sogebankService.formatTransactionData());
+    this.dataSource = this.sogebankService.formatTransactionData();
+  }
 }
 
 

@@ -50,6 +50,10 @@ export class CartesSogebankComponent implements OnInit {
     this.getCartes();
   }
 
+  initData() {
+    console.log('child init !');
+  }
+
   countTotals() {
     let activite = 0;
     let solde = 0;

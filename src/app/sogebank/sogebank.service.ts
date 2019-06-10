@@ -12,14 +12,13 @@ export class SogebankService {
   totalSolde: string;
   totalCredit: string;
   totalDebit: string;
-  formattedTransactions: [];
 
   constructor(
     private apiService: NodeapiService,
     private commonUtilsService: CommonUtilsService
   ) { }
 
-  initPortfeuillesData() {
+  initPortfeuillesData(callback, callbackComponent) {
     if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
       for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getTransactions(portefeuille.ClePub).subscribe(
@@ -46,6 +45,7 @@ export class SogebankService {
               console.log(err);
             }, () => {
               this.countTotals();
+              callback(callbackComponent);
             }));
       }
     }
@@ -55,13 +55,18 @@ export class SogebankService {
     let solde = 0;
     let credit = 0;
     let debit = 0;
+    const currDate = new Date();
+    currDate.setDate(currDate.getDate() - 30);
+    const referenceDate = currDate.getTime();
     this.apiService.portefeuilles.forEach( portefeuille => {
       solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
       portefeuille['Transactions'].forEach( transaction => {
-        if (transaction.Montant < 0) {
-          debit += transaction.Montant;
-        } else {
-          credit += transaction.Montant;
+        if (transaction.Timestamp > referenceDate) {
+          if (transaction.Montant < 0) {
+            debit += transaction.Montant;
+          } else {
+            credit += transaction.Montant;
+          }
         }
       });
     });
@@ -71,18 +76,23 @@ export class SogebankService {
   }
 
   formatTransactionData() {
+    const formattedTransactions = [];
     for (const portefeuille of this.apiService.portefeuilles) {
       portefeuille['Transactions'].forEach( transaction => {
-        /*this.formattedTransactions.push({
-          id: '7652b9e5a8f302d…',
-          date: '22/04/2019',
-          type: 'Virement',
-          nature: 'Marcus Dooling',
-          montant: '+200 DHTG',
-          portefeuille: 'Portefeuille courant'
-        });*/
+        const date = new Date(0);
+        date.setUTCSeconds(transaction.Timestamp);
+        formattedTransactions.push({
+          id: transaction.MutationHash,
+          date: date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
+          type: transaction.Nature,
+          nature: transaction.Expediteur,
+          montant: this.commonUtilsService.numberToCurrencyString(
+            transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
+          portefeuille: transaction.Destinataire
+        });
       });
     }
+    return formattedTransactions;
   }
 
   getRecentTransactions() {

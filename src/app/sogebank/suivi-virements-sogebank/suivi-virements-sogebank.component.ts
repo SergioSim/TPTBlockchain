@@ -28,6 +28,10 @@ export class SuiviVirementsSogebankComponent implements OnInit {
     this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
+  initData() {
+    console.log('child init !');
+  }
+
   changePortefeuille(portefeuille) {
     this.dataSource = this.sogebankService.getTransfersforWalletWithDate(portefeuille.value.libelle, null, null);
   }

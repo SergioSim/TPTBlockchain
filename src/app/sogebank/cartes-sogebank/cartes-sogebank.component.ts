@@ -46,12 +46,11 @@ export class CartesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes cartes - Sogebank');
-    this.portefeuilles = this.apiService.portefeuilles;
-    this.getCartes();
   }
 
   initData() {
-    console.log('child init !');
+    this.portefeuilles = this.apiService.portefeuilles;
+    this.getCartes();
   }
 
   countTotals() {

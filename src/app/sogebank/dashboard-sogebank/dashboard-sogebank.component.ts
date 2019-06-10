@@ -33,8 +33,7 @@ export class DashboardSogebankComponent implements OnInit {
   }
 
   initData() {
-    console.log(this.sogebankService.formatTransactionData());
-    this.dataSource = this.sogebankService.formatTransactionData();
+    this.dataSource = this.sogebankService.formatRecentTransactionData();
   }
 }
 

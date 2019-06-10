@@ -45,12 +45,11 @@ export class PortefeuillesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes portefeuilles - Sogebank');
-    this.portefeuilles = this.apiService.portefeuilles;
-    this.countTotals();
   }
 
   initData() {
-    console.log('child init !');
+    this.portefeuilles = this.apiService.portefeuilles;
+    this.countTotals();
   }
 
   countTotals() {
@@ -59,16 +58,11 @@ export class PortefeuillesSogebankComponent implements OnInit {
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
       solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
-      //activite += this.commonUtilsService.currencyStringtoNumber(portefeuille.Activite);
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
-    this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
-  }
-
-  formatDate(date) {
-    const dateParts = date.split('-');
-    const convertedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
-    return convertedDate.getDate()  + '/' + (convertedDate.getMonth() + 1) + '/' + convertedDate.getFullYear();
+    this.totalActivite = this.commonUtilsService.numberToCurrencyString(
+      this.commonUtilsService.currencyStringtoNumber(this.sogebankService.totalDebit) +
+      this.commonUtilsService.currencyStringtoNumber(this.sogebankService.totalCredit));
   }
 
   openQRcodeDialog(templateRef, portefeuille) {

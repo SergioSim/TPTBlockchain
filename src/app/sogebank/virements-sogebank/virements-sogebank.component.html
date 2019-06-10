@@ -12,12 +12,12 @@
                     <div class="wallet-info">
                         <div><fa-icon [icon]="faCheck"></fa-icon></div>
                         <div>
-                            <p>{{selectedPortefeuille.libelle}}</p>
-                            <p>Ouvert le {{selectedPortefeuille.ouverture}}</p>
+                            <p>{{selectedPortefeuille.Libelle}}</p>
+                            <p>Ouvert le {{commonUtilsService.formatDate(selectedPortefeuille.Ouverture)}}</p>
                         </div>
                     </div>
                     <div class="wallet-solde">
-                        <p>{{selectedPortefeuille.solde}}</p>
+                        <p>{{selectedPortefeuille.Solde}}</p>
                     </div>
                 </div>
 
@@ -28,12 +28,12 @@
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
-                                <p>{{portefeuille.libelle}}</p>
-                                <p>Ouvert le {{portefeuille.ouverture}}</p>
+                                <p>{{portefeuille.Libelle}}</p>
+                                <p>Ouvert le {{commonUtilsService.formatDate(portefeuille.Ouverture)}}</p>
                             </div>
                         </div>
                         <div class="wallet-solde">
-                            <p>{{portefeuille.solde}}</p>
+                            <p>{{portefeuille.Solde}}</p>
                         </div>
                     </div>
                 </div>
@@ -79,12 +79,12 @@
                                 <fa-icon [icon]="faCheck"></fa-icon>
                             </div>
                             <div>
-                                <p>{{portefeuille.libelle}}</p>
-                                <p>Ouvert le {{portefeuille.ouverture}}</p>
+                                <p>{{portefeuille.Libelle}}</p>
+                                <p>Ouvert le {{commonUtilsService.formatDate(portefeuille.Ouverture)}}</p>
                             </div>
                         </div>
                         <div class="wallet-solde">
-                            <p>{{portefeuille.solde}}</p>
+                            <p>{{portefeuille.Solde}}</p>
                         </div>
                     </div>
                     <div class="transfer-to-separator box-item">

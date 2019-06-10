@@ -10,8 +10,8 @@ export class SogebankService {
   displayLoginForm = true;
   isNewParticulier: boolean;
   totalSolde: string;
-  totalCredit: string;
-  totalDebit: string;
+  totalCredit = '0';
+  totalDebit = '0';
 
   constructor(
     private apiService: NodeapiService,
@@ -57,7 +57,7 @@ export class SogebankService {
     let debit = 0;
     const currDate = new Date();
     currDate.setDate(currDate.getDate() - 30);
-    const referenceDate = currDate.getTime();
+    const referenceDate = currDate.getTime() / 1000;
     this.apiService.portefeuilles.forEach( portefeuille => {
       solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
       portefeuille['Transactions'].forEach( transaction => {
@@ -75,21 +75,26 @@ export class SogebankService {
     this.totalDebit = this.commonUtilsService.numberToCurrencyString(debit);
   }
 
-  formatTransactionData() {
+  formatRecentTransactionData() {
     const formattedTransactions = [];
+    const currDate = new Date();
+    currDate.setDate(currDate.getDate() - 30);
+    const referenceDate = currDate.getTime() / 1000;
     for (const portefeuille of this.apiService.portefeuilles) {
       portefeuille['Transactions'].forEach( transaction => {
-        const date = new Date(0);
-        date.setUTCSeconds(transaction.Timestamp);
-        formattedTransactions.push({
-          id: transaction.MutationHash,
-          date: date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear(),
-          type: transaction.Nature,
-          nature: transaction.Expediteur,
-          montant: this.commonUtilsService.numberToCurrencyString(
-            transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-          portefeuille: transaction.Destinataire
-        });
+        if (transaction.Timestamp >= referenceDate) {
+          const date = new Date(0);
+          date.setUTCSeconds(transaction.Timestamp);
+          formattedTransactions.push({
+            id: transaction.MutationHash,
+            date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
+            type: transaction.Nature,
+            nature: transaction.Expediteur,
+            montant: this.commonUtilsService.numberToCurrencyString(
+              transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
+            portefeuille: transaction.Destinataire
+          });
+        }
       });
     }
     return formattedTransactions;

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { DateAdapter } from '@angular/material';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-releves-sogebank',
@@ -16,6 +17,7 @@ export class RelevesSogebankComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private apiService: NodeapiService,
     public sogebankService: SogebankService,
     private titleService: Title,
     private adapter: DateAdapter<any>
@@ -24,12 +26,10 @@ export class RelevesSogebankComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Relevés - Sogebank');
     this.adapter.setLocale('fr');
-
-    this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
   initData() {
-    console.log('child init !');
+    this.portefeuilles = this.apiService.portefeuilles;
   }
 
   changePortefeuille(portefeuille) {

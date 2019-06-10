@@ -21,7 +21,6 @@ export class CartesSogebankComponent implements OnInit {
   portefeuilles: any[];
   totalCards = 0;
   totalSolde = '0';
-  totalActivite = '0';
   newCreateDialogRef: any;
   newCardSelectedWallet: {};
   newCardlibelle = '';
@@ -31,7 +30,6 @@ export class CartesSogebankComponent implements OnInit {
     Id: '',
     Libelle: '',
     Creation: '',
-    Activite: '',
     Rattachement: ''
   };
 
@@ -46,22 +44,22 @@ export class CartesSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Mes cartes - Sogebank');
+  }
+
+  initData() {
     this.portefeuilles = this.apiService.portefeuilles;
     this.getCartes();
   }
 
   countTotals() {
-    let activite = 0;
     let solde = 0;
     this.totalCards = 0;
     this.cartes.forEach( carte => {
       this.totalCards++;
-      //activite += this.commonUtilsService.currencyStringtoNumber(carte.activite);
     });
     this.portefeuilles.forEach( portefeuille => {
       solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
     });
-    this.totalActivite = this.commonUtilsService.numberToCurrencyString(activite);
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
   }
 
@@ -143,10 +141,22 @@ export class CartesSogebankComponent implements OnInit {
   }
 
   confirmCardDelete() {
-    const index = this.cartes.findIndex( carte => carte.id === this.selectedCarte.Id);
-    this.cartes.splice(index, 1);
-    this.countTotals();
-    this.deleteDialogRef.close();
+    const deleteCardDetails = {
+      libelle: this.selectedCarte.Libelle,
+      id: this.selectedCarte.Id
+    };
+    this.apiService.makeRequest(apiUrl.deleteCarte, {id: deleteCardDetails.id}).toPromise()
+      .then(res => {
+        this.getCartes();
+        this.deleteDialogRef.close();
+        this.snackBar.open(deleteCardDetails.libelle + '" à bien été supprimé.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La carte n\'a pas pu être supprimée, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
   }
 
   cancelCardDelete() {

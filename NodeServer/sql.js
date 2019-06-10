@@ -7,7 +7,7 @@ module.exports = {
   'insertPortefeuille' : 
         'INSERT INTO portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email, Ouverture) VALUES (?,?,?,?,?)',
   'insertContact_0_4' : 
-        'INSERT INTO beneficiaire  (Utilisateur_Email, Beneficiaire_Email, Nom, Prenom) VALUES (?,?,?,?)',
+        'INSERT INTO beneficiaire  (Utilisateur_Email, Nom, ClePortefeuille, Ajout) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
         'INSERT INTO banque (Nom,Email,Tel,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
   'insertCommercantDocs' : 
@@ -15,20 +15,22 @@ module.exports = {
   'insertParticulierDocs' : 
         'INSERT INTO document (Status,Piece_Identite,Justificatif_Domicile) VALUES (2,?,?) WHERE Id = ?',
   'insertCarte' : 
-        'INSERT INTO carte (Libelle,Portefeuille_id) VALUES (?,?)',
+        'INSERT INTO carte (Libelle,Portefeuille_id,Creation) VALUES (?,?,?)',
   'insertMonnie' : 
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
   'findCartesByPortefeuilleIds' : 
-        'SELECT Id, Libelle, Portefeuille_Id ' + 
+        'SELECT Id, Libelle, Portefeuille_Id, Creation ' + 
         'FROM carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
          'SELECT Email, Nom, Tel, isVisible ' + 
          'FROM banque WHERE Nom LIKE BINARY ?',    
   'findPortefeuillesByEmail' :
         'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
+  'findContactsByEmail' :
+        'SELECT Id, Nom, Ajout, ClePortefeuille FROM beneficiaire WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
   'findClientsByBanque' : 
@@ -60,9 +62,11 @@ module.exports = {
   'deleteClient_0_1' : 
         'DELETE FROM utilisateur WHERE Email=?',
   'deleteContact_0_2' : 
-        'DELETE FROM beneficiaire WHERE Utilisateur_Email=? AND Beneficiaire_Email=?',
+        'DELETE FROM beneficiaire WHERE Id=?',
   'deletePortefeuille' : 
         'DELETE FROM portefeuille WHERE Id=?',
+  'deleteCarte' : 
+        'DELETE FROM carte WHERE Id=?',
   'updateMonnie' : 
         'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 

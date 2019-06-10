@@ -17,8 +17,7 @@
                 </div>
                 <div class="carte-footer">
                     <div class="carte-info">
-                        <p>Activité récente: {{carte.Activite}}</p>
-                        <p>Création: {{carte.cCreation}}</p>
+                        <p>Création: {{commonUtilsService.formatDate(carte.Creation)}}</p>
                     </div>
                     <div class="carte-rattachement">
                         <h1>Rattachée à : {{carte.rattachement}}</h1>
@@ -29,13 +28,11 @@
     </div>
 
     <div class="stats-cartes">
-        <h2>Informations (tous cartes confondus)</h2>
+        <h2>Informations (toutes cartes confondus)</h2>
         <p>Nombre de cartes :</p>
         <h2>{{totalCards}}</h2>
         <p>Solde :</p>
         <h2>{{totalSolde}}</h2>
-        <p>Activité (30 derniers jours) :</p>
-        <h2>{{totalActivite}}</h2>
     </div>
 
     <ng-template #NewCardDialog>
@@ -94,7 +91,7 @@
             </div>
             <div class="dialog-warning">
                 <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                <p>Attention : Cette opération est définitive.</p>
+                <p>Attention : Cette opération est irréversible.</p>
             </div>
            <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardDelete()">Confirmer</button> 

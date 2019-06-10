@@ -5,7 +5,7 @@
             <div class="stat-header">
                 <h3>Solde</h3>
             </div>
-            <h2>14 636 DHTG</h2>
+            <h2>{{sogebankService.totalSolde}}</h2>
             <fa-icon [icon]="faSyncAlt" class="download-button"></fa-icon>
         </div>
         <div class="stat-box-green">
@@ -13,7 +13,7 @@
                 <h3>Crédit</h3>
                 <p>(30 derniers jours)</p>
             </div>
-            <h2>1 704 DHTG</h2>
+            <h2>{{sogebankService.totalCredit}}</h2>
             <fa-icon [icon]="faPlusCircle" class="download-button"></fa-icon>
         </div>
         <div class="stat-box-orange">
@@ -21,7 +21,7 @@
                     <h3>Débit</h3>
                     <p>(30 derniers jours)</p>
                 </div>
-            <h2>532 DHTG</h2>
+            <h2>{{sogebankService.totalDebit}}</h2>
             <fa-icon [icon]="faMinusCircle" class="download-button"></fa-icon>
         </div>
     </div>

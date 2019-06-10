@@ -1,19 +1,18 @@
 <div class="content">
   <h2>Client en detail:</h2>
   <ul class="heroes">
-    <li><span class="badge">Email</span> {{selectedClient.Email}}</li>
-    <li><span class="badge">Nom</span> {{selectedClient.Nom}}</li>
-    <li><span class="badge">Prenom</span> {{selectedClient.Prenom}}</li>
-    <li><span class="badge">Adresse</span> {{selectedClient.Adresse}}</li>
-    <li><span class="badge">Ville</span> {{selectedClient.Ville}}</li>
-    <li><span class="badge">Code_Postal</span> {{selectedClient.Code_Postal}}</li>
-    <li><span class="badge">Civilite</span> {{selectedClient.Civilite}}</li>
-    <li><span class="badge">Profession</span> {{selectedClient.Profession}}</li>
-    <li><span class="badge">Siret</span> {{selectedClient.Siret}}</li>
-    <li><span class="badge">Situation_Familiale</span> {{selectedClient.Situation_Familiale}}</li>
-    <li><span class="badge">Tel</span> {{selectedClient.Tel}}</li>
-    <li><span class="badge">Status</span> {{selectedClient.Status}}</li>
-    <li><span class="badge">Tel</span> {{selectedClient.Tel}}</li>
+    <li><span class="badge">Email</span> <p>{{selectedClient.Email}}</p></li>
+    <li><span class="badge">Nom</span> <p>{{selectedClient.Nom}}</p></li>
+    <li><span class="badge">Prenom</span> <p>{{selectedClient.Prenom}}</p></li>
+    <li><span class="badge">Adresse</span> <p>{{selectedClient.Adresse}}</p></li>
+    <li><span class="badge">Ville</span> <p>{{selectedClient.Ville}}</p></li>
+    <li><span class="badge">Code_Postal</span> <p>{{selectedClient.Code_Postal}}</p></li>
+    <li><span class="badge">Civilite</span> <p>{{selectedClient.Civilite}}</p></li>
+    <li><span class="badge">Profession</span> <p>{{selectedClient.Profession}}</p></li>
+    <li><span class="badge">Siret</span> <p>{{selectedClient.Siret}}</p></li>
+    <li><span class="badge">Situation_Familiale</span> <p>{{selectedClient.Situation_Familiale}}</p></li>
+    <li><span class="badge">Tel</span> <p>{{selectedClient.Tel}}</p></li>
+    <li><span class="badge">Status</span> <p>{{selectedClient.Status}}</p></li>
   </ul>
   <h2>Portefeuilles:</h2>
   <div class="example-container mat-elevation-z8">
@@ -45,7 +44,50 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       
         <mat-row *matRowDef="let row; columns: displayedColumns"
-        (click)="onRowClicked(row)"></mat-row>
+        (click)="onRowClicked(row)"
+        [style.background]="selectedPortefeuille && selectedPortefeuille.Id == row.Id ? 'lightgreen' : ''"></mat-row>
       
       </mat-table>
+  <div *ngIf="showTransactions">
+    <h2>Transactions :</h2>
+    <div class="example-container mat-elevation-z8">
+        <mat-table class="clients-table mat-elevation-z8" [dataSource]="transactions" matSort>
+        
+          <ng-container matColumnDef="Date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+              <mat-cell *matCellDef="let tr" data-label="Date">{{tr.Date}}</mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="Nature">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Nature</mat-header-cell>
+              <mat-cell class="duration-cell"
+                        *matCellDef="let tr" data-label="Nature">{{tr.Nature}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Expediteur">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Expediteur</mat-header-cell>
+            <mat-cell class="duration-cell"
+                      *matCellDef="let tr" data-label="Expediteur">{{tr.Expediteur}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Destinataire">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Destinataire</mat-header-cell>
+            <mat-cell class="duration-cell"
+                      *matCellDef="let tr" data-label="Destinataire">{{tr.Destinataire}}</mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="Montant">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Montant</mat-header-cell>
+              <mat-cell class="duration-cell"
+                        *matCellDef="let tr" data-label="Montnat">{{tr.Montant}} DTG</mat-cell>
+          </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="displayedColumnsTransactions"></mat-header-row>
+        
+          <mat-row *matRowDef="let row; columns: displayedColumnsTransactions"
+          (click)="onTransactionRowClicked(row)"
+          [style.background]="selectedTransaction && selectedTransaction.Timestamp == row.Timestamp ? 'lightgreen' : ''"></mat-row>
+        
+        </mat-table>
+      </div>
 </div>

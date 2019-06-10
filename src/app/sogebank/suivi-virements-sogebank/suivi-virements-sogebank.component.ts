@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { DateAdapter } from '@angular/material';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-suivi-virements-sogebank',
@@ -13,9 +14,11 @@ export class SuiviVirementsSogebankComponent implements OnInit {
   dataSource: any[];
   selectedPortefeuille = {};
   portefeuilles: any[];
+  startDate: Date;
+  endDate: Date;
 
   constructor(
-    private route: ActivatedRoute,
+    private apiService: NodeapiService,
     public sogebankService: SogebankService,
     private titleService: Title,
     private adapter: DateAdapter<any>
@@ -24,12 +27,31 @@ export class SuiviVirementsSogebankComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Suivi virements - Sogebank');
     this.adapter.setLocale('fr');
-
-    this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
-  changePortefeuille(portefeuille) {
-    this.dataSource = this.sogebankService.getTransfersforWalletWithDate(portefeuille.value.libelle, null, null);
+  initData() {
+    this.portefeuilles = this.apiService.portefeuilles;
+  }
+
+  changePortefeuille() {
+    if (this.startDate && this.endDate && this.selectedPortefeuille) {
+      this.dataSource = this.sogebankService.formatTransfersforWalletWithDate(
+        this.selectedPortefeuille, this.startDate, this.endDate);
+    }
+  }
+
+  startDateChange(event) {
+    if (event.value instanceof Date) {
+      this.startDate = event.value;
+      this.changePortefeuille();
+    }
+  }
+
+  endDateChange(event) {
+    if (event.value instanceof Date) {
+      this.endDate = event.value;
+      this.changePortefeuille();
+    }
   }
 
 }

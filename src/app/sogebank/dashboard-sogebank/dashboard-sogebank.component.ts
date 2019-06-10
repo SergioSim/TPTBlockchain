@@ -4,6 +4,7 @@ import { faDownload, faSyncAlt, faPlusCircle, faMinusCircle } from '@fortawesome
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { NodeapiService } from 'src/app/nodeapi.service';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-dashboard-sogebank',
@@ -17,21 +18,23 @@ export class DashboardSogebankComponent implements OnInit {
   faSyncAlt = faSyncAlt;
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
+  totalSolde = '0';
+  totalCredit = '0';
+  totalDebit = '0';
 
   constructor(
-    private route: ActivatedRoute,
-    private apiService: NodeapiService,
     private sogebankService: SogebankService,
     private titleService: Title
   ) { }
 
   ngOnInit() {
     this.titleService.setTitle('Tableau de bord - Sogebank');
-
     this.displayedColumns = ['id', 'date', 'type', 'nature', 'montant', 'portefeuille', 'recu'];
-    this.dataSource = this.sogebankService.getRecentTransactions();
   }
 
+  initData() {
+    this.dataSource = this.sogebankService.formatRecentTransactionData();
+  }
 }
 
 

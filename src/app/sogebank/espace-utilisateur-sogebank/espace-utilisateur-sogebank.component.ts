@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { IconDefinition, faChartLine, faWallet, faCreditCard, faExchangeAlt,
@@ -6,6 +6,13 @@ import { IconDefinition, faChartLine, faWallet, faCreditCard, faExchangeAlt,
 import { NodeapiService } from 'src/app/nodeapi.service';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { Role } from '../Role';
+import { DashboardSogebankComponent } from '../dashboard-sogebank/dashboard-sogebank.component';
+import { PortefeuillesSogebankComponent } from '../portefeuilles-sogebank/portefeuilles-sogebank.component';
+import { CartesSogebankComponent } from '../cartes-sogebank/cartes-sogebank.component';
+import { VirementsSogebankComponent } from '../virements-sogebank/virements-sogebank.component';
+import { SuiviVirementsSogebankComponent } from '../suivi-virements-sogebank/suivi-virements-sogebank.component';
+import { RelevesSogebankComponent } from '../releves-sogebank/releves-sogebank.component';
+import { DocumentsSogebankComponent } from '../documents-sogebank/documents-sogebank.component';
 
 @Component({
   selector: 'app-espace-utilisateur-sogebank',
@@ -16,12 +23,20 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
   breadcrumbIcon: IconDefinition;
   breadcrumbTitle = '';
   breadcrumbDetails = '';
+  childComponent: any;
+
+  @ViewChild(DashboardSogebankComponent) dashboardSogebankComponent;
+  @ViewChild(PortefeuillesSogebankComponent) portefeuillesSogebankComponent;
+  @ViewChild(CartesSogebankComponent) cartesSogebankComponent;
+  @ViewChild(VirementsSogebankComponent) virementsSogebankComponent;
+  @ViewChild(SuiviVirementsSogebankComponent) suiviVirementsSogebankComponent;
+  @ViewChild(RelevesSogebankComponent) relevesSogebankComponent;
+  @ViewChild(DocumentsSogebankComponent) documentsSogebankComponent;
 
   constructor(
     public router: Router,
     private apiService: NodeapiService,
-    private sogebankService: SogebankService,
-    private commonUtilsService: CommonUtilsService,
+    private sogebankService: SogebankService
   ) { }
 
   ngOnInit() {
@@ -32,22 +47,15 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.router.navigate(['/sogebank/documents']);
     }
     this.setBreadcrumbContent();
+  }
 
-    if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
-      for (const portefeuille of this.apiService.portefeuilles) {
-        this.apiService.getRecord(portefeuille.ClePub).subscribe(
-          data => {
-            if (data[0] && data[0].balance) {
-              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-            } else {
-              portefeuille.Solde = 0;
-            }
-          },
-          error => {
-            console.log(error);
-          });
-      }
-    }
+  ngAfterViewInit() {
+    this.setCurrentChildComponent();
+    this.sogebankService.initPortfeuillesData(this.initComponentData, this.childComponent);
+  }
+
+  initComponentData(child) {
+    child.initData();
   }
 
   setBreadcrumbContent() {
@@ -75,6 +83,24 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.breadcrumbIcon = faFileUpload;
       this.breadcrumbTitle = 'Mes documents';
       this.breadcrumbDetails = '';
+    }
+  }
+
+  setCurrentChildComponent() {
+    if (this.router.url === '/sogebank/dashboard') {
+      this.childComponent = this.dashboardSogebankComponent;
+    } else if (this.router.url === '/sogebank/portefeuilles') {
+      this.childComponent = this.portefeuillesSogebankComponent;
+    } else if (this.router.url === '/sogebank/cartes') {
+      this.childComponent = this.cartesSogebankComponent;
+    } else if (this.router.url === '/sogebank/virements') {
+      this.childComponent = this.virementsSogebankComponent;
+    }  else if (this.router.url === '/sogebank/virements/suivi') {
+      this.childComponent = this.suiviVirementsSogebankComponent;
+    } else if (this.router.url === '/sogebank/releves') {
+      this.childComponent = this.relevesSogebankComponent;
+    } else if (this.router.url === '/sogebank/documents') {
+      this.childComponent = this.documentsSogebankComponent;
     }
   }
 

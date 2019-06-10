@@ -4,6 +4,8 @@ import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
 import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar, MatDialogRef } from '@angular/material';
+import { NodeapiService } from 'src/app/nodeapi.service';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-virements-sogebank',
@@ -46,7 +48,9 @@ export class VirementsSogebankComponent implements OnInit {
 
   constructor(
     private route: Router,
+    public apiService: NodeapiService,
     private sogebankService: SogebankService,
+    private commonUtilsService: CommonUtilsService,
     private titleService: Title,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -54,10 +58,12 @@ export class VirementsSogebankComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('Virements - Sogebank');
-
-    this.portefeuilles = this.sogebankService.getUserWallets();
-    this.beneficiaires = this.sogebankService.getUserContacts();
     this.editBeneficiaire = { id: '', libelle: '' };
+  }
+
+  initData() {
+    this.portefeuilles = this.apiService.portefeuilles;
+    this.beneficiaires = this.sogebankService.getUserContacts();
   }
 
   selectPortefeuille(portefeuille) {

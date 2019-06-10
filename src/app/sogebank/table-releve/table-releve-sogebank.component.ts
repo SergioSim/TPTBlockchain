@@ -33,6 +33,13 @@ export class TableReleveSogebankComponent implements OnInit {
       : ['id', 'date', 'type', 'nature', 'montant', 'portefeuille'];
   }
 
+  formatColumnContent(content) {
+    if (content && content.length > 16) {
+      return content.substring(0, 14) + '...';
+    }
+    return content;
+  }
+
   print() {
     let isCommercant = false;
 

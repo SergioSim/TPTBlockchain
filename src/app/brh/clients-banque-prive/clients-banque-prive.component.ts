@@ -15,6 +15,7 @@ export class ClientsBanquePriveComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Output() selectedClient = new EventEmitter<BanqueClient>();
+  public selectedBanqueClient: BanqueClient;
 
   public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
   constructor(
@@ -50,6 +51,7 @@ export class ClientsBanquePriveComponent implements OnInit {
 
   onRowClicked(row: BanqueClient) {
     console.log('Row clicked: ', row);
+    this.selectedBanqueClient = row;
     this.selectedClient.emit(row);
   }
 

@@ -256,18 +256,21 @@ getTransactions(iaddress) {
         console.log(res);
         const transactions: Transaction[] = [];
         const observables = [];
+        const mHashes = [];
+        let index = 0;
         res.forEach(element => {
           element = element.mutation_hash;
           console.log('calling mutation: ', element);
           observables.push(this.http.get(
             this.urlOpenchain + 'query/transaction?format=raw&mutation_hash=' + element));
+          mHashes.push(element);
           });
         return forkJoin(observables).pipe(map(
           result => {
             console.log('raw transaction: ', result);
             result.forEach( raw => {
               const aTransaction: Transaction = {
-                Expediteur: '', Destinataire: '', Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
+                Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
               raw = raw.raw;
               raw = raw.substr(36, raw.length).split('120a0a08');
               raw[0] = this.HexToString(raw[0]);
@@ -441,6 +444,7 @@ function apilog(ilog: string) {
 export interface Transaction {
   Expediteur: string;
   Destinataire: string;
+  MutationHash: string;
   Nature: string;
   Date: string;
   Timestamp: number;

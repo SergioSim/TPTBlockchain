@@ -32,22 +32,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.router.navigate(['/sogebank/documents']);
     }
     this.setBreadcrumbContent();
-
-    if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
-      for (const portefeuille of this.apiService.portefeuilles) {
-        this.apiService.getRecord(portefeuille.ClePub).subscribe(
-          data => {
-            if (data[0] && data[0].balance) {
-              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-            } else {
-              portefeuille.Solde = 0;
-            }
-          },
-          error => {
-            console.log(error);
-          });
-      }
-    }
+    this.sogebankService.initPortfeuillesData();
   }
 
   setBreadcrumbContent() {

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Role } from './Role';
+import { NodeapiService } from '../nodeapi.service';
+import { CommonUtilsService } from '../common/common-utils.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +9,81 @@ import { Role } from './Role';
 export class SogebankService {
   displayLoginForm = true;
   isNewParticulier: boolean;
+  totalSolde: string;
+  totalCredit: string;
+  totalDebit: string;
+  formattedTransactions: [];
 
-  constructor() { }
+  constructor(
+    private apiService: NodeapiService,
+    private commonUtilsService: CommonUtilsService
+  ) { }
+
+  initPortfeuillesData() {
+    if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
+      for (const portefeuille of this.apiService.portefeuilles) {
+        this.apiService.getTransactions(portefeuille.ClePub).subscribe(
+          sub => sub.subscribe( res => {
+            console.log(res);
+            portefeuille.Transactions = res;
+            if (portefeuille.Transactions && portefeuille.Transactions.length > 0) {
+              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(portefeuille.Transactions[0].Solde);
+            } else {
+              // If no transactions, get balance manually
+              this.apiService.getRecord(portefeuille.ClePub).subscribe(
+                data => {
+                  if (data[0] && data[0].balance) {
+                    portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+                  } else {
+                    portefeuille.Solde = 0;
+                  }
+                },
+                error => {
+                  console.log(error);
+                });
+              }
+            }, err => {
+              console.log(err);
+            }, () => {
+              this.countTotals();
+            }));
+      }
+    }
+  }
+
+  countTotals() {
+    let solde = 0;
+    let credit = 0;
+    let debit = 0;
+    this.apiService.portefeuilles.forEach( portefeuille => {
+      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
+      portefeuille['Transactions'].forEach( transaction => {
+        if (transaction.Montant < 0) {
+          debit += transaction.Montant;
+        } else {
+          credit += transaction.Montant;
+        }
+      });
+    });
+    this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
+    this.totalCredit = this.commonUtilsService.numberToCurrencyString(credit);
+    this.totalDebit = this.commonUtilsService.numberToCurrencyString(debit);
+  }
+
+  formatTransactionData() {
+    for (const portefeuille of this.apiService.portefeuilles) {
+      portefeuille['Transactions'].forEach( transaction => {
+        /*this.formattedTransactions.push({
+          id: '7652b9e5a8f302d…',
+          date: '22/04/2019',
+          type: 'Virement',
+          nature: 'Marcus Dooling',
+          montant: '+200 DHTG',
+          portefeuille: 'Portefeuille courant'
+        });*/
+      });
+    }
+  }
 
   getRecentTransactions() {
     return [
@@ -68,21 +143,6 @@ export class SogebankService {
         montant: '+45 DHTG', portefeuille: wallet},
       {id: '68558a976f9a48…', date: '13/04/2019', type: 'Virement', nature: 'Evan Natoli',
         montant: '+125 DHTG', portefeuille: wallet},
-    ];
-  }
-
-  getUserWallets() {
-    return [
-      {id: 1, libelle: 'Portefeuille courant', solde: '12 386 DHTG', ouverture: '14/01/2019', activite: '+1 189 DHTG'},
-      {id: 2, libelle: 'Réserve', solde: '2 250 DHTG', ouverture: '28/02/2019', activite: '+250 DHTG'},
-    ];
-  }
-
-  getUserCards() {
-    return [
-      {id: 1, libelle: 'Carte commerce', creation: '14/01/2019', activite: '+0 DHTG', rattachement: 'Portefeuille courant'},
-      {id: 2, libelle: 'Carte déplacements', creation: '20/01/2019', activite: '-30 DHTG', rattachement: 'Portefeuille courant'},
-      {id: 3, libelle: 'Carte réserve', creation: '28/02/2019', activite: '-100 DHTG', rattachement: 'Réserve'},
     ];
   }
 

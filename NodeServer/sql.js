@@ -63,6 +63,8 @@ module.exports = {
         'DELETE FROM beneficiaire WHERE Utilisateur_Email=? AND Beneficiaire_Email=?',
   'deletePortefeuille' : 
         'DELETE FROM portefeuille WHERE Id=?',
+  'deleteCarte' : 
+        'DELETE FROM portefeuille WHERE Id=?',
   'updateMonnie' : 
         'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 

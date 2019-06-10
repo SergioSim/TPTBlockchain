@@ -16,7 +16,6 @@ export class CommonUtilsService {
   }
 
   formatDate(date) {
-    console.log(date);
     const dateParts = date.split('-');
     const convertedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
     return convertedDate.getDate()  + '/' + ('0' + (convertedDate.getMonth() + 1)).slice(-2) + '/' + convertedDate.getFullYear();

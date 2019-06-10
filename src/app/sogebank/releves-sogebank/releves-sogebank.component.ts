@@ -14,6 +14,8 @@ export class RelevesSogebankComponent implements OnInit {
   dataSource: any[];
   selectedPortefeuille = {};
   portefeuilles: any[];
+  startDate: Date;
+  endDate: Date;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +34,24 @@ export class RelevesSogebankComponent implements OnInit {
     this.portefeuilles = this.apiService.portefeuilles;
   }
 
-  changePortefeuille(portefeuille) {
-    this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
+  changePortefeuille() {
+    if (this.startDate && this.endDate && this.selectedPortefeuille) {
+      this.dataSource = this.sogebankService.formatTransactionsforWalletWithDate(
+        this.selectedPortefeuille, this.startDate, this.endDate);
+    }
+  }
+
+  startDateChange(event) {
+    if (event.value instanceof Date) {
+      this.startDate = event.value;
+      this.changePortefeuille();
+    }
+  }
+
+  endDateChange(event) {
+    if (event.value instanceof Date) {
+      this.endDate = event.value;
+      this.changePortefeuille();
+    }
   }
 }

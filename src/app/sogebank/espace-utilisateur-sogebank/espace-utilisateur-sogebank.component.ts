@@ -93,7 +93,7 @@ export class EspaceUtilisateurSogebankComponent implements OnInit {
       this.childComponent = this.portefeuillesSogebankComponent;
     } else if (this.router.url === '/sogebank/cartes') {
       this.childComponent = this.cartesSogebankComponent;
-    } else if (this.router.url === '/sogebank/virements' || this.router.url === '/sogebank/virements/suivi') {
+    } else if (this.router.url === '/sogebank/virements') {
       this.childComponent = this.virementsSogebankComponent;
     }  else if (this.router.url === '/sogebank/virements/suivi') {
       this.childComponent = this.suiviVirementsSogebankComponent;

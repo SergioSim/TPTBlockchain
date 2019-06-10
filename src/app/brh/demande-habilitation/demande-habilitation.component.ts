@@ -33,4 +33,7 @@ export class DemandeHabilitationComponent implements OnInit {
     });
     this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
   }
+  openAnnonceLegaleInput() {
+    document.getElementById('annonceLegaleInput').click();
+  }
 }

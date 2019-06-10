@@ -1,0 +1,100 @@
+
+.thesecondheader {
+    height: 70px;
+    margin-top: 100px;
+    background-color: #171844;
+    font-size: 40px;
+    color: #ffffff;
+    text-align: center;
+}
+    .h2 {
+        position: absolute; /* postulat de départ */
+        top: 50%; left: 50%; /* à 50%/50% du parent référent */
+        transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+      }
+
+ 
+  .form-container {
+    background-color: rgba(255, 255, 255, 0.90);
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 5%;
+}
+
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.create-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.mat-form-field{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.block-text{
+margin-left: 30%;
+width: 40%;
+}
+
+.block-form{
+        width: 30%;
+        margin-left: 35%; 
+        margin-top: 3%;
+        padding: 50px;
+        margin-bottom: 50px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.15), -3px -3px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.documents-form {
+    padding: 50px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.15), -3px -3px 6px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    color: #707070;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+hr {
+    color: #707070;
+    margin-bottom: 20px;
+    width: 75%;
+    border-width: 0px;
+    height: 2px;
+    background-color: #707070;
+}
+h3{
+    margin-left: 30%;
+    margin-top: 5%;
+}
+.boutonConfirmer{
+    border-radius: 50px;
+    padding: 5px 24px;
+}
+.dialog-button{
+    align-self: center;
+}
+.upload-button button{
+    width: 255px;
+    background-color:#25b14f;
+}

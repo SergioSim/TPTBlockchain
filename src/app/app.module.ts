@@ -29,7 +29,6 @@ import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
 import { EspaceAdminBrhComponent } from './brh/espace-admin-brh/espace-admin-brh.component';
 import { HabilitationBrhComponent } from './brh/habilitation-brh/habilitation-brh.component';
 import { PortefeuilleBrhComponent } from './brh/portefeuille-brh/portefeuille-brh.component';
-import { LiquiditeBrhComponent } from './brh/liquidite-brh/liquidite-brh.component';
 import { ParametreBrhComponent } from './brh/parametre-brh/parametre-brh.component';
 import { BanqueComponent } from './brh/habilitation-brh/banque/banque.component';
 import { BanqueListComponent } from './brh/habilitation-brh/banque-list/banque-list.component';
@@ -80,7 +79,6 @@ import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-ban
     EspaceAdminBrhComponent,
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
-    LiquiditeBrhComponent,
     ParametreBrhComponent,
     EspaceUtilisateurBanquePriveComponent,
     LoginBanquePriveComponent,
@@ -108,7 +106,6 @@ import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-ban
     EspaceAdminBrhComponent,
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
-    LiquiditeBrhComponent,
     ParametreBrhComponent,
     BanqueComponent,
     BanqueListComponent,

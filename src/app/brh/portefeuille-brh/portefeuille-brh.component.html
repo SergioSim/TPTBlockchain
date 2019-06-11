@@ -17,8 +17,7 @@
               <thead>
                 <th>Nom de la banque</th>
                 <th>Portefeuille</th>
-                <th>Max Transaction</th>
-                <th>Max Transaction par Moi</th>
+                <th>Montant Maximum par transaction</th>
                 <th>Status</th>
                 <th>Action</th>
                 
@@ -27,7 +26,6 @@
                 <td>{{Contact.Nom}}</td>
                 <td>{{Contact.Portefeuille}}</td>
                 <td>{{Contact.MaxTransaction}}</td>
-                <td>{{Contact.MaxTransactionMoi}}</td>
                 <td>{{Contact.Status}}</td>
 
                 <td><button mat-raised-button color="primary" matBadgePosition="before" matBadgeColor="accent"
@@ -46,9 +44,7 @@
                             <mat-form-field>
                                 <input matInput [(ngModel)]="selectedPortefeuille.MaxTransaction"> 
                             </mat-form-field>   
-                            <mat-form-field>
-                                <input matInput [(ngModel)]="selectedPortefeuille.MaxTransactionMoi"> 
-                            </mat-form-field>   <br/>
+                          <br/>
                             <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Status">
                                 <mat-radio-button   value="Actif">Activer</mat-radio-button>
                                 <mat-radio-button   value="Bloqué">Bloqué</mat-radio-button>

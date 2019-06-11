@@ -17,10 +17,10 @@ export class ReleveBrhComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.portefeuilles = this.sogebankService.getUserWallets();
+  //  this.portefeuilles = this.sogebankService.getUserWallets();
   }
 
   changePortefeuille(portefeuille) {
-    this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
+  //  this.dataSource = this.sogebankService.getTransactionsforWalletWithDate(portefeuille.value.libelle, null, null);
   }
 }

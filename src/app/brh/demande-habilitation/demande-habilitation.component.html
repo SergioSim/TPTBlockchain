@@ -55,21 +55,21 @@
             <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre votre carte identité</button>
             <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
-            <input matInput disabled [value]="annonceLegale?.name">
+            <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
     </div>
     <div class="upload-button">
             <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre votre registre de commerce</button>
             <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
-                <input matInput disabled [value]="annonceLegale?.name">
+                <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
     </div>
     <div class="upload-button">
             <button mat-raised-button  (click)="openAnnonceLegaleInput()">Joindre un autre document</button>
             <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
-                <input matInput disabled [value]="annonceLegale?.name">
+                <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
     </div>
     <div class="dialog-button">

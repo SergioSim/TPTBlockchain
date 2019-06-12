@@ -23,7 +23,7 @@ export class DashboardSogebankComponent implements OnInit {
   totalDebit = '0';
 
   constructor(
-    private sogebankService: SogebankService,
+    public sogebankService: SogebankService,
     private titleService: Title
   ) { }
 

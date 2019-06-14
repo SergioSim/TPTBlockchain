@@ -33,7 +33,7 @@ export class SuiviVirementsSogebankComponent implements OnInit {
     this.portefeuilles = this.apiService.portefeuilles;
   }
 
-  changePortefeuille() {
+  changePortefeuille(event = 0) {
     if (this.startDate && this.endDate && this.selectedPortefeuille) {
       this.dataSource = this.sogebankService.formatTransfersforWalletWithDate(
         this.selectedPortefeuille, this.startDate, this.endDate);

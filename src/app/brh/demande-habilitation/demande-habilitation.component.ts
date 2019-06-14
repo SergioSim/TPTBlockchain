@@ -9,12 +9,18 @@ import { MatSnackBar } from '@angular/material';
 })
 export class DemandeHabilitationComponent implements OnInit {
 
-  nouvelBanqueNom:'';
-  nouvelBanqueEmail:'';
-  nouvelBanqueTel:'';
+  nouvelBanqueNom: '';
+  nouvelBanqueEmail: '';
+  nouvelBanqueTel: '';
+  Nom: '';
+  Prenom: '';
+  Adresse: '';
+  CodePostale: '';
+  Ville: '';
+  annonceLegale: {name: ''};
 
-  constructor(  
-    private service :NodeapiService,
+  constructor(
+    private service: NodeapiService,
     private snackBar: MatSnackBar) { }
 
 
@@ -35,5 +41,9 @@ export class DemandeHabilitationComponent implements OnInit {
   }
   openAnnonceLegaleInput() {
     document.getElementById('annonceLegaleInput').click();
+  }
+
+  annonceLegaleChange(event){
+
   }
 }

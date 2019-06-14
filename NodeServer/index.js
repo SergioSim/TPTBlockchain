@@ -66,6 +66,14 @@ app.get('/allBanks', function(req, res) {
     });
 });
 
+app.get('/allParametres', function(req, res) {
+    let aQuerry = sql.getAllPrametres;
+    conn.query(aQuerry, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
+
 app.get('/allBanksValid', function(req, res) {
     conn.query(sql.getAllBanks_Valid,["valide","brh"], function(err, result){
         res.send((err) ? "Error" : result);
@@ -469,6 +477,21 @@ app.delete('/deleteMonnieElectronique', [
         return res.send({error: "Administrator is not allowed to be deleted!"});
     }
     conn.query(sql.deleteMonnie, [req.query.name], function(err, result){
+		return res.send({ succes: !err && result.affectedRows != 0});
+	});
+});
+
+app.delete('/deleteParametre', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('id').isAlphanumeric().escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    //TODO transfert all clients funds to BRH?
+    if (req.jwt.Banque === req.query.name){
+        return res.send({error: "Administrator is not allowed to be deleted!"});
+    }
+    conn.query(sql.deleteParametre, [req.query.id], function(err, result){
 		return res.send({ succes: !err && result.affectedRows != 0});
 	});
 });

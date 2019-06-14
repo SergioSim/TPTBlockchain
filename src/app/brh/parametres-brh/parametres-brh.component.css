@@ -1,0 +1,43 @@
+
+.mat-elevation-z8{
+    width: 85%;
+}
+.infos-habilitation{
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 17px;
+   
+}
+.bloc-glob{
+    width: 1;
+    margin-left: 10%;
+
+}
+
+.releves-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.releve-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10%
+}
+
+.releve-selector, app-table-releve-sogebank {
+    width: 80%;
+}
+
+
+::ng-deep table {
+    width: 100%;
+   
+}
+
+.releves-content ::ng-deep table {
+    padding-top: 0;
+}
+

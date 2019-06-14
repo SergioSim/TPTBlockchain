@@ -64,6 +64,7 @@ import { DemandeHabilitationComponent } from './brh/demande-habilitation/demande
 import { TableMonnieElectroniqueComponent } from './brh/parametre-brh/table-monnie-electronique/table-monnie-electronique.component';
 import { TableMonniePhysiqueComponent } from './brh/parametre-brh/table-monnie-physique/table-monnie-physique.component';
 import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-banque-prive.component';
+import { ParametresBrhComponent } from './brh/parametres-brh/parametres-brh.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-ban
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
     ParametreBrhComponent,
+    ParametresBrhComponent,
     EspaceUtilisateurBanquePriveComponent,
     LoginBanquePriveComponent,
     AlertComponent,
@@ -106,7 +108,6 @@ import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-ban
     EspaceAdminBrhComponent,
     HabilitationBrhComponent,
     PortefeuilleBrhComponent,
-    ParametreBrhComponent,
     BanqueComponent,
     BanqueListComponent,
     SuiviVirementsSogebankComponent,
@@ -122,7 +123,7 @@ import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-ban
     DemandeHabilitationComponent,
     TableMonnieElectroniqueComponent,
     TableMonniePhysiqueComponent,
-    ClientBanquePriveComponent
+    ClientBanquePriveComponent,
   ],
   imports: [
     BrowserModule,

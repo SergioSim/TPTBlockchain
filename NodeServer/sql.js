@@ -45,6 +45,8 @@ module.exports = {
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
   'getAllMonnies' : 
         'SELECT Id, Nom, Unite, Type FROM monnie WHERE Type=?',
+  'getAllPrametres' :
+        'SELECT Id, Nom, Description, DateCreation FROM parametre',
   'getAllBanks' : 
         'SELECT Nom, Email, Tel, Statut FROM banque',
   'getAllBanks_NotVisible' : 
@@ -55,6 +57,8 @@ module.exports = {
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut=? && Nom!=?',
   'getAllBanks_NotValid' : 
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut!=? && isVisible=1',
+  'deleteParametre'  :
+        'DELETE FROM parametre WHERE Id=?',
   'deleteMonnie' : 
         'DELETE FROM monnie WHERE Nom=?',
   'deleteBank_0_1' : 

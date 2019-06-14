@@ -44,4 +44,7 @@ export class MenuBrhComponent implements OnInit {
     this.route.navigate(['/brh/releve-brh']);
   }
 
+  goToparametres() {
+    this.route.navigate(['/brh/parametres-brh']);
+  }
 }

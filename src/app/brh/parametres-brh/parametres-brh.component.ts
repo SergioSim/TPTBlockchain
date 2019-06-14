@@ -11,17 +11,14 @@ import { NodeapiService ,apiUrl} from 'src/app/nodeapi.service';
 export class ParametresBrhComponent implements OnInit {
 
     contactDialogRef: any;
-    p: 1;
-    q: 1;
-    monnieOld = '';
-    monnieNom = '';
-    monnieUnite = '';
+    parametreNom='';
+    parametreId='';
+    parametreDescription='';
     selectedParametre: {
       Id: '';
       Nom: '',
       Description: '',
       DateCreation: ''
-      Unite: ''
       };
 
   constructor(
@@ -67,10 +64,12 @@ export class ParametresBrhComponent implements OnInit {
     this.snackBar.open('Le paramètre' + this.selectedParametre.Nom + ' a bien été supprimé.', 'Fermer', { duration: 5000,});
   }
 
-  confirmEditMonnie() {
-    this.service.makeRequest(apiUrl.updateMonnie, {monnieNew: this.selectedParametre.Nom,
-      monnieUnite: this.selectedParametre.Unite, monnieId: this.selectedParametre.Id}).
-    subscribe( res => {
+  confirmEditParametre() {    
+    this.service.makeRequest(apiUrl.updateParametre,{parametreId:this.selectedParametre.Id,parametreNom:this.selectedParametre.Nom,
+    parametreDescription:this.selectedParametre.Description
+    }).   
+     
+    subscribe( res =>{
       console.log('on a recu la response:' );
       this.getParametres();
     }, error => {
@@ -86,8 +85,8 @@ export class ParametresBrhComponent implements OnInit {
     this.contactDialogRef = this.dialog.open(templateRef, {width: '350px'});
   }
 
-  confirmAddMonnie() {
-    this.service.makeRequest(apiUrl.createMonnie, {name:this.monnieNom,unite:this.monnieUnite,type:"electronique"}).
+  confirmAddParametre(){    
+    this.service.makeRequest(apiUrl.createParametre, {name:this.parametreNom}).
     subscribe( res =>{
       console.log('on a recu la response:' );
       this.getParametres();

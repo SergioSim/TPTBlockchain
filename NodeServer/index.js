@@ -166,6 +166,18 @@ app.post('/createMonnie', [
     });
 });
 
+app.post('/createParametre', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('name').isAlphanumeric().escape().trim(),
+    outils.handleValidationResult],
+    function(req, res) {
+    
+    conn.query(sql.insertParametre, [req.body.name], function(err, result) { 
+        return res.send({success: !err});
+    });
+});
+
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
@@ -247,6 +259,17 @@ app.put('/blockClient', [
     });
 });
 
+app.put('/updateParametre', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    outils.handleValidationResult], 
+    function(req, res) {
+        console.log('permission level : ' + req.jwt.PermissionLevel);
+    if(req.jwt.PermissionLevel >= 3)
+        conn.query(sql.updateParametre, [req.body.parametreNom, req.body.parametreDescription,req.body.parametreId], function(err1, result1){
+            return res.send({ succes: !err1 && result1.affectedRows != 0});
+        });
+    });
 app.put('/updateBanque', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),

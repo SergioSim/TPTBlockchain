@@ -18,6 +18,8 @@ module.exports = {
         'INSERT INTO carte (Libelle,Portefeuille_id,Creation) VALUES (?,?,?)',
   'insertMonnie' : 
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
+  'insertParametre' :
+        'INSERT INTO parametre (Nom) VALUES (?)',
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
@@ -84,6 +86,8 @@ module.exports = {
   'updateParticulierInfo' : 
         'UPDATE utilisateur SET Civilite = ?, Situation_Familiale = ?, Profession = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
+  'updateParametre' :
+        'UPDATE parametre SET Nom = ?, Description = ?  WHERE Id = ?',
   'updatePortefeuille' : 
         'UPDATE portefeuille SET Libelle = ?, ClePub = ?, ClePrive = ? WHERE Utilisateur_Email = ?',
   'updateContact' : 

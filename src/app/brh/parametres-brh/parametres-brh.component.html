@@ -14,16 +14,16 @@
             </div>
             <div class="contact-dialog-form">
                 <mat-form-field>
-                    <input matInput placeholder="Nom de la monnie"  [(ngModel)]="monnieNom" >
+                    <input matInput placeholder="Nom de la monnie"  [(ngModel)]="parametreNom" >
                 </mat-form-field>
               <br>
                 <br/>
-                <mat-form-field>
+           <!--     <mat-form-field>
                     <input matInput type="number" placeholder="Unité" [(ngModel)]="monnieUnite">
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
             <div class="dialog-buttons">
-                <button mat-flat-button class="boutonConfirmer" (click)="confirmAddMonnie()">Confirmer</button> 
+                <button mat-flat-button class="boutonConfirmer" (click)="confirmAddParametre()">Confirmer</button> 
                 <button mat-flat-button class="CoutonConfirmer" (click)="cancelDiologueMonnie()">Annuler</button> 
             </div>
         </div>
@@ -79,21 +79,21 @@
       <ng-template #ContactDialog>
           <div class="contact-dialog">
               <div class="dialog-header">
-                  <h4>Mobification de la monnie {{element.Nom}} </h4>
+                  <h4>Mobification du paramètre {{element.Nom}} </h4>
                   <hr>
               </div>
               <div class="contact-dialog-form">
                   <mat-form-field>
-                      <input matInput placeholder="Nom de la monnie"  [(ngModel)]="selectedMonnie.Nom" >
+                      <input matInput placeholder="Nom du paramètre"  [(ngModel)]="selectedParametre.Nom" >
                   </mat-form-field>
                   <br/>
                   <mat-form-field>
-                      <input matInput type="number" placeholder="Unité" [(ngModel)]="selectedMonnie.Unite">
+                      <input matInput placeholder="Dsscription" [(ngModel)]="selectedParametre.Description">
                   </mat-form-field>
               </div>
               <div class="dialog-buttons">
-                  <button mat-flat-button class="boutonConfirmer" (click)="confirmEditMonnie()">Confirmer</button> 
-                  <button mat-flat-button class="CoutonConfirmer" (click)="cancelDiologueMonnie()">Annuler</button> 
+                  <button mat-flat-button class="boutonConfirmer" (click)="confirmEditParametre()">Confirmer</button> 
+                  <button mat-flat-button class="CoutonConfirmer" (click)="cancelDiologueParametre()">Annuler</button> 
               </div>
           </div>
       </ng-template>

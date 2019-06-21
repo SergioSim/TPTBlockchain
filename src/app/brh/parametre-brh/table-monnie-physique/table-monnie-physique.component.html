@@ -27,7 +27,7 @@ style="float: right;margin-top:10px; margin-bottom:10px;background-color:green"
         </div>
     </div>
 </ng-template>
-<table mat-table [dataSource]="listMonnieVisible " class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 
   <ng-container matColumnDef="DHTG">
     <th mat-header-cell *matHeaderCellDef> Monnie physique </th>
@@ -102,4 +102,5 @@ style="float: right;margin-top:10px; margin-bottom:10px;background-color:green"
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
 </table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

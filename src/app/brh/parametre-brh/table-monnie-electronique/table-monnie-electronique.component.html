@@ -27,7 +27,7 @@
           </div>
       </div>
   </ng-template>
-<table mat-table [dataSource]="listMonnieVisible " class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 
   <ng-container matColumnDef="DHTG">
     <th mat-header-cell *matHeaderCellDef> Monnie éléctronique </th>
@@ -103,4 +103,5 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
 </table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

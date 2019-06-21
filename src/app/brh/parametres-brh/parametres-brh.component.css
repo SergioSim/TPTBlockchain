@@ -1,4 +1,8 @@
-
+.titte{
+    margin-top: 20px;
+    margin-left: 50px;
+    border-bottom: 4px solid green;
+}
 .mat-elevation-z8{
     width: 85%;
 }
@@ -32,7 +36,7 @@
 }
 
 
-::ng-deep table {
+::ng-deep table, mat-paginator  {
     width: 100%;
    
 }
@@ -41,3 +45,7 @@
     padding-top: 0;
 }
 
+mat-paginator{
+    float: left;
+    width: 85%;
+}

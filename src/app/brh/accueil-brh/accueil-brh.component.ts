@@ -13,24 +13,24 @@ export class AccueilBrhComponent implements OnInit {
   constructor(private titleService: Title, private nodeApi: NodeapiService) { }
 
   ngOnInit() {
-    this.nodeApi.getAllAccountsFromOpenchain().subscribe(
-      res => {
-        console.log('OK');
-        console.log(res);
-      }, err => {
-        console.log('KO');
-        console.log(err);
-      }
-    );
-    this.nodeApi.getRecord('XoKzFaNq6K3vc63akCwLopagaTzsZ3t9HW').subscribe(
-      res => {
-        console.log('OK');
-        console.log(res);
-      }, err => {
-        console.log('KO');
-        console.log(err);
-      }
-    );
+    // this.nodeApi.getAllAccountsFromOpenchain().subscribe(
+    //   res => {
+    //     console.log('OK');
+    //     console.log(res);
+    //   }, err => {
+    //     console.log('KO');
+    //     console.log(err);
+    //   }
+    // );
+    // this.nodeApi.getRecord('XoKzFaNq6K3vc63akCwLopagaTzsZ3t9HW').subscribe(
+    //   res => {
+    //     console.log('OK');
+    //     console.log(res);
+    //   }, err => {
+    //     console.log('KO');
+    //     console.log(err);
+    //   }
+    // );
   }
 }
 

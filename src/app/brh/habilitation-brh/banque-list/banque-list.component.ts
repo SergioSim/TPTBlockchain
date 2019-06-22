@@ -12,6 +12,7 @@ import { MatDialog, MatSnackBar, MatTableDataSource, MatPaginator } from '@angul
 })
 export class BanqueListComponent implements OnInit {
   dataSource: MatTableDataSource<Banque>;
+  data: MatTableDataSource<Banque>;
   dataS: MatTableDataSource<Banque>;
   contactDialogRef: any;
 
@@ -26,6 +27,7 @@ export class BanqueListComponent implements OnInit {
   formData: Banque;
   listBanqueVisible: any[];
   listBanqueNotVisible: any[];
+  listBanqueValid:any[];
   listRestaur: any[];
   displayedColumns: string[];
   Form = new FormGroup({
@@ -48,12 +50,11 @@ export class BanqueListComponent implements OnInit {
   ngOnInit() {
     this.validBanque = { nom: '', email: '', password: '', confirmPassword: '' };
     this.refreshListBanque();
-    this.getListBanqueRestaur();
+  //  this.getListBanqueRestaur();
     this.displayedColumns = ['Nom', 'Email', 'Telephone', 'Statut', 'Supprimer', 'Refuser', 'Valider'];
   }
-
+/*
   getListBanqueRestaur() {
-
     this.service.makeRequest(apiUrl.allBanks, { visible: false }).
     subscribe(res => {
       this.listBanqueNotVisible = res as Banque[];
@@ -62,6 +63,7 @@ export class BanqueListComponent implements OnInit {
     }
     );
   }
+ */
 
   refreshListBanque() {
     this.service.makeRequest(apiUrl.allBanksNotValid, { visible: true }).
@@ -81,7 +83,7 @@ export class BanqueListComponent implements OnInit {
     }).
       subscribe(res => {
         this.refreshListBanque();
-        this.getListBanqueRestaur();
+     //   this.getListBanqueRestaur();
       }, error => {
         console.log('got an error');
         console.log(error);
@@ -98,7 +100,7 @@ export class BanqueListComponent implements OnInit {
     }).
       subscribe(res => {
         this.refreshListBanque();
-        this.getListBanqueRestaur();
+    //    this.getListBanqueRestaur();
       }, error => {
         console.log('got an error');
         console.log(error);
@@ -106,6 +108,16 @@ export class BanqueListComponent implements OnInit {
     this.contactDialogRef.close();
     this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été supprimé.', 'Fermer', { duration: 5000, });
 
+  }
+
+  refreshListBanqueValid() {
+    this.service.makeRequest(apiUrl.allBanksValid, {}).
+      subscribe(res => {
+        this.listBanqueValid = res as Banque[];
+        this.data = new MatTableDataSource(this.listBanqueValid);
+        this.data.paginator = this.paginator;
+      }
+      );
   }
 
   validateBanque() {
@@ -116,7 +128,7 @@ export class BanqueListComponent implements OnInit {
     }).
       subscribe(res => {
         this.refreshListBanque();
-        this.getListBanqueRestaur();
+        this.refreshListBanqueValid();
       }, error => {
         console.log('got an error');
         console.log(error);

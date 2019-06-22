@@ -15,7 +15,11 @@
 
 .mat-elevation-z8{
     background-color: rgb(51, 161, 235);
-    width: 85%;
+    width: 90%;
+}
+mat-paginator{
+    background-color: rgb(51, 161, 235);
+    width: 90%;
 }
 .infos-habilitation{
     margin-top: 50px;

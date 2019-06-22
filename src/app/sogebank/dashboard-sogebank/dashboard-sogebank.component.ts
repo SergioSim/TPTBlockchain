@@ -18,9 +18,6 @@ export class DashboardSogebankComponent implements OnInit {
   faSyncAlt = faSyncAlt;
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
-  totalSolde = '0';
-  totalCredit = '0';
-  totalDebit = '0';
 
   constructor(
     public sogebankService: SogebankService,

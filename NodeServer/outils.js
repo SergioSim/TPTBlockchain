@@ -44,11 +44,15 @@ exports.minimumPermissionLevelRequired = (required_permission_level) => {
 
 exports.fixPortefeuilles = (result) => {
     for (const i of result) {
-        i.Portefeuille = i.Portefeuille.replace("},{", "}\n{");
+        i.Portefeuille = i.Portefeuille.replace(new RegExp("},{", 'g'), "}\n{");
         let aPortefeuillesResultat = [];
         let aPortefeuilles = i.Portefeuille.split("\n");
         for (const aPortefeuille of aPortefeuilles) {
-            aPortefeuillesResultat.push(JSON.parse(aPortefeuille));
+            try {
+                aPortefeuillesResultat.push(JSON.parse(aPortefeuille));
+            }catch(err) {
+                console.log('Portefeuille Parse ERROR');
+            }
         }
         i.Portefeuille = aPortefeuillesResultat;
     }

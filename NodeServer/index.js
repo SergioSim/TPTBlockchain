@@ -120,7 +120,7 @@ app.post('/cardsByPortefeuilleIds', [
     function(req, res) {
         
     conn.query(sql.findCartesByPortefeuilleIds, req.body.Ids, function(err, result){
-        if(err || !result[0]) return res.status(400).send({errors: ['Could not fetch cards']});
+        if(err) return res.status(400).send({errors: ['Could not fetch cards']});
         res.send((err) ? "Error" : result);
     });
 })
@@ -203,7 +203,7 @@ app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('password').isLength({ min: 5 }).escape(),
-    check('libelle').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('libelle').isLength({ min: 1 }).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -613,6 +613,31 @@ app.post('/submit', [
                 });
             });
         });
+    });
+});
+
+app.post('/transferTo', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().isLength({min: 1}),
+    check('password').isLength({ min: 5 }).escape(),
+    check('clePubDestinataire').isAlphanumeric().escape(),
+    check('montant').isNumeric().isLength({min: 1}),
+    check('memo').isAlphanumeric().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    // May need some extra validation...
+    conn.query(sql.findPortefeuillesById, [req.body.id], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["Ce portefeuille n\'existe pas..."] });
+        if(result[0].Utilisateur_Email !== req.jwt.Email) return res.status(404).send({ succes: false, errors: ["Ce portefeuille ne vous apartient pas!"] });
+        req.transactionWallet = result[0].ClePrive;
+        req.fromAddress = "/p2pkh/" + result[0].ClePub + "/";
+        req.untoAddress = "/p2pkh/" + req.body.clePubDestinataire + "/";
+        console.log("[INFO]: transactionWallet : " + req.transactionWallet);
+        console.log("[INFO]: fromAddress : " + req.fromAddress);
+        console.log("[INFO]: untoAddress : " + req.untoAddress);
+        return outils.transaction(req, res, openchainValCli);
     });
 });
   

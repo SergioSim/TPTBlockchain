@@ -35,10 +35,11 @@ exports.utilisateur = {
 
 exports.beneficiaire = {
   table: 'OpenchainUser.beneficiaire',
+  Id: 'Id',
   Utilisateur_Email: 'Utilisateur_Email',
-  Beneficiaire_Email: 'Beneficiaire_Email',
-  Nom: 'Nom',
-  Prenom: 'Prenom'
+  Libelle: 'Libelle',
+  ClePub: 'ClePub',
+  Ajout: 'Ajout'
 }
 
 exports.portefeuille = {

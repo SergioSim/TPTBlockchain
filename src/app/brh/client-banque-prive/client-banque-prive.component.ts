@@ -10,10 +10,17 @@ import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
 })
 export class ClientBanquePriveComponent implements OnInit {
 
-  @Input() selectedClient: BanqueClient;
+  @Input()
+  set setSelectedClient(client: BanqueClient) {
+    this.selectedClient = client;
+    const elmnt = document.querySelector('.content');
+    elmnt.scrollIntoView({behavior: 'smooth'});
+  }
+
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
   displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Montant'];
   showTransactions = false;
+  public selectedClient: BanqueClient;
   public selectedPortefeuille: Portefeuille;
   public transactions: Transaction[] = [];
   public selectedTransaction: Transaction;

@@ -5,7 +5,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Banque } from './banque.modele';
 import { Portefeuille } from './Portefeuille.modele';
-import { TransactionsBanquePriveComponent } from './brh/transactions-banque-prive/transactions-banque-prive.component';
+const protobuf = require('protobufjs');
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,7 @@ export class NodeapiService {
 
   formData: Banque;
   list: Banque[];
+  transaction: any;
 
   constructor(private http: HttpClient) {
     apilog('getting current User');
@@ -48,6 +49,12 @@ export class NodeapiService {
     }
     this.logLogin();
   }
+
+fromHexString = hexString =>
+  new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+
+toHexString = bytes =>
+  bytes.reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
 
   createClient(email: string, password: string, prenom: string, nom: string, banque: string): Observable<any> {
     const headers = { headers: new HttpHeaders({
@@ -213,42 +220,6 @@ export class NodeapiService {
     return decodeURIComponent(s.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
   }
 
-  arrayHexInteger(hexString) {
-    let items = '';
-    const res = [];
-    hexString.split('').map(item => {
-      items += item;
-      if (items.length === 2) {
-        res.push(parseInt(items, 16));
-        items = '';
-      }
-    });
-    return res;
-  }
-
-readVarint64(buffer) {
-    let offset = 0;
-    offset >>>= 0;
-    // ref: src/google/protobuf/io/coded_stream.cc
-    const start = offset;
-    let part0 = 0;
-    let part1 = 0;
-    let part2 = 0;
-    let b     = 0;
-    b = buffer[offset++]; part0  = (b & 0x7F)      ; if ( b & 0x80                              ) {
-    b = buffer[offset++]; part0 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part0 |= (b & 0x7F) << 14; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part0 |= (b & 0x7F) << 21; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part1  = (b & 0x7F)      ; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part1 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part1 |= (b & 0x7F) << 14; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part1 |= (b & 0x7F) << 21; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part2  = (b & 0x7F)      ; if ((b & 0x80) || (typeof b === 'undefined')) {
-    b = buffer[offset++]; part2 |= (b & 0x7F) <<  7; if ((b & 0x80) || (typeof b === 'undefined')) {
-    throw Error("Buffer overrun"); }}}}}}}}}}
-    return part0 | (part1 << 28);
-}
-
 getTransactions(iaddress) {
   let address = '/p2pkh/' + iaddress + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
   address = this.Utf8ToHex(address);
@@ -276,25 +247,39 @@ getTransactions(iaddress) {
               const aTransaction: Transaction = {
                 Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
               raw = raw.raw;
-              raw = raw.substr(36, raw.length).split('120a0a08');
-              raw[0] = this.HexToString(raw[0]);
-              aTransaction.Expediteur = raw[0].substr(7, raw[0].length).split('/:ACC:/')[0];
-              aTransaction.Solde =  parseInt(raw[1].substr(0, 16), 16);
-              raw[1] = raw[1].split('126d0a5f')[1];
-              raw[1] = this.HexToString(raw[1]);
-              aTransaction.Destinataire = raw[1].substr(7, raw[1].length).split('/:ACC:/')[0];
-              aTransaction.Montant = parseInt(raw[2].substr(0, 16), 16);
-              aTransaction.Nature = 'Recu';
-              if (iaddress === aTransaction.Expediteur) {
-                aTransaction.Montant = -aTransaction.Montant;
-                aTransaction.Nature = 'Virement';
-              }
-              raw[2] = raw[2].substr(18, raw[2].lenght);
-              raw[2] = this.arrayHexInteger(raw[2]);
-              aTransaction.Timestamp = this.readVarint64(raw[2]);
-              const d = new Date(0);
-              d.setUTCSeconds(aTransaction.Timestamp);
-              aTransaction.Date = d.toLocaleDateString('fr-FR', options);
+              console.log(raw);
+              protobuf.load('./assets/schema.proto', (err, root) => {
+                if (err) {
+                  console.log('Error, unable to load proto schema');
+                  throw err;
+                }
+                console.log('loading protobuf...', err);
+                try {
+                  const otransaction = root.lookupType('Openchain.Transaction');
+                  const aMessage = otransaction.decode( this.fromHexString(raw));
+                  const oMutation = root.lookupType('Openchain.Mutation');
+                  aMessage.mutation = oMutation.decode(aMessage.mutation);
+                  aMessage.mutation.records[0].key = this.HexToString(this.toHexString(aMessage.mutation.records[0].key));
+                  aTransaction.Expediteur = aMessage.mutation.records[0].key.substr(7).split('/:ACC:/')[0];
+                  aMessage.mutation.records[1].key = this.HexToString(this.toHexString(aMessage.mutation.records[1].key));
+                  aTransaction.Destinataire = aMessage.mutation.records[1].key.substr(7).split('/:ACC:/')[0];
+                  aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
+                  aTransaction.Solde =  parseInt(this.toHexString(aMessage.mutation.records[0].value.data), 16);
+                  aTransaction.Montant =  parseInt(this.toHexString(aMessage.mutation.records[1].value.data), 16);
+                  aTransaction.Nature = 'Recu';
+                  if (iaddress === aTransaction.Expediteur) {
+                    aTransaction.Montant = -aTransaction.Montant;
+                    aTransaction.Nature = 'Virement';
+                  }
+                  aTransaction.Timestamp = aMessage.timestamp;
+                  const d = new Date(0);
+                  d.setUTCSeconds(aTransaction.Timestamp);
+                  aTransaction.Date = d.toLocaleDateString('fr-FR', options);
+                  console.log('transaction: ', aMessage);
+                } catch (exe) {
+                  console.log(exe);
+                }
+              });
               transactions.push(aTransaction);
             });
             transactions.sort((x, y) => y.Timestamp - x.Timestamp);
@@ -352,29 +337,29 @@ getTransactions(iaddress) {
   MaxTransactionMoi:number;
   Status :string
   _contactList: Portefeuille[] =  [
-     { ID: 1 , Nom: "Société général", Portefeuille: "CZKFBZEKFBZE45151", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 2, Nom: "Sogebank", Portefeuille: "ZEIFIBZEFIZBEFIUBZ", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 3 , Nom: "Bank Afrique", Portefeuille: "FRE454RE45E4R54", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 4 , Nom: "IT Bank", Portefeuille: "EF4F445EF45EF545E", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 5 , Nom: "Crédit agricole", Portefeuille: "56ZEFZEF556ZE6556", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
-    ,{ ID: 6 , Nom: "AZERTY Bank", Portefeuille: "ZFOOZEHFOZEHFZEFZEF", Date: "eeeeeee", MaxTransaction:1000,MaxTransactionMoi:10000,Status:"Actif"}
+     { ID: 1 , Nom: 'Société général', Portefeuille: 'CZKFBZEKFBZE45151', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
+    ,{ ID: 2, Nom: 'Sogebank', Portefeuille: 'ZEIFIBZEFIZBEFIUBZ', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
+    ,{ ID: 3 , Nom: 'Bank Afrique', Portefeuille: 'FRE454RE45E4R54', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
+    ,{ ID: 4 , Nom: 'IT Bank', Portefeuille: 'EF4F445EF45EF545E', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
+    ,{ ID: 5 , Nom: 'Crédit agricole', Portefeuille: '56ZEFZEF556ZE6556', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
+    ,{ ID: 6 , Nom: 'AZERTY Bank', Portefeuille: 'ZFOOZEHFOZEHFZEFZEF', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
   ];
 
   _monnieElectronqueList =  [
-    { ID: 1 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "BITCOIN", UniteMonnieY:5},
-    { ID: 2 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "ETHERHOM", UniteMonnieY:15},
-    { ID: 3 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "RANK", UniteMonnieY:0.5},
-    { ID: 4 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "MONNECIE", UniteMonnieY:0.15},
-    { ID: 5 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "XXX", UniteMonnieY:0.15},
-    { ID: 6 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "YYY", UniteMonnieY:0.15},
-    { ID: 7 , NomMonnieX: "DHTG", UniteMonnieX: 1, NomMonnieY: "ZZZ", UniteMonnieY:0.15}
+    { ID: 1 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'BITCOIN', UniteMonnieY:5},
+    { ID: 2 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'ETHERHOM', UniteMonnieY:15},
+    { ID: 3 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'RANK', UniteMonnieY:0.5},
+    { ID: 4 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'MONNECIE', UniteMonnieY:0.15},
+    { ID: 5 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'XXX', UniteMonnieY:0.15},
+    { ID: 6 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'YYY', UniteMonnieY:0.15},
+    { ID: 7 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'ZZZ', UniteMonnieY:0.15}
 
  ];
  _monniePysiqueList =  [
-  { ID: 1 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "EUROS", UniteMonniePhysiqueY:5},
-  { ID: 2 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DOLLAR AMERCICAIN", UniteMonniePhysiqueY:15},
-  { ID: 3 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DOLLAR CANADIEN", UniteMonniePhysiqueY:0.5},
-  { ID: 4 , NomMonnieElectroniqueX: "Digital HaïTian Gourde", UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: "DINAR ALGERIEN", UniteMonniePhysiqueY:0.15},
+  { ID: 1 , NomMonnieElectroniqueX: 'Digital HaïTian Gourde', UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: 'EUROS', UniteMonniePhysiqueY:5},
+  { ID: 2 , NomMonnieElectroniqueX: 'Digital HaïTian Gourde', UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: 'DOLLAR AMERCICAIN', UniteMonniePhysiqueY:15},
+  { ID: 3 , NomMonnieElectroniqueX: 'Digital HaïTian Gourde', UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: 'DOLLAR CANADIEN', UniteMonniePhysiqueY:0.5},
+  { ID: 4 , NomMonnieElectroniqueX: 'Digital HaïTian Gourde', UniteMonniePhysiqueX: 1, NomMonniePhysiqueY: 'DINAR ALGERIEN', UniteMonniePhysiqueY:0.15},
 
 ];
 
@@ -382,7 +367,7 @@ getTransactions(iaddress) {
     const index = this._contactList.findIndex(c => c.ID === contact.ID);
     console.log(contact);
     this._contactList[index] = contact;
-    console.log("nadir")
+    console.log('nadir');
   }
 
   getAllContacts() {

@@ -1,19 +1,27 @@
 <div class="content">
   <h2>Client en detail:</h2>
-  <ul class="heroes">
-    <li><span class="badge">Email</span> <p>{{selectedClient.Email}}</p></li>
-    <li><span class="badge">Nom</span> <p>{{selectedClient.Nom}}</p></li>
-    <li><span class="badge">Prenom</span> <p>{{selectedClient.Prenom}}</p></li>
-    <li><span class="badge">Adresse</span> <p>{{selectedClient.Adresse}}</p></li>
-    <li><span class="badge">Ville</span> <p>{{selectedClient.Ville}}</p></li>
-    <li><span class="badge">Code_Postal</span> <p>{{selectedClient.Code_Postal}}</p></li>
-    <li><span class="badge">Civilite</span> <p>{{selectedClient.Civilite}}</p></li>
-    <li><span class="badge">Profession</span> <p>{{selectedClient.Profession}}</p></li>
-    <li><span class="badge">Siret</span> <p>{{selectedClient.Siret}}</p></li>
-    <li><span class="badge">Situation_Familiale</span> <p>{{selectedClient.Situation_Familiale}}</p></li>
-    <li><span class="badge">Tel</span> <p>{{selectedClient.Tel}}</p></li>
-    <li><span class="badge">Status</span> <p>{{selectedClient.Status}}</p></li>
-  </ul>
+  <div class="gridcontainer">
+    <ul class="heroes">
+      <li><span class="badge">Email</span> <p>{{selectedClient.Email}}</p></li>
+      <li><span class="badge">Nom</span> <p>{{selectedClient.Nom}}</p></li>
+      <li><span class="badge">Prenom</span> <p>{{selectedClient.Prenom}}</p></li>
+    </ul>
+    <ul class="heroes">
+      <li><span class="badge">Adresse</span> <p>{{selectedClient.Adresse}}</p></li>
+      <li><span class="badge">Ville</span> <p>{{selectedClient.Ville}}</p></li>
+      <li><span class="badge">Code_Postal</span> <p>{{selectedClient.Code_Postal}}</p></li>
+    </ul>
+    <ul class="heroes">
+      <li><span class="badge">Civilite</span> <p>{{selectedClient.Civilite}}</p></li>
+      <li><span class="badge">Profession</span> <p>{{selectedClient.Profession}}</p></li>
+      <li><span class="badge">Siret</span> <p>{{selectedClient.Siret}}</p></li>
+    </ul>
+    <ul class="heroes">
+      <li><span class="badge">Situation_Familiale</span> <p>{{selectedClient.Situation_Familiale}}</p></li>
+      <li><span class="badge">Tel</span> <p>{{selectedClient.Tel}}</p></li>
+      <li><span class="badge">Status</span> <p>{{selectedClient.Status}}</p></li>
+    </ul>
+  </div>
   <h2>Portefeuilles:</h2>
   <div class="example-container mat-elevation-z8">
       <mat-table class="clients-table mat-elevation-z8" [dataSource]="selectedClient.Portefeuille" matSort>

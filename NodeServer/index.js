@@ -203,7 +203,7 @@ app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('password').isLength({ min: 5 }).escape(),
-    check('libelle').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('libelle').isLength({ min: 1 }).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     

@@ -24,27 +24,21 @@ export class SogebankService {
         this.apiService.getTransactions(portefeuille.ClePub).subscribe(
           sub => sub.subscribe( res => {
             portefeuille.Transactions = res;
-            if (portefeuille.Transactions && portefeuille.Transactions.length > 0) {
-              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(portefeuille.Transactions[0].Solde);
-            } else {
-              // If no transactions, get balance manually
-              this.apiService.getRecord(portefeuille.ClePub).subscribe(
-                data => {
-                  if (data[0] && data[0].balance) {
-                    portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-                  } else {
-                    portefeuille.Solde = 0;
-                  }
-                },
-                error => {
-                  console.log(error);
-                });
-              }
+            this.apiService.getRecord(portefeuille.ClePub).subscribe(
+              data => {
+                if (data[0] && data[0].balance) {
+                  portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+                } else {
+                  portefeuille.Solde = '0 DHTG';
+                }
+                this.countTotals();
+                callback(callbackComponent);
+              },
+              error => {
+                console.log(error);
+              });
             }, err => {
               console.log(err);
-            }, () => {
-              this.countTotals();
-              callback(callbackComponent);
             }));
       }
     }
@@ -112,10 +106,10 @@ export class SogebankService {
             id: transaction.MutationHash,
             date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
             type: transaction.Nature,
-            nature: transaction.Expediteur,
+            nature: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: transaction.Destinataire
+            portefeuille: this.determineLibelle(transaction.Destinataire)
           });
         }
       });
@@ -136,11 +130,11 @@ export class SogebankService {
           formattedTransactions.push({
             id: transaction.MutationHash,
             date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
-            type: transaction.Nature,
+            type: this.determineLibelle(transaction.Nature),
             nature: transaction.Expediteur,
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: transaction.Destinataire
+            portefeuille: this.determineLibelle(transaction.Destinataire)
           });
         }
       });
@@ -160,6 +154,6 @@ export class SogebankService {
 
   getContactLibelle(clePub) {
     const libelleContact = this.apiService.contacts.find(contact => contact.ClePub === clePub);
-    return libelleContact === undefined ? 'Inconnu' : libelleContact.Nom;
+    return libelleContact === undefined ? 'Inconnu' : libelleContact.Libelle;
   }
 }

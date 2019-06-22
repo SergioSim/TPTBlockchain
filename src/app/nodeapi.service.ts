@@ -217,7 +217,11 @@ toHexString = bytes =>
   }
 
   HexToString(s) {
-    return decodeURIComponent(s.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+    if (s) {
+      return decodeURIComponent(s.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+    } else {
+      return '';
+    }
   }
 
 getTransactions(iaddress) {
@@ -430,6 +434,7 @@ export enum apiUrl {
   deleteContact = 'DELETE$deleteContact',
   deletePortefeuille = 'DELETE$deletePortefeuille',
   submit = 'POST$submit',
+  transferTo = 'POST$transferTo',
   issueDHTG = 'POST$issueDHTG',
 }
 

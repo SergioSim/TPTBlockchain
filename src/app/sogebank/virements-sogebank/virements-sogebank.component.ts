@@ -42,10 +42,10 @@ export class VirementsSogebankComponent implements OnInit {
     date: ''
   };
   typesVirement = [
-    {value: 'classique', viewValue: 'Classique'},
-    {value: 'paiement', viewValue: 'Paiement'},
-    {value: 'depot', viewValue: 'Dépôt HTG'},
-    {value: 'retrait', viewValue: 'Retrait HTG'}
+    {value: 'Virement', viewValue: 'Classique'},
+    {value: 'Paiement', viewValue: 'Paiement'},
+    {value: 'Depôt HTG', viewValue: 'Dépôt HTG'},
+    {value: 'Retrait HTG', viewValue: 'Retrait HTG'}
   ];
 
   constructor(
@@ -132,12 +132,29 @@ export class VirementsSogebankComponent implements OnInit {
   }
 
   confirmTransfer() {
-    this.confirmDialogRef.close();
+    const transferDetails = {
+      //TEMPORARY PASSWORD HACK
+      password: 'aPassword',
+      id: this.selectedPortefeuille['Id'],
+      clePubDestinataire: this.selectedBeneficiaire['ClePub'],
+      montant: this.transferAmount,
+      memo: this.selectedType
+    };
+    this.apiService.makeRequest(apiUrl.transferTo, transferDetails).toPromise()
+      .then(res => {
+        this.sogebankService.initPortfeuillesData(this.initData, null);
+        this.confirmDialogRef.close();
+        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+          + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('Le virement n\'a pas pu aboutir, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
 
-    this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-      + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
-      duration: 5000,
-    });
+
   }
 
   cancelTransfer() {

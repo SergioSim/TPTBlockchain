@@ -178,12 +178,16 @@
     background-color: rgba(0, 0, 0, 0.25);
 }
 
+.transfer-password-confirm {
+    margin-top: 25px;
+}
+
 .dialog-buttons {
     justify-content: space-around;
     display: flex;
     width: 60%;
     align-self: center;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .dialog-buttons button {

@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { faPen, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
-import { NodeapiService } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-portefeuilles-sogebank',
@@ -25,8 +25,10 @@ export class PortefeuillesSogebankComponent implements OnInit {
   NewWalletDialogRef: any;
   editDialogRef: any;
   newWalletlibelle = '';
-  newWalletTransferAmount: number;
+  newWalletPassword: number;
+  ye = true;
   selectedPortefeuille: {
+    Id: '',
     ClePub: '',
     Libelle: '',
     Solde: '',
@@ -47,9 +49,14 @@ export class PortefeuillesSogebankComponent implements OnInit {
     this.titleService.setTitle('Mes portefeuilles - Sogebank');
   }
 
-  initData() {
-    this.portefeuilles = this.apiService.portefeuilles;
-    this.countTotals();
+  initData(self) {
+    if (self) {
+      self.portefeuilles = self.apiService.portefeuilles;
+      self.countTotals();
+    } else {
+      this.portefeuilles = this.apiService.portefeuilles;
+      this.countTotals();
+    }
   }
 
   countTotals() {
@@ -57,12 +64,27 @@ export class PortefeuillesSogebankComponent implements OnInit {
     let activite = 0;
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
-      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
+      solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
     this.totalActivite = this.commonUtilsService.numberToCurrencyString(
       this.commonUtilsService.currencyStringtoNumber(this.sogebankService.totalDebit) +
       this.commonUtilsService.currencyStringtoNumber(this.sogebankService.totalCredit));
+  }
+
+  getPortefeuilles() {
+    this.apiService.makeRequest(apiUrl.portefeuillesByUserEmail, {}).toPromise()
+      .then(res => {
+        this.apiService.portefeuilles = res;
+        this.portefeuilles = res;
+        this.sogebankService.initPortfeuillesData(this.initData, this);
+        this.portefeuilles.forEach(carte => {
+          // Get recent activity for each wallet
+        });
+
+        this.apiService.portefeuilles = this.portefeuilles;
+        this.countTotals();
+      });
   }
 
   openQRcodeDialog(templateRef, portefeuille) {
@@ -89,12 +111,23 @@ export class PortefeuillesSogebankComponent implements OnInit {
   }
 
   confirmWalletCreate() {
-    const initialAmount = this.newWalletTransferAmount === null ? 0 : this.newWalletTransferAmount;
-    this.NewWalletDialogRef.close();
-    this.snackBar.open('Le portefeuille "' + this.newWalletlibelle + '" à bien été créé avec un virement' +
-    ' initial de ' + this.commonUtilsService.numberToCurrencyString(initialAmount) + '.', 'Fermer', {
-      duration: 5000,
-    });
+    const newWalletdDetails = {
+      libelle: this.newWalletlibelle,
+      password: this.newWalletPassword
+    };
+    this.apiService.makeRequest(apiUrl.createPortefeuille, newWalletdDetails).toPromise()
+      .then(res => {
+        this.getPortefeuilles();
+        this.NewWalletDialogRef.close();
+        this.snackBar.open('Le portefeuille "' + this.newWalletlibelle + '" à bien été créé.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La création du portefeuille n\'a pas pu s\'effectué, assurez-vous d\'avoir un solde'
+        + ' suffisant et que votre mot de passe soit correct avant de réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
   }
 
   openEditWalletDialog(templateRef, portefeuille) {
@@ -104,9 +137,22 @@ export class PortefeuillesSogebankComponent implements OnInit {
   }
 
   confirmWalletEdit() {
-    const index = this.portefeuilles.findIndex( portefeuille => portefeuille.ClePub === this.selectedPortefeuille.ClePub);
-    this.portefeuilles[index].Libelle = this.selectedPortefeuille.Libelle;
-    this.editDialogRef.close();
+    const editPortefeuilleDetails = {
+      libelle: this.selectedPortefeuille.Libelle,
+      id: this.selectedPortefeuille.Id
+    };
+    this.apiService.makeRequest(apiUrl.updatePortefeuilleLibelle, editPortefeuilleDetails).toPromise()
+      .then(res => {
+        this.getPortefeuilles();
+        this.editDialogRef.close();
+        this.snackBar.open(this.selectedPortefeuille.Libelle + '" à bien été mis à jour.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('Le portefeuille n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
   }
 
   cancelWalletEdit() {

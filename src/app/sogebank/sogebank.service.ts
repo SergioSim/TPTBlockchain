@@ -22,24 +22,28 @@ export class SogebankService {
     if (this.apiService.portefeuilles && this.apiService.portefeuilles.length > 0) {
       for (const portefeuille of this.apiService.portefeuilles) {
         this.apiService.getTransactions(portefeuille.ClePub).subscribe(
-          sub => sub.subscribe( res => {
+          sub => {
+            sub.subscribe( res => {
             portefeuille.Transactions = res;
-            this.apiService.getRecord(portefeuille.ClePub).subscribe(
-              data => {
-                if (data[0] && data[0].balance) {
-                  portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-                } else {
-                  portefeuille.Solde = '0 DHTG';
-                }
-                this.countTotals();
-                callback(callbackComponent);
-              },
-              error => {
-                console.log(error);
-              });
             }, err => {
               console.log(err);
-            }));
+            }, () => {
+              portefeuille.Solde = '0 DHTG';
+              this.apiService.getRecord(portefeuille.ClePub).subscribe(
+                data => {
+                  if (data[0] && data[0].balance) {
+                    portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+                  }
+                },
+                error => {
+                  console.log(error);
+                },
+                () => {
+                  this.countTotals();
+                  callback(callbackComponent);
+                });
+            });
+          });
       }
     }
   }
@@ -52,16 +56,18 @@ export class SogebankService {
     currDate.setDate(currDate.getDate() - 30);
     const referenceDate = currDate.getTime() / 1000;
     this.apiService.portefeuilles.forEach( portefeuille => {
-      solde += this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde);
-      portefeuille['Transactions'].forEach( transaction => {
-        if (transaction.Timestamp > referenceDate) {
-          if (transaction.Montant < 0) {
-            debit += transaction.Montant;
-          } else {
-            credit += transaction.Montant;
+      solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
+      if (portefeuille['Transactions']) {
+        portefeuille['Transactions'].forEach( transaction => {
+          if (transaction.Timestamp > referenceDate) {
+            if (transaction.Montant < 0) {
+              debit += transaction.Montant;
+            } else {
+              credit += transaction.Montant;
+            }
           }
-        }
-      });
+        });
+      }
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
     this.totalCredit = this.commonUtilsService.numberToCurrencyString(credit);
@@ -74,21 +80,23 @@ export class SogebankService {
     currDate.setDate(currDate.getDate() - 30);
     const referenceDate = currDate.getTime() / 1000;
     for (const portefeuille of this.apiService.portefeuilles) {
-      portefeuille['Transactions'].forEach( transaction => {
-        if (transaction.Timestamp >= referenceDate) {
-          const date = new Date(0);
-          date.setUTCSeconds(transaction.Timestamp);
-          formattedTransactions.push({
-            id: transaction.MutationHash,
-            date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
-            type: transaction.Nature,
-            nature: this.determineNature(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur),
-            montant: this.commonUtilsService.numberToCurrencyString(
-              transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: this.determinePortefeuille(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur)
-          });
-        }
-      });
+      if (portefeuille['Transactions']) {
+        portefeuille['Transactions'].forEach( transaction => {
+          if (transaction.Timestamp >= referenceDate) {
+            const date = new Date(0);
+            date.setUTCSeconds(transaction.Timestamp);
+            formattedTransactions.push({
+              id: transaction.MutationHash,
+              date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
+              type: transaction.Nature,
+              nature: this.determineNature(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur),
+              montant: this.commonUtilsService.numberToCurrencyString(
+                transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
+              portefeuille: this.determinePortefeuille(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur)
+            });
+          }
+        });
+      }
     }
     return formattedTransactions;
   }

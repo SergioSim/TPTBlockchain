@@ -94,6 +94,8 @@ module.exports = {
         'UPDATE beneficiaire SET Libelle = ?, ClePub = ? WHERE Id = ?',
   'updateCarte' : 
         'UPDATE carte SET Libelle = ? WHERE Id = ?',
+  'updatePortefeuilleLibelle' : 
+        'UPDATE portefeuille SET Libelle = ? WHERE Id = ?',
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 

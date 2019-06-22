@@ -33,6 +33,7 @@ export class VirementsSogebankComponent implements OnInit {
   editBeneficiaire: {};
   newBeneficiaireLibelle: string;
   newBeneficiaireClePub: string;
+  transferPassword: string;
   dialogProperties = {
     from: '',
     to: '',
@@ -63,16 +64,21 @@ export class VirementsSogebankComponent implements OnInit {
     this.editBeneficiaire = { ClePub: '', Libelle: '' };
   }
 
-  initData() {
-    this.portefeuilles = this.apiService.portefeuilles;
-    this.beneficiaires = this.apiService.contacts;
+  initData(self) {
+    if (self) {
+      self.portefeuilles = self.apiService.portefeuilles;
+      self.beneficiaires = self.apiService.contacts;
+    } else {
+      this.portefeuilles = this.apiService.portefeuilles;
+      this.beneficiaires = this.apiService.contacts;
+    }
   }
 
   getContacts() {
     this.apiService.makeRequest(apiUrl.contactsByUserEmail, {}).toPromise()
       .then(res => {
         this.apiService.contacts = res;
-        this.initData();
+        this.initData(null);
       });
   }
 
@@ -133,8 +139,7 @@ export class VirementsSogebankComponent implements OnInit {
 
   confirmTransfer() {
     const transferDetails = {
-      //TEMPORARY PASSWORD HACK
-      password: 'aPassword',
+      password: this.transferPassword,
       id: this.selectedPortefeuille['Id'],
       clePubDestinataire: this.selectedBeneficiaire['ClePub'],
       montant: this.transferAmount,
@@ -142,7 +147,7 @@ export class VirementsSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.transferTo, transferDetails).toPromise()
       .then(res => {
-        this.sogebankService.initPortfeuillesData(this.initData, null);
+        this.sogebankService.initPortfeuillesData(this.initData, this);
         this.confirmDialogRef.close();
         this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
           + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {

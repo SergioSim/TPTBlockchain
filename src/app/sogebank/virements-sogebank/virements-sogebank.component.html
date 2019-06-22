@@ -164,6 +164,10 @@
                             </div>
                         </div>
                     </div>
+
+                    <mat-form-field class="transfer-password-confirm">
+                        <input matInput type="password" placeholder="Entrez votre mot de passe pour confirmer" [(ngModel)]="transferPassword">
+                    </mat-form-field>
                     
                     <div class="dialog-buttons">
                         <button mat-flat-button class="dialog-confirm-button" (click)="confirmTransfer()">Confirmer</button> 

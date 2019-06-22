@@ -125,6 +125,18 @@ app.post('/cardsByPortefeuilleIds', [
     });
 })
 
+app.post('/portefeuillesByUserEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    outils.handleValidationResult],
+    function(req, res) {
+        
+    conn.query(sql.findPortefeuillesByEmail, req.jwt.Email, function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not fetch wallets']});
+        res.send((err) ? "Error" : result);
+    });
+})
+
 app.get('/contactsByUserEmail', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
@@ -203,7 +215,7 @@ app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('password').isLength({ min: 5 }).escape(),
-    check('libelle').isLength({ min: 1 }).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -329,6 +341,21 @@ app.put('/updateCarte', [
     
     conn.query(sql.updateCarte, [req.body.libelle, req.body.id], function(err, result){
         if(err) return res.status(400).send({ succes: false, errors: ["Could not update carte with id: " + req.body.id] });
+        return res.send({success: !err});
+    });
+});
+
+app.put('/updatePortefeuilleLibelle', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().escape(),
+    // Regex to allow spaces between alphanumeric characters
+    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.updatePortefeuilleLibelle, [req.body.libelle, req.body.id], function(err, result){
+        if(err) return res.status(400).send({ succes: false, errors: ["Could not update wallet with id: " + req.body.id] });
         return res.send({success: !err});
     });
 });
@@ -627,7 +654,7 @@ app.post('/transferTo', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    // May need some extra validation...
+    // May need some extra validation... (check if password is correct, etc)
     conn.query(sql.findPortefeuillesById, [req.body.id], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["Ce portefeuille n\'existe pas..."] });
         if(result[0].Utilisateur_Email !== req.jwt.Email) return res.status(404).send({ succes: false, errors: ["Ce portefeuille ne vous apartient pas!"] });

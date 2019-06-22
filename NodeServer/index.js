@@ -172,8 +172,8 @@ app.post('/createParametre', [
     check('name').isAlphanumeric().escape().trim(),
     outils.handleValidationResult],
     function(req, res) {
-    
-    conn.query(sql.insertParametre, [req.body.name], function(err, result) { 
+    conn.query(sql.insertParametre, [req.body.name,req.body.description, req.body.dateCreation], function(err, result) { 
+
         return res.send({success: !err});
     });
 });

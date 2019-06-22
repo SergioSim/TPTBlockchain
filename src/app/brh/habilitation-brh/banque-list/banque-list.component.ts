@@ -3,6 +3,7 @@ import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { Banque } from 'src/app/banque.modele';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
+import { SogebankService } from 'src/app/sogebank/sogebank.service';
 
 @Component({
 
@@ -20,16 +21,20 @@ export class BanqueListComponent implements OnInit {
   constructor(
     private service: NodeapiService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sogebankService : SogebankService
   ) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  
   validBanque: {};
   formData: Banque;
   listBanqueVisible: any[];
   listBanqueNotVisible: any[];
-  listBanqueValid:any[];
+  listBanqueValid: any[];
   listRestaur: any[];
   displayedColumns: string[];
+  clientType = this.sogebankService.isNewParticulier === (true || null || undefined) ? 1 : 2;
+
   Form = new FormGroup({
     NomBanque: new FormControl(''),
     Email: new FormControl(''),
@@ -50,29 +55,29 @@ export class BanqueListComponent implements OnInit {
   ngOnInit() {
     this.validBanque = { nom: '', email: '', password: '', confirmPassword: '' };
     this.refreshListBanque();
-  //  this.getListBanqueRestaur();
+    //  this.getListBanqueRestaur();
     this.displayedColumns = ['Nom', 'Email', 'Telephone', 'Statut', 'Supprimer', 'Refuser', 'Valider'];
   }
-/*
-  getListBanqueRestaur() {
-    this.service.makeRequest(apiUrl.allBanks, { visible: false }).
-    subscribe(res => {
-      this.listBanqueNotVisible = res as Banque[];
-      this.dataS = new MatTableDataSource(this.listBanqueNotVisible);
-      this.dataS.paginator = this.paginator;
+  /*
+    getListBanqueRestaur() {
+      this.service.makeRequest(apiUrl.allBanks, { visible: false }).
+      subscribe(res => {
+        this.listBanqueNotVisible = res as Banque[];
+        this.dataS = new MatTableDataSource(this.listBanqueNotVisible);
+        this.dataS.paginator = this.paginator;
+      }
+      );
     }
-    );
-  }
- */
+   */
 
   refreshListBanque() {
     this.service.makeRequest(apiUrl.allBanksNotValid, { visible: true }).
-    subscribe(res => {
-      this.listBanqueVisible = res as Banque[];
-      this.dataSource = new MatTableDataSource(this.listBanqueVisible);
-      this.dataSource.paginator = this.paginator;
-    }
-    );
+      subscribe(res => {
+        this.listBanqueVisible = res as Banque[];
+        this.dataSource = new MatTableDataSource(this.listBanqueVisible);
+        this.dataSource.paginator = this.paginator;
+      }
+      );
   }
 
   deleteBanque() {
@@ -83,7 +88,7 @@ export class BanqueListComponent implements OnInit {
     }).
       subscribe(res => {
         this.refreshListBanque();
-     //   this.getListBanqueRestaur();
+        //   this.getListBanqueRestaur();
       }, error => {
         console.log('got an error');
         console.log(error);
@@ -100,7 +105,7 @@ export class BanqueListComponent implements OnInit {
     }).
       subscribe(res => {
         this.refreshListBanque();
-    //    this.getListBanqueRestaur();
+        //    this.getListBanqueRestaur();
       }, error => {
         console.log('got an error');
         console.log(error);
@@ -136,6 +141,14 @@ export class BanqueListComponent implements OnInit {
     this.contactDialogRef.close();
     this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été validé.', 'Fermer', { duration: 5000, });
 
+
+
+    this.service.register("nadir@nadirnadir", "rpDZZ8745EFEFZ", this.capitalizeName("3ververvFZEOBZE3"),
+      this.capitalizeName("reooerhi"), 'Sogebank', this.clientType);
+  }
+
+  capitalizeName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
   openAddBankDialog(templateRef) {

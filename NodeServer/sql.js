@@ -19,7 +19,7 @@ module.exports = {
   'insertMonnie' : 
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
   'insertParametre' :
-        'INSERT INTO parametre (Nom) VALUES (?)',
+        'INSERT INTO parametre (Nom, Description, DateCreation) VALUES (?,?,?)',
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',

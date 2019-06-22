@@ -94,7 +94,9 @@ export class ParametresBrhComponent implements OnInit {
   }
 
   confirmAddParametre() {
-    this.service.makeRequest(apiUrl.createParametre, { name: this.parametreNom }).
+    var dateCreation = new Date();
+    console.log(dateCreation);
+    this.service.makeRequest(apiUrl.createParametre, { name: this.parametreNom, description:this.parametreDescription,dateCreation:dateCreation }).
       subscribe(res => {
         console.log('on a recu la response:');
         this.getParametres();

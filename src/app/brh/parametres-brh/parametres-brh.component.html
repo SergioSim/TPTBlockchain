@@ -10,18 +10,18 @@
       <ng-template #ContactDialog>
         <div class="contact-dialog">
           <div class="dialog-header">
-            <h4>Ajouter une nouvelle monnie physique </h4>
+            <h4>Ajouter un nouveau paramètre </h4>
             <hr>
           </div>
           <div class="contact-dialog-form">
             <mat-form-field>
               <input matInput placeholder="Nom de la monnie" [(ngModel)]="parametreNom">
             </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Nom de la monnie" [(ngModel)]="parametreDescription">
+            </mat-form-field>
             <br>
             <br />
-            <!--     <mat-form-field>
-                    <input matInput type="number" placeholder="Unité" [(ngModel)]="monnieUnite">
-                </mat-form-field> -->
           </div>
           <div class="dialog-buttons">
             <button mat-flat-button class="boutonConfirmer" (click)="confirmAddParametre()">Confirmer</button>

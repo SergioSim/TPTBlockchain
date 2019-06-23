@@ -3,7 +3,7 @@
       <h1>Gérer le portefeuille principal</h1>
     </div>
     <div class="infos-brh">
-      <p>Solde : {{solde}}   DHTG</p>
+      <p>Solde : {{solde}} </p>
     </div>
     <div class="dashboard-content">
         <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(AddDialog)">Augmenter mes avoirs
@@ -48,12 +48,11 @@
         </h4>
         <mat-form-field>
           <mat-label>Sélectionner une banque</mat-label>
-          <select matNativeControl required>
-            <option value="volvo">Sogebank</option>
-            <option value="saab">Citibank</option>
-            <option value="mercedes">Société général</option>
-            <option value="audi">Crédit agricole</option>
-          </select>
+          <mat-select>
+            <mat-option *ngFor="let banque of listBanqueValid" [value]="banque.Nom">
+              {{banque.Nom}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <div class="virements-form">
             <mat-form-field>
@@ -74,28 +73,38 @@
                 <div class="dialog-info-left">
                     <div class="dialog-info">
                         <p>De :</p>
-                        <p><strong>{{dialogProperties.from}}</strong></p>
+                        <p><strong></strong></p>
+                      <!--  <p><strong>{{dialogProperties.from}}</strong></p>   -->
+
                         <hr>
                     </div>
                     <div class="dialog-info">
                         <p>Montant débité :</p>
-                        <p><strong>{{dialogProperties.amout}} DHTG</strong></p>
+                    <!--    <p><strong>{{dialogProperties.amout}} DHTG</strong></p>  -->
+                        <p><strong>DHTG</strong></p>
+
                         <hr>
                     </div>
                     <div class="dialog-info">
                         <p>Date du virement :</p>
-                        <p><strong>{{dialogProperties.date}}</strong></p>
+                        <p><strong></strong></p>
+                  <!--      <p><strong>{{dialogProperties.date}}</strong></p>  -->
+
                     </div>
                 </div>
                 <div class="dialog-info-right">
                     <div class="dialog-info">
-                        <p>Vers :</p>
-                        <p><strong>{{dialogProperties.to}}</strong></p>
+                        <p>Vers : {{banque}}</p>
+                   <!--     <p><strong>{{dialogProperties.to}}</strong></p>  -->
+                        <p><strong></strong></p>
+
                         <hr>
                     </div>
                     <div class="dialog-info">
                         <p>Solde après opération :</p>
-                        <p><strong>{{dialogProperties.afterTransfer}} DHTG</strong></p>
+                   <!--     <p><strong>{{dialogProperties.afterTransfer}} DHTG</strong></p>
+                   -->     <p><strong>DHTG</strong></p>
+
                         <hr>
                     </div>
                    
@@ -103,7 +112,7 @@
             </div>
             
             <div class="dialog-buttons">
-                <button mat-flat-button class="dialog-confirm-button" (click)="confirmTransfer()">Confirmer</button> 
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmTransferTo()">Confirmer</button> 
                 <button mat-flat-button class="dialog-cancel-button" (click)="cancelTransfer()">Annuler</button> 
             </div>
         </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { apiUrl, NodeapiService } from 'src/app/nodeapi.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
+import { Banque } from 'src/app/banque.modele';
 
 @Component({
   selector: 'app-portefeuille-principal-brh',
@@ -15,9 +16,14 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   quantitte: '';
   transferAmount: number;
   confirmDialogRef: any;
+  listBanqueValid: any;
   solde: number;
-  quantite:'';
-  password:'';
+  quantite: '';
+  password: '';
+  banque: {
+    Nom:''
+  }
+ 
 
   constructor(
     private service: NodeapiService,
@@ -28,7 +34,17 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
 
   ngOnInit() {
     this.getSoldeBRH();
+    this.getListBanqueValid();
   }
+
+  getListBanqueValid() {
+    this.service.makeRequest(apiUrl.allBanksValid, {}).
+      subscribe(res => {
+        this.listBanqueValid = res as Banque[];
+      }
+    );
+  }
+
   getSoldeBRH() {
 
     if (this.service.portefeuilles && this.service.portefeuilles.length > 0) {
@@ -37,7 +53,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
           data => {
             if (data[0] && data[0].balance) {
               portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-              this.solde=portefeuille.Solde;
+              this.solde = portefeuille.Solde;
             }
           },
           error => {
@@ -57,7 +73,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   }
 
   confirmAddMonnie(contact) {
-    this.service.makeRequest(apiUrl.issueDHTG, { password: this.password,id:48,montant:this.quantite }).
+    this.service.makeRequest(apiUrl.issueDHTG, { password: this.password, id: 48, montant: this.quantite }).
       subscribe(res => {
         console.log('yes');
         this.getSoldeBRH();
@@ -84,7 +100,20 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
     return true;
   }
 
-  confirmTransfer() {
+  confirmTransferTo() {
+
+   this.service.makeRequest(apiUrl.transferTo,{id:48,password:'aPassword',clePubDestinataire:'XfXCkMYwNK1UhbR5isbxvynAKocaRzMJ3m'
+   ,montant:500,memo:'test'}
+   ).subscribe(
+      data => {
+        console.log("oui");
+        this.getSoldeBRH();
+      },
+      error => {
+        console.log(error);
+      })
+  
+
     this.confirmDialogRef.close();
 
     this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '

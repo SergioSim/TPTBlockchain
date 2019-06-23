@@ -78,10 +78,6 @@ export class PortefeuillesSogebankComponent implements OnInit {
         this.apiService.portefeuilles = res;
         this.portefeuilles = res;
         this.sogebankService.initPortfeuillesData(this.initData, this);
-        this.portefeuilles.forEach(carte => {
-          // Get recent activity for each wallet
-        });
-
         this.apiService.portefeuilles = this.portefeuilles;
         this.countTotals();
       });

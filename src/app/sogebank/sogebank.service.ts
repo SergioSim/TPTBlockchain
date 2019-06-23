@@ -56,18 +56,25 @@ export class SogebankService {
     currDate.setDate(currDate.getDate() - 30);
     const referenceDate = currDate.getTime() / 1000;
     this.apiService.portefeuilles.forEach( portefeuille => {
+      let creditPortefeuille = 0;
+      let debitPorteuille = 0;
       solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
       if (portefeuille['Transactions']) {
         portefeuille['Transactions'].forEach( transaction => {
           if (transaction.Timestamp > referenceDate) {
             if (transaction.Montant < 0) {
-              debit += transaction.Montant;
+              debitPorteuille += transaction.Montant;
             } else {
-              credit += transaction.Montant;
+              creditPortefeuille += transaction.Montant;
             }
           }
         });
       }
+      const activite = debitPorteuille + creditPortefeuille;
+      credit += creditPortefeuille;
+      debit += debitPorteuille;
+      portefeuille.Activite = activite >= 0 ? '+' + this.commonUtilsService.numberToCurrencyString(activite)
+        : this.commonUtilsService.numberToCurrencyString(activite);
     });
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
     this.totalCredit = this.commonUtilsService.numberToCurrencyString(credit);

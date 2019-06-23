@@ -71,6 +71,22 @@ export class TableReleveSogebankComponent implements OnInit {
     }
   }
 
+  downloadReceipt(transaction) {
+    console.log(transaction);
+    const doc = new jsPDF({
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a6',
+      putOnlyUsedFonts: true
+     });
+    const img = new Image();
+    img.src = 'assets/logos/sogebank_logo.png';
+    img.onload = () => {
+      doc.addImage(img, 'PNG', 25, 10, 55, 30);
+      doc.save('recu_' + transaction.id + '.pdf');
+    };
+  }
+
   download() {
     let isCommercant = false;
 

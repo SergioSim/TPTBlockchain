@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Transaction } from '../nodeapi.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,4 +23,21 @@ export class CommonUtilsService {
       + ('0' + (convertedDate.getMonth() + 1)).slice(-2) + '/' + convertedDate.getFullYear();
   }
 
+  getDebitCredit(transactions: Transaction[]) {
+    const debitCredit: DebitCredit = {credit: 0, debit: 0};
+    transactions.forEach( transaction => {
+      if (transaction.Montant < 0) {
+        debitCredit.debit += transaction.Montant;
+      } else {
+        debitCredit.credit += transaction.Montant;
+      }
+    });
+    return debitCredit;
+  }
+
+}
+
+export interface DebitCredit {
+  credit: number;
+  debit: number;
 }

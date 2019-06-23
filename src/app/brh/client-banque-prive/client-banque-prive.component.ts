@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BanqueClient, Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
+import { CommonUtilsService, DebitCredit } from 'src/app/common/common-utils.service';
 
 @Component({
   selector: 'app-client-banque-prive',
@@ -25,8 +26,14 @@ export class ClientBanquePriveComponent implements OnInit {
   public selectedPortefeuille: Portefeuille;
   public transactions: Transaction[] = [];
   public selectedTransaction: Transaction;
+  public selectedSolde = 0;
+  public selectedDebit = 0;
+  public selectedCredit = 0;
 
-  constructor(private apiService: NodeapiService) { }
+  constructor(
+    private apiService: NodeapiService,
+    private util: CommonUtilsService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     console.log('Initialize');
@@ -38,9 +45,20 @@ export class ClientBanquePriveComponent implements OnInit {
     this.selectedPortefeuille = row;
     this.apiService.getTransactions(row.ClePub).subscribe(
       sub => sub.subscribe( res => {
-          console.log(res);
+          if (res.length === 0) {
+            this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
+              duration: 5000,
+              panelClass: ['alert-snackbar']
+            });
+          }
           this.showTransactions = true;
           this.transactions = res;
+          setTimeout(() => {
+            // sorry I'm too lazy ...
+            const debitCredit: DebitCredit = this.util.getDebitCredit(res);
+            this.selectedCredit = debitCredit.credit;
+            this.selectedDebit = debitCredit.debit;
+          }, 1000);
           console.log('scrolling..');
           setTimeout(() => {
             const elmnt = document.querySelector('.contentTransactions');
@@ -50,6 +68,9 @@ export class ClientBanquePriveComponent implements OnInit {
           console.log(err);
           this.showTransactions = false;
       }));
+    this.apiService.getRecord(row.ClePub).subscribe(data => {
+      this.selectedSolde = data[0].balance;
+    });
   }
 
   onTransactionRowClicked(row: Transaction) {

@@ -1,84 +1,92 @@
 <div class="login-content">
-   
+
     <div>
-      <p>.</p>
+        <p>.</p>
     </div>
     <div class="thesecondheader">
-      <h2>Banque de la république d'Haïti </h2>
-    </div>  
+        <h2>Banque de la république d'Haïti </h2>
+    </div>
     <h3>Demander une habilitation à la banque centrale: </h3>
-    <div class="block-text"><p>Pour demander une habilitation à la banque centrale veuillez remplir
-       le formulaire ci-dessous et envoyer votre demande, une fois que votre 
-       demande sera traité vous resevrez une confirmation par mail.</p></div>
+    <div class="block-text">
+        <p>Pour demander une habilitation à la banque centrale veuillez remplir
+            le formulaire ci-dessous et envoyer votre demande, une fois que votre
+            demande sera traité vous resevrez une confirmation par mail.</p>
+    </div>
     <div class="block-form">
-    <div class="contact-dialog-form">
+        <div class="contact-dialog-form">
             <p> * : champs obligatoire.</p><br>
-        <mat-form-field>
-            <input matInput placeholder="Nom *" [(ngModel)]="Nom" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-                <input matInput placeholder="Prénom *" [(ngModel)]="Prenom" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-                <input matInput placeholder="Adresse *" [(ngModel)]="Adresse" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-                <input matInput placeholder="Code postale *" [(ngModel)]="CodePostale" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-                <input matInput placeholder="Ville *" [(ngModel)]="Ville" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-                <input matInput placeholder="Prénom *" [(ngModel)]="Prenom" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="Nom de la banque *" [(ngModel)]="nouvelBanqueNom" >
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="Email *" [(ngModel)]="nouvelBanqueEmail">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <input matInput placeholder="Téléphone *" [(ngModel)]="nouvelBanqueTel">
-        </mat-form-field>
-        <br>
-    </div>
-    <hr>
-    <div class="upload-button">
+            <mat-form-field>
+                <input matInput placeholder="Nom *" [(ngModel)]="Nom">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Prénom *" [(ngModel)]="nouvelBanquePrenom">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Adresse *" [(ngModel)]="Adresse">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Code postale *" [(ngModel)]="CodePostale">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Ville *" [(ngModel)]="Ville">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Nom de la banque *" [(ngModel)]="nouvelBanqueNom">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Email *" [(ngModel)]="nouvelBanqueEmail">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Mot de passe *" [(ngModel)]="nouvelBanquePassword">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Confirmer mot de passe *" [(ngModel)]="MotDePasse2">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput placeholder="Téléphone *" [(ngModel)]="nouvelBanqueTel">
+            </mat-form-field>
+            <br>
+        </div>
+        <hr>
+        <div class="upload-button">
             <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre votre carte identité</button>
-            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)"
+                name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
-            <input matInput disabled [value]="annonceLegale && annonceLegale.name">
+                <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
-    </div>
-    <div class="upload-button">
+        </div>
+        <div class="upload-button">
             <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre votre registre de commerce</button>
-            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)"
+                name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
                 <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
-    </div>
-    <div class="upload-button">
-            <button mat-raised-button  (click)="openAnnonceLegaleInput()">Joindre un autre document</button>
-            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+        </div>
+        <div class="upload-button">
+            <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre un autre document</button>
+            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)"
+                name="file" accept=".png,.jpeg,.jpg,.pdf">
             <mat-form-field class="annonce-legale-input">
                 <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
+        </div>
+        <div class="dialog-button">
+            <button mat-flat-button color="primary" class="boutonConfirmer"
+                (click)="confirmAddBanque()">Envoyer</button>
+        </div>
+
     </div>
-    <div class="dialog-button">
-        <button mat-flat-button color="primary" class="boutonConfirmer" (click)="confirmAddBanque()">Envoyer</button> 
-    </div>
-    
+
 </div>
-
-  </div>
 <div>
-
- 

@@ -12,6 +12,8 @@ export class DemandeHabilitationComponent implements OnInit {
   nouvelBanqueNom: '';
   nouvelBanqueEmail: '';
   nouvelBanqueTel: '';
+  nouvelBanquePassword: '';
+  nouvelBanquePrenom: '';
   Nom: '';
   Prenom: '';
   Adresse: '';
@@ -33,17 +35,25 @@ export class DemandeHabilitationComponent implements OnInit {
     subscribe( res =>{
       console.log('on a recu la response:' );
       console.log(res);
+
+      this.service.makeRequest(apiUrl.createClient, {
+        email: this.nouvelBanqueEmail, password: this.nouvelBanquePassword,
+        prenom: this.nouvelBanquePrenom, nom: this.nouvelBanqueNom, banque: this.nouvelBanqueNom, roleId: 1
+      }).
+        subscribe(res => {
+          console.log('on a recu la response:');
+          console.log(res);
+        }, error => {
+          console.log('got an error 1');
+          console.log(error);
+        });
+      this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000, });
+
     }, error => {
-        console.log('got an error');
+        console.log('got an error 2');
         console.log(error);
     });
     this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
   }
-  openAnnonceLegaleInput() {
-    document.getElementById('annonceLegaleInput').click();
-  }
-
-  annonceLegaleChange(event){
-
-  }
 }
+

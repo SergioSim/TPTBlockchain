@@ -20,6 +20,7 @@ export class DemandeHabilitationComponent implements OnInit {
   CodePostale: '';
   Ville: '';
   annonceLegale: {name: ''};
+  MotDePasse2: '';
 
   constructor(
     private service: NodeapiService,
@@ -55,5 +56,12 @@ export class DemandeHabilitationComponent implements OnInit {
     });
     this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
   }
-}
 
+  openAnnonceLegaleInput() {
+    console.log('TODO - implement method!!!');
+  }
+
+  annonceLegaleChange(event: any) {
+    console.log('TODO - implement method!!!');
+  }
+}

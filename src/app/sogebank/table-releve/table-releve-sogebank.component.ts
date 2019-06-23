@@ -82,7 +82,24 @@ export class TableReleveSogebankComponent implements OnInit {
     const img = new Image();
     img.src = 'assets/logos/sogebank_logo.png';
     img.onload = () => {
-      doc.addImage(img, 'PNG', 25, 10, 55, 30);
+      doc.addImage(img, 'PNG', 20, 10, 65, 15);
+      doc.line(30, 30, 75, 30);
+      doc.text('Reçu de paiement', 30, 40);
+      doc.setFontSize(10);
+      doc.text(this.apiService.fullname, 10, 50);
+      doc.text('SIRET: ' + this.apiService.siret, 10, 55);
+      doc.text('Tél: ' + this.apiService.tel, 10, 60);
+      doc.text(this.apiService.adresse, 10, 65);
+      doc.text(this.apiService.ville, 10, 70);
+      doc.text(this.apiService.codePostal, 10, 75);
+      doc.line(30, 80, 75, 80);
+      doc.setFontSize(16);
+      doc.text('Informations sur la transaction :', 15, 90);
+      doc.setFontSize(10);
+      doc.text('Date : ' + transaction.date, 10, 100);
+      doc.text('Montant : ' + transaction.montant.slice(1), 10, 105);
+      doc.text('ID : ' + transaction.id.substring(transaction.id.length / 2), 10, 110);
+      doc.text('     ' + transaction.id.substring(0, transaction.id.length / 2), 10, 115);
       doc.save('recu_' + transaction.id + '.pdf');
     };
   }

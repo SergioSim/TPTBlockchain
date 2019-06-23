@@ -41,7 +41,7 @@ export class ClientBanquePriveComponent implements OnInit {
           this.showTransactions = true;
           this.transactions = res;
           console.log('scrolling..');
-          setTimeout(function(){
+          setTimeout(() => {
             const elmnt = document.querySelector('.contentTransactions');
             elmnt.scrollIntoView({behavior: 'smooth'});
           }, 100);

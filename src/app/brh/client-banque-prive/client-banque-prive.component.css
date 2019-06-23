@@ -97,6 +97,10 @@
     height: 260px;
   }
 
+  .contentTransactions .mat-table .mat-row {
+    height: 325px;
+  }
+
   .mat-table .mat-cell {
     border-bottom: 1px solid #ddd;
     display: block;

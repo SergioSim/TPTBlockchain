@@ -36,6 +36,8 @@ export class NodeapiService {
 
   private readonly url: string = environment.apiUrl;
   private readonly urlOpenchain: string = environment.openchainUrl;
+  private transactionSchema = null;
+  private mutationSchema = null;
 
   formData: Banque;
   list: Banque[];
@@ -48,6 +50,14 @@ export class NodeapiService {
       this.setLogin(currentUser);
     }
     this.logLogin();
+    protobuf.load('./assets/schema.proto', (err, root) => {
+      if (err) {
+        console.log('Error, unable to load proto schema');
+        throw err;
+      }
+      this.transactionSchema = root.lookupType('Openchain.Transaction');
+      this.mutationSchema = root.lookupType('Openchain.Mutation');
+    });
   }
 
 fromHexString = hexString =>
@@ -201,7 +211,11 @@ toHexString = bytes =>
       res => {apilog('Got response:'); console.log(res); return res; }));
   }
 
-  getRecord(adress) {
+  getRecord(adress, version = null) {
+    if (version) {
+      return this.http.get<any>(this.urlOpenchain + 'query/recordversion?key=' + adress + '&version=' + version
+      , {}).pipe(map(res => {apilog('Got response:'); console.log(res); return res; }));
+    }
     return this.http.get<any>(this.urlOpenchain + 'query/account?account=%2Fp2pkh%2F' + adress + '%2F', {}).pipe(map(
       res => {apilog('Got response:'); console.log(res); return res; }));
   }
@@ -231,59 +245,56 @@ getTransactions(iaddress) {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
   return this.http.get<any>(this.urlOpenchain + 'query/recordmutations?key=' + address, {}).pipe(map(
       res => {
-        apilog('Got response:');
-        console.log(res);
+        apilog('Got response:' + res);
         const transactions: Transaction[] = [];
         const observables = [];
         const mHashes = [];
         let index = 0;
         res.forEach(element => {
           element = element.mutation_hash;
-          console.log('calling mutation: ', element);
+          //console.log('calling mutation: ', element);
           observables.push(this.http.get(
             this.urlOpenchain + 'query/transaction?format=raw&mutation_hash=' + element));
           mHashes.push(element);
           });
         return forkJoin(observables).pipe(map(
           result => {
-            console.log('raw transaction: ', result);
+            if (!this.transactionSchema || !this.mutationSchema) {
+              console.log('transactionSchema or mutationSchema is NULL! ');
+              return transactions;
+            }
+            //console.log('raw transaction: ', result);
             result.forEach( raw => {
               const aTransaction: Transaction = {
                 Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
               raw = raw.raw;
-              console.log(raw);
-              protobuf.load('./assets/schema.proto', (err, root) => {
-                if (err) {
-                  console.log('Error, unable to load proto schema');
-                  throw err;
-                }
-                console.log('loading protobuf...', err);
-                try {
-                  const otransaction = root.lookupType('Openchain.Transaction');
-                  const aMessage = otransaction.decode( this.fromHexString(raw));
-                  const oMutation = root.lookupType('Openchain.Mutation');
-                  aMessage.mutation = oMutation.decode(aMessage.mutation);
-                  aMessage.mutation.records[0].key = this.HexToString(this.toHexString(aMessage.mutation.records[0].key));
-                  aTransaction.Expediteur = aMessage.mutation.records[0].key.substr(7).split('/:ACC:/')[0];
-                  aMessage.mutation.records[1].key = this.HexToString(this.toHexString(aMessage.mutation.records[1].key));
-                  aTransaction.Destinataire = aMessage.mutation.records[1].key.substr(7).split('/:ACC:/')[0];
-                  aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
-                  aTransaction.Solde =  parseInt(this.toHexString(aMessage.mutation.records[0].value.data), 16);
-                  aTransaction.Montant =  parseInt(this.toHexString(aMessage.mutation.records[1].value.data), 16);
-                  aTransaction.Nature = 'Recu';
+              try {
+                const aMessage = this.transactionSchema.decode( this.fromHexString(raw));
+                aMessage.mutation = this.mutationSchema.decode(aMessage.mutation);
+                const aExpKey = this.HexToString(this.toHexString(aMessage.mutation.records[0].key));
+                aTransaction.Expediteur = aExpKey.substr(7).split('/:ACC:/')[0];
+                const aDestKey = this.HexToString(this.toHexString(aMessage.mutation.records[1].key));
+                aTransaction.Destinataire = aDestKey.substr(7).split('/:ACC:/')[0];
+                //aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
+                aTransaction.Solde =  parseInt(this.toHexString(aMessage.mutation.records[0].value.data), 16);
+                aTransaction.Montant =  parseInt(this.toHexString(aMessage.mutation.records[1].value.data), 16);
+                aTransaction.Nature = 'Recu';
+                aTransaction.Timestamp = aMessage.timestamp;
+                const d = new Date(0);
+                d.setUTCSeconds(aTransaction.Timestamp);
+                aTransaction.Date = d.toLocaleDateString('fr-FR', options);
+                const version = this.toHexString(aMessage.mutation.records[1].version);
+                this.getRecord(this.toHexString(aMessage.mutation.records[1].key), version).subscribe(data => {
                   if (iaddress === aTransaction.Expediteur) {
-                    aTransaction.Montant = -aTransaction.Montant;
                     aTransaction.Nature = 'Virement';
+                    aTransaction.Montant = data.value ? parseInt(data.value, 16) - aTransaction.Montant : - aTransaction.Montant;
+                  } else {
+                    aTransaction.Montant = data.value ? aTransaction.Montant - parseInt(data.value, 16) : aTransaction.Montant;
                   }
-                  aTransaction.Timestamp = aMessage.timestamp;
-                  const d = new Date(0);
-                  d.setUTCSeconds(aTransaction.Timestamp);
-                  aTransaction.Date = d.toLocaleDateString('fr-FR', options);
-                  console.log('transaction: ', aMessage);
-                } catch (exe) {
-                  console.log(exe);
-                }
-              });
+                });
+              } catch (exe) {
+                console.log(exe);
+              }
               transactions.push(aTransaction);
             });
             transactions.sort((x, y) => y.Timestamp - x.Timestamp);

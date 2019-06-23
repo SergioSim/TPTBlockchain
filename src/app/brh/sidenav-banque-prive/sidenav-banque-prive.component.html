@@ -14,4 +14,7 @@
   <a mat-list-item routerLink="/brh/banque/prive/cartes" (click)="onSidenavClose()">
     <fa-icon [icon]="faCreditCard"></fa-icon><span class="nav-caption">Cartes</span>
   </a>
+  <a mat-list-item routerLink="/brh/accueil" (click)="logout()">
+    <fa-icon [icon]="faSignOutAlt"></fa-icon><span class="nav-caption">Se Deconnecter</span>
+  </a>
 </mat-nav-list>

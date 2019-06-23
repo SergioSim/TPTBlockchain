@@ -13,6 +13,7 @@ export class ClientBanquePriveComponent implements OnInit {
   @Input()
   set setSelectedClient(client: BanqueClient) {
     this.selectedClient = client;
+    this.showTransactions = false;
     const elmnt = document.querySelector('.content');
     elmnt.scrollIntoView({behavior: 'smooth'});
   }

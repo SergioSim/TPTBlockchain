@@ -10,7 +10,6 @@
       <app-clients-banque-prive (selectedClient)="handleSelectedClient($event)" *ngIf="this.router.url == '/brh/banque/prive/clients'"></app-clients-banque-prive>
       <app-client-banque-prive [setSelectedClient]="selectedClient" *ngIf="!showClients"></app-client-banque-prive>
       <app-cartes-banque-prive *ngIf="this.router.url == '/brh/banque/prive/cartes'"></app-cartes-banque-prive>
-      <button mat-flat-button (click)="logout()" color="primary" class="primary-logout-button">SE DECONNECTER</button>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-menu-banque-prive',
@@ -10,13 +11,14 @@ import { Router } from '@angular/router';
 export class MenuBanquePriveComponent implements OnInit {
 
   faBars = faBars;
+  faSignOutAlt = faSignOutAlt;
   public selectedIndexs = [-1, -1, -1, -1];
   public baseUrl = '/brh/banque/prive/';
   public endUrl = ['portefeuille', 'transactions', 'clients', 'cartes', 'dashboard'];
 
   @Output() public sidenavToggle = new EventEmitter();
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private apiService: NodeapiService) { }
 
   ngOnInit() {
     const urlArray = this.router.url.split('/');
@@ -30,6 +32,10 @@ export class MenuBanquePriveComponent implements OnInit {
   public onClick(i: number) {
     console.log('navigating to ', i , this.endUrl[i]);
     this.router.navigateByUrl(this.baseUrl + this.endUrl[i]);
+  }
+
+  logout() {
+    this.apiService.logout();
   }
 
 }

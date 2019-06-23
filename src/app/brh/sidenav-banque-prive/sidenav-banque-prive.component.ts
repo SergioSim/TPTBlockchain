@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faHome, faUniversity, faAddressBook, faExchangeAlt, faCreditCard } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUniversity, faAddressBook, faExchangeAlt, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-sidenav-banque-prive',
@@ -14,14 +15,19 @@ export class SidenavBanquePriveComponent implements OnInit {
   faAddressBook = faAddressBook;
   faExchangeAlt = faExchangeAlt;
   faCreditCard = faCreditCard;
+  faSignOutAlt = faSignOutAlt;
 
-  constructor() { }
+  constructor(private apiService: NodeapiService) { }
 
   ngOnInit() {
   }
 
   public onSidenavClose = () => {
     this.sidenavClose.emit();
+  }
+
+  logout() {
+    this.apiService.logout();
   }
 
 }

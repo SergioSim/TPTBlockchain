@@ -16,12 +16,12 @@
                    </div>
                    <div class="contact-dialog-form">
                        <mat-form-field>
-                           <input matInput placeholder="Saisir la quantité" [(ngModel)]="quantite" >
+                           <input matInput type="number" placeholder="Saisir la quantité" [(ngModel)]="quantite" >
                        </mat-form-field>
-                       <mat-radio-group aria-label="Select an option" [(ngModel)]="typeMonnie">
-                          <mat-radio-button   value="electronique">Gourde éléctronique</mat-radio-button>
-                          <mat-radio-button   value="physique">Gourde physique</mat-radio-button>
-                       </mat-radio-group>                   
+                       <mat-form-field>
+                        <input matInput  type="password" placeholder="Saisir le mot de passe" [(ngModel)]="password" >
+                    </mat-form-field>
+                            
                    </div>
                    <div class="dialog-buttons">
                        <button mat-flat-button class="boutonConfirmer" (click)="confirmAddMonnie()">Confirmer</button> 

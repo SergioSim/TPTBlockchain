@@ -16,7 +16,8 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   transferAmount: number;
   confirmDialogRef: any;
   solde: number;
-
+  quantite:'';
+  password:'';
 
   constructor(
     private service: NodeapiService,
@@ -46,21 +47,6 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   openAddBankDialog(templateRef) {
 
     this.contactDialogRef = this.dialog.open(templateRef, { width: '250px' });
@@ -71,8 +57,17 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   }
 
   confirmAddMonnie(contact) {
+    this.service.makeRequest(apiUrl.issueDHTG, { password: this.password,id:48,montant:this.quantite }).
+      subscribe(res => {
+        console.log('yes');
+        this.getSoldeBRH();
 
+      }, error => {
+        console.log('got an error');
+        console.log(error);
+      });
     this.contactDialogRef.close();
+    this.snackBar.open('La banque wwwww a bien été supprimé.', 'Fermer', { duration: 5000, });
   }
 
   openConfirmDialog(templateRef) {

@@ -22,10 +22,10 @@ export class BanqueListComponent implements OnInit {
     private service: NodeapiService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private sogebankService : SogebankService
+    private sogebankService: SogebankService
   ) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  
+
   validBanque: {};
   formData: Banque;
   listBanqueVisible: any[];
@@ -125,30 +125,31 @@ export class BanqueListComponent implements OnInit {
       );
   }
 
+
+
+  
   validateBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
-      banqueNew: this.selectedBanque.Nom,
-      banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel, email: this.selectedBanque.Email,
-      isVisible: 1, statut: "validé"
-    }).
-      subscribe(res => {
+      banqueNew: this.selectedBanque.Nom, banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel,
+      email: this.selectedBanque.Email, isVisible: 1, statut: "validé"
+    }).subscribe(res => {
         this.refreshListBanque();
         this.refreshListBanqueValid();
+        this.service.makeRequest(apiUrl.unBlockBanque, { email: this.selectedBanque.Email }).
+          subscribe(res => {
+            console.log('Yes');
+          }, error => {
+            console.log('got an error 1');
+            console.log(this.selectedBanque.Email);
+
+            console.log(error);
+          });
       }, error => {
-        console.log('got an error');
+        console.log('got an error 2');
         console.log(error);
       });
     this.contactDialogRef.close();
     this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été validé.', 'Fermer', { duration: 5000, });
-
-
-
-    this.service.register("nadir@nadirnadir", "rpDZZ8745EFEFZ", this.capitalizeName("3ververvFZEOBZE3"),
-      this.capitalizeName("reooerhi"), 'Sogebank', this.clientType);
-  }
-
-  capitalizeName(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
   openAddBankDialog(templateRef) {

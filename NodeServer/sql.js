@@ -99,6 +99,8 @@ module.exports = {
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
-        'UPDATE utilisateur SET Role_Id = 3 WHERE Email=?'
+        'UPDATE utilisateur SET Role_Id = 3 WHERE Email=?',
+  'unBlockBanque' : 
+        'UPDATE utilisateur SET Role_Id = 5 WHERE Email=?'
 
 }

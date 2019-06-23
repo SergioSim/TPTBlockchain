@@ -431,6 +431,7 @@ export enum apiUrl {
   portefeuillesByUserEmail = 'POST$portefeuillesByUserEmail/',
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',
+  unBlockBanque = 'PUT$unBlockBanque/',
   updateClient = 'PUT$updateClient/',
   updateCarte = 'PUT$updateCarte/',
   updatePortefeuilleLibelle = 'PUT$updatePortefeuilleLibelle/',

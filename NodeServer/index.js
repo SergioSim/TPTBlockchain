@@ -467,6 +467,26 @@ app.put('/unBlockClient', [
     });
 });
 
+app.put('/unBlockBanque', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().normalizeEmail(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+
+        conn.query(sql.unBlockBanque, [req.body.email], function(err, result){
+            console.log(err);
+            console.log(result);
+            return res.send({ succes: !err && result.affectedRows != 0});
+        });
+    });
+});
+
 app.post('/createBankClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),

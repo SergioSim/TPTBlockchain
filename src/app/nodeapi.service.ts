@@ -245,18 +245,23 @@ getTransactions(iaddress) {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
   return this.http.get<any>(this.urlOpenchain + 'query/recordmutations?key=' + address, {}).pipe(map(
       res => {
-        apilog('Got response:' + res);
         const transactions: Transaction[] = [];
         const observables = [];
         const mHashes = [];
         let index = 0;
         res.forEach(element => {
           element = element.mutation_hash;
-          //console.log('calling mutation: ', element);
           observables.push(this.http.get(
             this.urlOpenchain + 'query/transaction?format=raw&mutation_hash=' + element));
           mHashes.push(element);
           });
+        if (observables.length === 0) {
+          return new Observable(sub => {
+            sub.next(transactions);
+            sub.complete();
+          }).pipe(map(
+            result => transactions));
+        }
         return forkJoin(observables).pipe(map(
           result => {
             if (!this.transactionSchema || !this.mutationSchema) {

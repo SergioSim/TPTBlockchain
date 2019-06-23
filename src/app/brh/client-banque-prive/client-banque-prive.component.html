@@ -76,9 +76,26 @@
         [style.background]="selectedPortefeuille && selectedPortefeuille.Id == row.Id ? 'lightgreen' : ''"></mat-row>
     </mat-table>
   </div>
-    <div *ngIf="showTransactions">
       <div class="contentTransactions">
       <h2>Transactions :</h2>
+      <div *ngIf="showTransactions">
+      <div class="gridcontainer2">
+          <ul class="heroes">
+            <li><span class="badge">Solde</span>
+              <p>{{selectedSolde}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li><span class="badge">Crédit</span>
+              <p>{{selectedCredit}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li><span class="badge">Débit</span>
+              <p>{{selectedDebit}}</p>
+            </li>
+          </ul>
+      </div>
       <div class="example-container mat-elevation-z8">
         <mat-table class="clients-table mat-elevation-z8" [dataSource]="transactions" matSort>
 

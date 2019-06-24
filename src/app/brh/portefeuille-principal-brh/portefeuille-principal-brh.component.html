@@ -41,15 +41,15 @@
         </h4>
         <div class="infos-virement">
             <p>Numéro du portefeuille est 116456154515545VEORUOHZEVZ44</p>
-            <p>Débit total : 10 000 DHTG</p>
+            <p>Solde : {{solde}} </p>
         </div>
         <h4>
             Vers le portefeuille :
         </h4>
         <mat-form-field>
           <mat-label>Sélectionner une banque</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let banque of listBanqueValid" [value]="banque.Nom">
+          <mat-select #banqueValue (selectionChange)="changeBanque($event.value)">
+            <mat-option *ngFor="let banque of listBanqueValid" [value]="banque.Nom" >
               {{banque.Nom}}
             </mat-option>
           </mat-select>
@@ -73,15 +73,13 @@
                 <div class="dialog-info-left">
                     <div class="dialog-info">
                         <p>De :</p>
-                        <p><strong></strong></p>
-                      <!--  <p><strong>{{dialogProperties.from}}</strong></p>   -->
+                        <p><strong>{{ portefeuillePrincipale }}</strong></p>   
 
                         <hr>
                     </div>
                     <div class="dialog-info">
                         <p>Montant débité :</p>
-                    <!--    <p><strong>{{dialogProperties.amout}} DHTG</strong></p>  -->
-                        <p><strong>DHTG</strong></p>
+                    <p><strong>{{transferAmount}} DHTG</strong></p>  
 
                         <hr>
                     </div>
@@ -94,16 +92,15 @@
                 </div>
                 <div class="dialog-info-right">
                     <div class="dialog-info">
-                        <p>Vers : {{banque}}</p>
-                   <!--     <p><strong>{{dialogProperties.to}}</strong></p>  -->
-                        <p><strong></strong></p>
+                        <p>Vers : </p>
+                        <p><strong>{{banqueNomSelected}}</strong></p>
 
                         <hr>
                     </div>
                     <div class="dialog-info">
                         <p>Solde après opération :</p>
                    <!--     <p><strong>{{dialogProperties.afterTransfer}} DHTG</strong></p>
-                   -->     <p><strong>DHTG</strong></p>
+                   -->     <p><strong>{{(soldeTotal - transferAmount)}} DHTG</strong></p>
 
                         <hr>
                     </div>

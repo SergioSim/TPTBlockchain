@@ -3,6 +3,9 @@ import { apiUrl, NodeapiService } from 'src/app/nodeapi.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { Banque } from 'src/app/banque.modele';
+import { ThrowStmt } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Portefeuille } from 'src/app/Portefeuille.modele';
 
 @Component({
   selector: 'app-portefeuille-principal-brh',
@@ -12,17 +15,18 @@ import { Banque } from 'src/app/banque.modele';
 export class PortefeuillePrincipalBrhComponent implements OnInit {
 
   contactDialogRef: any;
-  typeMonnie: '';
-  quantitte: '';
   transferAmount: number;
   confirmDialogRef: any;
   listBanqueValid: any;
   solde: number;
+  soldeApres: number;
   quantite: '';
   password: '';
-  banque: {
-    Nom:''
-  }
+  banqueNomSelected:'';
+  portefeuillePrincipale:string;
+  soldeTotal:number;
+
+  
  
 
   constructor(
@@ -35,6 +39,8 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   ngOnInit() {
     this.getSoldeBRH();
     this.getListBanqueValid();
+    this.portefeuillePrincipale='Portefeuille principale BRH';
+
   }
 
   getListBanqueValid() {
@@ -54,6 +60,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
             if (data[0] && data[0].balance) {
               portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
               this.solde = portefeuille.Solde;
+              this.soldeTotal=data[0].balance;
             }
           },
           error => {
@@ -100,13 +107,18 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
     return true;
   }
 
+  changeBanque(value) {
+    this.banqueNomSelected=value;
+    console.log("nadir"+value);
+}
   confirmTransferTo() {
 
    this.service.makeRequest(apiUrl.transferTo,{id:48,password:'aPassword',clePubDestinataire:'XfXCkMYwNK1UhbR5isbxvynAKocaRzMJ3m'
-   ,montant:500,memo:'test'}
+   ,montant:this.transferAmount,memo:'virement'}
    ).subscribe(
       data => {
         console.log("oui");
+        console.log("oui"+this.banqueNomSelected);
         this.getSoldeBRH();
       },
       error => {
@@ -117,7 +129,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
     this.confirmDialogRef.close();
 
     this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-      + + ' à bien été effectué.', 'Fermer', {
+      + this.banqueNomSelected+ ' à bien été effectué avec succès.', 'Fermer', {
         duration: 5000,
       });
   }

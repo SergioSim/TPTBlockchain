@@ -157,13 +157,13 @@ toHexString = bytes =>
     this.prenom = obj.prenom;
     this.fullname = obj.prenom + ' ' + obj.nom;
     this.civilite = obj.civilite;
-    this.situationFamiliale = obj.situation_familiale;
+    this.situationFamiliale = obj.situationFamiliale;
     this.profession = obj.profession;
     this.siret = obj.siret;
     this.tel = obj.tel;
     this.adresse = obj.adresse;
     this.ville = obj.ville;
-    this.codePostal = obj.code_postal;
+    this.codePostal = obj.codePostal;
     this.statut = obj.statut;
     this.documents = obj.documents;
     this.permission = obj.permission;

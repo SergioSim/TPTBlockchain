@@ -398,13 +398,13 @@ app.put('/updateClient', [
     check('nom').optional().isAlpha().escape().trim(),
     check('prenom').optional().isAlpha().escape().trim(),
     check('civilite').optional().isAlpha().escape().trim(),
-    check('situation_familiale').optional().isAlpha().escape().trim(),
+    check('situationFamiliale').optional().isAlpha().escape().trim(),
     check('profession').optional().isAlpha().escape().trim(),
     check('siret').optional().isAlpha().escape().trim(),
     check('tel').optional().isMobilePhone().escape().trim(),
     check('adresse').optional().isString().escape(),
     check('ville').optional().isString().escape(),
-    check('code_postal').optional().isString().escape(),
+    check('codePostal').optional().isString().escape(),
     check('oldPassword').optional().isLength({ min: 5 }).escape(),
     check('newPassword').optional().isLength({ min: 5 }).escape(),
     outils.handleValidationResult], 
@@ -421,13 +421,13 @@ app.put('/updateClient', [
         const aNom = outils.hasChanged(req.body.nom, result[0].Nom);
         const aPrenom = outils.hasChanged(req.body.prenom, result[0].Prenom);
         const aCivilite = outils.hasChanged(req.body.civilite, result[0].Civilite);
-        const asituation_familiale = outils.hasChanged(req.body.situation_familiale, result[0].Situation_Familiale);
+        const asituationFamiliale = outils.hasChanged(req.body.situationFamiliale, result[0].Situation_Familiale);
         const aprofession = outils.hasChanged(req.body.profession, result[0].Profession);
         const asiret = outils.hasChanged(req.body.siret, result[0].Siret);
         const atel = outils.hasChanged(req.body.tel, result[0].Tel);
         const aadresse = outils.hasChanged(req.body.adresse, result[0].Adresse);
         const aville = outils.hasChanged(req.body.ville, result[0].Ville);
-        const acode_postal = outils.hasChanged(req.body.code_postal, result[0].Code_postal);
+        const acodePostal = outils.hasChanged(req.body.codePostal, result[0].Code_postal);
         const skipPassword = req.body.oldPassword === undefined || req.body.newPassword === undefined;
         let aPassword = (skipPassword) ? result[0].Password : outils.hashPassword(req.body.newPassword);
         if(!skipPassword){
@@ -452,7 +452,7 @@ app.put('/updateClient', [
                 }
             });
         }
-        conn.query(sql.updateClient, [aEmail, aPassword, aNom, aPrenom, aCivilite,asituation_familiale, aprofession, asiret, atel, aadresse, aville, acode_postal, aOldEmail], function(err, result){
+        conn.query(sql.updateClient, [aEmail, aPassword, aNom, aPrenom, aCivilite,asituationFamiliale, aprofession, asiret, atel, aadresse, aville, acodePostal, aOldEmail], function(err, result){
             console.log(err);
             console.log(result);
             return res.send({ succes: !err && result.affectedRows != 0});
@@ -779,13 +779,13 @@ app.post('/auth', [
                         nom: result.Nom,
                         prenom: result.Prenom,
                         civilite: result.Civilite,
-                        situation_familiale: result.Situation_Familiale,
+                        situationFamiliale: result.Situation_Familiale,
                         profession: result.Profession,
                         siret: result.Siret,
                         tel: result.Tel,
                         adresse: result.Adresse,
                         ville: result.Ville,
-                        code_postal: result.Code_Postal,
+                        codePostal: result.Code_Postal,
                         statut: result.Status,
                         documents: result.Documents,
                         permission: result.Libelle});

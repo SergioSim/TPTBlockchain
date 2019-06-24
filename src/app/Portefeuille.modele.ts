@@ -5,5 +5,6 @@ export class Portefeuille {
     Date: string;
     MaxTransaction :number
     MaxTransactionMoi:number;
-    Status :string
+    Status :string;
+    ClePub:string;
 }

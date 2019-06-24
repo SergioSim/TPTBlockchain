@@ -22,13 +22,11 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   soldeApres: number;
   quantite: '';
   password: '';
-  banqueNomSelected:'';
-  portefeuillePrincipale:string;
-  soldeTotal:number;
-
-  
- 
-
+  banqueNomSelected: '';
+  portefeuillePrincipale: string;
+  soldeTotal: number;
+  portefeuilleDestinataire:any;
+  clePubDestinataire:string;
   constructor(
     private service: NodeapiService,
     private dialog: MatDialog,
@@ -39,7 +37,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   ngOnInit() {
     this.getSoldeBRH();
     this.getListBanqueValid();
-    this.portefeuillePrincipale='Portefeuille principale BRH';
+    this.portefeuillePrincipale = 'Portefeuille principale BRH';
 
   }
 
@@ -48,7 +46,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
       subscribe(res => {
         this.listBanqueValid = res as Banque[];
       }
-    );
+      );
   }
 
   getSoldeBRH() {
@@ -60,7 +58,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
             if (data[0] && data[0].balance) {
               portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
               this.solde = portefeuille.Solde;
-              this.soldeTotal=data[0].balance;
+              this.soldeTotal = data[0].balance;
             }
           },
           error => {
@@ -108,28 +106,56 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   }
 
   changeBanque(value) {
-    this.banqueNomSelected=value;
-    console.log("nadir"+value);
-}
+    this.banqueNomSelected = value;
+    console.log("nadir" + value);
+  }
+  geteEmailByNom() {
+    return this.listBanqueValid.find(pt => pt.Nom == this.banqueNomSelected).Email;
+  }
+
+  getPortefeuille(){
+    this.service.makeRequest(apiUrl.portefeuillesByBanqueEmail,{email:this.geteEmailByNom()}).subscribe(
+      
+        res=> {
+          for (const portefeuille of res) {
+  
+          this.portefeuilleDestinataire = portefeuille;
+          this.clePubDestinataire=this.portefeuilleDestinataire.ClePub;
+          }
+          console.log("coucou"+this.portefeuilleDestinataire.ClePub);
+
+     //   this.portefeuilleDestinataire=res;
+        console.log("xxxxxxxxxxxxxxxxx");
+        console.log(res);
+        console.log("xxxxxxxxxxxxxxxxx");
+
+     //   console.log(this.portefeuilleDestinataire);
+
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
   confirmTransferTo() {
 
-   this.service.makeRequest(apiUrl.transferTo,{id:48,password:'aPassword',clePubDestinataire:'XfXCkMYwNK1UhbR5isbxvynAKocaRzMJ3m'
-   ,montant:this.transferAmount,memo:'virement'}
-   ).subscribe(
+    this.getPortefeuille();
+    console.log(this.clePubDestinataire);
+    this.service.makeRequest(apiUrl.transferTo, {
+      id:48, password: 'aPassword', clePubDestinataire: "XfqX9o8KX2t5uTD5GVm4fZXsgsCUatqWQi"
+      , montant: this.transferAmount, memo: 'virement'
+    }
+    ).subscribe(
       data => {
         console.log("oui");
-        console.log("oui"+this.banqueNomSelected);
+        console.log("oui" + this.banqueNomSelected);
         this.getSoldeBRH();
       },
       error => {
         console.log(error);
       })
-  
-
     this.confirmDialogRef.close();
-
     this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-      + this.banqueNomSelected+ ' à bien été effectué avec succès.', 'Fermer', {
+      + this.banqueNomSelected + ' à bien été effectué avec succès.', 'Fermer', {
         duration: 5000,
       });
   }

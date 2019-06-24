@@ -28,7 +28,9 @@ module.exports = {
         'FROM carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
          'SELECT Email, Nom, Tel, isVisible ' + 
-         'FROM banque WHERE Nom LIKE BINARY ?',    
+         'FROM banque WHERE Nom LIKE BINARY ?',  
+  'findPortefeuillesByBanqueEmail' :
+  'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesByEmail' :
         'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findContactsByEmail' :

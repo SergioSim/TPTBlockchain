@@ -353,13 +353,7 @@ getTransactions(iaddress) {
   MaxTransactionMoi:number;
   Status :string
   _contactList: Portefeuille[] =  [
-     { ID: 1 , Nom: 'Société général', Portefeuille: 'CZKFBZEKFBZE45151', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-    ,{ ID: 2, Nom: 'Sogebank', Portefeuille: 'ZEIFIBZEFIZBEFIUBZ', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-    ,{ ID: 3 , Nom: 'Bank Afrique', Portefeuille: 'FRE454RE45E4R54', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-    ,{ ID: 4 , Nom: 'IT Bank', Portefeuille: 'EF4F445EF45EF545E', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-    ,{ ID: 5 , Nom: 'Crédit agricole', Portefeuille: '56ZEFZEF556ZE6556', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-    ,{ ID: 6 , Nom: 'AZERTY Bank', Portefeuille: 'ZFOOZEHFOZEHFZEFZEF', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif'}
-  ];
+     { ID: 1 , Nom: 'Société général', Portefeuille: 'CZKFBZEKFBZE45151', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif',ClePub:'fojfdj'}];
 
   _monnieElectronqueList =  [
     { ID: 1 , NomMonnieX: 'DHTG', UniteMonnieX: 1, NomMonnieY: 'BITCOIN', UniteMonnieY:5},
@@ -430,6 +424,7 @@ export enum apiUrl {
   createContact = 'POST$createContact/',
   cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
   portefeuillesByUserEmail = 'POST$portefeuillesByUserEmail/',
+  portefeuillesByBanqueEmail = 'POST$portefeuillesByBanqueEmail/',
   blockClient = 'PUT$blockClient/',
   unBlockClient = 'PUT$unBlockClient/',
   unBlockBanque = 'PUT$unBlockBanque/',

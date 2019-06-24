@@ -125,6 +125,19 @@ app.post('/cardsByPortefeuilleIds', [
     });
 })
 
+
+app.post('/portefeuillesByBanqueEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('email').isEmail().escape().trim(),
+    outils.handleValidationResult],
+    function(req, res) {
+  
+    conn.query(sql.findPortefeuillesByBanqueEmail, req.body.email, function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not fetch wallets']});
+        res.send((err) ? "Error" : result);
+    });
+})
 app.post('/portefeuillesByUserEmail', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
@@ -638,7 +651,7 @@ app.post('/submit', [
     check('memo').optional().isAlphanumeric().escape(),
     outils.handleValidationResult], 
     function(req, res) {
-    
+    find
     const monPortefeuille = req.jwt.Portefeuilles.find(pt => pt.Id === req.body.id);
     if(!monPortefeuille) return res.status(404).send({ succes: false, errors: ["Mauvais ID!"] });
     conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){

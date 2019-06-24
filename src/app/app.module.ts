@@ -65,6 +65,7 @@ import { TableMonnieElectroniqueComponent } from './brh/parametre-brh/table-monn
 import { TableMonniePhysiqueComponent } from './brh/parametre-brh/table-monnie-physique/table-monnie-physique.component';
 import { ClientBanquePriveComponent } from './brh/client-banque-prive/client-banque-prive.component';
 import { ParametresBrhComponent } from './brh/parametres-brh/parametres-brh.component';
+import { InfoPersonelBanquePriveComponent } from './brh/info-personel-banque-prive/info-personel-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { ParametresBrhComponent } from './brh/parametres-brh/parametres-brh.comp
     TableMonnieElectroniqueComponent,
     TableMonniePhysiqueComponent,
     ClientBanquePriveComponent,
+    InfoPersonelBanquePriveComponent,
   ],
   imports: [
     BrowserModule,
@@ -158,6 +160,7 @@ import { ParametresBrhComponent } from './brh/parametres-brh/parametres-brh.comp
     MatCardModule,
     MatMenuModule
   ],
+  entryComponents: [EspaceUtilisateurBanquePriveComponent, InfoPersonelBanquePriveComponent],
   providers: [
     Title,
     NodeapiService

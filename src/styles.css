@@ -11,3 +11,21 @@ body {
   margin: 0;
   min-height: 100vh;
 }
+
+.succes-snackbar {
+  background: #4ac52c;
+  color: #ffffff;
+}
+
+.succes-snackbar button {
+  color: #e6e6e6;
+}
+
+.alert-snackbar {
+  background: #f44336;
+  color: #ffffff;
+}
+
+.alert-snackbar button {
+  color: #e6e6e6;
+}

@@ -405,7 +405,7 @@ app.put('/updateClient', [
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
         const aEmail = (req.body.email === undefined) ? aOldEmail : req.body.email;
-        const aNom = outils.hasChanged(req.body.Nom, result[0].Nom);
+        const aNom = outils.hasChanged(req.body.nom, result[0].Nom);
         const aPrenom = outils.hasChanged(req.body.prenom, result[0].Prenom);
         const aCivilite = outils.hasChanged(req.body.civilite, result[0].Civilite);
         const asituation_familiale = outils.hasChanged(req.body.situation_familiale, result[0].Situation_Familiale);

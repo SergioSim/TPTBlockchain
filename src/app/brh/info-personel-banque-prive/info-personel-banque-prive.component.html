@@ -1,0 +1,10 @@
+<div class="info-form">
+    <mat-form-field>
+      <input matInput [placeholder]="data.name" [formControl]="valueFC" [value]="data.value">
+      <mat-error *ngIf="valueFC.hasError('required')">
+          Ce champ est <strong>requis</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button" [disabled]="valueFC.invalid">VALIDER</button>
+    <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+  </div>

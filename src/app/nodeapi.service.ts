@@ -190,11 +190,7 @@ toHexString = bytes =>
     apilog('codePostal: ' + this.codePostal);
     apilog('documents: ' + this.documents);
     apilog('permission: ' + this.permission);
-    apilog('adresse : ' + this.adresse);
-    apilog('banque : ' + this.banque);
-    apilog('email : ' + this.email);
     apilog('statut : ' + this.statut);
-    apilog('permission : ' + this.permission);
   }
 
   isConnected() {

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NodeapiService } from 'src/app/nodeapi.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDialogConfig } from '@angular/material';
 import { BanqueClient } from '../clients-banque-prive/clients-banque-prive.component';
+import { InfoPersonelBanquePriveComponent } from '../info-personel-banque-prive/info-personel-banque-prive.component';
 
 
 @Component({
@@ -17,8 +18,9 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private apiService: NodeapiService,
-    private snackBar: MatSnackBar
+    public apiService: NodeapiService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     if (!apiService.isConnected() || !(apiService.permission === 'Banque' || apiService.permission === 'Admin' )) {
       this.router.navigate(['/brh/accueil']);
@@ -43,4 +45,17 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
     this.showClients = false;
   }
 
+  update(name: string, value: string) {
+    console.log('name', name , 'value', value);
+    this.dialog.open(InfoPersonelBanquePriveComponent, {
+      width: '250px',
+      data: {name, value}
+    });
+  }
+
+}
+
+export interface DialogData {
+  name: string;
+  value: string;
 }

@@ -5,11 +5,48 @@
   <mat-sidenav-content>
     <app-menu-banque-prive (sidenavToggle)="sidenav.toggle()"></app-menu-banque-prive>
     <main>
-      <app-portefeuille-banque-prive *ngIf="this.router.url == '/brh/banque/prive/portefeuille'"></app-portefeuille-banque-prive>
-      <app-transactions-banque-prive *ngIf="this.router.url == '/brh/banque/prive/transactions'"></app-transactions-banque-prive>
-      <app-clients-banque-prive (selectedClient)="handleSelectedClient($event)" *ngIf="this.router.url == '/brh/banque/prive/clients'"></app-clients-banque-prive>
+      <app-portefeuille-banque-prive *ngIf="this.router.url == '/brh/banque/prive/portefeuille'">
+      </app-portefeuille-banque-prive>
+      <app-transactions-banque-prive *ngIf="this.router.url == '/brh/banque/prive/transactions'">
+      </app-transactions-banque-prive>
+      <app-clients-banque-prive (selectedClient)="handleSelectedClient($event)"
+        *ngIf="this.router.url == '/brh/banque/prive/clients'"></app-clients-banque-prive>
       <app-client-banque-prive [setSelectedClient]="selectedClient" *ngIf="!showClients"></app-client-banque-prive>
       <app-cartes-banque-prive *ngIf="this.router.url == '/brh/banque/prive/cartes'"></app-cartes-banque-prive>
+      <div *ngIf="this.router.url == '/brh/banque/prive/dashboard'">
+        <h2>Bienvenue {{apiService.nom}}</h2>
+        <p> Ceci est votre espcace de gestion Digital Haitian Gourde</p>
+        <h2>Gerer vos informations personnels</h2>
+        <div class="gridcontainer">
+          <ul class="heroes">
+            <li (click)="update('email', apiService.email)"><span class="badge">Email</span>
+              <p>{{apiService.email}}</p>
+            </li>
+            <li (click)="update('nom', apiService.nom)"><span class="badge">Nom</span>
+              <p>{{apiService.nom}}</p>
+            </li>
+            <li (click)="update('prenom', apiService.prenom)"><span class="badge">Prenom</span>
+              <p>{{apiService.prenom}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li (click)="update('adresse', apiService.adresse)"><span class="badge">Adresse</span>
+              <p>{{apiService.adresse}}</p>
+            </li>
+            <li (click)="update('ville', apiService.ville)"><span class="badge">Ville</span>
+              <p>{{apiService.ville}}</p>
+            </li>
+            <li (click)="update('code_postal', apiService.codePostal)"><span class="badge">Code Postal</span>
+              <p>{{apiService.codePostal}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li (click)="update('siret', apiService.siret)"><span class="badge">Siret</span>
+              <p>{{apiService.siret}}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

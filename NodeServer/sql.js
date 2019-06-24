@@ -11,9 +11,9 @@ module.exports = {
   'insertBanque_0_3' : 
         'INSERT INTO banque (Nom,Email,Tel,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
   'insertCommercantDocs' : 
-        'INSERT INTO document (Status,Annonce_Legale) VALUES (2,?) WHERE Id = ?',
+        'INSERT INTO document (Email,Annonce_Legale) VALUES (?,?)',
   'insertParticulierDocs' : 
-        'INSERT INTO document (Status,Piece_Identite,Justificatif_Domicile) VALUES (2,?,?) WHERE Id = ?',
+        'INSERT INTO document (Email,Piece_Identite,Justificatif_Domicile) VALUES (?,?,?)',
   'insertCarte' : 
         'INSERT INTO carte (Libelle,Portefeuille_id,Creation) VALUES (?,?,?)',
   'insertMonnie' : 
@@ -21,7 +21,7 @@ module.exports = {
   'insertParametre' :
         'INSERT INTO parametre (Nom, Description, DateCreation) VALUES (?,?,?)',
   'findUtilisateurByEmail' : 
-  'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
+  'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Secteur_Activite, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
   'findCartesByPortefeuilleIds' : 
         'SELECT Id, Libelle, Portefeuille_Id, Creation ' + 
@@ -82,12 +82,16 @@ module.exports = {
   'updateClient' : 
         'UPDATE utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
+  'updateCommercantDocs' : 
+        'UPDATE document SET Annonce_Legale = ? WHERE Email = ?',
+  'updateParticulierDocs' : 
+        'UPDATE document SET Piece_Identite = ?, Justificatif_Domicile = ? WHERE Email = ?',
   'updateCommercantInfo' : 
         'UPDATE utilisateur SET Statut_Juridique = ?, Siret = ?, Secteur_Activite = ?, Tel = ?,' + 
-        ' Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
+        ' Adresse = ?, Ville = ?, Code_Postal = ?, Status = ? WHERE Email = ?',
   'updateParticulierInfo' : 
         'UPDATE utilisateur SET Civilite = ?, Situation_Familiale = ?, Profession = ?,' + 
-        ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',
+        ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ?, Status = ? WHERE Email = ?',
   'updateParametre' :
         'UPDATE parametre SET Nom = ?, Description = ?  WHERE Id = ?',
   'updatePortefeuille' : 

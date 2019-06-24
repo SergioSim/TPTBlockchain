@@ -26,6 +26,7 @@ export class NodeapiService {
   public civilite: string;
   public situationFamiliale: string;
   public profession: string;
+  public secteurActivite: string;
   public siret: string;
   public tel: string;
   public adresse: string;
@@ -159,6 +160,7 @@ toHexString = bytes =>
     this.civilite = obj.civilite;
     this.situationFamiliale = obj.situationFamiliale;
     this.profession = obj.profession;
+    this.secteurActivite = obj.secteurActivite;
     this.siret = obj.siret;
     this.tel = obj.tel;
     this.adresse = obj.adresse;
@@ -183,6 +185,7 @@ toHexString = bytes =>
     apilog('civilite: ' + this.civilite);
     apilog('situationFamiliale: ' + this.situationFamiliale);
     apilog('profession: ' + this.profession);
+    apilog('secteurActivite: ' + this.secteurActivite);
     apilog('siret: ' + this.siret);
     apilog('tel: ' + this.tel);
     apilog('adresse: ' + this.adresse);
@@ -422,6 +425,10 @@ export enum apiUrl {
   createPortefeuille = 'POST$createPortefeuille/',
   createCarte = 'POST$createCarte/',
   createContact = 'POST$createContact/',
+  insertCommercantDocs = 'POST$insertCommercantDocs',
+  insertParticulierDocs = 'POST$insertParticulierDocs',
+  updateCommercantDocs = 'POST$updateCommercantDocs',
+  updateParticulierDocs = 'POST$updateParticulierDocs',
   cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
   portefeuillesByUserEmail = 'POST$portefeuillesByUserEmail/',
   portefeuillesByBanqueEmail = 'POST$portefeuillesByBanqueEmail/',

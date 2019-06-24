@@ -534,6 +534,52 @@ app.post('/createContact', [
     });
 });
 
+app.post('/insertCommercantDocs', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('tel').isNumeric().isLength({ min: 1 }).escape(),
+    check('addresse').isLength({ min: 1 }).escape(),
+    check('ville').isLength({ min: 1 }).escape(),
+    check('codePostal').isNumeric().isLength({ min: 1 }).escape(),
+    check('annonceLegale').isLength({ min: 1 }).escape(),
+    check('statutJuridique').isLength({ min: 1 }).escape(),
+    check('siret').isNumeric().isLength({ min: 1 }).escape(),
+    check('secteurActivite').isLength({ min: 1 }).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    let annonceLegaleBlob = Buffer.from(req.body.annonceLegale, 'base64');
+    conn.query(sql.insertCommercantDocs, [req.jwt.Email, annonceLegaleBlob], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not upload documents']});
+        conn.query(sql.updateCommercantInfo, [req.body.statutJuridique, req.body.siret, req.body.secteurActivite, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
+            return res.send({success: !err});
+        });
+    });
+});
+
+app.post('/updateCommercantDocs', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('tel').isNumeric().isLength({ min: 1 }).escape(),
+    check('addresse').isLength({ min: 1 }).escape(),
+    check('ville').isLength({ min: 1 }).escape(),
+    check('codePostal').isNumeric().isLength({ min: 1 }).escape(),
+    check('annonceLegale').isLength({ min: 1 }).escape(),
+    check('statutJuridique').isLength({ min: 1 }).escape(),
+    check('siret').isNumeric().isLength({ min: 1 }).escape(),
+    check('secteurActivite').isLength({ min: 1 }).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    let annonceLegaleBlob = Buffer.from(req.body.annonceLegale, 'base64');
+    conn.query(sql.updateCommercantDocs, [annonceLegaleBlob, req.jwt.Email], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not upload documents']});
+        conn.query(sql.updateCommercantInfo, [req.body.statutJuridique, req.body.siret, req.body.secteurActivite, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
+            return res.send({success: !err});
+        });
+    });
+});
+
 app.delete('/deleteBank', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
@@ -781,6 +827,7 @@ app.post('/auth', [
                         civilite: result.Civilite,
                         situationFamiliale: result.Situation_Familiale,
                         profession: result.Profession,
+                        secteurActivite: result.Secteur_Activite,
                         siret: result.Siret,
                         tel: result.Tel,
                         adresse: result.Adresse,

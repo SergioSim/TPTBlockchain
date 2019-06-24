@@ -24,7 +24,7 @@ export class SogebankService {
         this.apiService.getTransactions(portefeuille.ClePub).subscribe(
           sub => {
             sub.subscribe( res => {
-            portefeuille.Transactions = res;
+                portefeuille.Transactions = res;
             }, err => {
               console.log(err);
             }, () => {
@@ -39,9 +39,12 @@ export class SogebankService {
                   console.log(error);
                 },
                 () => {
-                  this.countTotals();
-                  callback(callbackComponent);
-                });
+                  // Ensure that transaction processing is complete before returning
+                  setTimeout(() => {
+                    this.countTotals();
+                    callback(callbackComponent);
+                  }, 300);
+                  });
             });
           });
       }

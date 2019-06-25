@@ -19,7 +19,9 @@ export class DocumentsSogebankComponent implements OnInit {
   faTimesCircle = faTimesCircle;
   // Particulier fields
   pieceIdentite: File;
+  pieceIdentiteBuffer: string | ArrayBuffer;
   justificatifDomicile: File;
+  justificatifDomicileBuffer: string | ArrayBuffer;
   selectedCivilite: string;
   selectedSituation: string;
   profession: string;
@@ -63,8 +65,6 @@ export class DocumentsSogebankComponent implements OnInit {
     } else if (this.apiService.permission === Role.DEMANDECOMMERCANT) {
       this.siret = Number(this.apiService.siret);
       this.secteurActivite = this.apiService.secteurActivite;
-      console.log(this.apiService.secteurActivite);
-      console.log(this.secteurActivite);
     }
   }
 
@@ -73,7 +73,14 @@ export class DocumentsSogebankComponent implements OnInit {
   }
 
   pieceIdentiteChange(file) {
-    this.pieceIdentite = file[0];
+    if (file && file.length > 0) {
+      this.pieceIdentite = file[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file[0]);
+      reader.onload = () => {
+        this.pieceIdentiteBuffer = reader.result;
+      };
+    }
   }
 
   openJustificatifDomicileInput() {
@@ -81,7 +88,14 @@ export class DocumentsSogebankComponent implements OnInit {
   }
 
   justificatifDomicileChange(file) {
-    this.justificatifDomicile = file[0];
+    if (file && file.length > 0) {
+      this.justificatifDomicile = file[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file[0]);
+      reader.onload = () => {
+        this.justificatifDomicileBuffer = reader.result;
+      };
+    }
   }
 
   openAnnonceLegaleInput() {
@@ -100,11 +114,11 @@ export class DocumentsSogebankComponent implements OnInit {
   }
 
   submitParticulierDocs() {
-    if (this.pieceIdentite && this.justificatifDomicile && this.selectedCivilite && this.selectedSituation
+    if (this.pieceIdentiteBuffer && this.justificatifDomicileBuffer && this.selectedCivilite && this.selectedSituation
       && this.profession && this.tel && this.addresse && this.ville && this.codePostal) {
         const particulierDocs = {
-          pieceIdentite: this.pieceIdentite,
-          justificatifDomicile: this.justificatifDomicile,
+          pieceIdentite: this.pieceIdentiteBuffer,
+          justificatifDomicile: this.justificatifDomicileBuffer,
           civilite: this.selectedCivilite,
           situation: this.selectedSituation,
           profession: this.profession,
@@ -135,7 +149,9 @@ export class DocumentsSogebankComponent implements OnInit {
           });
         }
     }
-    return;
+    this.snackBar.open('Veuillez renseigner toutes les informations nécessaires avant de valider.', 'Fermer', {
+      duration: 5000,
+    });
   }
 
   submitCommercantDocs() {

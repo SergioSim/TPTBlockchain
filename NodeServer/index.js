@@ -580,6 +580,56 @@ app.post('/updateCommercantDocs', [
     });
 });
 
+app.post('/insertParticulierDocs', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('tel').isNumeric().isLength({ min: 1 }).escape(),
+    check('addresse').isLength({ min: 1 }).escape(),
+    check('ville').isLength({ min: 1 }).escape(),
+    check('codePostal').isNumeric().isLength({ min: 1 }).escape(),
+    check('pieceIdentite').isLength({ min: 1 }).escape(),
+    check('justificatifDomicile').isLength({ min: 1 }).escape(),
+    check('civilite').isLength({ min: 1 }).escape(),
+    check('situation').isLength({ min: 1 }).escape(),
+    check('profession').isLength({ min: 1 }).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    let pieceIdentiteBlob = Buffer.from(req.body.pieceIdentite, 'base64');
+    let justificatifDomicileBlob = Buffer.from(req.body.justificatifDomicile, 'base64');
+    conn.query(sql.insertParticulierDocs, [req.jwt.Email, pieceIdentiteBlob, justificatifDomicileBlob], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not upload documents']});
+        conn.query(sql.updateParticulierInfo, [req.body.civilite, req.body.situation, req.body.profession, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
+            return res.send({success: !err});
+        });
+    });
+});
+
+app.post('/updateParticulierDocs', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('tel').isNumeric().isLength({ min: 1 }).escape(),
+    check('addresse').isLength({ min: 1 }).escape(),
+    check('ville').isLength({ min: 1 }).escape(),
+    check('codePostal').isNumeric().isLength({ min: 1 }).escape(),
+    check('pieceIdentite').isLength({ min: 1 }).escape(),
+    check('justificatifDomicile').isLength({ min: 1 }).escape(),
+    check('civilite').isLength({ min: 1 }).escape(),
+    check('situation').isLength({ min: 1 }).escape(),
+    check('profession').isLength({ min: 1 }).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    let pieceIdentiteBlob = Buffer.from(req.body.pieceIdentite, 'base64');
+    let justificatifDomicileBlob = Buffer.from(req.body.justificatifDomicile, 'base64');
+    conn.query(sql.updateParticulierDocs, [pieceIdentiteBlob, justificatifDomicileBlob, req.jwt.Email], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not upload documents']});
+        conn.query(sql.updateParticulierInfo, [req.body.civilite, req.body.situation, req.body.profession, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
+            return res.send({success: !err});
+        });
+    });
+});
+
 app.delete('/deleteBank', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),

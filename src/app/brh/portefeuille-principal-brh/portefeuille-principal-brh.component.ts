@@ -25,8 +25,8 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
   banqueNomSelected: '';
   portefeuillePrincipale: string;
   soldeTotal: number;
-  portefeuilleDestinataire:any;
-  clePubDestinataire:string;
+  portefeuilleDestinataire: any;
+  clePubDestinataire: string;
   constructor(
     private service: NodeapiService,
     private dialog: MatDialog,
@@ -82,7 +82,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
       subscribe(res => {
         console.log('yes');
         this.getSoldeBRH();
-        this.snackBar.open('Le portefeuille de la BRH va d\'etre rechargé de ' + this.quantite+' DHTG', 'Fermer', { duration: 5000, });
+        this.snackBar.open('Le portefeuille de la BRH va d\'etre rechargé de ' + this.quantite + ' DHTG', 'Fermer', { duration: 5000, });
 
 
       }, error => {
@@ -110,62 +110,63 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
 
   changeBanque(value) {
     this.banqueNomSelected = value;
-    console.log("nadir" + value);
   }
   geteEmailByNom() {
     return this.listBanqueValid.find(pt => pt.Nom == this.banqueNomSelected).Email;
   }
 
-  getPortefeuille(){
-    this.service.makeRequest(apiUrl.portefeuillesByBanqueEmail,{email:this.geteEmailByNom()}).subscribe(
-      
-        res=> {
-          for (const portefeuille of res) {
-  
+  getPortefeuille() {
+    this.service.makeRequest(apiUrl.portefeuillesByBanqueEmail, { email: this.geteEmailByNom() }).subscribe(
+
+      res => {
+        for (const portefeuille of res) {
+
           this.portefeuilleDestinataire = portefeuille;
-          this.clePubDestinataire=this.portefeuilleDestinataire.ClePub;
-          }
-          console.log("coucou"+this.portefeuilleDestinataire.ClePub);
+          this.clePubDestinataire = this.portefeuilleDestinataire.ClePub;
 
-     //   this.portefeuilleDestinataire=res;
-        console.log("xxxxxxxxxxxxxxxxx");
-        console.log(res);
-        console.log("xxxxxxxxxxxxxxxxx");
-
-     //   console.log(this.portefeuilleDestinataire);
-
+        }
       }, error => {
         console.log(error);
       }
     )
   }
+  getClePub() {
+    return this.clePubDestinataire;
+  }
   confirmTransferTo() {
 
-    this.getPortefeuille();
-    console.log(this.clePubDestinataire);
-    this.service.makeRequest(apiUrl.transferTo, {
-      id:48, password: 'aPassword', clePubDestinataire: "XfqX9o8KX2t5uTD5GVm4fZXsgsCUatqWQi"
-      , montant: this.transferAmount, memo: 'virement'
-    }
-    ).subscribe(
-      data => {
-        console.log("oui");
-        console.log("oui" + this.banqueNomSelected);
-        this.getSoldeBRH();
-        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-        + this.banqueNomSelected + ' à bien été effectué avec succès.', 'Fermer', {
-          duration: 5000,
-        });
-      },
-      error => {
-        console.log(error);
-        this.snackBar.open('Erreur :echec de virement', 'Fermer', {
-          duration: 5000,
-        });
-      })
-    this.confirmDialogRef.close();
+    //this.getPortefeuille();
 
-   
+    this.service.makeRequest(apiUrl.portefeuillesByBanqueEmail, { email: this.geteEmailByNom() }).subscribe(
+
+      res => {
+        for (const portefeuille of res) {
+
+          this.portefeuilleDestinataire = portefeuille;
+          this.clePubDestinataire = this.portefeuilleDestinataire.ClePub;
+          this.service.makeRequest(apiUrl.transferTo, {
+            id: 48, password: 'aPassword', clePubDestinataire: this.portefeuilleDestinataire.ClePub
+            , montant: this.transferAmount, memo: 'virement'
+          }).subscribe(
+            data => {
+              this.getSoldeBRH();
+              this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+                + this.banqueNomSelected + ' à bien été effectué avec succès.', 'Fermer', {
+                  duration: 5000,
+                });
+            },
+            error => {
+              console.log(error);
+              this.snackBar.open('Erreur :echec de virement', 'Fermer', {
+                duration: 5000,
+              });
+            })
+          this.confirmDialogRef.close();
+
+        }
+      }, error => {
+        console.log(error);
+      });
   }
 
   cancelTransfer() {

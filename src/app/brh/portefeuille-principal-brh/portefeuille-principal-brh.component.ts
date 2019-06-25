@@ -82,13 +82,16 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
       subscribe(res => {
         console.log('yes');
         this.getSoldeBRH();
+        this.snackBar.open('Le portefeuille de la BRH va d\'etre rechargé de ' + this.quantite+' DHTG', 'Fermer', { duration: 5000, });
+
 
       }, error => {
         console.log('got an error');
         console.log(error);
+        this.snackBar.open('Erreur !!', 'Fermer', { duration: 5000, });
+
       });
     this.contactDialogRef.close();
-    this.snackBar.open('La banque wwwww a bien été supprimé.', 'Fermer', { duration: 5000, });
   }
 
   openConfirmDialog(templateRef) {
@@ -149,15 +152,20 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
         console.log("oui");
         console.log("oui" + this.banqueNomSelected);
         this.getSoldeBRH();
+        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+        + this.banqueNomSelected + ' à bien été effectué avec succès.', 'Fermer', {
+          duration: 5000,
+        });
       },
       error => {
         console.log(error);
+        this.snackBar.open('Erreur :echec de virement', 'Fermer', {
+          duration: 5000,
+        });
       })
     this.confirmDialogRef.close();
-    this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-      + this.banqueNomSelected + ' à bien été effectué avec succès.', 'Fermer', {
-        duration: 5000,
-      });
+
+   
   }
 
   cancelTransfer() {

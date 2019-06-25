@@ -16,14 +16,26 @@
         <div class="contact-dialog-form">
             <p> * : champs obligatoire.</p><br>
             <mat-form-field>
-                <input matInput placeholder="Nom *" [(ngModel)]="Nom">
+                <input matInput placeholder="Nom *" [formControl]="nouvelBanqueNom">
+                <mat-error *ngIf="nouvelBanqueNom.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanqueNom.hasError('minlength')">
+                    Le prénom doit contenir au moins 3 caractères
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Prénom *" [(ngModel)]="nouvelBanquePrenom">
+                <input matInput placeholder="Prénom *"  [formControl]="nouvelBanquePrenom">
+                <mat-error *ngIf="nouvelBanquePrenom.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanquePrenom.hasError('minlength')">
+                    Le prénom doit contenir au moins 3 caractères
+                </mat-error>
             </mat-form-field>
             <br>
-            <mat-form-field>
+            <!--    <mat-form-field>
                 <input matInput placeholder="Adresse *" [(ngModel)]="Adresse">
             </mat-form-field>
             <br>
@@ -35,25 +47,58 @@
                 <input matInput placeholder="Ville *" [(ngModel)]="Ville">
             </mat-form-field>
             <br>
+        -->
             <mat-form-field>
-                <input matInput placeholder="Nom de la banque *" [(ngModel)]="nouvelBanqueNom">
+                <input matInput placeholder="Nom de la banque *"  [formControl]="BanqueNom">
+                <mat-error *ngIf="BanqueNom.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="BanqueNom.hasError('minlength')">
+                    Le nom de la banque doit contenir au moins 3 caractères
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Email *" [(ngModel)]="nouvelBanqueEmail">
+                <input matInput placeholder="Email *"  [formControl]="nouvelBanqueEmail">
+                <mat-error *ngIf="nouvelBanqueEmail.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanqueEmail.hasError('minlength')">
+                    L'Email doit etre valide !
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Mot de passe *" [(ngModel)]="nouvelBanquePassword">
+                <input matInput placeholder="Mot de passe *"  [formControl]="nouvelBanquePassword">
+                <mat-error *ngIf="nouvelBanquePassword.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanquePassword.hasError('minlength')">
+                    L'Email doit etre valide !
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Confirmer mot de passe *" [(ngModel)]="MotDePasse2">
+                <input matInput placeholder="Confirmer mot de passe *"  [formControl]="nouvelBanquePasswordConfirm">
+                <mat-error *ngIf="nouvelBanquePasswordConfirm.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanquePasswordConfirm.hasError('minlength')">
+                    L'Email doit etre valide !
+                </mat-error>
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Téléphone *" [(ngModel)]="nouvelBanqueTel">
+                <input matInput placeholder="Téléphone *"  [formControl]="nouvelBanqueTel">
+                <mat-error *ngIf="nouvelBanqueTel.hasError('required')">
+                    Ce champ est <strong>requis</strong>
+                </mat-error>
+                <mat-error *ngIf="nouvelBanqueTel.hasError('minlength')">
+                    Le numéro de téléphone doit contenir 10 numéros
+                </mat-error>
             </mat-form-field>
+
+
             <br>
         </div>
         <hr>

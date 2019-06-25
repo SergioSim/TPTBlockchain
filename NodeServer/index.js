@@ -128,7 +128,7 @@ app.post('/cardsByPortefeuilleIds', [
 
 app.post('/portefeuillesByBanqueEmail', [
     outils.validJWTNeeded, 
-    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
     check('email').isEmail().escape().trim(),
     outils.handleValidationResult],
     function(req, res) {
@@ -163,8 +163,8 @@ app.get('/contactsByUserEmail', [
 })
 
 app.post('/createBank', [
-    outils.validJWTNeeded, 
-    outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+//    outils.validJWTNeeded, 
+  //  outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
     check('name').isAlphanumeric().escape().trim(),
     check('email').isEmail().escape().trim(),
     check('telephone').isMobilePhone().escape().trim(),
@@ -209,7 +209,7 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
-    check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
     function(req, res) {
@@ -505,7 +505,7 @@ app.post('/createBankClient', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
-    check('banque').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
 

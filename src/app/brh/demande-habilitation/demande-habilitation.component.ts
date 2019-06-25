@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { MatSnackBar } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
+import { InputErrorStateMatcher } from './InputErrorStatMatcher';
+
 
 @Component({
   selector: 'app-demande-habilitation',
@@ -9,37 +12,58 @@ import { MatSnackBar } from '@angular/material';
 })
 export class DemandeHabilitationComponent implements OnInit {
 
-  nouvelBanqueNom: '';
-  nouvelBanqueEmail: '';
-  nouvelBanqueTel: '';
-  nouvelBanquePassword: '';
-  nouvelBanquePrenom: '';
-  Nom: '';
-  Prenom: '';
-  Adresse: '';
-  CodePostale: '';
-  Ville: '';
   annonceLegale: {name: ''};
-  MotDePasse2: '';
+  nouvelBanqueEmail = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+  BanqueNom: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]) ;
+  nouvelBanquePrenom: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]) ;
+  nouvelBanqueNom: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]) ;
+  nouvelBanquePassword: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  nouvelBanquePasswordConfirm: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  nouvelBanqueTel: FormControl = new FormControl('', [Validators.required, Validators.minLength(9)]);
+ 
 
+  matcher = new InputErrorStateMatcher();
   constructor(
     private service: NodeapiService,
     private snackBar: MatSnackBar) { }
-
 
   ngOnInit() {
   }
 
   confirmAddBanque(){
+    if (this.BanqueNom.invalid || this.nouvelBanquePrenom.invalid || this.nouvelBanqueNom.invalid || this.nouvelBanqueTel.invalid
+      || this.nouvelBanquePassword.invalid || this.nouvelBanquePasswordConfirm.invalid) {
+    this.snackBar.open('Tous les champs sont requis!', 'Fermer', {
+      duration: 5000,
+      panelClass: ['alert-snackbar']
+    });
+    return;
+  }
+  console.log(this.nouvelBanquePasswordConfirm);
+  console.log('-----------------------');
 
-    this.service.makeRequest(apiUrl.createBank, {name:this.nouvelBanqueNom,email:this.nouvelBanqueEmail,telephone:this.nouvelBanqueTel,isVisible:1,statut:'en cours'}).
+  console.log(this.nouvelBanquePassword);
+
+  
+  if (this.nouvelBanquePasswordConfirm.value !== this.nouvelBanquePassword.value) {
+    this.snackBar.open('La confirmation du mot de passe doit être identique au mot de passe', 'Fermer', {
+      duration: 5000,
+      panelClass: ['alert-snackbar']
+    });
+    return;
+  }
+
+    this.service.makeRequest(apiUrl.createBank, {name:this.BanqueNom.value,email:this.nouvelBanqueEmail.value,telephone:this.nouvelBanqueTel.value,isVisible:1,statut:'en cours'}).
     subscribe( res =>{
       console.log('on a recu la response:' );
       console.log(res);
 
       this.service.makeRequest(apiUrl.createClient, {
-        email: this.nouvelBanqueEmail, password: this.nouvelBanquePassword,
-        prenom: this.nouvelBanquePrenom, nom: this.nouvelBanqueNom, banque: this.nouvelBanqueNom, roleId: 1
+        email: this.nouvelBanqueEmail.value, password: this.nouvelBanquePassword.value,
+        prenom: this.nouvelBanquePrenom.value, nom: this.nouvelBanqueNom.value, banque: this.nouvelBanqueNom.value, roleId: 1
       }).
         subscribe(res => {
           console.log('on a recu la response:');
@@ -52,9 +76,11 @@ export class DemandeHabilitationComponent implements OnInit {
 
     }, error => {
         console.log('got an error 2');
+        this.snackBar.open('Erreur : vous devez remplir tous les champs  !!',
+         'Fermer', { duration: 5000,  panelClass: ['alert-snackbar'] });
+
         console.log(error);
     });
-    this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000,});
   }
 
   openAnnonceLegaleInput() {

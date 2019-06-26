@@ -1,5 +1,5 @@
 .titte{
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 50px;
     border-bottom: 4px solid green;
 }
@@ -27,6 +27,9 @@ mat-paginator{
     margin-bottom: 20px;
     font-size: 17px;
     color: blue;
+}
+.block-center{
+    margin-top: 7%;
 }
 .contener-habilitation{
     margin-left: 5%;

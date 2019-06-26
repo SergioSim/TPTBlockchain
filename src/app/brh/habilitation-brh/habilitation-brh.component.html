@@ -2,14 +2,7 @@
   <div class="titte">
     <h1>Gérer les habilitations</h1>
   </div>
-
-  <div class="infos-habilitation">
-    <p>Nombre d'habilitation validé est {{ taille }}</p>
-    <p>Nombre d'habilitation refuser est 5</p>
-    <p>Nombre d'habilitation en cours de traitement est 95 </p>
-  </div>
-
-
+   <div class="block-center">
   <div class="table-banque">
     <h3>Liste de demande d'habilitations</h3>
 
@@ -18,7 +11,7 @@
 
   <div class="block-valid-habil">
     <div>
-      <h3>Liste des habilitations validées</h3>
+      <h3>Liste d'habilitations validées</h3>
     </div>
 
     <table mat-table [dataSource]="data" class="mat-elevation-z8">
@@ -54,6 +47,6 @@
 
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
+  </div>
   </div>
 </div>

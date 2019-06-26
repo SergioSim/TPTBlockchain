@@ -58,4 +58,6 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
 export interface DialogData {
   name: string;
   value: string;
+  clientChamp: string;
+  client: BanqueClient;
 }

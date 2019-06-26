@@ -11,13 +11,21 @@ import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 })
 export class InfoPersonelBanquePriveComponent implements OnInit {
 
-  valueFC: FormControl = new FormControl('', [Validators.required]) ;
+  public valueFC: FormControl = new FormControl('', [Validators.required]) ;
+  public showForClient = false;
+  public roles: string[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant'];
 
   constructor(
     public dialogRef: MatDialogRef<InfoPersonelBanquePriveComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
+
     private apiService: NodeapiService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar) {
+      if (this.data.client) {
+        console.log('client: ', this.data.client);
+        this.showForClient = true;
+      }
+     }
 
   ngOnInit() {
 
@@ -28,12 +36,17 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
   }
 
   update() {
-    this.apiService.makeRequest(apiUrl.updateClient, {[this.data.name]: this.valueFC.value}).subscribe(
+    this.apiService.makeRequest(this.data.client && this.data.clientChamp === 'Status' ? apiUrl.unBlockOrBlockClient : apiUrl.updateClient,
+      this.data.client ? {bankEmail: this.data.client.Email, [this.data.name]: this.valueFC.value} :
+      {[this.data.name]: this.valueFC.value}).subscribe(
       data => {
         console.log(data);
         if (data.succes === true) {
-          this.apiService[this.data.name] = this.valueFC.value;
-          console.log('apiservice nom=', this.apiService.nom);
+          if (this.data.client) {
+            this.data.client[this.data.clientChamp] = this.valueFC.value;
+          } else {
+            this.apiService[this.data.name] = this.valueFC.value;
+          }
           this.snackBar.open('Champs ' + this.data.name + ' est mis a jour avec succes!', 'Fermer', {
             duration: 5000,
             panelClass: ['succes-snackbar']

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BanqueClient, Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
-import { MatTableDataSource, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
 import { CommonUtilsService, DebitCredit } from 'src/app/common/common-utils.service';
+import { InfoPersonelBanquePriveComponent } from '../info-personel-banque-prive/info-personel-banque-prive.component';
 
 @Component({
   selector: 'app-client-banque-prive',
@@ -33,7 +34,8 @@ export class ClientBanquePriveComponent implements OnInit {
   constructor(
     private apiService: NodeapiService,
     private util: CommonUtilsService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     console.log('Initialize');
@@ -77,4 +79,11 @@ export class ClientBanquePriveComponent implements OnInit {
     this.selectedTransaction = row;
   }
 
+  updateStatus(name: string, clientChamp: string, selectedClient: BanqueClient) {
+    console.log(selectedClient);
+    this.dialog.open(InfoPersonelBanquePriveComponent, {
+      width: '250px',
+      data: {name, clientChamp, client: selectedClient}
+    });
+  }
 }

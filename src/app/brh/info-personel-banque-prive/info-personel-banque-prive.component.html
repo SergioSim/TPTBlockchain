@@ -1,10 +1,42 @@
-<div class="info-form">
+<div *ngIf="!showForClient">
+  <div class="info-form">
+    <p>Hello BRH</p>
     <mat-form-field>
       <input matInput [placeholder]="data.name" [formControl]="valueFC" [value]="data.value">
       <mat-error *ngIf="valueFC.hasError('required')">
-          Ce champ est <strong>requis</strong>
+        Ce champ est <strong>requis</strong>
       </mat-error>
     </mat-form-field>
-    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button" [disabled]="valueFC.invalid">VALIDER</button>
+    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+      [disabled]="valueFC.invalid">VALIDER</button>
     <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
   </div>
+</div>
+<div *ngIf="showForClient && data.clientChamp !== 'Status'">
+  <div class="info-form">
+    <mat-form-field>
+      <input matInput [placeholder]="data.clientChamp" [formControl]="valueFC" [value]="data.client[data.clientChamp]">
+      <mat-error *ngIf="valueFC.hasError('required')">
+        Ce champ est <strong>requis</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+      [disabled]="valueFC.invalid">VALIDER</button>
+    <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+  </div>
+</div>
+<div *ngIf="showForClient && data.clientChamp === 'Status'">
+  <div class="info-form">
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="valueFC" required [value]="data.client[data.clientChamp]">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{role}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+    [disabled]="valueFC.invalid">VALIDER</button>
+    <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+  </div>
+</div>

@@ -400,7 +400,7 @@ app.put('/updateClient', [
     check('civilite').optional().isAlpha().escape().trim(),
     check('situationFamiliale').optional().isAlpha().escape().trim(),
     check('profession').optional().isAlpha().escape().trim(),
-    check('siret').optional().isAlpha().escape().trim(),
+    check('siret').optional().isAlphanumeric().escape().trim(),
     check('tel').optional().isMobilePhone().escape().trim(),
     check('adresse').optional().isString().escape(),
     check('ville').optional().isString().escape(),
@@ -412,7 +412,7 @@ app.put('/updateClient', [
 
     let aOldEmail = req.jwt.Email;
     if(req.jwt.PermissionLevel >= 2 && req.body.bankEmail != undefined)
-        aOldEmail = bankEmail;
+        aOldEmail = req.body.bankEmail;
     conn.query(sql.findUtilisateurByEmail, [aOldEmail], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
@@ -495,6 +495,28 @@ app.put('/unBlockBanque', [
         conn.query(sql.unBlockBanque, [req.body.email], function(err, result){
             console.log(err);
             console.log(result);
+            return res.send({ succes: !err && result.affectedRows != 0});
+        });
+    });
+});
+
+
+app.put('/unBlockOrBlockClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('bankEmail').isEmail().normalizeEmail(),
+    check('status').isAlpha().escape().trim().isIn(['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant']),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findUtilisateurByEmail, [req.body.bankEmail], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+        
+        const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant'];
+        let roleId = roles.indexOf(req.body.status);
+        conn.query(sql.unBlockOrBlockClient_0_2, [roleId, req.body.bankEmail], function(err, result){
             return res.send({ succes: !err && result.affectedRows != 0});
         });
     });

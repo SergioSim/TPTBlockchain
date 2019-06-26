@@ -2,46 +2,46 @@
   <h2>Client en detail:</h2>
   <div class="gridcontainer">
     <ul class="heroes">
-      <li><span class="badge">Email</span>
+      <li (click)="updateStatus('email', 'Email', selectedClient)"><span class="badge">Email</span>
         <p>{{selectedClient.Email}}</p>
       </li>
-      <li><span class="badge">Nom</span>
+      <li (click)="updateStatus('nom', 'Nom', selectedClient)"><span class="badge">Nom</span>
         <p>{{selectedClient.Nom}}</p>
       </li>
-      <li><span class="badge">Prenom</span>
+      <li (click)="updateStatus('prenom', 'Prenom', selectedClient)"><span class="badge">Prenom</span>
         <p>{{selectedClient.Prenom}}</p>
       </li>
     </ul>
     <ul class="heroes">
-      <li><span class="badge">Adresse</span>
+      <li (click)="updateStatus('adresse', 'Adresse', selectedClient)"><span class="badge">Adresse</span>
         <p>{{selectedClient.Adresse}}</p>
       </li>
-      <li><span class="badge">Ville</span>
+      <li (click)="updateStatus('ville', 'Ville', selectedClient)"><span class="badge">Ville</span>
         <p>{{selectedClient.Ville}}</p>
       </li>
-      <li><span class="badge">Code_Postal</span>
+      <li (click)="updateStatus('codePostal', 'Code_Postal', selectedClient)"><span class="badge">Code_Postal</span>
         <p>{{selectedClient.Code_Postal}}</p>
       </li>
     </ul>
     <ul class="heroes">
-      <li><span class="badge">Civilite</span>
+      <li (click)="updateStatus('civilite', 'Civilite', selectedClient)"><span class="badge">Civilite</span>
         <p>{{selectedClient.Civilite}}</p>
       </li>
-      <li><span class="badge">Profession</span>
+      <li (click)="updateStatus('profession', 'Profession', selectedClient)"><span class="badge">Profession</span>
         <p>{{selectedClient.Profession}}</p>
       </li>
-      <li><span class="badge">Siret</span>
+      <li (click)="updateStatus('siret', 'Siret', selectedClient)"><span class="badge">Siret</span>
         <p>{{selectedClient.Siret}}</p>
       </li>
     </ul>
     <ul class="heroes">
-      <li><span class="badge">Situation_Familiale</span>
+      <li (click)="updateStatus('situationFamiliale', 'Situation_Familiale', selectedClient)"><span class="badge">Situation_Familiale</span>
         <p>{{selectedClient.Situation_Familiale}}</p>
       </li>
-      <li><span class="badge">Tel</span>
+      <li (click)="updateStatus('tel', 'Tel', selectedClient)"><span class="badge">Tel</span>
         <p>{{selectedClient.Tel}}</p>
       </li>
-      <li><span class="badge">Status</span>
+      <li (click)="updateStatus('status', 'Status', selectedClient)"><span class="badge">Status</span>
         <p>{{selectedClient.Status}}</p>
       </li>
     </ul>

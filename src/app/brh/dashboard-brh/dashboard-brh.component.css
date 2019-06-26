@@ -83,10 +83,13 @@
     width: 100%;
 }
 
+table{
+    background-color: rgb(51, 161, 235);
+}
 
 ::ng-deep table, mat-paginator  {
     width: 100%;
-   
+    background-color: rgb(51, 161, 235);
 }
 
 .releves-content ::ng-deep table {

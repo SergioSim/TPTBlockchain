@@ -30,6 +30,7 @@ mat-paginator{
 }
 .block-center{
     margin-top: 7%;
+    
 }
 .contener-habilitation{
     margin-left: 5%;
@@ -58,7 +59,7 @@ align-items: center;
 }
 
 table{
-    background-color: aliceblue;
+    background-color: blue;
 }
 
 th, td {

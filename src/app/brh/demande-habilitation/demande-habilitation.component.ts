@@ -72,7 +72,7 @@ export class DemandeHabilitationComponent implements OnInit {
           console.log('got an error 1');
           console.log(error);
         });
-      this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000, });
+      this.snackBar.open('Votre demande d\'habilitation a été enregistrée.', 'Fermer', { duration: 5000, });
 
     }, error => {
         console.log('got an error 2');

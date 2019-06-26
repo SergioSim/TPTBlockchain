@@ -36,3 +36,6 @@ mat-tab-group {
 ::ng-deep .alert-snackbar button {
     color: #e6e6e6;
 }
+mat-form-field, mat-checkbox{
+    margin-left: 3%;
+}

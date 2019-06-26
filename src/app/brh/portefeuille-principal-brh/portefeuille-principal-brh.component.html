@@ -2,9 +2,17 @@
     <div class="titte">
       <h1>Gérer le portefeuille principal</h1>
     </div>
-    <div class="infos-brh">
-      <p>Solde : {{soldeTotal}} DHTG</p>
+    <div class="stat-box-purple">
+        <div class="stat-header">
+        <h2 style="margin-left:20px;margin-top:30px; color:white;padding:5px">Solde </h2>
+        </div>
+        <h2 style="margin-left:20px;margin-top:10px;margin-bottom: 30px; color:white"> {{soldeTotal}} DHTG</h2>
     </div>
+   <!-- 
+      <div class="infos-brh">
+      <p style="margin:20px; color:white">Solde : {{soldeTotal}} DHTG</p>
+      </div> 
+    -->
     <div class="dashboard-content">
         <button class="nouvelBanque" mat-raised-button (click)="openAddBankDialog(AddDialog)">Augmenter mes avoirs
    
@@ -40,7 +48,7 @@
             Depuis le portefeuille principal :
         </h4>
         <div class="infos-virement">
-            <p>Numéro du portefeuille est 116456154515545VEORUOHZEVZ44</p>
+            <p>Numéro du portefeuille : XcxdtHPX3dKZJS2R1KBAcQRRu7Xs6R3NU4</p>
             <p>Solde : {{solde}} </p>
         </div>
         <h4>

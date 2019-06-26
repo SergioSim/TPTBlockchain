@@ -3,14 +3,11 @@
     margin-left: 50px;
     border-bottom: 4px solid green;
 }
-.tableau_banque{
-    margin-left: 100px;
-    margin-right: 100px;
 
-}
 
 .table-releve-content{
     margin-left: 10%;
+    margin-top: 12%;
 }
 
 .mat-elevation-z8{
@@ -33,21 +30,13 @@
 .infos-brh p {
     margin-left: 25px;
     }
-table, th , td {
-    border: 1px solid grey;
-    border-collapse: collapse;
-    padding: 5px;
-  }
-  
+
   table tr:nth-child(odd) {
     background-color: #f1f1f1;
   }
   
   table tr:nth-child(even) {
     background-color: #ffffff;
-  }
-  .recherche{
-      margin-bottom: 15px;
   }
   td, th {
       text-align: center;
@@ -56,3 +45,55 @@ table, th , td {
       margin-bottom: 35px;
       margin-left: 25%;
   }
+
+  .titte{
+    margin-top: 20px;
+    margin-left: 50px;
+    border-bottom: 4px solid green;
+}
+.mat-elevation-z8{
+    width: 85%;
+}
+.infos-habilitation{
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 17px;
+   
+}
+.bloc-glob{
+    width: 1;
+    margin-left: 3%;
+
+}
+
+.releves-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.releve-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10%
+}
+
+.releve-selector, app-table-releve-sogebank {
+    width: 100%;
+}
+
+
+::ng-deep table, mat-paginator  {
+    width: 100%;
+   
+}
+
+.releves-content ::ng-deep table {
+    padding-top: 0;
+}
+
+mat-paginator{
+    float: left;
+    width: 85%;
+}

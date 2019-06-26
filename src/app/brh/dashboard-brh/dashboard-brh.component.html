@@ -1,102 +1,51 @@
 <div>
   <div class="titte">
-    <h1>Dashboard</h1>
+    <h1>Informations sur les banques</h1>
   </div>
-  <div class="infos-brh">
-    <p>Noméro du portefeuille est 15451554544</p>
-    <p>Nombre de banque est 45451</p>
-    <p>Nombre de client est 52478552</p>
-    <p>Nombre de portefeuille est 784541 </p>
-    <p>Nombre total ddes actifs en circulation est 5541651 DHTG </p>
+    <div class="table-releve-content">
+     
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Banque">
+          <th mat-header-cell *matHeaderCellDef> Banque </th>
+          <td mat-cell *matCellDef="let element"> {{element.Banque}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Tel">
+          <th mat-header-cell *matHeaderCellDef> Téléphone </th>
+          <td mat-cell *matCellDef="let element"> {{element.Tel}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Nom">
+          <th mat-header-cell *matHeaderCellDef> Nom  </th>
+          <td mat-cell *matCellDef="let element"> {{element.Nom}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Prenom">
+          <th mat-header-cell *matHeaderCellDef> Prénom  </th>
+          <td mat-cell *matCellDef="let element"> {{element.Prenom}}</td>
+        </ng-container>
+        <ng-container matColumnDef="numPortefeuille">
+          <th mat-header-cell *matHeaderCellDef> Numéro du Portefeuille </th>
+          <td mat-cell *matCellDef="let element"> {{element.ClePub}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Solde">
+          <th mat-header-cell *matHeaderCellDef> Solde </th>
+          <td mat-cell *matCellDef="let element"> {{element.Solde}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </div>
   </div>
- 
-  <div class="dashboard-content">
-
-  
-      <div class="table-releve-content">
-<div class="recherche">
-  <input type="text" placeholder="Recherche par nom" [(ngModel)]="rechercheText"/>
-</div>
-<div style="margin-left: 25%;"> 
-      
-</div>
-      <table  filter="rechercheText" class="mat-elevation-z8" >
-          <thead>
-            <tr class="header">
-                <th>Nom </th>
-                <th>Création</th>
-                <th>Nb de clients</th>
-                <th>Nb portefeuille</th>
-                <th>Total actifs</th>
-                <th>Numéro du portefeuille</th>
-           </tr>
-          </thead> 
-          <tbody>
-            <tr *ngFor = "let game of dataSource | filter:rechercheText | paginate: { itemsPerPage:10,currentPage:p} ; " >
-              <td > {{game.nom}}</td>
-              <td> {{game.date}}</td>
-              <td> {{game.nbClient}}</td>
-              <td> {{game.nbPortefeuille}}</td>
-              <td> {{game.totalActif}} DGTH</td>
-              <td> {{game.numPortefeuille}}</td>
-            </tr>
-          </tbody>  
-         
-  <!--
-              <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef> ID Banque </th>
-              <td mat-cell *matCellDef="let element"> {{element.id}}</td>
-              </ng-container>
-               
-              <ng-container matColumnDef="nom">
-                  <th mat-header-cell *matHeaderCellDef> Nom commercial </th>
-                  <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-                  </ng-container>
-
-              <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef> Date création </th>
-              <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-              </ng-container>
-                      
-              
-                      
-              <ng-container matColumnDef="nbClient">
-              <th mat-header-cell *matHeaderCellDef> Nombre de clients </th>
-              <td mat-cell *matCellDef="let element"> {{element.nbClient}} </td>
-              </ng-container>
-                      
-              <ng-container matColumnDef="nbPortefeuille">
-                  <th mat-header-cell *matHeaderCellDef> Nombre de portefeuilles </th>
-                  <td mat-cell *matCellDef="let element"> {{element.nbPortefeuille}} </td>
-                  </ng-container>
-
-              <ng-container matColumnDef="totalActif">
-              <th mat-header-cell *matHeaderCellDef> Total actif </th>
-              <td mat-cell *matCellDef="let element" >
-                   {{element.totalActif}} 
-              </td>
-              </ng-container>
-
-              <ng-container matColumnDef="numPortefeuille">
-                  <th mat-header-cell *matHeaderCellDef> Numéro du portefeuille </th>
-                  <td mat-cell *matCellDef="let element" >
-                       {{element.numPortefeuille}} 
-                  </td>
-                  </ng-container>
-                      
-              
-                      
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              -->
-          </table>
-          <div class="barNavigation"> 
-              <pagination-controls (pageChange)="p=$event"></pagination-controls>   
-          </div>
-      </div>
-        </div>
-                      
-
-
-
-</div>

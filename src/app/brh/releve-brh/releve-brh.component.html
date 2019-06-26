@@ -2,30 +2,38 @@
     <div class="titte">
       <h1>Gérer les relevés</h1>
     </div>
-    <div class="releve-selector">
-        <mat-form-field class="wallet-selector">
-            <mat-label>Sélectionner un portefeuille...</mat-label>
-            <mat-select [(value)]="selectedPortefeuille" (selectionChange)="changePortefeuille($event)">
-                <mat-option *ngFor="let portefeuille of portefeuilles" [value]="portefeuille">
-                    {{portefeuille.libelle}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <br><br><br><br>
+    <div class="dashboard-content">
 
-        <div class="date-selector">
-            <mat-form-field class="start-picker">
-                <input matInput [matDatepicker]="startPicker" placeholder="Date de début">
-                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [matDatepicker]="endPicker" placeholder="Date de fin">
-                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-            </mat-form-field>
+        <div class="stat-boxes">
+            <div class="stat-box-purple">
+                <div class="stat-header">
+                    <h3>Solde</h3>
+                </div>
+                <h2>{{sogebankService.totalSolde}}</h2>
+                <fa-icon [icon]="faSyncAlt" class="download-button"></fa-icon>
+            </div>
+            <div class="stat-box-green">
+                <div class="stat-header">
+                    <h3>Crédit</h3>
+                    <p>(30 derniers jours)</p>
+                </div>
+                <h2>{{sogebankService.totalCredit}}</h2>
+                <fa-icon [icon]="faPlusCircle" class="download-button"></fa-icon>
+            </div>
+            <div class="stat-box-orange">
+                    <div class="stat-header">
+                        <h3>Débit</h3>
+                        <p>(30 derniers jours)</p>
+                    </div>
+                <h2>{{sogebankService.totalDebit}}</h2>
+                <fa-icon [icon]="faMinusCircle" class="download-button"></fa-icon>
+            </div>
         </div>
-    </div>
-    <div class="table-banque">
         <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
-      </div>                    
+    </div>
+    <!--
+    
+        <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
+        -->       
 </div>

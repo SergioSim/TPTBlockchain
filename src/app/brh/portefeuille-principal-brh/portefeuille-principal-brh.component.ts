@@ -53,21 +53,29 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
 
     if (this.service.portefeuilles && this.service.portefeuilles.length > 0) {
       for (const portefeuille of this.service.portefeuilles) {
-        this.service.getRecord(portefeuille.ClePub).subscribe(
-          data => {
-            if (data[0] && data[0].balance) {
-              portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
-              this.solde = portefeuille.Solde;
-              this.soldeTotal = data[0].balance;
-            }
-          },
-          error => {
-            console.log(error);
+        this.service.getTransactions(portefeuille.ClePub).subscribe(
+          sub => {
+            sub.subscribe(res => {
+              portefeuille.Transactions = res;
+            }, err => {
+              console.log(err);
+            }, () => {
+              this.service.getRecord(portefeuille.ClePub).subscribe(
+                data => {
+                  if (data[0] && data[0].balance) {
+                    portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+                    this.solde = portefeuille.Solde;
+                    this.soldeTotal = data[0].balance;
+                  }
+                },
+                error => {
+                  console.log(error);
+                })
+            })
           })
       }
     }
   }
-
   openAddBankDialog(templateRef) {
 
     this.contactDialogRef = this.dialog.open(templateRef, { width: '250px' });

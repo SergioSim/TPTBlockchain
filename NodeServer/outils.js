@@ -43,6 +43,7 @@ exports.minimumPermissionLevelRequired = (required_permission_level) => {
 };
 
 exports.fixPortefeuilles = (result) => {
+    console.log(result);
     for (const i of result) {
         i.Portefeuille = i.Portefeuille.replace(new RegExp("},{", 'g'), "}\n{");
         let aPortefeuillesResultat = [];

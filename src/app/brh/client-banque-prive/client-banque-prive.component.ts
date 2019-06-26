@@ -21,7 +21,7 @@ export class ClientBanquePriveComponent implements OnInit {
 
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
   displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Montant'];
-  showTransactions = false;
+  public showTransactions = false;
   public selectedClient: BanqueClient;
   public selectedPortefeuille: Portefeuille;
   public transactions: Transaction[] = [];
@@ -58,7 +58,7 @@ export class ClientBanquePriveComponent implements OnInit {
             const debitCredit: DebitCredit = this.util.getDebitCredit(res);
             this.selectedCredit = debitCredit.credit;
             this.selectedDebit = debitCredit.debit;
-          }, 1000);
+          }, 2000);
           console.log('scrolling..');
           setTimeout(() => {
             const elmnt = document.querySelector('.contentTransactions');

@@ -237,6 +237,18 @@ toHexString = bytes =>
     }
   }
 
+  integerFromHex(hex: string) {
+    hex = hex.substr(4);
+    let num = parseInt(hex, 16);
+    const maxVal = Math.pow(2, hex.length / 2 * 8);
+    if (num > maxVal / 2 - 1) {
+        num = num - maxVal;
+    }
+    return num;
+  }
+
+
+
 getTransactions(iaddress) {
   let address = '/p2pkh/' + iaddress + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
   address = this.Utf8ToHex(address);
@@ -280,8 +292,8 @@ getTransactions(iaddress) {
                 const aDestKey = this.HexToString(this.toHexString(aMessage.mutation.records[1].key));
                 aTransaction.Destinataire = aDestKey.substr(7).split('/:ACC:/')[0];
                 //aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
-                aTransaction.Solde =  parseInt(this.toHexString(aMessage.mutation.records[0].value.data), 16);
-                aTransaction.Montant =  parseInt(this.toHexString(aMessage.mutation.records[1].value.data), 16);
+                aTransaction.Solde =  this.integerFromHex(this.toHexString(aMessage.mutation.records[0].value.data));
+                aTransaction.Montant = this.integerFromHex(this.toHexString(aMessage.mutation.records[1].value.data));
                 aTransaction.Nature = 'Recu';
                 aTransaction.Timestamp = aMessage.timestamp;
                 const d = new Date(0);
@@ -289,11 +301,19 @@ getTransactions(iaddress) {
                 aTransaction.Date = d.toLocaleDateString('fr-FR', options);
                 const version = this.toHexString(aMessage.mutation.records[1].version);
                 this.getRecord(this.toHexString(aMessage.mutation.records[1].key), version).subscribe(data => {
+                  const aaMon = aTransaction.Montant;
+                  const aaSolde = aTransaction.Solde;
+                  let aadataValue = 0;
+                  try {
+                    aadataValue =  this.integerFromHex(data.value);
+                  } catch (error) {
+                    console.log('aadataValue ERROR!!!');
+                  }
                   if (iaddress === aTransaction.Expediteur) {
                     aTransaction.Nature = 'Virement';
-                    aTransaction.Montant = data.value ? parseInt(data.value, 16) - aTransaction.Montant : - aTransaction.Montant;
+                    aTransaction.Montant = data.value ? aadataValue - aTransaction.Montant : - aTransaction.Montant;
                   } else {
-                    aTransaction.Montant = data.value ? aTransaction.Montant - parseInt(data.value, 16) : aTransaction.Montant;
+                    aTransaction.Montant = data.value ? aTransaction.Montant -aadataValue : aTransaction.Montant;
                   }
                 });
               } catch (exe) {

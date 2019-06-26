@@ -100,7 +100,11 @@
 }
 
 .mat-column-Montant {
-  flex: 0 0 80px;
+  flex: 0 0 160px;
+}
+
+.mat-column-Expediteur, .mat-column-Destinataire {
+  word-break: break-word;
 }
 
 .mat-column-Date {

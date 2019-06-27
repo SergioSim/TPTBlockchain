@@ -1,6 +1,5 @@
-<div *ngIf="!showForClient">
+<div *ngIf="!showForClient && !showPassword">
   <div class="info-form">
-    <p>Hello BRH</p>
     <mat-form-field>
       <input matInput [placeholder]="data.name" [formControl]="valueFC" [value]="data.value">
       <mat-error *ngIf="valueFC.hasError('required')">
@@ -38,5 +37,42 @@
     <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
     [disabled]="valueFC.invalid">VALIDER</button>
     <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+  </div>
+</div>
+<div *ngIf="showPassword">
+  <div class="info-form">
+      <mat-form-field>
+          <input matInput placeholder="Mot de passe courant" type="password" [formControl]="valueFC">
+          <mat-error *ngIf="valueFC.hasError('required')">
+            Ce champ est <strong>requis</strong>
+          </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput placeholder="Nouveau mot de passe" type="password" [formControl]="passwordFC">
+          <mat-error *ngIf="passwordFC.hasError('required')">
+            Ce champ est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordFC.hasError('minlength')">
+            Le mot de passe doit contenir au moins 6 caractères
+          </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput placeholder="Confirmer le Nouveau mot de passe" type="password" [formControl]="passwordConfirmFC">
+          <mat-error *ngIf="passwordConfirmFC.hasError('required')">
+            Ce champ est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordConfirmFC.hasError('minlength')">
+            Le mot de passe doit contenir au moins 6 caractères
+          </mat-error>
+      </mat-form-field>
+    <br><br>
+    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+      [disabled]="passwordFC.invalid || passwordConfirmFC.invalid || passwordFC.value !== passwordConfirmFC.value">VALIDER</button>
+    <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+    <br><br>
+    <mat-error *ngIf="passwordFC.value !== passwordConfirmFC.value">
+        Les deux mot de passes ne sont pas identiques
+    </mat-error>
+    <br>
   </div>
 </div>

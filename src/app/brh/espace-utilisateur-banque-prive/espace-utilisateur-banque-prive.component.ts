@@ -48,7 +48,7 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
   update(name: string, value: string) {
     console.log('name', name , 'value', value);
     this.dialog.open(InfoPersonelBanquePriveComponent, {
-      width: '250px',
+      width: '270px',
       data: {name, value}
     });
   }

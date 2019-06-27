@@ -78,6 +78,10 @@ main {
   border-radius: 4px 0 0 4px;
 }
 
+.changerMotDepasse {
+  width: 320px;
+}
+
 
 @media screen and (max-width: 820px) {
   .gridcontainer {

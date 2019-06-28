@@ -1,35 +1,4 @@
 <div class="content">
-<h2>Consultez vos transactions</h2>
-<p>Selectionez un portefeuille</p>
-<div class="example-container mat-elevation-z8">
-  <mat-table class="clients-table mat-elevation-z8" [dataSource]="apiService.portefeuilles" matSort>
-
-    <ng-container matColumnDef="Id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-      <mat-cell *matCellDef="let client" data-label="Id">{{client.Id}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="ClePub">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>ClePub</mat-header-cell>
-      <mat-cell class="duration-cell" *matCellDef="let client" data-label="ClePub">{{client.ClePub}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="Libelle">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Libelle</mat-header-cell>
-      <mat-cell class="duration-cell" *matCellDef="let client" data-label="Libelle">{{client.Libelle}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="Ouverture">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Ouverture</mat-header-cell>
-      <mat-cell class="duration-cell" *matCellDef="let client" data-label="Status">{{client.Ouverture}}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-    <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"
-      [style.background]="selectedPortefeuille && selectedPortefeuille.Id == row.Id ? 'lightgreen' : ''"></mat-row>
-  </mat-table>
-</div>
 <div class="contentTransactions">
   <div *ngIf="showTransactions">
   <h2>Transactions :</h2>
@@ -59,24 +28,24 @@
       </ng-container>
 
       <ng-container matColumnDef="Nature">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Nature</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Nature">{{tr.Nature}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Type">{{tr.Nature}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Expediteur">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Expediteur</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Expediteur">{{tr.Expediteur}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Source</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Source">{{tr.Expediteur}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Destinataire">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Destinataire</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Destinataire">{{tr.Destinataire}}
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Destination">{{tr.Destinataire}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Montant">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Montant</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Montnat">{{tr.Montant}} DTG</mat-cell>
+        <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Montnat" [ngClass]="tr.Montant < 0 ? 'debit-text' : 'credit-text'">{{tr.Montant}} DTG</mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumnsTransactions"></mat-header-row>

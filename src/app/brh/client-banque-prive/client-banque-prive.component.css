@@ -91,24 +91,33 @@
   padding: 0 0.3em; 
 }
 
-.mat-column-Id {
-  flex: 0 0 50px;
-}
-
 .mat-column-Nature {
-  flex: 0 0 70px;
+  flex: 0 0 10%;
+  min-width: 70px;
 }
 
 .mat-column-Montant {
-  flex: 0 0 160px;
+  flex: 0 0 15%;
+  min-width: 160px;
 }
 
 .mat-column-Expediteur, .mat-column-Destinataire {
   word-break: break-word;
+  flex: 0 0 30%;
+  min-width: 200px;
 }
 
 .mat-column-Date {
-  flex: 0 0 175px;
+  flex: 0 0 15%;
+  min-width: 175px;
+}
+
+.debit-text {
+  color: #FF3B00;
+}
+
+.credit-text {
+  color: #23B708;
 }
 
 @media screen and (max-width: 960px) {

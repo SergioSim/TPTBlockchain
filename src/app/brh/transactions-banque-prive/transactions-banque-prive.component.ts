@@ -27,12 +27,7 @@ export class TransactionsBanquePriveComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-  }
-
-  onRowClicked(row: Portefeuille) {
-    console.log('Row clicked: ', row);
-    this.selectedPortefeuille = row;
-    this.apiService.getTransactions(row.ClePub).subscribe(
+    this.apiService.getTransactions(this.apiService.portefeuilles[0].ClePub).subscribe(
       sub => sub.subscribe( res => {
           if (res.length === 0) {
             this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
@@ -57,9 +52,14 @@ export class TransactionsBanquePriveComponent implements OnInit {
           console.log(err);
           this.showTransactions = false;
       }));
-    this.apiService.getRecord(row.ClePub).subscribe(data => {
+    this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
       this.selectedSolde = data[0].balance;
     });
+  }
+
+  onRowClicked(row: Portefeuille) {
+    console.log('Row clicked: ', row);
+    this.selectedPortefeuille = row;
   }
 
   onTransactionRowClicked(row: Transaction) {

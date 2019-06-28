@@ -23,7 +23,6 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
     public dialogRef: MatDialogRef<InfoPersonelBanquePriveComponent>,
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-
     private apiService: NodeapiService,
     private snackBar: MatSnackBar) {
       if (this.data.client) {

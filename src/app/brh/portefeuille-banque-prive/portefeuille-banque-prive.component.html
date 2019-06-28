@@ -1,3 +1,22 @@
-<p>
-  portefeuille-banque-prive works!
-</p>
+<!-- Copy pasta from Luke -->
+<div class="content">
+  <div class="portefeuille-container">
+    <div class="portefeuille-title">
+      <h1>{{selectedPortefeuille.Libelle}}</h1>
+      <button mat-icon-button>
+        <fa-icon [icon]="faPen" class="edit-button" (click)="openEditWalletDialog()">
+        </fa-icon>
+      </button>
+    </div>
+    <div class="portefeuille-footer">
+      <div class="portefeuille-info">
+        <p>Ouverture: {{commonUtilsService.formatDate(selectedPortefeuille.Ouverture)}}</p>
+      </div>
+      <div class="portefeuille-solde">
+        <p>Solde Courant: {{selectedSolde}}</p>
+      </div>
+      <p>Id: {{selectedPortefeuille.Id}}</p>
+      <p>Cle public: {{selectedPortefeuille.ClePub}}</p>
+    </div>
+  </div>
+</div>

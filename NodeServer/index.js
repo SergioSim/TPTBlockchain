@@ -47,6 +47,10 @@ openchainValCli.initialize().then( function(res) {
         console.log(res));
 });
 
+app.get('/bienvenue', function(req, res) {
+    res.send('<h1>Votre Certificat SSL vient d\'etre ajouté!<h1><a href="http://82.255.166.104/TPTBlockchain/portail">Revenir</a><br><a href="http://localhost:4200/portail">Revenir Local</a>');
+});
+
 app.get('/allMonnies', function(req, res) {
     let aQuerry = sql.getAllMonnies;
     console.log("dsddfdfdf"+req.query.type);

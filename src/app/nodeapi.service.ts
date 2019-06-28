@@ -11,7 +11,7 @@ const protobuf = require('protobufjs');
   providedIn: 'root'
 })
 export class NodeapiService {
-  public token: string;
+  public token: string = null;
   public refreshToken: string;
   public address: string;
   public banque: string;

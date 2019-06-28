@@ -4,6 +4,7 @@ import { NodeapiService } from 'src/app/nodeapi.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/brh/alert.service';
 import { MatSnackBar } from '@angular/material';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-common-login',
@@ -17,6 +18,7 @@ export class CommonLoginComponent {
   passwFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   loading = false;
   resterConnecter = false;
+  public host = environment.apiUrl + 'bienvenue';
 
   constructor(
     private route: Router,

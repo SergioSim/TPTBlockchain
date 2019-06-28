@@ -11,7 +11,7 @@ import { Title } from '@angular/platform-browser';
 export class PortailComponent implements OnInit {
   faPlay = faPlay;
   banks = [];
-  brh = <any>{};
+  brh = {} as any;
 
   constructor(
       private renderer: Renderer2,

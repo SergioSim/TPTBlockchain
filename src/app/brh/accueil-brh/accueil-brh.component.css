@@ -85,3 +85,12 @@ p {
   color: #ffffff;
   box-shadow: 10px 10px #722b2b, -10px -10px rgba(216, 49, 82, 0.651);
 }
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+a:hover { 
+  text-decoration: underline;
+}

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
 import { Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { DebitCredit, CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
@@ -15,11 +15,14 @@ export class TransactionsBanquePriveComponent implements OnInit {
   displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Montant'];
   public selectedPortefeuille: Portefeuille;
   public showTransactions = false;
-  public transactions: Transaction[] = [];
+  public transactions: MatTableDataSource<Transaction>;
   public selectedTransaction: Transaction;
   public selectedSolde = 0;
   public selectedDebit = 0;
   public selectedCredit = 0;
+  public types = ['Virement', 'Recu'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public apiService: NodeapiService,
@@ -36,12 +39,14 @@ export class TransactionsBanquePriveComponent implements OnInit {
             });
           }
           this.showTransactions = true;
-          this.transactions = res;
+          this.transactions = new MatTableDataSource(res as Transaction[]);
           setTimeout(() => {
             // sorry I'm too lazy ...
             const debitCredit: DebitCredit = this.util.getDebitCredit(res);
             this.selectedCredit = debitCredit.credit;
             this.selectedDebit = debitCredit.debit;
+            this.transactions.paginator = this.paginator;
+            this.transactions.sort = this.sort;
           }, 1000);
           console.log('scrolling..');
           setTimeout(() => {
@@ -55,6 +60,16 @@ export class TransactionsBanquePriveComponent implements OnInit {
     this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
       this.selectedSolde = data[0].balance;
     });
+  }
+
+  applyFilter(filterValue: string, itype: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.transactions.filterPredicate = (data: Transaction, filter: string) => {
+      if (itype === 'Type') { return data[itype].toLowerCase() === filter; }
+      return data[itype].toLowerCase().indexOf(filter) !== -1;
+    };
+    this.transactions.filter = filterValue;
   }
 
   onRowClicked(row: Portefeuille) {

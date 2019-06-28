@@ -19,6 +19,25 @@
         </li>
       </ul>
   </div>
+  <div class="example-header" fxLayout="row wrap">
+      <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select>
+              <mat-option (click)="applyFilter('', 'Nature')">Tout</mat-option>
+              <mat-option *ngFor="let type of types" [value]="type" (click)="applyFilter(type, 'Nature')">
+                  {{type}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+          <mat-label>Source</mat-label>
+          <input matInput (keyup)="applyFilter($event.target.value, 'Expediteur')" placeholder="Filter">
+      </mat-form-field>
+      <mat-form-field>
+          <mat-label>Destination</mat-label>
+          <input matInput (keyup)="applyFilter($event.target.value, 'Destinataire')" placeholder="Filter">
+      </mat-form-field>
+  </div>
   <div class="example-container mat-elevation-z8">
     <mat-table class="clients-table mat-elevation-z8" [dataSource]="transactions" matSort>
 
@@ -55,5 +74,6 @@
       </mat-row>
 
     </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100, 1000]"></mat-paginator>
   </div>
 </div>

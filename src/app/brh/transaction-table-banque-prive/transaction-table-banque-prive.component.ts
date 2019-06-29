@@ -37,6 +37,17 @@ export class TransactionTableBanquePriveComponent implements OnInit {
     setTimeout(() => {
       this.transactions.paginator = this.paginator;
       this.transactions.sort = this.sort;
+      this.transactions.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'Date': {
+            return item.Timestamp;
+          }
+          default: {
+            console.log('Inside default sort');
+            return item[property];
+          }
+        }
+      };
       const elmnt = document.querySelector('.contentTransactions');
       elmnt.scrollIntoView({behavior: 'smooth'});
     }, 1000);

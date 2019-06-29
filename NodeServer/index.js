@@ -198,7 +198,7 @@ app.post('/createMonnie', [
 app.post('/createParametre', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
-    check('name').isAlphanumeric().escape().trim(),
+    check('name').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
     outils.handleValidationResult],
     function(req, res) {
     conn.query(sql.insertParametre, [req.body.name,req.body.description,req.body.valeur, req.body.dateCreation], function(err, result) { 

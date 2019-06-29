@@ -203,7 +203,7 @@ app.post('/createParametre', [
     check('dateCreation').escape().trim(),
     outils.handleValidationResult],
     function(req, res) {
-    conn.query(sql.insertParametre, [req.body.name,req.body.description, req.body.dateCreation], function(err, result) { 
+    conn.query(sql.insertParametre, [req.body.name,req.body.description,req.body.valeur, req.body.dateCreation], function(err, result) { 
         return res.send({success: !err});
     });
 });
@@ -291,15 +291,19 @@ app.put('/blockClient', [
 
 app.put('/updateParametre', [
     outils.validJWTNeeded, 
+    check('parametreId').isNumeric().escape(),
+    check('parametreNom').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
     outils.handleValidationResult], 
     function(req, res) {
         console.log('permission level : ' + req.jwt.PermissionLevel);
-    if(req.jwt.PermissionLevel >= 3)
-        conn.query(sql.updateParametre, [req.body.parametreNom, req.body.parametreDescription,req.body.parametreId], function(err1, result1){
+ 
+        if(req.jwt.PermissionLevel >= 3)
+        conn.query(sql.updateParametre, [req.body.parametreNom, req.body.parametreDescription,req.body.parametreValeur, req.body.parametreId], function(err1, result1){
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });
     });
+
 app.put('/updateBanque', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),

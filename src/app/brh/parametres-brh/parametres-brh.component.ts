@@ -14,10 +14,13 @@ export class ParametresBrhComponent implements OnInit {
   parametreNom = '';
   parametreId = '';
   parametreDescription = '';
+  parametreValeur = '';
+
   selectedParametre: {
     Id: '';
     Nom: '',
     Description: '',
+    Valeur:'',
     DateCreation: ''
   };
 
@@ -33,7 +36,7 @@ export class ParametresBrhComponent implements OnInit {
 
   ngOnInit() {
     this.getParametres();
-    this.displayedColumns = ['Id', 'Nom', 'Descritpion', 'DateCreation', 'Supprimer', 'Editer'];
+    this.displayedColumns = ['Nom', 'Descritpion', 'Valeur', 'DateCreation', 'Supprimer', 'Editer'];
   }
 
   getParametres() {
@@ -56,7 +59,7 @@ export class ParametresBrhComponent implements OnInit {
   openEditDialog(templateRef, monnie) {
     event.stopPropagation();
     this.selectedParametre = { ...monnie };
-    this.contactDialogRef = this.dialog.open(templateRef, { width: '450px' });
+    this.contactDialogRef = this.dialog.open(templateRef, { width: '300px' });
   }
 
   deleteParametre() {
@@ -74,29 +77,31 @@ export class ParametresBrhComponent implements OnInit {
   confirmEditParametre() {
     this.service.makeRequest(apiUrl.updateParametre, {
       parametreId: this.selectedParametre.Id, parametreNom: this.selectedParametre.Nom,
-      parametreDescription: this.selectedParametre.Description
-    }).
-
-      subscribe(res => {
-        console.log('on a recu la response:');
-        this.getParametres();
-      }, error => {
-        console.log('got an error');
-        console.log(error);
+      parametreDescription: this.selectedParametre.Description, 
+      parametreValeur: this.selectedParametre.Valeur
+    }).subscribe(res => {
+      this.getParametres();
+      this.contactDialogRef.close();
+      this.snackBar.open(this.selectedParametre.Nom + '" à bien été mis à jour.', 'Fermer', {
+        duration: 5000,
       });
-    this.contactDialogRef.close();
-    this.snackBar.open('La monnie éléctronique' + this.selectedParametre.Nom + ' a bien été modifié.', 'Fermer', { duration: 5000 });
-  }
+    }, error => {
+      this.snackBar.open('Le paramètre n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
+        duration: 5000,
+      });
+    });
+}
 
   openAddMonnieDialog(templateRef) {
     event.stopPropagation();
-    this.contactDialogRef = this.dialog.open(templateRef, { width: '350px' });
+    this.contactDialogRef = this.dialog.open(templateRef, { width: '290px' });
   }
 
   confirmAddParametre() {
     var dateCreation = new Date();
     console.log(dateCreation);
-    this.service.makeRequest(apiUrl.createParametre, { name: this.parametreNom, description:this.parametreDescription,dateCreation:dateCreation }).
+    this.service.makeRequest(apiUrl.createParametre, { name: this.parametreNom, description:this.parametreDescription,valeur:this.parametreDescription ,
+      dateCreation:dateCreation }).
       subscribe(res => {
         console.log('on a recu la response:');
         this.getParametres();

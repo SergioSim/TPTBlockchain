@@ -19,7 +19,7 @@ module.exports = {
   'insertMonnie' : 
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
   'insertParametre' :
-        'INSERT INTO parametre (Nom, Description, DateCreation) VALUES (?,?,?)',
+        'INSERT INTO parametre (Nom, Description,Valeur, DateCreation) VALUES (?,?,?,?)',
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Secteur_Activite, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
@@ -50,7 +50,7 @@ module.exports = {
   'getAllMonnies' : 
         'SELECT Id, Nom, Unite, Type FROM monnie WHERE Type=?',
   'getAllPrametres' :
-        'SELECT Id, Nom, Description, DateCreation FROM parametre',
+        'SELECT Id, Nom, Description, Valeur, DateCreation FROM parametre',
   'getAllBanks' : 
         'SELECT Nom, Email, Tel, Statut FROM banque',
   'getAllBanks_NotVisible' : 
@@ -93,7 +93,7 @@ module.exports = {
         'UPDATE utilisateur SET Civilite = ?, Situation_Familiale = ?, Profession = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ?, Status = ? WHERE Email = ?',
   'updateParametre' :
-        'UPDATE parametre SET Nom = ?, Description = ?  WHERE Id = ?',
+        'UPDATE parametre SET Nom = ?, Description = ?, Valeur= ?  WHERE Id = ?',
   'updatePortefeuille' : 
         'UPDATE portefeuille SET Libelle = ?, ClePub = ?, ClePrive = ? WHERE Utilisateur_Email = ?',
   'updateContact' : 

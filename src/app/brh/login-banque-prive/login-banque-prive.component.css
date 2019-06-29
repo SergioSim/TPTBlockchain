@@ -44,7 +44,6 @@ img {
   max-height: 100%;
   display: block;
   border-radius: 10px;
-  box-shadow: grey;
 }
 
 @media screen and (max-width: 700px) {

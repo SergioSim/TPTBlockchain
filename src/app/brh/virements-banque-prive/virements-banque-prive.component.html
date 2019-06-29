@@ -1,1 +1,73 @@
 <h2>Effectuer un Virement :</h2>
+<div class="virements-content">
+  <div class="virements-boxes">
+    <div class="from-box">
+      <div class="box-header">
+        <h2>Depuis le portefeuille</h2>
+      </div>
+
+      <div class="box-item">
+        <div class="wallet-info">
+          <div>
+            <p>{{selectedPortefeuille.Libelle}}</p>
+            <p>Ouvert le {{selectedPortefeuille.Ouverture}}</p>
+          </div>
+        </div>
+        <div class="wallet-solde">
+          <h2>{{selectedSolde}} DHTG</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="to-box">
+      <div class="box-header">
+        <h2>Vers le Client</h2>
+        <button mat-icon-button (click)="chooseBeneficiaire()">
+            <fa-icon [icon]="faChevronDown"></fa-icon>
+        </button>
+      </div>
+
+      <div *ngIf="isBeneficiaireSelected" class="box-item">
+          <div class="wallet-info">
+              <div><fa-icon [icon]="faCheck"></fa-icon></div>
+              <div>
+                  <p>{{selectedBeneficiaire.Email}}</p>
+                  <p *ngIf="selectedBeneficiaire.Ouverture">Ouvert le {{selectedBeneficiaire.Ouverture}}</p>
+              </div>
+          </div>
+      </div>
+
+      <div *ngIf="!isBeneficiaireSelected">
+          <div class="transfer-to-separator box-item">
+              BÉNÉFICIAIRES 
+          </div>
+          <div class="transfer-to-separator box-item">
+              <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value, 'Email')" placeholder="Filter"/>
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-label>Nom</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value, 'Nom')" placeholder="Filter">
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-label>Prenom</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value, 'Prenom')" placeholder="Filter">
+              </mat-form-field>
+          </div>
+          <div *ngFor="let client of clients" class="box-item select-box-item" (click)="selectBeneficiaire(client)">
+              <div class="wallet-info">
+                  <div *ngIf="client && selectedBeneficiaire && client.Email === selectedBeneficiaire.Email">
+                      <fa-icon [icon]="faCheck"></fa-icon>
+                  </div>
+                  <div>
+                      <p>Email {{client.Email}}</p>
+                      <p>Prenom {{client.Prenom}}</p>
+                      <p>Nom {{client.Nom}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

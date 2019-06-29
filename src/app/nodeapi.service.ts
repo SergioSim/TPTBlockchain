@@ -5,6 +5,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Banque } from './banque.modele';
 import { Portefeuille } from './Portefeuille.modele';
+import { BanqueClient } from './brh/clients-banque-prive/clients-banque-prive.component';
 const protobuf = require('protobufjs');
 
 @Injectable({
@@ -34,6 +35,7 @@ export class NodeapiService {
   public codePostal: string;
   public documents: any;
   public statut: number;
+  public bankClients: BanqueClient[] = null;
 
   private readonly url: string = environment.apiUrl;
   private readonly urlOpenchain: string = environment.openchainUrl;

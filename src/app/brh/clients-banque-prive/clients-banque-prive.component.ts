@@ -27,7 +27,7 @@ export class ClientsBanquePriveComponent implements OnInit {
     this.apiService.makeRequest(apiUrl.clients, {banque: this.apiService.banque}).subscribe(
       res => {
         const result = res as BanqueClient[];
-        console.log(result);
+        this.apiService.bankClients = res;
         for (const i of res) {
           i.Status = this.roles[i.Role_Id];
         }

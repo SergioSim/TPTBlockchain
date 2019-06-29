@@ -13,6 +13,7 @@
         *ngIf="this.router.url == '/brh/banque/prive/clients'"></app-clients-banque-prive>
       <app-client-banque-prive [setSelectedClient]="selectedClient" *ngIf="!showClients"></app-client-banque-prive>
       <app-cartes-banque-prive *ngIf="this.router.url == '/brh/banque/prive/cartes'"></app-cartes-banque-prive>
+      <app-virements-banque-prive *ngIf="this.router.url == '/brh/banque/prive/virements'"></app-virements-banque-prive>
       <div *ngIf="this.router.url == '/brh/banque/prive/dashboard'">
         <h2>Bienvenue {{apiService.nom}}</h2>
         <p> Ceci est votre espcace de gestion Digital Haitian Gourde</p>

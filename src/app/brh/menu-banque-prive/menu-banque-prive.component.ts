@@ -12,9 +12,9 @@ export class MenuBanquePriveComponent implements OnInit {
 
   faBars = faBars;
   faSignOutAlt = faSignOutAlt;
-  public selectedIndexs = [-1, -1, -1, -1];
+  public selectedIndexs = [-1, -1, -1, -1, -1];
   public baseUrl = '/brh/banque/prive/';
-  public endUrl = ['portefeuille', 'transactions', 'clients', 'cartes', 'dashboard'];
+  public endUrl = ['portefeuille', 'transactions', 'clients', 'cartes', 'virements', 'dashboard'];
 
   @Output() public sidenavToggle = new EventEmitter();
 

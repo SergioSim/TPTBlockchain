@@ -43,7 +43,6 @@ export class TransactionTableBanquePriveComponent implements OnInit {
             return item.Timestamp;
           }
           default: {
-            console.log('Inside default sort');
             return item[property];
           }
         }

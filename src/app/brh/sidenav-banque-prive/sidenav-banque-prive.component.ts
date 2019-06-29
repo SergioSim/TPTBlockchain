@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { faHome, faUniversity, faAddressBook, faExchangeAlt, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUniversity, faAddressBook, faExchangeAlt, faCreditCard, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class SidenavBanquePriveComponent implements OnInit {
   faExchangeAlt = faExchangeAlt;
   faCreditCard = faCreditCard;
   faSignOutAlt = faSignOutAlt;
+  faPaperPlane = faPaperPlane;
 
   constructor(private apiService: NodeapiService) { }
 

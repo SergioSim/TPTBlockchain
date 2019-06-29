@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'brh/banque/prive/transactions', component:  EspaceUtilisateurBanquePriveComponent},
   { path: 'brh/banque/prive/clients', component:  EspaceUtilisateurBanquePriveComponent},
   { path: 'brh/banque/prive/cartes', component:  EspaceUtilisateurBanquePriveComponent},
+  { path: 'brh/banque/prive/virements', component:  EspaceUtilisateurBanquePriveComponent},
 
   { path: 'sogebank/accueil', component: AccueilSogebankComponent },
   { path: 'sogebank/login', component: LoginSogebankComponent},

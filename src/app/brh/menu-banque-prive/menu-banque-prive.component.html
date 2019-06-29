@@ -1,19 +1,22 @@
 <mat-toolbar color="primary">
-  <div fxHide.gt-xs>
-      <button mat-icon-button (click)="onToggleSidenav()" id="menuButton">
-        <fa-icon [icon]="faBars"></fa-icon>
-      </button>
+  <div fxHide.gt-sm>
+    <button mat-icon-button (click)="onToggleSidenav()" id="menuButton">
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
   </div>
-  <div>
-      <a [ngClass]="{'highlight': selectedIndexs[4] === 1}" (click)="onClick(4)">Accueil</a>
+  <div fxFlex fxLayout fxLayoutAlign="start" fxHide.sm fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li><a [ngClass]="{'highlight': selectedIndexs[5] === 1}" (click)="onClick(5)">Accueil</a></li>
+      <li><a [ngClass]="{'highlight': selectedIndexs[0] === 1}" (click)="onClick(0)">Portefeuille</a></li>
+      <li><a [ngClass]="{'highlight': selectedIndexs[1] === 1}" (click)="onClick(1)">Transactions</a></li>
+      <li><a [ngClass]="{'highlight': selectedIndexs[2] === 1}" (click)="onClick(2)">Clients</a></li>
+      <li><a [ngClass]="{'highlight': selectedIndexs[3] === 1}" (click)="onClick(3)">Cartes</a></li>
+      <li><a [ngClass]="{'highlight': selectedIndexs[4] === 1}" (click)="onClick(4)">Virements</a></li>
+    </ul>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-          <li><a [ngClass]="{'highlight': selectedIndexs[0] === 1}" (click)="onClick(0)">Portefeuille</a></li>
-          <li><a [ngClass]="{'highlight': selectedIndexs[1] === 1}" (click)="onClick(1)">Transactions</a></li>
-          <li><a [ngClass]="{'highlight': selectedIndexs[2] === 1}" (click)="onClick(2)">Clients</a></li>
-          <li><a [ngClass]="{'highlight': selectedIndexs[3] === 1}" (click)="onClick(3)">Cartes</a></li>
-          <li><a routerLink="/brh/accueil" (click)="logout()"><fa-icon [icon]="faSignOutAlt"></fa-icon></a></li>
-      </ul>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.sm fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li><a routerLink="/brh/accueil" (click)="logout()"><fa-icon [icon]="faSignOutAlt"></fa-icon></a></li>
+    </ul>
   </div>
 </mat-toolbar>

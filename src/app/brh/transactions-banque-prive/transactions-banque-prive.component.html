@@ -37,6 +37,16 @@
           <mat-label>Destination</mat-label>
           <input matInput (keyup)="applyFilter($event.target.value, 'Destinataire')" placeholder="Filter">
       </mat-form-field>
+      <mat-form-field>
+          <input matInput [matDatepicker]="startPicker" placeholder="Date de début" (dateChange)="applyFilter($event.target.value, 'Timestamp', true)">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput [matDatepicker]="endPicker" placeholder="Date de fin" (dateChange)="applyFilter($event.target.value, 'Timestamp', false)">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
   </div>
   <div class="example-container mat-elevation-z8">
     <mat-table class="clients-table mat-elevation-z8" [dataSource]="transactions" matSort>
@@ -74,6 +84,6 @@
       </mat-row>
 
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100, 1000]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100, 1000]"></mat-paginator>
   </div>
 </div>

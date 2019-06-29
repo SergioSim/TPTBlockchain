@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
 import { Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
-import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort, DateAdapter } from '@angular/material';
 import { DebitCredit, CommonUtilsService } from 'src/app/common/common-utils.service';
 
 @Component({
@@ -21,15 +21,19 @@ export class TransactionsBanquePriveComponent implements OnInit {
   public selectedDebit = 0;
   public selectedCredit = 0;
   public types = ['Virement', 'Recu'];
+  public startDate: number = null;
+  public endDate: number = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public apiService: NodeapiService,
     private util: CommonUtilsService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private adapter: DateAdapter<any>) { }
 
   ngOnInit() {
+    this.adapter.setLocale('fr');
     this.apiService.getTransactions(this.apiService.portefeuilles[0].ClePub).subscribe(
       sub => sub.subscribe( res => {
           if (res.length === 0) {
@@ -62,14 +66,23 @@ export class TransactionsBanquePriveComponent implements OnInit {
     });
   }
 
-  applyFilter(filterValue: string, itype: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  applyFilter(filterValue, itype: string, isStart: boolean = null) {
+    this.startDate = isStart ? (filterValue === null ? null : filterValue.getTime() / 1000 ) : this.startDate;
+    this.endDate =  !isStart ? (filterValue === null ? null : filterValue.getTime() / 1000 ) : this.endDate;
+    if (isStart === null) {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    }
     this.transactions.filterPredicate = (data: Transaction, filter: string) => {
+      if ((this.startDate !== null && data.Timestamp < this.startDate) ||
+          (this.endDate !== null && data.Timestamp > this.endDate)) {
+        return false;
+      }
+      if (itype === 'Timestamp') { return true; }
       if (itype === 'Type') { return data[itype].toLowerCase() === filter; }
       return data[itype].toLowerCase().indexOf(filter) !== -1;
     };
-    this.transactions.filter = filterValue;
+    this.transactions.filter = filterValue == null ? ' ' : filterValue;
   }
 
   onRowClicked(row: Portefeuille) {

@@ -279,7 +279,6 @@ getTransactions(iaddress) {
               console.log('transactionSchema or mutationSchema is NULL! ');
               return transactions;
             }
-            //console.log('raw transaction: ', result);
             result.forEach( raw => {
               const aTransaction: Transaction = {
                 Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
@@ -301,19 +300,17 @@ getTransactions(iaddress) {
                 aTransaction.Date = d.toLocaleDateString('fr-FR', options);
                 const version = this.toHexString(aMessage.mutation.records[1].version);
                 this.getRecord(this.toHexString(aMessage.mutation.records[1].key), version).subscribe(data => {
-                  const aaMon = aTransaction.Montant;
-                  const aaSolde = aTransaction.Solde;
-                  let aadataValue = 0;
+                  let aDataValue = 0;
                   try {
-                    aadataValue =  this.integerFromHex(data.value);
+                   aDataValue =  this.integerFromHex(data.value);
                   } catch (error) {
-                    console.log('aadataValue ERROR!!!');
+                    console.log('Warning, aDataValue is: ', data.value);
                   }
                   if (iaddress === aTransaction.Expediteur) {
                     aTransaction.Nature = 'Virement';
-                    aTransaction.Montant = data.value ? aadataValue - aTransaction.Montant : - aTransaction.Montant;
+                    aTransaction.Montant = data.value ? aDataValue - aTransaction.Montant : - aTransaction.Montant;
                   } else {
-                    aTransaction.Montant = data.value ? aTransaction.Montant -aadataValue : aTransaction.Montant;
+                    aTransaction.Montant = data.value ? aTransaction.Montant - aDataValue : aTransaction.Montant;
                   }
                 });
               } catch (exe) {

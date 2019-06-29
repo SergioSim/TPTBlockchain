@@ -20,7 +20,7 @@ export class ParametresBrhComponent implements OnInit {
     Id: '';
     Nom: '',
     Description: '',
-    Valeur:'',
+    Valeur: '',
     DateCreation: ''
   };
 
@@ -42,7 +42,7 @@ export class ParametresBrhComponent implements OnInit {
   getParametres() {
     this.service.makeRequest(apiUrl.allParametres, {}).subscribe(
       res => {
-      this.listMonnieVisible = res as Paramatres[];
+        this.listMonnieVisible = res as Paramatres[];
         this.dataSource = new MatTableDataSource(this.listMonnieVisible);
         this.dataSource.paginator = this.paginator;
 
@@ -77,7 +77,7 @@ export class ParametresBrhComponent implements OnInit {
   confirmEditParametre() {
     this.service.makeRequest(apiUrl.updateParametre, {
       parametreId: this.selectedParametre.Id, parametreNom: this.selectedParametre.Nom,
-      parametreDescription: this.selectedParametre.Description, 
+      parametreDescription: this.selectedParametre.Description,
       parametreValeur: this.selectedParametre.Valeur
     }).subscribe(res => {
       this.getParametres();
@@ -90,7 +90,7 @@ export class ParametresBrhComponent implements OnInit {
         duration: 5000,
       });
     });
-}
+  }
 
   openAddMonnieDialog(templateRef) {
     event.stopPropagation();
@@ -100,19 +100,24 @@ export class ParametresBrhComponent implements OnInit {
   confirmAddParametre() {
     var dateCreation = new Date();
     console.log(dateCreation);
-    this.service.makeRequest(apiUrl.createParametre, { name: this.parametreNom, description:this.parametreDescription,valeur:this.parametreDescription ,
-      dateCreation:dateCreation }).
+    this.service.makeRequest(apiUrl.createParametre, {
+      name: this.parametreNom, description: this.parametreDescription, valeur: this.parametreDescription,
+      dateCreation: dateCreation
+    }).
       subscribe(res => {
-        console.log('on a recu la response:');
         this.getParametres();
+        this.contactDialogRef.close();
+        this.snackBar.open('Le paramère a été créé avec succès.', 'Fermer', {
+          duration: 5000,
+        });
       }, error => {
-        console.log('got an error');
-        console.log(error);
+        this.snackBar.open('Le paramètre n\'a pas pu être créé !!, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
       });
-    this.snackBar.open('La banque a bien été créé avec succès.', 'Fermer', { duration: 5000, });
   }
 
-  cancelDiologueMonnie() {
+  cancelDiologueParametre() {
     this.contactDialogRef.close();
   }
 

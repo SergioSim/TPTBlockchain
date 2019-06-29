@@ -28,7 +28,7 @@
           </div>
           <div class="dialog-buttons">
             <button mat-flat-button class="dialog-confirm-button" (click)="confirmAddParametre()">Valider</button>
-            <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueMonnie()">Annuler</button>
+            <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueParametre()">Annuler</button>
           </div>
         </div>
       </ng-template>
@@ -70,8 +70,9 @@
                   <hr>
                 </div>
                 <div class="dialog-buttons">
-                  <button mat-flat-button class="boutonConfirmer" (click)="deleteParametre()">Confirmer</button>
-                  <button mat-flat-button class="boutonAnnuler" (click)="cancelDiologueParametre()">Annuler</button>
+                  <button mat-flat-button class="dialog-confirm-button" (click)="deleteParametre()">Confirmer</button>
+                  <button mat-flat-button class="dialog-cancel-button"
+                    (click)="cancelDiologueParametre()">Annuler</button>
                 </div>
               </div>
             </ng-template>
@@ -92,19 +93,21 @@
                   <mat-form-field>
                     <input matInput placeholder="Nom du paramètre" [(ngModel)]="selectedParametre.Nom">
                   </mat-form-field>
-                  <br/>
+                  <br />
                   <mat-form-field>
                     <input matInput placeholder="Dsscription" [(ngModel)]="selectedParametre.Description">
                   </mat-form-field>
-                  <br/>
+                  <br />
                   <mat-form-field>
                     <input matInput placeholder="Valeur" [(ngModel)]="selectedParametre.Valeur">
                   </mat-form-field>
                 </div>
                 <div class="dialog-buttons">
-                    <button mat-flat-button class="dialog-confirm-button" (click)="confirmEditParametre()">Valider</button>
-                    <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueParametre()">Annuler</button>
-                  </div>
+                  <button mat-flat-button class="dialog-confirm-button"
+                    (click)="confirmEditParametre()">Valider</button>
+                  <button mat-flat-button class="dialog-cancel-button"
+                    (click)="cancelDiologueParametre()">Annuler</button>
+                </div>
               </div>
             </ng-template>
           </td>

@@ -26,7 +26,7 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Prénom *"  [formControl]="nouvelBanquePrenom">
+                <input matInput placeholder="Prénom *" [formControl]="nouvelBanquePrenom">
                 <mat-error *ngIf="nouvelBanquePrenom.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -49,7 +49,7 @@
             <br>
         -->
             <mat-form-field>
-                <input matInput placeholder="Nom de la banque *"  [formControl]="BanqueNom">
+                <input matInput placeholder="Nom de la banque *" [formControl]="BanqueNom">
                 <mat-error *ngIf="BanqueNom.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -59,7 +59,7 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Email *"  [formControl]="nouvelBanqueEmail">
+                <input matInput placeholder="Email *" [formControl]="nouvelBanqueEmail">
                 <mat-error *ngIf="nouvelBanqueEmail.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -69,7 +69,7 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Mot de passe *"  [formControl]="nouvelBanquePassword">
+                <input matInput placeholder="Mot de passe *" [formControl]="nouvelBanquePassword" type="password">
                 <mat-error *ngIf="nouvelBanquePassword.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -79,7 +79,8 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Confirmer mot de passe *"  [formControl]="nouvelBanquePasswordConfirm">
+                <input matInput placeholder="Confirmer mot de passe *" [formControl]="nouvelBanquePasswordConfirm"
+                    type="password">
                 <mat-error *ngIf="nouvelBanquePasswordConfirm.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -89,7 +90,7 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Téléphone *"  [formControl]="nouvelBanqueTel">
+                <input matInput placeholder="Téléphone *" [formControl]="nouvelBanqueTel">
                 <mat-error *ngIf="nouvelBanqueTel.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>
@@ -129,6 +130,8 @@
         <div class="dialog-button">
             <button mat-flat-button color="primary" class="boutonConfirmer"
                 (click)="confirmAddBanque()">Envoyer</button>
+            <button mat-flat-button class="boutonConfirmer" style="background-color: #FF3B00;"
+                (click)="goBack()">Annuler</button>
         </div>
 
     </div>

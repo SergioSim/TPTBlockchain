@@ -1,0 +1,23 @@
+<div class="content">
+    <h2>Documents: {{numberOfDocs}}</h2>
+    <div *ngIf="showDocs && numberOfDocs === 0"> Le client {{client.Nom}} n'a pas des documents</div>
+    <div *ngIf="showDocs">
+      <div class="gridcontainer2">
+          <ul class="heroes">
+            <li (click)="consult(isNotNull[0] ? docs.Piece_Identite.data : null)"><span class="badge">Piece_Identite</span>
+              <p>Size: {{isNotNull[0] ? docs.Piece_Identite.data.length : 0}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li (click)="consult(isNotNull[1] ? docs.Justificatif_Domicile.data : null)"><span class="badge">Justificatif_Domicile</span>
+              <p>Size: {{isNotNull[1] ? docs.Justificatif_Domicile.data.length : 0}}</p>
+            </li>
+          </ul>
+          <ul class="heroes">
+            <li (click)="consult(isNotNull[2] ? docs.Annonce_Legale.data : null)"><span class="badge">Annonce_Legale</span>
+              <p>Size: {{isNotNull[2] ? docs.Annonce_Legale.data.length : 0}}</p>
+            </li>
+          </ul>
+        </div>
+    </div>
+</div>

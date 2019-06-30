@@ -429,6 +429,7 @@ getTransactions(iaddress) {
 export enum apiUrl {
   clients = 'GET$clients',
   contactsByUserEmail = 'GET$contactsByUserEmail',
+  clientDocuments = 'GET$clientDocuments',
   allClients = 'GET$allClients',
   allBanks = 'GET$allBanks',
   allMonnies = 'GET$allMonnies',

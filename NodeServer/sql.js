@@ -61,6 +61,8 @@ module.exports = {
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut=? && Nom!=?',
   'getAllBanks_NotValid' : 
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut!=? && isVisible=1',
+  'getClientDocsByEmail':
+        'SELECT Piece_Identite, Justificatif_Domicile, Annonce_Legale FROM document WHERE Email=?',
   'deleteParametre'  :
         'DELETE FROM parametre WHERE Id=?',
   'deleteMonnie' : 

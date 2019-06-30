@@ -116,6 +116,24 @@ app.get('/allClients', [
     });
 });
 
+app.get('/clientDocuments', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().escape().trim(),
+    outils.handleValidationResult],
+    function(req, res) {
+
+    conn.query(sql.findUtilisateurByEmail, [req.query.email], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+    
+        conn.query(sql.getClientDocsByEmail, req.query.email, function(err, result){
+            res.send((err) ? "Error" : result);
+        });
+    });
+});
+
 app.post('/cardsByPortefeuilleIds', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),

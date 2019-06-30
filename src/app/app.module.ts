@@ -69,6 +69,7 @@ import { InfoPersonelBanquePriveComponent } from './brh/info-personel-banque-pri
 import { TransactionTableBanquePriveComponent } from './brh/transaction-table-banque-prive/transaction-table-banque-prive.component';
 import { VirementsBanquePriveComponent } from './brh/virements-banque-prive/virements-banque-prive.component';
 import { CommonCarteComponent } from './common/common-carte/common-carte.component';
+import { DocumentBanquePriveComponent } from './brh/document-banque-prive/document-banque-prive.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { CommonCarteComponent } from './common/common-carte/common-carte.compone
     TransactionTableBanquePriveComponent,
     VirementsBanquePriveComponent,
     CommonCarteComponent,
+    DocumentBanquePriveComponent,
   ],
   imports: [
     BrowserModule,

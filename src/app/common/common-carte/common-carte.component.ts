@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Portefeuille } from 'src/app/brh/clients-banque-prive/clients-banque-prive.component';
 import { faPen, faTimes, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { CommonUtilsService } from '../common-utils.service';
@@ -13,6 +13,7 @@ import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 export class CommonCarteComponent implements OnInit {
 
   @Input() card: Card;
+  @Output() clientDeleted = new EventEmitter<number>();
   editDialogRef: any;
   deleteDialogRef: any;
   faPen = faPen;
@@ -66,7 +67,8 @@ export class CommonCarteComponent implements OnInit {
       .then(res => {
         //this.getCartes(); EMMIT ? 
         this.deleteDialogRef.close();
-        this.snackBar.open(deleteCardDetails.libelle + '" à bien été supprimé.', 'Fermer', {
+        this.clientDeleted.emit(deleteCardDetails.id);
+        this.snackBar.open(deleteCardDetails.libelle + ' à bien été supprimé.', 'Fermer', {
           duration: 5000,
         });
       }, error => {

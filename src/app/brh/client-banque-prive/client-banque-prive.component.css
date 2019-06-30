@@ -1,3 +1,5 @@
+@import "../../sogebank/cartes-sogebank/cartes-sogebank.component.css";
+
 .gridcontainer, .gridcontainer3 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -97,8 +99,7 @@
 }
 
 .mat-column-Montant {
-  flex: 0 0 15%;
-  min-width: 160px;
+  word-break: break-word;
 }
 
 .mat-column-Expediteur, .mat-column-Destinataire {
@@ -158,6 +159,7 @@
     content: attr(data-label);
     float: left;
     padding-left: 1em;
+    padding-right: 1em;
     text-transform: uppercase;
     font-weight: normal;
     font-size: .85em;
@@ -170,7 +172,7 @@
     padding-left: 0;
   }
 
-  .mat-column-Nature .mat-column-Montant .mat-column-Expediteur .mat-column-Destinataire .mat-column-Date {
+  .mat-column-Nature, .mat-column-Montant, .mat-column-Expediteur, .mat-column-Destinataire, .mat-column-Date {
     flex: inherit;
     min-width: inherit;
   }

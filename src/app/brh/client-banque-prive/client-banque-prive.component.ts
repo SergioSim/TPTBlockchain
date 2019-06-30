@@ -5,6 +5,7 @@ import { NodeapiService, Transaction, apiUrl } from 'src/app/nodeapi.service';
 import { CommonUtilsService, DebitCredit } from 'src/app/common/common-utils.service';
 import { InfoPersonelBanquePriveComponent } from '../info-personel-banque-prive/info-personel-banque-prive.component';
 import { Card } from 'src/app/common/common-carte/common-carte.component';
+import { faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-client-banque-prive',
@@ -42,6 +43,11 @@ export class ClientBanquePriveComponent implements OnInit {
   public startDate: number = null;
   public endDate: number = null;
   public cartes: Card[];
+  public newCardlibelle: string;
+  public newCardSelectedWallet: Portefeuille;
+  newCreateDialogRef;
+  faPlusCircle = faPlusCircle;
+  faExclamationTriangle = faExclamationTriangle;
   @ViewChild(MatPaginator) paginatorClient: MatPaginator;
   @ViewChild(MatPaginator) paginatorTransaction: MatPaginator;
   @ViewChild(MatSort) sortClient: MatSort;
@@ -91,7 +97,7 @@ export class ClientBanquePriveComponent implements OnInit {
           this.showTransactions = false;
       }));
     this.apiService.getRecord(row.ClePub).subscribe(data => {
-      this.selectedSolde = data[0].balance;
+      this.selectedSolde = data[0] ? data[0].balance : 0;
     });
   }
 
@@ -146,4 +152,38 @@ export class ClientBanquePriveComponent implements OnInit {
       data: {name, clientChamp, client: selectedClient}
     });
   }
+
+  openNewCardDialog(templateRef) {
+    this.newCreateDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmCardCreate() {
+    const newCardDetails = {
+      libelle: this.newCardlibelle,
+      portefeuille_id: this.newCardSelectedWallet.Id
+    };
+    this.apiService.makeRequest(apiUrl.createCarte, newCardDetails).subscribe(
+      res => {
+        this.getClientCards();
+        this.newCreateDialogRef.close();
+        this.snackBar.open('La commande de la carte "' + this.newCardlibelle + '" à bien été effectuée et sera'
+        + ' rattaché au portefeuile "' + this.newCardSelectedWallet.Libelle + '".', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La commande de la carte ne s\'est pas effectué, assurez-vous d\'avoir un solde'
+        + ' suffisant avant de réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
+  }
+
+  cancelCardCreate() {
+    this.newCreateDialogRef.close();
+  }
+
+  handleClientCardDelete(id: number) {
+    this.getClientCards();
+  }
+
 }

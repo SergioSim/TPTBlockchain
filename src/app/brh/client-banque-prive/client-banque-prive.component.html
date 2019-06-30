@@ -47,14 +47,18 @@
       </li>
     </ul>
   </div>
-  <h2>Cartes: </h2>
+  <h2 style="display: inline-block;padding-right: 2em;">Cartes: {{cartes ? cartes.length : 0}}</h2>
+  <button style="vertical-align: super;" mat-flat-button color="primary" class="new-button" (click)="openNewCardDialog(NewCardDialog)">
+      <fa-icon [icon]="faPlusCircle"></fa-icon>
+      NOUVELLE CARTE
+  </button>
   <div *ngIf="showCartes && cartes.length === 0"> Le client {{selectedClient.Nom}} n'a pas des cartes</div>
   <div *ngIf="showCartes" class="gridcontainer3">
-      <div *ngFor="let carte of cartes">
-          <app-common-carte [card]="carte"></app-common-carte>
+      <div *ngFor="let carte of cartes" style="word-break: break-word;">
+          <app-common-carte (clientDeleted)="handleClientCardDelete($event)" [card]="carte"></app-common-carte>
       </div>
   </div>
-  <h2>Portefeuilles:</h2>
+  <h2>Portefeuilles: {{selectedClient.Portefeuille.length}}</h2>
   <div class="example-container mat-elevation-z8">
     <mat-table class="clients-table mat-elevation-z8" #sortClient="matSort" [dataSource]="selectedClientPortefeuilles"
       matSort>
@@ -90,4 +94,36 @@
     <app-transaction-table-banque-prive [transactions]="transactions" [selectedSolde]="selectedSolde"
       [selectedDebit]="selectedDebit" [selectedCredit]="selectedCredit"></app-transaction-table-banque-prive>
   </div>
+
+  <ng-template #NewCardDialog>
+      <div class="new-card-dialog">
+          <div class="dialog-header">
+              <h2>Creer une nouvelle carte</h2>
+              <h4>Pour le client {{selectedClient.Nom}}</h4>
+              <hr>
+          </div>
+          <div class="dialog-warning">
+              <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+              <p>Attention : Cette opération ne débitera pas le client</p>
+          </div>
+          <div class="new-card-dialog-form">
+              <mat-form-field>
+                  <input matInput placeholder="Saisir un libellé pour la nouvelle carte…" [(ngModel)]="newCardlibelle">
+              </mat-form-field>
+              <mat-form-field>
+                      <mat-label>Portefeuille rattaché</mat-label>
+                      <mat-select [(value)]="newCardSelectedWallet">
+                          <mat-option *ngFor="let portefeuille of selectedClient.Portefeuille" [value]="portefeuille">
+                              {{portefeuille.Libelle}}
+                          </mat-option>
+                      </mat-select>
+              </mat-form-field>
+          </div>
+         <div class="dialog-buttons">
+              <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardCreate()">Confirmer</button> 
+              <button mat-flat-button class="dialog-cancel-button" (click)="cancelCardCreate()">Annuler</button> 
+          </div>
+      </div>
+  </ng-template>
+
 </div>

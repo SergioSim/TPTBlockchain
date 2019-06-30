@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BanqueClient } from '../clients-banque-prive/clients-banque-prive.component';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-document-banque-prive',
@@ -15,6 +15,8 @@ export class DocumentBanquePriveComponent implements OnInit {
   public docs: ClientDocument;
   public numberOfDocs = 0;
   public isNotNull = [false, false, false];
+  public showImageDialogRef: any;
+  public selectedImage;
 
   @Input() set setClient(aClient: BanqueClient) {
     this.client = aClient;
@@ -23,7 +25,8 @@ export class DocumentBanquePriveComponent implements OnInit {
 
   constructor(
     private apiService: NodeapiService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -48,9 +51,11 @@ export class DocumentBanquePriveComponent implements OnInit {
       });
   }
 
-  consult(buf: Buffer) {
+  consult(buf: Buffer, showImageDialogRef) {
     if (buf !== null) {
-      console.log('Selected Buffer:', buf);
+      const base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(buf)));
+      this.selectedImage = 'data:image/jpeg;base64,' + base64String;
+      this.dialog.open(showImageDialogRef, { width: '400px' });
     } else {
       this.snackBar.open('Document non remplie!', 'Fermer', {
         duration: 5000,

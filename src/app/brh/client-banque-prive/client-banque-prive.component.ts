@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { BanqueClient, Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
 import { MatTableDataSource, MatSnackBar, MatDialog, MatPaginator, MatSort, DateAdapter } from '@angular/material';
-import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
+import { NodeapiService, Transaction, apiUrl } from 'src/app/nodeapi.service';
 import { CommonUtilsService, DebitCredit } from 'src/app/common/common-utils.service';
 import { InfoPersonelBanquePriveComponent } from '../info-personel-banque-prive/info-personel-banque-prive.component';
+import { Card } from 'src/app/common/common-carte/common-carte.component';
 
 @Component({
   selector: 'app-client-banque-prive',
@@ -19,6 +20,8 @@ export class ClientBanquePriveComponent implements OnInit {
     this.selectedClientPortefeuilles.paginator = this.paginatorClient;
     this.selectedClientPortefeuilles.sort = this.sortClient;
     this.showTransactions = false;
+    this.showCartes = false;
+    this.getClientCards();
     const elmnt = document.querySelector('.content');
     elmnt.scrollIntoView({behavior: 'smooth'});
   }
@@ -26,6 +29,7 @@ export class ClientBanquePriveComponent implements OnInit {
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
   displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Montant'];
   public showTransactions = false;
+  public showCartes = false;
   public selectedClient: BanqueClient;
   public selectedClientPortefeuilles: MatTableDataSource<Portefeuille>;
   public selectedPortefeuille: Portefeuille;
@@ -37,6 +41,7 @@ export class ClientBanquePriveComponent implements OnInit {
   public types = ['Virement', 'Recu'];
   public startDate: number = null;
   public endDate: number = null;
+  public cartes: Card[];
   @ViewChild(MatPaginator) paginatorClient: MatPaginator;
   @ViewChild(MatPaginator) paginatorTransaction: MatPaginator;
   @ViewChild(MatSort) sortClient: MatSort;
@@ -87,6 +92,27 @@ export class ClientBanquePriveComponent implements OnInit {
       }));
     this.apiService.getRecord(row.ClePub).subscribe(data => {
       this.selectedSolde = data[0].balance;
+    });
+  }
+
+  getClientCards() {
+    const portefeuilleIds = this.selectedClient.Portefeuille.map(pf => pf.Id);
+    this.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).subscribe(
+      finalRes => {
+        console.log('Cartes', finalRes);
+        this.cartes = finalRes;
+        this.cartes.forEach(carte => {
+          const attached = this.selectedClient.Portefeuille.filter(portefeuille => portefeuille.Id = carte.Portefeuille_Id);
+          carte.rattachement = attached[0].Libelle + ' [' + attached[0].ClePub + ']';
+        });
+        console.log('this.cartes', this.cartes);
+        this.showCartes = true;
+    }, error => {
+      this.showCartes = false;
+      this.snackBar.open('Impossible de recuperer les cartes du client!', 'Fermer', {
+        duration: 5000,
+        panelClass: ['alert-snackbar']
+      });
     });
   }
 

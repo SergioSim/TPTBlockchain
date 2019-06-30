@@ -68,6 +68,7 @@ import { ParametresBrhComponent } from './brh/parametres-brh/parametres-brh.comp
 import { InfoPersonelBanquePriveComponent } from './brh/info-personel-banque-prive/info-personel-banque-prive.component';
 import { TransactionTableBanquePriveComponent } from './brh/transaction-table-banque-prive/transaction-table-banque-prive.component';
 import { VirementsBanquePriveComponent } from './brh/virements-banque-prive/virements-banque-prive.component';
+import { CommonCarteComponent } from './common/common-carte/common-carte.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { VirementsBanquePriveComponent } from './brh/virements-banque-prive/vire
     InfoPersonelBanquePriveComponent,
     TransactionTableBanquePriveComponent,
     VirementsBanquePriveComponent,
+    CommonCarteComponent,
   ],
   imports: [
     BrowserModule,

@@ -47,6 +47,13 @@
       </li>
     </ul>
   </div>
+  <h2>Cartes: </h2>
+  <div *ngIf="showCartes && cartes.length === 0"> Le client {{selectedClient.Nom}} n'a pas des cartes</div>
+  <div *ngIf="showCartes" class="gridcontainer3">
+      <div *ngFor="let carte of cartes">
+          <app-common-carte [card]="carte"></app-common-carte>
+      </div>
+  </div>
   <h2>Portefeuilles:</h2>
   <div class="example-container mat-elevation-z8">
     <mat-table class="clients-table mat-elevation-z8" #sortClient="matSort" [dataSource]="selectedClientPortefeuilles"

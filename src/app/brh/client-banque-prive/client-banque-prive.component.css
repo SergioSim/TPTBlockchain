@@ -1,4 +1,4 @@
-.gridcontainer {
+.gridcontainer, .gridcontainer3 {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -118,6 +118,14 @@
 
 .credit-text {
   color: #23B708;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+  .gridcontainer3 {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media screen and (max-width: 960px) {

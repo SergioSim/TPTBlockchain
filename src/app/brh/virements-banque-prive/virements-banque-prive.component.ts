@@ -25,6 +25,10 @@ export class VirementsBanquePriveComponent implements OnInit {
   public editBeneficiaire: {};
   public newBeneficiaireLibelle: string;
   public newBeneficiaireClePub: string;
+  public transferAmount: number;
+  public selectedType: string;
+  public confirmDialogRef: any;
+  public transferPassword: string;
   private contactDialogRef: any;
   faCheck = faCheck;
   faClipboard = faClipboard;
@@ -32,6 +36,20 @@ export class VirementsBanquePriveComponent implements OnInit {
   faChevronDown = faChevronDown;
   faCheckCircle = faCheckCircle;
   faPlus = faPlus;
+  dialogProperties = {
+    from: '',
+    to: '',
+    amount: '',
+    afterTransfer: '',
+    type: '',
+    date: ''
+  };
+  public typesVirement = [
+    {value: 'Virement', viewValue: 'Classique'},
+    {value: 'Paiement', viewValue: 'Paiement'},
+    {value: 'Depôt HTG', viewValue: 'Dépôt HTG'},
+    {value: 'Retrait HTG', viewValue: 'Retrait HTG'}
+  ];
   public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
 
   constructor(
@@ -102,6 +120,71 @@ export class VirementsBanquePriveComponent implements OnInit {
       from(this.clients).pipe(filter( data => data[itype].trim().toLowerCase().indexOf(afilter) !== -1)).subscribe(res => arr.push(res));
       this.clients = arr;
     }
+  }
+
+  updateDialogProperties() {
+    this.dialogProperties.from = this.selectedPortefeuille.Libelle;
+    this.dialogProperties.to = this.selectedBeneficiaire.Portefeuille[0].Libelle;
+    this.dialogProperties.amount = this.transferAmount.toString();
+    this.dialogProperties.afterTransfer = (this.selectedSolde - this.transferAmount).toString();
+    this.dialogProperties.type = this.typesVirement.find(obj => obj.value === this.selectedType).viewValue;
+    this.dialogProperties.date = new Date().toLocaleDateString();
+  }
+
+  openConfirmDialog(templateRef) {
+    if (this.transferAmount > this.selectedSolde) {
+        this.snackBar.open('Le montant du virement ne peut pas excéder le solde du portefeuille.', 'Fermer', {
+          duration: 5000,
+        });
+    } else if (this.selectedPortefeuille.Id === this.selectedBeneficiaire.Portefeuille[0].Id) {
+      this.snackBar.open('Les portefeuilles source et bénéficiaire ne peuvent pas être les même.', 'Fermer', {
+        duration: 5000,
+      });
+    } else {
+      this.updateDialogProperties();
+      this.confirmDialogRef = this.dialog.open(templateRef);
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+
+      });
+    }
+  }
+
+  checkConfirmState() {
+    if (this.selectedBeneficiaire && Object.entries(this.selectedBeneficiaire).length > 0 &&
+        Object.entries(this.selectedPortefeuille).length > 0
+        && this.transferAmount !== undefined && this.transferAmount !== null && this.selectedType !== undefined) {
+      return false;
+    }
+    return true;
+  }
+
+  confirmTransfer() {
+    const transferDetails = {
+      password: this.transferPassword,
+      id: this.selectedPortefeuille.Id,
+      email: this.selectedBeneficiaire.Email,
+      montant: this.transferAmount,
+      memo: this.selectedType
+    };
+    this.apiService.makeRequest(apiUrl.submit, transferDetails).toPromise()
+      .then(res => {
+        this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
+          this.selectedSolde = data[0].balance;
+        });
+        this.confirmDialogRef.close();
+        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+          + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('Le virement n\'a pas pu aboutir, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
+  }
+
+  cancelTransfer() {
+    this.confirmDialogRef.close();
   }
 
 }

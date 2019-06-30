@@ -775,7 +775,6 @@ app.post('/submit', [
     check('memo').optional().isAlphanumeric().escape(),
     outils.handleValidationResult], 
     function(req, res) {
-    find
     const monPortefeuille = req.jwt.Portefeuilles.find(pt => pt.Id === req.body.id);
     if(!monPortefeuille) return res.status(404).send({ succes: false, errors: ["Mauvais ID!"] });
     conn.query(sql.findUtilisateurByEmail, [req.body.email], function(err, result){

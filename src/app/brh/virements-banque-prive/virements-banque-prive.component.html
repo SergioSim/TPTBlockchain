@@ -23,51 +23,127 @@
       <div class="box-header">
         <h2>Vers le Client</h2>
         <button mat-icon-button (click)="chooseBeneficiaire()">
-            <fa-icon [icon]="faChevronDown"></fa-icon>
+          <fa-icon [icon]="faChevronDown"></fa-icon>
         </button>
       </div>
 
       <div *ngIf="isBeneficiaireSelected" class="box-item">
-          <div class="wallet-info">
-              <div><fa-icon [icon]="faCheck"></fa-icon></div>
-              <div>
-                  <p>{{selectedBeneficiaire.Email}}</p>
-                  <p *ngIf="selectedBeneficiaire.Ouverture">Ouvert le {{selectedBeneficiaire.Ouverture}}</p>
-              </div>
+        <div class="wallet-info">
+          <div>
+            <fa-icon [icon]="faCheck"></fa-icon>
           </div>
+          <div>
+            <p>{{selectedBeneficiaire.Email}}</p>
+            <p *ngIf="selectedBeneficiaire.Ouverture">Ouvert le {{selectedBeneficiaire.Ouverture}}</p>
+          </div>
+        </div>
       </div>
 
       <div *ngIf="!isBeneficiaireSelected">
-          <div class="transfer-to-separator box-item">
-              BÉNÉFICIAIRES 
+        <div class="transfer-to-separator box-item">
+          BÉNÉFICIAIRES
+        </div>
+        <div class="transfer-to-separator box-item">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value, 'Email')" placeholder="Filter" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value, 'Nom')" placeholder="Filter">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Prenom</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value, 'Prenom')" placeholder="Filter">
+          </mat-form-field>
+        </div>
+        <div *ngFor="let client of clients" class="box-item select-box-item" (click)="selectBeneficiaire(client)">
+          <div class="wallet-info">
+            <div *ngIf="client && selectedBeneficiaire && client.Email === selectedBeneficiaire.Email">
+              <fa-icon [icon]="faCheck"></fa-icon>
+            </div>
+            <div>
+              <p>Email {{client.Email}}</p>
+              <p>Prenom {{client.Prenom}}</p>
+              <p>Nom {{client.Nom}}</p>
+            </div>
           </div>
-          <div class="transfer-to-separator box-item">
-              <mat-form-field>
-                  <mat-label>Email</mat-label>
-                  <input matInput (keyup)="applyFilter($event.target.value, 'Email')" placeholder="Filter"/>
-              </mat-form-field>
-              <mat-form-field>
-                  <mat-label>Nom</mat-label>
-                  <input matInput (keyup)="applyFilter($event.target.value, 'Nom')" placeholder="Filter">
-              </mat-form-field>
-              <mat-form-field>
-                  <mat-label>Prenom</mat-label>
-                  <input matInput (keyup)="applyFilter($event.target.value, 'Prenom')" placeholder="Filter">
-              </mat-form-field>
-          </div>
-          <div *ngFor="let client of clients" class="box-item select-box-item" (click)="selectBeneficiaire(client)">
-              <div class="wallet-info">
-                  <div *ngIf="client && selectedBeneficiaire && client.Email === selectedBeneficiaire.Email">
-                      <fa-icon [icon]="faCheck"></fa-icon>
-                  </div>
-                  <div>
-                      <p>Email {{client.Email}}</p>
-                      <p>Prenom {{client.Prenom}}</p>
-                      <p>Nom {{client.Nom}}</p>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
     </div>
+
+    <div class="virements-form">
+      <mat-form-field>
+        <input matInput type="number" placeholder="Montant" [(ngModel)]="transferAmount" min="1"
+          oninput="validity.valid||(value='1')">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type de virement</mat-label>
+        <mat-select [(value)]="selectedType">
+          <mat-option *ngFor="let type of typesVirement" [value]="type.value">
+            {{type.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <button mat-flat-button color="primary" class="confirm-button" (click)="openConfirmDialog(ConfirmDialog)"
+      [disabled]="checkConfirmState()">
+      <fa-icon [icon]="faCheckCircle"></fa-icon>
+      CONFIRMER
+    </button>
+
+    <ng-template #ConfirmDialog>
+      <div class="confirm-dialog">
+        <div class="dialog-header">
+          <h2>Confirmer le virement</h2>
+          <hr>
+        </div>
+        <div class="dialog-content">
+          <div class="dialog-info-left">
+            <div class="dialog-info">
+              <p>De :</p>
+              <p><strong>{{dialogProperties.from}}</strong></p>
+              <hr>
+            </div>
+            <div class="dialog-info">
+              <p>Montant débité :</p>
+              <p><strong>{{dialogProperties.amout}} DHTG</strong></p>
+              <hr>
+            </div>
+            <div class="dialog-info">
+              <p>Type de virement :</p>
+              <p><strong>{{dialogProperties.type}}</strong></p>
+            </div>
+          </div>
+          <div class="dialog-info-right">
+            <div class="dialog-info">
+              <p>Vers :</p>
+              <p><strong>{{dialogProperties.to}}</strong></p>
+              <hr>
+            </div>
+            <div class="dialog-info">
+              <p>Solde après opération :</p>
+              <p><strong>{{dialogProperties.afterTransfer}} DHTG</strong></p>
+              <hr>
+            </div>
+            <div class="dialog-info">
+              <p>Date du virement :</p>
+              <p><strong>{{dialogProperties.date}}</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field class="transfer-password-confirm">
+          <input matInput type="password" placeholder="Entrez votre mot de passe pour confirmer"
+            [(ngModel)]="transferPassword">
+        </mat-form-field>
+
+        <div class="dialog-buttons">
+          <button mat-flat-button class="dialog-confirm-button" (click)="confirmTransfer()">Confirmer</button>
+          <button mat-flat-button class="dialog-cancel-button" (click)="cancelTransfer()">Annuler</button>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

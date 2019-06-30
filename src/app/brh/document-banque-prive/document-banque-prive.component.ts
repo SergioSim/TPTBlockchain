@@ -51,10 +51,15 @@ export class DocumentBanquePriveComponent implements OnInit {
       });
   }
 
+  theUnescapeFunctionBecauseUnescapeDontWorkAndLibraryDontCharge(str: string) {
+    return str.replace(/&#(...)\;/g, '/');
+  }
+
   consult(buf: Buffer, showImageDialogRef) {
     if (buf !== null) {
-      const base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(buf)));
-      this.selectedImage = 'data:image/jpeg;base64,' + base64String;
+      let aUri = new TextDecoder('latin1').decode(new Uint8Array(buf));
+      aUri = this.theUnescapeFunctionBecauseUnescapeDontWorkAndLibraryDontCharge(aUri);
+      this.selectedImage = aUri;
       this.dialog.open(showImageDialogRef, { width: '400px' });
     } else {
       this.snackBar.open('Document non remplie!', 'Fermer', {

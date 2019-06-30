@@ -26,7 +26,7 @@ const app  = express()
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
 //app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(helmet());
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -594,8 +594,7 @@ app.post('/insertCommercantDocs', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    let annonceLegaleBlob = Buffer.from(req.body.annonceLegale, 'base64');
-    conn.query(sql.insertCommercantDocs, [req.jwt.Email, annonceLegaleBlob], function(err, result){
+    conn.query(sql.insertCommercantDocs, [req.jwt.Email, req.body.annonceLegale], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not upload documents']});
         conn.query(sql.updateCommercantInfo, [req.body.statutJuridique, req.body.siret, req.body.secteurActivite, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
             return res.send({success: !err});
@@ -617,8 +616,7 @@ app.post('/updateCommercantDocs', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    let annonceLegaleBlob = Buffer.from(req.body.annonceLegale, 'base64');
-    conn.query(sql.updateCommercantDocs, [annonceLegaleBlob, req.jwt.Email], function(err, result){
+    conn.query(sql.updateCommercantDocs, [req.body.annonceLegale, req.jwt.Email], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not upload documents']});
         conn.query(sql.updateCommercantInfo, [req.body.statutJuridique, req.body.siret, req.body.secteurActivite, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
             return res.send({success: !err});
@@ -641,9 +639,7 @@ app.post('/insertParticulierDocs', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    let pieceIdentiteBlob = Buffer.from(req.body.pieceIdentite, 'base64');
-    let justificatifDomicileBlob = Buffer.from(req.body.justificatifDomicile, 'base64');
-    conn.query(sql.insertParticulierDocs, [req.jwt.Email, pieceIdentiteBlob, justificatifDomicileBlob], function(err, result){
+    conn.query(sql.insertParticulierDocs, [req.jwt.Email, req.body.pieceIdentite, req.body.justificatifDomicile], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not upload documents']});
         conn.query(sql.updateParticulierInfo, [req.body.civilite, req.body.situation, req.body.profession, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
             return res.send({success: !err});
@@ -666,9 +662,7 @@ app.post('/updateParticulierDocs', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    let pieceIdentiteBlob = Buffer.from(req.body.pieceIdentite, 'base64');
-    let justificatifDomicileBlob = Buffer.from(req.body.justificatifDomicile, 'base64');
-    conn.query(sql.updateParticulierDocs, [pieceIdentiteBlob, justificatifDomicileBlob, req.jwt.Email], function(err, result){
+    conn.query(sql.updateParticulierDocs, [req.body.pieceIdentite, breq.body.justificatifDomicile, req.jwt.Email], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not upload documents']});
         conn.query(sql.updateParticulierInfo, [req.body.civilite, req.body.situation, req.body.profession, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
             return res.send({success: !err});

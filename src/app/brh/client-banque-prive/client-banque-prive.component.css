@@ -161,6 +161,12 @@
     padding-top: 1em;
     padding-left: 0;
   }
+
+  .mat-column-Nature .mat-column-Montant .mat-column-Expediteur .mat-column-Destinataire .mat-column-Date {
+    flex: inherit;
+    min-width: inherit;
+  }
+  
 }
 
 @media screen and (max-width: 820px) {

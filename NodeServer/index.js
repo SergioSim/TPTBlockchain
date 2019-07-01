@@ -237,20 +237,23 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
+    check('tel').isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
     function(req, res) {
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom,, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
-        if(err) return res.send({success: !err});
+    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
+        console.log('result');
+        console.log(err);
+        if(err) return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
         let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
         // TODO - Send Email to User containing this token!
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
-            if(err2) return res.send({success: !err2});
+            if(err2) return res.send({success: !err2, error: "Probleme de creation de Portefeuilles!"});
             conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
                 return res.send({success: !err3});
             });
@@ -879,6 +882,29 @@ app.post('/issueDHTG', [
     });
 });
 
+app.post('/validateEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('token').isString().isLength(300).escape().trim(),
+    outils.handleValidationResult
+    ], function(req, res) {
+
+    conn.query(sql.findRandomTokenByEmail, [req.jwt.Email], function(err1, result1) {
+        if(err1 || !result1[0]) return res.status(404).send({errors: ['Token not found']});
+        let currDate = new Date().getTime();
+        let tokenDate = Date.parse(result1[0].DateCreationToken);
+        let diff = (currDate - tokenDate) / 1000;
+        if (diff > 86400) return res.status(400).send({errors: ['Token Expired!']});
+        if (result1[0].Token !== req.body.token) return res.status(400).send({errors: ['Bad Token!']});
+        conn.query(sql.validateClientEmail, [req.jwt.Email], function(err2, result2) {
+            if(err2) return res.status(500).send({errors: ['Server side error!']});
+            conn.query(sql.deleteRandomTokenByEmail, [req.jwt.Email], function (err3, result3) {
+                return res.status(200).send({success: !err3});
+            });
+        });
+    });
+});
+
 app.post('/auth', [ 
     check('email').isEmail().normalizeEmail(), 
     check('password').isLength({ min: 5 }).escape(),
@@ -905,6 +931,7 @@ app.post('/auth', [
                 aSecret.PermissionLevel = result.PermissionLevel;
                 aSecret.Banque = result.Banque;
                 aSecret.Portefeuilles = [];
+                aSecret.IsEmailVerified = result.IsEmailVerified;
                 for(let i = 0; i < result2.length; i++){
                     aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, Ouverture: result2[i].Ouverture, ClePub: result2[i].ClePub});
                 }
@@ -937,7 +964,8 @@ app.post('/auth', [
                         codePostal: result.Code_Postal,
                         statut: result.Status,
                         documents: result.Documents,
-                        permission: result.Libelle});
+                        permission: result.Libelle,
+                        isEmailVerified: result.IsEmailVerified});
                 });
             } catch (err) {
                 return res.status(500).send({errors: err});

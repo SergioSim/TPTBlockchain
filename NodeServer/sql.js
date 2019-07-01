@@ -52,7 +52,9 @@ module.exports = {
   'getAllPrametres' :
         'SELECT Id, Nom, Description, Valeur, DateCreation FROM parametre',
   'getAllBanks' : 
-        'SELECT Nom, Email, Tel, Statut FROM banque',
+        'SELECT Nom, Email, Tel, Statut, Virement FROM banque',
+  'getAllPortefeuilles' : 
+        'SELECT Nom, Email, Tel, Virement FROM banque',
   'getAllBanks_NotVisible' : 
         'SELECT Nom, Email, Tel, Statut FROM banque WHERE isVisible=0',
   'getAllBanks_Visible' : 

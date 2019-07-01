@@ -432,6 +432,7 @@ export enum apiUrl {
   clientDocuments = 'GET$clientDocuments',
   allClients = 'GET$allClients',
   allBanks = 'GET$allBanks',
+  allPortefeuilles = 'GET$allPortefeuilles',
   allMonnies = 'GET$allMonnies',
   allBanksVisible = 'GET$allBanksVisible',
   allParametres = 'GET$allParametres',

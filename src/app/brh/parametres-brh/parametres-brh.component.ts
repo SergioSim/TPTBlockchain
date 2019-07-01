@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatSnackBar, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
+import { CommonUtilsService } from 'src/app/common/common-utils.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ParametresBrhComponent implements OnInit {
 
   constructor(
     private service: NodeapiService,
+    private commonUtilsService: CommonUtilsService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }

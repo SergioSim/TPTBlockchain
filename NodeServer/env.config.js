@@ -14,5 +14,8 @@ module.exports = {
     "mySqlPass": "OpenchainUserPassword13?",
     "openchainValidator": "http://82.255.166.104:8085/",
     "openchainObserver": "http://82.255.166.104:8087/",
-    "DHTGAssetPath": "/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/"
+    "DHTGAssetPath": "/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/",
+    "HTGMail": "HTG666663@gmail.com",
+    "HTGMailPassword": "HTG666HTG666663",
+
 };

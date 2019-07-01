@@ -17,6 +17,7 @@
     "openchain": "^0.2.4"
   },
   "devDependencies": {
-    "crypto-random-string": "^3.0.1"
+    "crypto-random-string": "^3.0.1",
+    "nodemailer": "^6.2.1"
   }
 }

@@ -439,6 +439,7 @@ export enum apiUrl {
   allBanksNotVisible = 'GET$allBanksNotVisible',
   allBanksValid = 'GET$allBanksValid',
   allBanksNotValid = 'GET$allBanksNotValid',
+  allBanksUtilisateurs="GET$allBanksUtilisateurs",
   createMonnie = 'POST$createMonnie/',
   createParametre = 'POST$createParametre/',
   createBank = 'POST$createBank/',

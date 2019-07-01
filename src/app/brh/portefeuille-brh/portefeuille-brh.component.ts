@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatSnackBar, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
+import { FormControl, Validators } from '@angular/forms';
+import { InputErrorStateMatcher } from 'src/app/sogebank/login-sogebank/InputErrorStateMatcher';
+import { timingSafeEqual } from 'crypto';
 
 
 @Component({
@@ -10,19 +13,25 @@ import { CommonUtilsService } from 'src/app/common/common-utils.service';
   styleUrls: ['./portefeuille-brh.component.css']
 })
 export class PortefeuilleBrhComponent implements OnInit {
-  dataSource: MatTableDataSource<Banque>;
+  dataSource: MatTableDataSource<BanqueUtilisateur>;
   contactDialogRef: any;
   parametreNom = '';
   parametreId = '';
   parametreDescription = '';
   parametreValeur = '';
 
-  selectedParametre: {
-    Id: '';
+  selectedPortefeuille: {
+    NomCommercial: '',
     Nom: '',
-    Description: '',
-    Valeur: '',
-    DateCreation: ''
+    Prenom: '',
+    Email:'',
+    Telephone:'',
+    Adresse:'',
+    Code_Postal,
+    Ville:'',
+    Virement:'',
+    isVisible:'',
+    Statut
   };
 
   constructor(
@@ -38,13 +47,13 @@ export class PortefeuilleBrhComponent implements OnInit {
 
   ngOnInit() {
     this.getPortefeuilles();
-    this.displayedColumns = ['Nom', 'Email', 'Tel','Virement', 'Editer'];
+    this.displayedColumns = ['Libelle','Nom','Prenom', 'Email', 'Tel','Adresse','CodePostal','Ville','Virement', 'Editer'];
   }
 
   getPortefeuilles() {
-    this.service.makeRequest(apiUrl.allPortefeuilles, {}).subscribe(
+    this.service.makeRequest(apiUrl.allBanksUtilisateurs, {}).subscribe(
       res => {
-        this.listMonnieVisible = res as Banque[];
+        this.listMonnieVisible = res as BanqueUtilisateur[];
         this.dataSource = new MatTableDataSource(this.listMonnieVisible);
         this.dataSource.paginator = this.paginator;
       }
@@ -54,28 +63,28 @@ export class PortefeuilleBrhComponent implements OnInit {
 
   openEditDialog(templateRef, monnie) {
     event.stopPropagation();
-    this.selectedParametre = { ...monnie };
-    this.contactDialogRef = this.dialog.open(templateRef, { width: '300px' });
+    this.selectedPortefeuille = { ...monnie };
+    this.contactDialogRef = this.dialog.open(templateRef, { width: '440px' });
   }
-
 
   confirmEdiPortefeuille() {
-    this.service.makeRequest(apiUrl.updateParametre, {
-      parametreId: this.selectedParametre.Id, parametreNom: this.selectedParametre.Nom,
-      parametreDescription: this.selectedParametre.Description,
-      parametreValeur: this.selectedParametre.Valeur
-    }).subscribe(res => {
+    this.service.makeRequest(apiUrl.updateBanque, {
+      banqueNew: this.selectedPortefeuille.NomCommercial,
+      email:this.selectedPortefeuille.Email,
+      tel:this.selectedPortefeuille.Telephone,
+      isVisible:this.selectedPortefeuille.isVisible,
+      statut:this.selectedPortefeuille.Statut,
+      banqueOld:this.selectedPortefeuille.NomCommercial
+      }).subscribe(res => {
       this.getPortefeuilles();
       this.contactDialogRef.close();
-      this.snackBar.open(this.selectedParametre.Nom + '" à bien été mis à jour.', 'Fermer', {
+      })
+    , error => {
+      console.log(error);
+      this.snackBar.open('Le portefeuille n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
         duration: 5000,
       });
-    }, error => {
-      this.snackBar.open('Le paramètre n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
-        duration: 5000,
-      });
-    });
-  }
+  }}
 
   openAddMonnieDialog(templateRef) {
     event.stopPropagation();
@@ -107,11 +116,17 @@ export class PortefeuilleBrhComponent implements OnInit {
   }
 
 }
-export interface Banque {
+export interface BanqueUtilisateur {
   Nom: string;
+  Prenom: string;
   Email: string;
-  Tel: string;
-  Statut :string
+  Telephone: number;
+  Adresse:string;
+  Code_Postal:string;
+  Ville:string;
+  Virement :string,
+  isVisible:string,
+  statut:string
 }
 
 

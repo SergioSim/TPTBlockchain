@@ -1,70 +1,115 @@
 <div>
-    <div class="titte">
-      <h1>Gérer les portefeuilles</h1>
-    </div> 
-    <div class="table-block">
+  <div class="titte">
+    <h1>Gérer les portefeuilles</h1>
+  </div>
+  <div class="table-block">
 
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-            <ng-container matColumnDef="Nom">
-              <th mat-header-cell *matHeaderCellDef> Banque </th>
-              <td mat-cell *matCellDef="let element"> {{element.Nom}} </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Email">
-              <th mat-header-cell *matHeaderCellDef> Email </th>
-              <td mat-cell *matCellDef="let element"> {{element.Email}}</td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Tel">
-              <th mat-header-cell *matHeaderCellDef> Téléphone </th>
-              <td mat-cell *matCellDef="let element"> {{element.Tel}}</td>
-            </ng-container>
+      <ng-container matColumnDef="Libelle">
+        <th mat-header-cell *matHeaderCellDef> Banque </th>
+        <td mat-cell *matCellDef="let element"> {{element.NomCommercial}} </td>
+      </ng-container>
 
-            <ng-container matColumnDef="Virement">
-                <th mat-header-cell *matHeaderCellDef> Statut </th>
-                <td mat-cell *matCellDef="let element"> {{element.Virement}}</td>
-              </ng-container>
-    
-            <ng-container matColumnDef="Editer">
-              <th mat-header-cell *matHeaderCellDef> Modifier </th>
-              <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" matBadgePosition="before"
-                  matBadgeColor="accent" (click)="openEditDialog(ContactDialog,element)">Editer</button>
-                <ng-template #ContactDialog>
-                  <div class="contact-dialog">
-                    <div class="dialog-header">
-                      <h4>Mobifier un paramètre </h4>
-                      <hr>
-                    </div>
-                    <div class="contact-dialog-form">
-                      <mat-form-field>
-                        <input matInput placeholder="Nom du paramètre" [(ngModel)]="selectedParametre.Nom">
-                      </mat-form-field>
-                      <br />
-                      <mat-form-field>
-                        <input matInput placeholder="Dsscription" [(ngModel)]="selectedParametre.Description">
-                      </mat-form-field>
-                      <br />
-                      <mat-form-field>
-                        <input matInput placeholder="Valeur" [(ngModel)]="selectedParametre.Valeur">
-                      </mat-form-field>
-                    </div>
-                    <div class="dialog-buttons">
-                      <button mat-flat-button class="dialog-confirm-button"
-                        (click)="confirmEditParametre()">Valider</button>
-                      <button mat-flat-button class="dialog-cancel-button"
-                        (click)="cancelDiologueParametre()">Annuler</button>
-                    </div>
-                  </div>
-                </ng-template>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <ng-container matColumnDef="Nom">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let element"> {{element.Nom}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Prenom">
+        <th mat-header-cell *matHeaderCellDef> Prenom </th>
+        <td mat-cell *matCellDef="let element"> {{element.Prenom}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.Email}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Adresse">
+        <th mat-header-cell *matHeaderCellDef> Adresse </th>
+        <td mat-cell *matCellDef="let element"> {{element.Adresse}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="CodePostal">
+        <th mat-header-cell *matHeaderCellDef> Code postal </th>
+        <td mat-cell *matCellDef="let element"> {{element.Code_Postal}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Ville">
+        <th mat-header-cell *matHeaderCellDef> Ville </th>
+        <td mat-cell *matCellDef="let element"> {{element.Tel}}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Tel">
+        <th mat-header-cell *matHeaderCellDef> Téléphone </th>
+        <td mat-cell *matCellDef="let element"> {{element.Telephone}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Virement">
+        <th mat-header-cell *matHeaderCellDef> Statut </th>
+        <td mat-cell *matCellDef="let element"> {{element.Virement}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Editer">
+        <th mat-header-cell *matHeaderCellDef> Modifier </th>
+        <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary" matBadgePosition="before"
+            matBadgeColor="accent" (click)="openEditDialog(ContactDialog,element)">Editer</button>
+          <ng-template #ContactDialog>
+            <div class="contact-dialog">
+              <div class="dialog-header">
+                <h4>Mobifier le portefeuille de {{selectedPortefeuille.NomCommercial}}</h4>
+                <hr>
+              </div>
+              <div class="contact-dialog-form">
+                <mat-form-field>
+                  <input matInput placeholder="Nom du propriètaire " [(ngModel)]="selectedPortefeuille.Nom">
+                </mat-form-field>
+              
+                <mat-form-field class="margin-left-input">
+                  <input matInput placeholder="Prénom du propriètaire" [(ngModel)]="selectedPortefeuille.Prenom">
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                  <input matInput placeholder="Email" [(ngModel)]="selectedPortefeuille.Email">
+                </mat-form-field>
+                
+                <mat-form-field class="margin-left-input">
+                  <input type='number' matInput placeholder="Téléphone" [(ngModel)]="selectedPortefeuille.Telephone">
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                  <input matInput placeholder="Adresse" [(ngModel)]="selectedPortefeuille.Adresse">
+                </mat-form-field>
         
+                <mat-form-field class="margin-left-input">
+                  <input matInput type='number' placeholder="Code postale" [(ngModel)]="selectedPortefeuille.Code_Postal">
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                  <input matInput placeholder="Ville" [(ngModel)]="selectedPortefeuille.Ville">
+                </mat-form-field>
+
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Virement" class="margin-left-input">
+                    <mat-radio-button   value="Actif" >Actif</mat-radio-button>
+                    <mat-radio-button   value="Bloqué" class="margin-left-input">Bloqué</mat-radio-button>
+                  </mat-radio-group> 
+              </div>
+              <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmEdiPortefeuille()">Valider</button>
+                <button mat-flat-button class="dialog-cancel-button"
+                  (click)="cancelDiologueParametre()">Annuler</button>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
 
 
@@ -84,7 +129,8 @@
 
 
 
-   <!--   <mat-card>
+
+    <!--   <mat-card>
         <mat-card-header>
           <mat-toolbar class="toolbar">
             <mat-card-title>Liste des portefeuilles</mat-card-title>
@@ -148,5 +194,5 @@
       </mat-card>    
 
       -->
-    </div>
   </div>
+</div>

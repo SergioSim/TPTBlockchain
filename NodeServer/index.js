@@ -70,6 +70,13 @@ app.get('/allBanks', function(req, res) {
     });
 });
 
+app.get('/allBanksUtilisateurs', function(req, res) {
+    let aQuerry = sql.findUtilisateursByBanque;
+    conn.query(aQuerry, function(err, result){
+        res.send((err) ? "Error" : result);
+    });
+});
+
 app.get('/allParametres', function(req, res) {
     let aQuerry = sql.getAllPrametres;
     conn.query(aQuerry, function(err, result){
@@ -235,7 +242,7 @@ app.post('/createClient', [
     function(req, res) {
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.banque, req.body.roleId], function(err, result) {
+    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom,, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
         if(err) return res.send({success: !err});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
@@ -326,7 +333,7 @@ app.put('/updateBanque', [
     check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('email').optional().isEmail().normalizeEmail(),
-    check('tel').optional().isMobilePhone().escape().trim(),
+    check('telephone').optional().isMobilePhone().escape().trim(),
     check('isVisible').optional().isNumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
@@ -339,7 +346,7 @@ app.put('/updateBanque', [
     conn.query(sql.findBanqueByName, [aBanqueOld], function(err, result){
         if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["banque not found!"] });
         const aEmail = outils.hasChanged(req.body.email, result[0].Email);
-        const aTel = outils.hasChanged(req.body.tel, result[0].Tel);
+        const aTel = outils.hasChanged(req.body.telephone, result[0].Tel);
         const aIsVisible = outils.hasChanged(req.body.isVisible, result[0].isVisible);
         const aStatut = outils.hasChanged(req.body.statut, result[0].statut);
 

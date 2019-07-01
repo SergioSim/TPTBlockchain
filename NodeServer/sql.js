@@ -1,7 +1,7 @@
 module.exports = {
 
   'insertUtilisateur' : 
-        'INSERT INTO utilisateur (Email, Password, Nom, Prenom, Banque, Role_Id) VALUES (?,?,?,?,?,?)',
+        'INSERT INTO utilisateur (Email, Password, Nom, Prenom, Tel, Banque, Role_Id) VALUES (?,?,?,?,?,?,?)',
   'insertUtilisateurBanque' : 
         'INSERT INTO utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,5)',
   'insertPortefeuille' : 
@@ -27,8 +27,8 @@ module.exports = {
         'SELECT Id, Libelle, Portefeuille_Id, Creation ' + 
         'FROM carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
-         'SELECT Email, Nom, Tel, isVisible ' + 
-         'FROM banque WHERE Nom LIKE BINARY ?',  
+         'SELECT Email, NomCommercial, Telephone, isVisible ' + 
+         'FROM banque WHERE NomCommercial LIKE BINARY ?',  
   'findPortefeuillesByBanqueEmail' :
   'SELECT Id, Libelle, Ouverture, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesByEmail' :
@@ -37,6 +37,10 @@ module.exports = {
         'SELECT Id, Libelle, Ajout, ClePub FROM beneficiaire WHERE Utilisateur_Email LIKE BINARY ?',
   'findPortefeuillesById' :
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
+  
+  'findUtilisateursByBanque' : 
+        'SELECT * FROM banque LEFT JOIN utilisateur ON banque.Email = utilisateur.Email '  ,
+  
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id,  ' +
         'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille ' + 
@@ -82,7 +86,7 @@ module.exports = {
   'updateMonnie' : 
         'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 
-        'UPDATE banque SET Nom = ?,  Email = ?, Tel = ?, isVisible= ?, Statut=? WHERE Nom = ?',
+        'UPDATE banque SET NomCommercial = ?,  Email = ?, Telephone = ?, isVisible= ?, Statut=? WHERE NomCommercial = ?',
   'updateClient' : 
         'UPDATE utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',

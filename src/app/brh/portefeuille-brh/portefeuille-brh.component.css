@@ -65,10 +65,13 @@ mat-paginator{
     width: 85%;
 }
 .table-block{
-    margin-left: 10%;
+    margin-left: 5%;
     margin-top: 10%;
     margin-bottom: 10%;
 
+}
+.margin-left-input{
+    margin-left: 25px;
 }
 .dialog-buttons {
     justify-content: space-around;

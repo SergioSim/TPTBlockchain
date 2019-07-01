@@ -13,6 +13,7 @@ const config   = require('./env.config.js'),
  crypto        = require('crypto'),
  openchain     = require("openchain"),
  bitcore       = require("bitcore-lib"),
+ cryptoRandom  = require('crypto-random-string'),
  { check, validationResult } = require('express-validator/check');
 
 const key  = fs.readFileSync('private.key'),
@@ -246,8 +247,13 @@ app.post('/createClient', [
         if(err) return res.send({success: !err});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
+        let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
+        // TODO - Send Email to User containing this token!
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
-            return res.send({success: !err});
+            if(err2) return res.send({success: !err2});
+            conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
+                return res.send({success: !err3});
+            });
         });
     });
 });

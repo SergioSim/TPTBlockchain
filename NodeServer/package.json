@@ -15,5 +15,8 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.17.1",
     "openchain": "^0.2.4"
+  },
+  "devDependencies": {
+    "crypto-random-string": "^3.0.1"
   }
 }

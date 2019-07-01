@@ -14,6 +14,7 @@ module.exports = {
         'INSERT INTO document (Email,Annonce_Legale) VALUES (?,?)',
   'insertParticulierDocs' : 
         'INSERT INTO document (Email,Piece_Identite,Justificatif_Domicile) VALUES (?,?,?)',
+  'insertRandomToken' : 'INSERT INTO tokenverification (Email, Token) VALUES (?,?)',
   'insertCarte' : 
         'INSERT INTO carte (Libelle,Portefeuille_id,Creation) VALUES (?,?,?)',
   'insertMonnie' : 

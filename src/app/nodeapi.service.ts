@@ -36,6 +36,7 @@ export class NodeapiService {
   public documents: any;
   public statut: number;
   public bankClients: BanqueClient[] = null;
+  public isEmailVerified = false;
 
   private readonly url: string = environment.apiUrl;
   private readonly urlOpenchain: string = environment.openchainUrl;
@@ -171,6 +172,7 @@ toHexString = bytes =>
     this.statut = obj.statut;
     this.documents = obj.documents;
     this.permission = obj.permission;
+    this.isEmailVerified = obj.isEmailVerified;
   }
 
   logLogin() {
@@ -196,6 +198,7 @@ toHexString = bytes =>
     apilog('documents: ' + this.documents);
     apilog('permission: ' + this.permission);
     apilog('statut : ' + this.statut);
+    apilog('isEmailValidated : ' + this.isEmailVerified);
   }
 
   isConnected() {
@@ -476,6 +479,7 @@ export enum apiUrl {
   submit = 'POST$submit',
   transferTo = 'POST$transferTo',
   issueDHTG = 'POST$issueDHTG',
+  validateEmail = 'POST$validateEmail'
 }
 
 function apilog(ilog: string) {

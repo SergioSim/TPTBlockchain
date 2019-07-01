@@ -930,14 +930,14 @@ app.post('/validateEmail', [
     ], function(req, res) {
 
     conn.query(sql.findRandomTokenByEmail, [req.jwt.Email], function(err1, result1) {
-        if(err1 || !result1[0]) return res.status(404).send({errors: ['Token not found']});
+        if(err1 || !result1[0]) return res.status(404).send({errors: ['Token Intouvable']});
         let currDate = new Date().getTime();
         let tokenDate = Date.parse(result1[0].DateCreationToken);
         let diff = (currDate - tokenDate) / 1000;
-        if (diff > 86400) return res.status(400).send({errors: ['Token Expired!']});
-        if (result1[0].Token !== req.body.token) return res.status(400).send({errors: ['Bad Token!']});
+        if (diff > 86400) return res.status(400).send({errors: ['Token Expire!']});
+        if (result1[0].Token !== req.body.token) return res.status(400).send({errors: ['Mauvais Token!']});
         conn.query(sql.validateClientEmail, [req.jwt.Email], function(err2, result2) {
-            if(err2) return res.status(500).send({errors: ['Server side error!']});
+            if(err2) return res.status(500).send({errors: ['Erreur cote serveur!']});
             conn.query(sql.deleteRandomTokenByEmail, [req.jwt.Email], function (err3, result3) {
                 return res.status(200).send({success: !err3});
             });

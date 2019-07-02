@@ -13,7 +13,8 @@ const config   = require('./env.config.js'),
  crypto        = require('crypto'),
  openchain     = require("openchain"),
  bitcore       = require("bitcore-lib"),
- cryptoRandom  = require('crypto-random-string'), 
+ cryptoRandom  = require('crypto-random-string'),
+ nodemailer    = require('nodemailer'),
  { check, validationResult } = require('express-validator/check');
 
 const key  = fs.readFileSync('private.key'),
@@ -25,6 +26,21 @@ const app  = express()
  conn      = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass, database: config.mySqlUser});
 
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure: false,
+    port :25,
+    auth: {
+        user: config.HTGMail,
+        pass: config.HTGMailPassword
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+const HeplerOptions = {};
 
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
@@ -238,40 +254,53 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
+    check('tel').isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
     function(req, res) {
-        console.log("1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
 
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    console.log("qqqqq"+req.body.email);
-    console.log("qqqqq"+req.body.password);
-    console.log("qqqqq"+ req.body.nom);
-    console.log("qqqqq"+req.body.tel);
-    console.log("qqqqq"+req.body.banque);
-
-
     conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
-        console.log("2qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-        if(err) return res.send({success: !err});
+        console.log('result');
+        console.log(err);
+        if(err) return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
         let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
-        // TODO - Send Email to User containing this token!
-        console.log("3qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
-            console.log("4qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-
-            if(err2) return res.send({success: !err2});
+            if(err2) return res.send({success: !err2, error: "Probleme de creation de Portefeuilles!"});
             conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
-                return res.send({success: !err3});
+                if(err3) return res.status(500).send({success: !err3, errors: ["Server Error"]});
+                createConfimationEmailText(req, randomToken);
+                transporter.sendMail(HeplerOptions, (error, info) => {
+                    if(error) {
+                        console.log("Error while sending Email!");
+                        console.log(error);
+                        console.log(info);
+                        return;
+                    }
+                    return res.send({success: !err3});
+                });
             });
         });
     });
 });
+
+function createConfimationEmailText(req, token) {
+    HeplerOptions.from = '"Projet TPT Blockchain" HTG666663@gmail.com';
+    HeplerOptions.to = req.body.email;
+    HeplerOptions.subject = 'Confirmation de création de compte';
+    HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
+    '<p> Nous vous remercions de votre confiance a notre platforme Digital HaïTian Gourde </p>' + 
+    '<p> Votre demande de creation du compte chez ' + req.body.banque + 
+    ' a ete bien pris en compte et est en attente de confirmation de votre adresse Email!</p>' + 
+    '<p> Pour passer a l\'etape suivate de votre inscription, cliquez sur ' + 
+    '<a href="http://82.255.166.104/TPTBlockchain/validationEmail?token=' + token + '">ce lien</a>' +
+    ' et suivez les instructions sur le site pour valider votre demande </p><br><br>' + 
+    'Cordialement, <br> votre equipe TPTBlockchain';
+}
 
 app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
@@ -897,6 +926,29 @@ app.post('/issueDHTG', [
     });
 });
 
+app.post('/validateEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('token').isString().isLength(300).escape().trim(),
+    outils.handleValidationResult
+    ], function(req, res) {
+
+    conn.query(sql.findRandomTokenByEmail, [req.jwt.Email], function(err1, result1) {
+        if(err1 || !result1[0]) return res.status(404).send({errors: ['Token Intouvable']});
+        let currDate = new Date().getTime();
+        let tokenDate = Date.parse(result1[0].DateCreationToken);
+        let diff = (currDate - tokenDate) / 1000;
+        if (diff > 86400) return res.status(400).send({errors: ['Token Expire!']});
+        if (result1[0].Token !== req.body.token) return res.status(400).send({errors: ['Mauvais Token!']});
+        conn.query(sql.validateClientEmail, [req.jwt.Email], function(err2, result2) {
+            if(err2) return res.status(500).send({errors: ['Erreur cote serveur!']});
+            conn.query(sql.deleteRandomTokenByEmail, [req.jwt.Email], function (err3, result3) {
+                return res.status(200).send({success: !err3});
+            });
+        });
+    });
+});
+
 app.post('/auth', [ 
     check('email').isEmail().normalizeEmail(), 
     check('password').isLength({ min: 5 }).escape(),
@@ -923,6 +975,7 @@ app.post('/auth', [
                 aSecret.PermissionLevel = result.PermissionLevel;
                 aSecret.Banque = result.Banque;
                 aSecret.Portefeuilles = [];
+                aSecret.IsEmailVerified = result.IsEmailVerified;
                 for(let i = 0; i < result2.length; i++){
                     aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, Ouverture: result2[i].Ouverture, ClePub: result2[i].ClePub});
                 }
@@ -955,7 +1008,8 @@ app.post('/auth', [
                         codePostal: result.Code_Postal,
                         statut: result.Status,
                         documents: result.Documents,
-                        permission: result.Libelle});
+                        permission: result.Libelle,
+                        isEmailVerified: result.IsEmailVerified});
                 });
             } catch (err) {
                 return res.status(500).send({errors: err});

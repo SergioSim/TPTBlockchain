@@ -31,3 +31,7 @@ th, td {
     align-self: center;
     margin-left: 15px;
 }
+
+.no-empty-text {
+    display: none;
+}

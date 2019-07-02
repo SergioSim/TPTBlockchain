@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { NodeapiService } from 'src/app/nodeapi.service';
-import { Router } from '@angular/router';
+import { Router, Params } from '@angular/router';
 import { AlertService } from 'src/app/brh/alert.service';
 import { MatSnackBar } from '@angular/material';
 import { environment } from '../../../environments/environment';
@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 export class CommonLoginComponent {
   @Input() url: string;
   @Input() banque: string;
+  @Input() params: Params;
   emailFC: FormControl = new FormControl('', [Validators.required, Validators.email]) ;
   passwFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   loading = false;
@@ -41,7 +42,11 @@ export class CommonLoginComponent {
     this.apiService.login(this.emailFC.value, this.passwFC.value, this.resterConnecter).subscribe(
       data => {
         console.log('URL = ' + this.url);
-        this.route.navigate([this.url]);
+        if (!this.params) {
+          this.route.navigate([this.url]);
+        } else {
+          this.route.navigate([this.url], { queryParams: this.params, queryParamsHandling: 'merge' });
+        }
         this.loading = false;
       },
       error => {

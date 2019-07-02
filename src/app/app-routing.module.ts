@@ -16,10 +16,12 @@ import { LoginBrhComponent } from './brh/login-brh/login-brh.component';
 import { AccueilSogebankComponent } from './sogebank/accueil-sogebank/accueil-sogebank.component';
 import { LoginSogebankComponent } from './sogebank/login-sogebank/login-sogebank.component';
 import { DemandeHabilitationComponent } from './brh/demande-habilitation/demande-habilitation.component';
+import { CommonEmailValidationComponent } from './common/common-email-validation/common-email-validation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/portail', pathMatch: 'full' },
   { path: 'portail', component: PortailComponent },
+  { path: 'validationEmail', component: CommonEmailValidationComponent},
 
   { path: 'brh/accueil', component: AccueilBrhComponent },
   { path: 'brh/login-brh', component:  LoginBrhComponent},

@@ -25,7 +25,7 @@ module.exports = {
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Secteur_Activite, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel, IsEmailVerified ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
   'findCartesByPortefeuilleIds' : 
-        'SELECT Id, Libelle, Portefeuille_Id, Creation ' + 
+        'SELECT Id, Libelle, Portefeuille_Id, Creation, IsBlocked ' + 
         'FROM carte WHERE Portefeuille_Id IN (?)',
   'findBanqueByName' : 
          'SELECT Email, NomCommercial, Telephone, isVisible ' + 
@@ -116,6 +116,10 @@ module.exports = {
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 3 WHERE Email=?',
+  'blockCarte' : 
+        'UPDATE carte SET IsBlocked = 1 WHERE Id=?',
+  'unblockCarte' : 
+        'UPDATE carte SET IsBlocked = 0 WHERE Id=?',
   'unBlockOrBlockClient_0_2' : 
         'UPDATE utilisateur SET Role_Id = ? WHERE Email=?',
   'unBlockBanque' : 

@@ -357,6 +357,32 @@ app.put('/blockClient', [
     });
 });
 
+app.put('/blockCarte', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    // Should check if user owns card first...
+    conn.query(sql.blockCarte, [req.body.id], function(err, result) {
+            return res.send({ succes: !err });
+    });
+});
+
+app.put('/unblockCarte', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    // Should check if user owns card first...
+    conn.query(sql.unblockCarte, [req.body.id], function(err, result) {
+            return res.send({ succes: !err });
+    });
+});
+
 app.put('/updateParametre', [
     outils.validJWTNeeded, 
     check('parametreId').isNumeric().escape(),

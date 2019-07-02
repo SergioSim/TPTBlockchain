@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faPen, faTimes, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTimes, faPlusCircle, faExclamationTriangle, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
@@ -17,6 +17,8 @@ export class CartesSogebankComponent implements OnInit {
   faTimes = faTimes;
   faPlusCircle = faPlusCircle;
   faExclamationTriangle = faExclamationTriangle;
+  faLock = faLock;
+  faLockOpen = faLockOpen;
   cartes: any[];
   portefeuilles: any[];
   totalCards = 0;
@@ -26,6 +28,8 @@ export class CartesSogebankComponent implements OnInit {
   newCardlibelle = '';
   editDialogRef: any;
   deleteDialogRef: any;
+  blockDialogRef: any;
+  unblockDialogRef: any;
   selectedCarte: {
     Id: '',
     Libelle: '',
@@ -161,6 +165,62 @@ export class CartesSogebankComponent implements OnInit {
 
   cancelCardDelete() {
     this.deleteDialogRef.close();
+  }
+
+  openBlockCardDialog(templateRef, carte) {
+    this.selectedCarte = carte;
+    this.blockDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmCardBlock() {
+    const blockCardDetails = {
+      libelle: this.selectedCarte.Libelle,
+      id: this.selectedCarte.Id
+    };
+    this.apiService.makeRequest(apiUrl.blockCarte, {id: blockCardDetails.id}).toPromise()
+      .then(res => {
+        this.getCartes();
+        this.blockDialogRef.close();
+        this.snackBar.open(blockCardDetails.libelle + '" à bien été blocké.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La carte n\'a pas pu être bloquée, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
+  }
+
+  cancelCardBlock() {
+    this.blockDialogRef.close();
+  }
+
+  openUnblockCardDialog(templateRef, carte) {
+    this.selectedCarte = carte;
+    this.unblockDialogRef = this.dialog.open(templateRef, { width: '400px' });
+  }
+
+  confirmCardUnblock() {
+    const unblockCardDetails = {
+      libelle: this.selectedCarte.Libelle,
+      id: this.selectedCarte.Id
+    };
+    this.apiService.makeRequest(apiUrl.unblockCarte, {id: unblockCardDetails.id}).toPromise()
+      .then(res => {
+        this.getCartes();
+        this.unblockDialogRef.close();
+        this.snackBar.open(unblockCardDetails.libelle + '" à bien été débloqué.', 'Fermer', {
+          duration: 5000,
+        });
+      }, error => {
+        this.snackBar.open('La carte n\'a pas pu être débloquée, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      });
+  }
+
+  cancelCardUnblock() {
+    this.unblockDialogRef.close();
   }
 
 }

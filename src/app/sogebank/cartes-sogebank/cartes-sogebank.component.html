@@ -6,10 +6,14 @@
         </button>
         <div *ngFor="let carte of cartes">
             <div class="carte-container">
-                <div class="carte-title">
+                <div class="carte-title" [ngClass]="carte.IsBlocked ? 'blocked-title' : ''">
                     <h1>{{carte.Libelle}}</h1>
                     <button mat-icon-button>
                         <fa-icon [icon]="faPen" class="edit-button" (click)="openEditCardDialog(EditCardDialog, carte)"></fa-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <fa-icon *ngIf="!carte.IsBlocked" [icon]="faLock" class="block-button" (click)="openBlockCardDialog(BlockCardDialog, carte)"></fa-icon>
+                        <fa-icon *ngIf="carte.IsBlocked" [icon]="faLockOpen" class="block-button" (click)="openUnblockCardDialog(UnblockCardDialog, carte)"></fa-icon>
                     </button>
                     <button mat-icon-button>
                         <fa-icon [icon]="faTimes" class="delete-button"(click)="openDeleteCardDialog(DeleteCardDialog, carte)"></fa-icon>
@@ -96,6 +100,40 @@
            <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardDelete()">Confirmer</button> 
                 <button mat-flat-button class="dialog-cancel-button" (click)="cancelCardDelete()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #BlockCardDialog>
+        <div class="new-card-dialog">
+            <div class="dialog-header">
+                <h2>Confirmer le blocage de la carte</h2>
+                <hr>
+            </div>
+            <div class="dialog-warning">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                <p>Êtes-vous sûr de vouloir bloquer cette carte ?</p>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardBlock()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelCardBlock()">Annuler</button> 
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #UnblockCardDialog>
+        <div class="new-card-dialog">
+            <div class="dialog-header">
+                <h2>Confirmer le déblocage de la carte</h2>
+                <hr>
+            </div>
+            <div class="dialog-warning">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                <p>Êtes-vous sûr de vouloir débloquer cette carte ?</p>
+            </div>
+           <div class="dialog-buttons">
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardUnblock()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelCardBlock()">Annuler</button> 
             </div>
         </div>
     </ng-template>

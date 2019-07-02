@@ -4,11 +4,11 @@ export class Banque {
 
     BanqueID: number;
 
-    Nom: String;
+    NomCommercial: String;
 
     Email :String;
 
-    Tel: String;
+    Telephone: string;
 
     Statut :String;
 

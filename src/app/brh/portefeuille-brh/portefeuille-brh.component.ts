@@ -24,13 +24,13 @@ export class PortefeuilleBrhComponent implements OnInit {
     NomCommercial: '',
     Nom: '',
     Prenom: '',
-    Email:'',
-    Telephone:'',
-    Adresse:'',
+    Email: '',
+    Telephone: '',
+    Adresse: '',
     Code_Postal,
-    Ville:'',
-    Virement:'',
-    isVisible:'',
+    Ville: '',
+    Virement: '',
+    isVisible: '',
     Statut
   };
 
@@ -47,7 +47,7 @@ export class PortefeuilleBrhComponent implements OnInit {
 
   ngOnInit() {
     this.getPortefeuilles();
-    this.displayedColumns = ['Libelle','Nom','Prenom', 'Email', 'Tel','Adresse','CodePostal','Ville','Virement', 'Editer'];
+    this.displayedColumns = ['Libelle', 'Nom', 'Prenom', 'Email', 'Tel', 'Adresse', 'CodePostal', 'Ville', 'Virement', 'Editer'];
   }
 
   getPortefeuilles() {
@@ -68,23 +68,68 @@ export class PortefeuilleBrhComponent implements OnInit {
   }
 
   confirmEdiPortefeuille() {
+
     this.service.makeRequest(apiUrl.updateBanque, {
       banqueNew: this.selectedPortefeuille.NomCommercial,
-      email:this.selectedPortefeuille.Email,
-      tel:this.selectedPortefeuille.Telephone,
-      isVisible:this.selectedPortefeuille.isVisible,
-      statut:this.selectedPortefeuille.Statut,
-      banqueOld:this.selectedPortefeuille.NomCommercial
+      email: this.selectedPortefeuille.Email,
+      telephone: this.selectedPortefeuille.Telephone,
+      isVisible: this.selectedPortefeuille.isVisible,
+      statut: this.selectedPortefeuille.Statut,
+      banqueOld: this.selectedPortefeuille.NomCommercial
+    }).subscribe(res => {
+
+
+/*
+      check('email').optional().isEmail().normalizeEmail(),
+      check('bankEmail').optional().isEmail().normalizeEmail(),
+      check('nom').optional().isAlpha().escape().trim(),
+      check('prenom').optional().isAlpha().escape().trim(),
+      check('civilite').optional().isAlpha().escape().trim(),
+      check('situationFamiliale').optional().isAlpha().escape().trim(),
+      check('profession').optional().isAlpha().escape().trim(),
+      check('siret').optional().isAlphanumeric().escape().trim(),
+      check('tel').optional().isMobilePhone().escape().trim(),
+      check('adresse').optional().isString().escape(),
+      check('ville').optional().isString().escape(),
+      check('codePostal').optional().isString().escape(),
+      check('oldPassword').optional().isLength({ min: 5 }).escape(),
+      check('newPassword').optional().isLength({ min: 5 }).escape(),
+*/
+
+
+      this.service.makeRequest(apiUrl.updateClient, {
+        email: this.selectedPortefeuille.Email,
+        nom: this.selectedPortefeuille.Nom,
+        prenom: this.selectedPortefeuille.Prenom,
+        tel: this.selectedPortefeuille.Telephone,
+        adresse: this.selectedPortefeuille.Adresse,
+        codePostal: this.selectedPortefeuille.Code_Postal,
+        ville: this.selectedPortefeuille.Ville
       }).subscribe(res => {
+
+        this.getPortefeuilles();
+        this.contactDialogRef.close();
+        console.log("oui-------------oui")
+      })
+        , error => {
+          console.log(error);
+          console.log("non")
+          this.snackBar.open('Le portefeuille n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
+            duration: 5000,
+          });
+        }
       this.getPortefeuilles();
       this.contactDialogRef.close();
-      })
-    , error => {
-      console.log(error);
-      this.snackBar.open('Le portefeuille n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
-        duration: 5000,
-      });
-  }}
+      console.log("oui-------------oui")
+    })
+      , error => {
+        console.log(error);
+        console.log("non")
+        this.snackBar.open('Le portefeuille n\'a pas pu être mise à jour, veuillez réessayer.', 'Fermer', {
+          duration: 5000,
+        });
+      }
+  }
 
   openAddMonnieDialog(templateRef) {
     event.stopPropagation();
@@ -121,12 +166,12 @@ export interface BanqueUtilisateur {
   Prenom: string;
   Email: string;
   Telephone: number;
-  Adresse:string;
-  Code_Postal:string;
-  Ville:string;
-  Virement :string,
-  isVisible:string,
-  statut:string
+  Adresse: string;
+  Code_Postal: number;
+  Ville: string;
+  Virement: string,
+  isVisible: string,
+  statut: string
 }
 
 
@@ -158,7 +203,7 @@ export class PortefeuilleBrhComponent implements OnInit {
       Status:''
     };
 
-  constructor( 
+  constructor(
     private service :NodeapiService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -182,7 +227,7 @@ export class PortefeuilleBrhComponent implements OnInit {
   confirmEditPortefeuille(contact){
     this.service.editContact(contact);
     console.log(contact.FirstName);
-    this.contactDialogRef.close();     
+    this.contactDialogRef.close();
     this.snackBar.open('Le portefeuille '+ contact.Nom +'a bien été modifié', 'Fermer', { duration: 5000,});
   }
 

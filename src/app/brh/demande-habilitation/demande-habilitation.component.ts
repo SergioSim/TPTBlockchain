@@ -23,7 +23,7 @@ export class DemandeHabilitationComponent implements OnInit {
   nouvelBanqueNom: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]) ;
   nouvelBanquePassword: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   nouvelBanquePasswordConfirm: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  nouvelBanqueTel: FormControl = new FormControl('', [Validators.required, Validators.minLength(9),Validators.maxLength(9)]);
+  nouvelBanqueTel: FormControl = new FormControl('', [Validators.required, Validators.minLength(10),Validators.maxLength(10)]);
 
 
   matcher = new InputErrorStateMatcher();
@@ -66,7 +66,7 @@ export class DemandeHabilitationComponent implements OnInit {
 
       this.service.makeRequest(apiUrl.createClient, {
         email: this.nouvelBanqueEmail.value, password: this.nouvelBanquePassword.value,
-        prenom: this.nouvelBanquePrenom.value, nom: this.nouvelBanqueNom.value,tel:this.nouvelBanqueTel, banque: this.BanqueNom.value, roleId: 1
+        prenom: this.nouvelBanquePrenom.value, nom: this.nouvelBanqueNom.value,tel:this.nouvelBanqueTel.value, banque: this.BanqueNom.value, roleId: 1
       }).
         subscribe( res2 => {
           if (res2 && res2.success === true) {

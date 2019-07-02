@@ -45,9 +45,9 @@ export class BanqueListComponent implements OnInit {
   nouvelBanqueEmail: '';
   nouvelBanqueTel: '';
   selectedBanque: {
-    Nom: '',
+    NomCommercial: '',
     Email: '',
-    Tel: '',
+    Telephone: '',
     isVisible: '',
     Statut: ''
   };
@@ -82,8 +82,8 @@ export class BanqueListComponent implements OnInit {
 
   deleteBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
-      banqueNew: this.selectedBanque.Nom,
-      banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel, email: this.selectedBanque.Email,
+      banqueNew: this.selectedBanque.NomCommercial,
+      banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone, email: this.selectedBanque.Email,
       isVisible: 0, statut: this.selectedBanque.Statut
     }).
       subscribe(res => {
@@ -94,13 +94,13 @@ export class BanqueListComponent implements OnInit {
         console.log(error);
       });
     this.contactDialogRef.close();
-    this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été supprimé.', 'Fermer', { duration: 5000, });
+    this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été supprimé.', 'Fermer', { duration: 5000, });
   }
 
   refuseBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
-      banqueNew: this.selectedBanque.Nom,
-      banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel, email: this.selectedBanque.Email,
+      banqueNew: this.selectedBanque.NomCommercial,
+      banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone, email: this.selectedBanque.Email,
       isVisible: 1, statut: "refusé"
     }).
       subscribe(res => {
@@ -111,7 +111,7 @@ export class BanqueListComponent implements OnInit {
         console.log(error);
       });
     this.contactDialogRef.close();
-    this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été supprimé.', 'Fermer', { duration: 5000, });
+    this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été supprimé.', 'Fermer', { duration: 5000, });
 
   }
 
@@ -130,7 +130,7 @@ export class BanqueListComponent implements OnInit {
   
   validateBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
-      banqueNew: this.selectedBanque.Nom, banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel,
+      banqueNew: this.selectedBanque.NomCommercial, banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone,
       email: this.selectedBanque.Email, isVisible: 1, statut: "validé"
     }).subscribe(res => {
         this.refreshListBanque();
@@ -149,7 +149,7 @@ export class BanqueListComponent implements OnInit {
         console.log(error);
       });
     this.contactDialogRef.close();
-    this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été validé.', 'Fermer', { duration: 5000, });
+    this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été validé.', 'Fermer', { duration: 5000, });
   }
 
   openAddBankDialog(templateRef) {
@@ -221,8 +221,8 @@ export class BanqueListComponent implements OnInit {
 
   confirmEditBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
-      banqueNew: this.selectedBanque.Nom,
-      banqueOld: this.selectedBanque.Nom, tel: this.selectedBanque.Tel, email: this.selectedBanque.Email,
+      banqueNew: this.selectedBanque.NomCommercial,
+      banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone, email: this.selectedBanque.Email,
       isVisible: this.selectedBanque.isVisible
     }).
       subscribe(res => {
@@ -236,7 +236,7 @@ export class BanqueListComponent implements OnInit {
         console.log(error);
       });
     this.contactDialogRef.close();
-    this.snackBar.open('La banque' + this.selectedBanque.Nom + ' a bien été modifié.', 'Fermer', { duration: 5000, });
+    this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été modifié.', 'Fermer', { duration: 5000, });
   }
 
   confirmCreateBanque(test) {

@@ -9,7 +9,7 @@ module.exports = {
   'insertContact_0_4' : 
         'INSERT INTO beneficiaire  (Utilisateur_Email, Libelle, ClePub, Ajout) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
-        'INSERT INTO banque (Nom,Email,Tel,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
+        'INSERT INTO banque (NomCommercial, Email, Telephone,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
   'insertCommercantDocs' : 
         'INSERT INTO document (Email,Annonce_Legale) VALUES (?,?)',
   'insertParticulierDocs' : 
@@ -57,17 +57,17 @@ module.exports = {
   'getAllPrametres' :
         'SELECT Id, Nom, Description, Valeur, DateCreation FROM parametre',
   'getAllBanks' : 
-        'SELECT Nom, Email, Tel, Statut, Virement FROM banque',
+        'SELECT NomCommercial, Email, Tel, Statut, Virement FROM banque',
   'getAllPortefeuilles' : 
-        'SELECT Nom, Email, Tel, Virement FROM banque',
+        'SELECT NomCommercial, Email, Tel, Virement FROM banque',
   'getAllBanks_NotVisible' : 
-        'SELECT Nom, Email, Tel, Statut FROM banque WHERE isVisible=0',
+        'SELECT NomCommercial, Email, Tel, Statut FROM banque WHERE isVisible=0',
   'getAllBanks_Visible' : 
-        'SELECT Nom, Email, Tel, Statut FROM banque WHERE isVisible=1',
+        'SELECT NomComercial, Email, Tel, Statut FROM banque WHERE isVisible=1',
   'getAllBanks_Valid' : 
-        'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut=? && Nom!=?',
+        'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE Statut=? && NomCommercial!=?',
   'getAllBanks_NotValid' : 
-        'SELECT Nom, Email, Tel, Statut FROM banque WHERE Statut!=? && isVisible=1',
+        'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE Statut!=? && isVisible=1',
   'getClientDocsByEmail':
         'SELECT Piece_Identite, Justificatif_Domicile, Annonce_Legale FROM document WHERE Email=?',
   'deleteParametre'  :
@@ -75,7 +75,7 @@ module.exports = {
   'deleteMonnie' : 
         'DELETE FROM monnie WHERE Nom=?',
   'deleteBank_0_1' : 
-        'DELETE FROM banque WHERE Nom=?',
+        'DELETE FROM banque WHERE NomCommercial=?',
   'deleteClient_0_1' : 
         'DELETE FROM utilisateur WHERE Email=?',
   'deleteContact_0_2' : 

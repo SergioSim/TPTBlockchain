@@ -13,7 +13,7 @@ const config   = require('./env.config.js'),
  crypto        = require('crypto'),
  openchain     = require("openchain"),
  bitcore       = require("bitcore-lib"),
- cryptoRandom  = require('crypto-random-string'),
+ cryptoRandom  = require('crypto-random-string'), 
  { check, validationResult } = require('express-validator/check');
 
 const key  = fs.readFileSync('private.key'),
@@ -201,9 +201,10 @@ app.post('/createBank', [
     check('isVisible').isLength({ min: 1 }).isNumeric().isIn([0,1]),
     outils.handleValidationResult],
     function(req, res) {
-    
+        console.log("ccccccccccccccc"+req.body.name);
+
     conn.query(sql.insertBanque_0_3, [req.body.name,req.body.email,req.body.telephone,req.body.isVisible], function(err, result) { 
-        console.log(req.body.name);
+        console.log("ddddddddddddddd"+req.body.name);
         return res.send({success: !err});
     });
 });
@@ -241,15 +242,29 @@ app.post('/createClient', [
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
     function(req, res) {
+        console.log("1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
+
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
-    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom,, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
+    console.log("qqqqq"+req.body.email);
+    console.log("qqqqq"+req.body.password);
+    console.log("qqqqq"+ req.body.nom);
+    console.log("qqqqq"+req.body.tel);
+    console.log("qqqqq"+req.body.banque);
+
+
+    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
+        console.log("2qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
         if(err) return res.send({success: !err});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
         let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
         // TODO - Send Email to User containing this token!
+        console.log("3qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
+            console.log("4qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+
             if(err2) return res.send({success: !err2});
             conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
                 return res.send({success: !err3});
@@ -336,14 +351,16 @@ app.put('/updateParametre', [
 app.put('/updateBanque', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
-    check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
-    check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
-    check('email').optional().isEmail().normalizeEmail(),
-    check('telephone').optional().isMobilePhone().escape().trim(),
-    check('isVisible').optional().isNumeric().escape().trim(),
+   // check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+   // check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+     check('email').isEmail().normalizeEmail(),
+     check('telephone').isMobilePhone().escape().trim(),
+     // check('bankEmail').isEmail().normalizeEmail(),
+
+      // check('isVisible').optional().isNumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
-    
+    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     let aBanqueOld = req.jwt.Banque;
     console.log('permission level : ' + req.jwt.PermissionLevel);
     if(req.jwt.PermissionLevel >= 3 && req.body.banqueOld != undefined)
@@ -357,6 +374,7 @@ app.put('/updateBanque', [
         const aStatut = outils.hasChanged(req.body.statut, result[0].statut);
 
         conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aStatut, aBanqueOld], function(err1, result1){
+
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });
     });
@@ -441,7 +459,7 @@ app.put('/updateClient', [
     check('tel').optional().isMobilePhone().escape().trim(),
     check('adresse').optional().isString().escape(),
     check('ville').optional().isString().escape(),
-    check('codePostal').optional().isString().escape(),
+    check('codePostal').optional().isNumeric().isLength({max:5}).escape(),
     check('oldPassword').optional().isLength({ min: 5 }).escape(),
     check('newPassword').optional().isLength({ min: 5 }).escape(),
     outils.handleValidationResult], 

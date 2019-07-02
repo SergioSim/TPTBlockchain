@@ -259,6 +259,7 @@ app.post('/createClient', [
 
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
+    if (!req.body.tel) req.body.tel = "";
     conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
         if(err) return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
         let currDate = new Date();

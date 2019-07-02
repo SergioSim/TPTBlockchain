@@ -39,3 +39,13 @@ mat-tab-group {
 mat-form-field, mat-checkbox{
     margin-left: 3%;
 }
+
+a {
+    align-self: center;
+    text-decoration: none;
+    color: #25AAF7;
+}
+
+.other-link {
+    margin-top: 5px;
+}

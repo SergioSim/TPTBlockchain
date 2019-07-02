@@ -302,7 +302,7 @@ app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('password').isLength({ min: 5 }).escape(),
-    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -328,7 +328,7 @@ app.post('/createCarte', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('portefeuille_id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
 
@@ -452,7 +452,7 @@ app.put('/updateCarte', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -467,7 +467,7 @@ app.put('/updatePortefeuilleLibelle', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -482,7 +482,7 @@ app.put('/updateContact', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     check('clePub').isLength({ min: 1 }).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {

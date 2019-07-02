@@ -125,7 +125,7 @@ export class CartesSogebankComponent implements OnInit {
       .then(res => {
         this.getCartes();
         this.editDialogRef.close();
-        this.snackBar.open(this.selectedCarte.Libelle + '" à bien été mis à jour.', 'Fermer', {
+        this.snackBar.open(this.selectedCarte.Libelle + ' à bien été mis à jour.', 'Fermer', {
           duration: 5000,
         });
       }, error => {
@@ -153,7 +153,7 @@ export class CartesSogebankComponent implements OnInit {
       .then(res => {
         this.getCartes();
         this.deleteDialogRef.close();
-        this.snackBar.open(deleteCardDetails.libelle + '" à bien été supprimé.', 'Fermer', {
+        this.snackBar.open(deleteCardDetails.libelle + ' à bien été supprimé.', 'Fermer', {
           duration: 5000,
         });
       }, error => {

@@ -70,7 +70,6 @@ app.get('/bienvenue', function(req, res) {
 
 app.get('/allMonnies', function(req, res) {
     let aQuerry = sql.getAllMonnies;
-    console.log("dsddfdfdf"+req.query.type);
 
     conn.query(aQuerry,[req.query.type],function(err, result){
         res.send((err) ? "Error" : result);
@@ -217,10 +216,8 @@ app.post('/createBank', [
     check('isVisible').isLength({ min: 1 }).isNumeric().isIn([0,1]),
     outils.handleValidationResult],
     function(req, res) {
-        console.log("ccccccccccccccc"+req.body.name);
 
     conn.query(sql.insertBanque_0_3, [req.body.name,req.body.email,req.body.telephone,req.body.isVisible], function(err, result) { 
-        console.log("ddddddddddddddd"+req.body.name);
         return res.send({success: !err});
     });
 });
@@ -263,8 +260,6 @@ app.post('/createClient', [
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
     conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
-        console.log('result');
-        console.log(err);
         if(err) return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
         let currDate = new Date();
         let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
@@ -380,16 +375,13 @@ app.put('/updateParametre', [
 app.put('/updateBanque', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
-   // check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
-   // check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
-     check('email').isEmail().normalizeEmail(),
-     check('telephone').isMobilePhone().escape().trim(),
-     // check('bankEmail').isEmail().normalizeEmail(),
-
-      // check('isVisible').optional().isNumeric().escape().trim(),
+    check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+    check('email').isEmail().normalizeEmail(),
+    check('telephone').isMobilePhone().escape().trim(),
+    check('isVisible').optional().isNumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
-    console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     let aBanqueOld = req.jwt.Banque;
     console.log('permission level : ' + req.jwt.PermissionLevel);
     if(req.jwt.PermissionLevel >= 3 && req.body.banqueOld != undefined)
@@ -949,6 +941,36 @@ app.post('/validateEmail', [
     });
 });
 
+app.get('/reValidateEmailIfEmailExpired', [
+    outils.validJWTNeeded,
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    outils.handleValidationResult
+    ], function(req, res) {
+
+    if (req.jwt.IsEmailVerified) return res.status(200).send({errors: ["Votre Email est deja valide!"]});
+    conn.query(sql.deleteRandomTokenByEmail, [req.jwt.Email], function(err, result){
+        let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
+        conn.query(sql.insertRandomToken, [req.jwt.Email, randomToken], function(err2, result2){
+            if(err2) return res.status(500).send({success: !err2, errors: ["Server Error"]});
+            req.body = {};
+            req.body.email = req.jwt.Email;
+            req.body.nom = req.jwt.Nom;
+            req.body.prenom = req.jwt.Prenom;
+            req.body.banque = req.jwt.Banque;
+            createConfimationEmailText(req, randomToken);
+            transporter.sendMail(HeplerOptions, (err3, info) => {
+                if(err3) {
+                    console.log("Error while sending Email!");
+                    console.log(err3);
+                    console.log(info);
+                    return;
+                }
+                return res.send({success: !err3});
+            });
+        });
+    });
+});
+
 app.post('/auth', [ 
     check('email').isEmail().normalizeEmail(), 
     check('password').isLength({ min: 5 }).escape(),
@@ -972,6 +994,8 @@ app.post('/auth', [
                 let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
                 aSecret = {};
                 aSecret.Email = req.body.email;
+                aSecret.Nom = result.Nom;
+                aSecret.Prenom = result.Prenom;
                 aSecret.PermissionLevel = result.PermissionLevel;
                 aSecret.Banque = result.Banque;
                 aSecret.Portefeuilles = [];

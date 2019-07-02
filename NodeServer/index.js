@@ -251,7 +251,7 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
-    check('tel').isMobilePhone(),
+    check('tel').optional().isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 

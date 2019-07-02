@@ -43,9 +43,16 @@
             </button>            
         </td>
         </ng-container>
+        
+        <ng-container matColumnDef="empty">
+            <td mat-footer-cell *matFooterCellDef [attr.colspan]="apiService.permission === roles.COMMERCANT ? '7' : '6'">
+                <span *ngIf="!dataSource || (dataSource && dataSource.length === 0)"><strong>Aucune transaction à afficher.</strong></span>
+            </td>
+          </ng-container>
                 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="['empty']" [ngClass]="!dataSource || (dataSource && dataSource.length === 0) ? '' : 'no-empty-text'"></tr>
     </table>
     
     <div class="releves-actions">

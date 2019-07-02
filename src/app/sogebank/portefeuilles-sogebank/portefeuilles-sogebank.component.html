@@ -5,12 +5,15 @@
             NOUVEAU PORTEFEUILLE
         </button> 
         <div *ngFor="let portefeuille of portefeuilles">
-            <div class="portefeuille-container" (click)="openQRcodeDialog(QRcodeDialog, portefeuille)">
+            <div class="portefeuille-container">
                 <div class="portefeuille-title">
                     <h1>{{portefeuille.Libelle}}</h1>
                     <button mat-icon-button>
                         <fa-icon [icon]="faPen" class="edit-button" (click)="openEditWalletDialog(EditWalletDialog, portefeuille)"></fa-icon>
                     </button> 
+                    <button mat-icon-button>
+                        <fa-icon [icon]="faQrcode" class="edit-button" (click)="openQRcodeDialog(QRcodeDialog, portefeuille)"></fa-icon>
+                    </button>
                 </div>    
                 <div class="portefeuille-footer">
                     <div class="portefeuille-info">

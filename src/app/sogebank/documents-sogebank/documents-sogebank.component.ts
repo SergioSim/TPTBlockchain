@@ -148,10 +148,11 @@ export class DocumentsSogebankComponent implements OnInit {
             });
           });
         }
+    } else {
+      this.snackBar.open('Veuillez renseigner toutes les informations nécessaires avant de valider.', 'Fermer', {
+        duration: 5000,
+      });
     }
-    this.snackBar.open('Veuillez renseigner toutes les informations nécessaires avant de valider.', 'Fermer', {
-      duration: 5000,
-    });
   }
 
   submitCommercantDocs() {
@@ -188,10 +189,11 @@ export class DocumentsSogebankComponent implements OnInit {
             });
           });
         }
+    } else {
+      this.snackBar.open('Veuillez renseigner toutes les informations nécessaires avant de valider.', 'Fermer', {
+        duration: 5000,
+      });
     }
-    this.snackBar.open('Veuillez renseigner toutes les informations nécessaires avant de valider.', 'Fermer', {
-      duration: 5000,
-    });
   }
 
 }

@@ -98,11 +98,11 @@ export class SogebankService {
             formattedTransactions.push({
               id: transaction.MutationHash,
               date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
-              type: transaction.Nature,
-              nature: this.determineNature(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur),
+              type: 'Virement',
+              expediteur: this.determineLibelle(transaction.Expediteur),
               montant: this.commonUtilsService.numberToCurrencyString(
                 transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-              portefeuille: this.determinePortefeuille(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur)
+              destinataire: this.determineLibelle(transaction.Destinataire)
             });
           }
         });
@@ -123,11 +123,11 @@ export class SogebankService {
           formattedTransactions.push({
             id: transaction.MutationHash,
             date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
-            type: transaction.Nature,
-            nature: this.determineNature(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur),
+            type: 'Virement',
+            expediteur: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: this.determinePortefeuille(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur)
+            destinataire: this.determineLibelle(transaction.Destinataire)
           });
         }
       });
@@ -148,11 +148,11 @@ export class SogebankService {
           formattedTransactions.push({
             id: transaction.MutationHash,
             date: date.getDate() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear(),
-            type: transaction.Nature,
-            nature: this.determineNature(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur),
+            type: 'Virement',
+            expediteur: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            portefeuille: this.determinePortefeuille(portefeuille.ClePub, transaction.Destinataire, transaction.Expediteur)
+            destinataire: this.determineLibelle(transaction.Destinataire)
           });
         }
       });

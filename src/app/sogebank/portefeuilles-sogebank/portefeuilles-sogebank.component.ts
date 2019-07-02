@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SogebankService } from '../sogebank.service';
 import { Title } from '@angular/platform-browser';
-import { faPen, faPlusCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlusCircle, faExclamationTriangle, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
@@ -17,6 +17,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
   faPen = faPen;
   faPlusCircle = faPlusCircle;
   faExclamationTriangle = faExclamationTriangle;
+  faQrcode = faQrcode;
   portefeuilles: any[];
   totalWallets = 0;
   totalSolde = '0';

@@ -251,7 +251,7 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
-    check('tel').optional().isMobilePhone(),
+    //check('tel').optional().isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
@@ -437,11 +437,6 @@ app.put('/updateMonnie', [
     function(req, res) {
         console.log('permission level : ' + req.jwt.PermissionLevel);
     if(req.jwt.PermissionLevel >= 3)
-   // aMonnieOld = req.body.monnieOld;
-       // aBanqueOld = req.body.banqueOld;
-   // console.log('banque old = ' + aBanqueOld);
-     //   const monnieNew = outils.hasChanged(req.body.Nom, result[0].Nom);
-
         conn.query(sql.updateMonnie, [req.body.monnieNew, req.body.monnieUnite, req.body.monnieId], function(err1, result1){
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });

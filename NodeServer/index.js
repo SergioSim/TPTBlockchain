@@ -726,6 +726,20 @@ app.post('/insertParticulierDocs', [
     });
 });
 
+app.post('/insertBanqueDocs', [
+  
+    check('email').isEmail().normalizeEmail(),
+    check('pieceIdentite').isLength({ min: 1 }).escape(),
+    check('justificatifDomicile').isLength({ min: 1 }).escape(),
+    check('annonceLegale').isLength({ min: 1 }).escape(),
+    outils.handleValidationResult],  
+    function(req, res) {
+    conn.query(sql.insertBanqueDocs, [req.body.email, req.body.pieceIdentite, req.body.justificatifDomicile,req.body.annonceLegale], function(err, result){
+        return res.send({success: !err});
+    });
+});
+
+
 app.post('/updateParticulierDocs', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),

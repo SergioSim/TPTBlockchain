@@ -104,6 +104,29 @@
         </div>
         <hr>
         <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openPieceIdentiteInput()">Joindre votre carte identité</button>
+            <input id="pieceIdentiteInput" hidden type="file" (change)="pieceIdentiteChange($event.target.files)"  name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="piece-identite-input">
+                <input matInput disabled [value]="pieceIdentite?.name">
+            </mat-form-field>
+        </div>
+        <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openAnnonceLegaleInput()">Joindre votre annonce légale</button>
+            <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="annonce-legale-input">
+                <input matInput disabled [value]="annonceLegale?.name">
+            </mat-form-field>
+        </div>
+        <div class="upload-button">
+            <button mat-raised-button color="primary" (click)="openJustificatifDomicileInput()">Joindre un justificatif de domicile</button>
+            <input id="justificatifDomicileInput" hidden type="file" (change)="justificatifDomicileChange($event.target.files)" name="file" accept=".png,.jpeg,.jpg,.pdf">
+            <mat-form-field class="justificatif-domicile-input">
+                <input matInput disabled [value]="justificatifDomicile?.name">
+            </mat-form-field>
+        </div>
+        
+        <!--
+        <div class="upload-button">
             <button mat-raised-button (click)="openAnnonceLegaleInput()">Joindre votre carte identité</button>
             <input id="annonceLegaleInput" hidden type="file" (change)="annonceLegaleChange($event.target.files)"
                 name="file" accept=".png,.jpeg,.jpg,.pdf">
@@ -127,6 +150,7 @@
                 <input matInput disabled [value]="annonceLegale && annonceLegale.name">
             </mat-form-field>
         </div>
+        -->
         <div class="dialog-button">
             <button mat-flat-button color="primary" class="boutonConfirmer"
                 (click)="confirmAddBanque()">Envoyer</button>

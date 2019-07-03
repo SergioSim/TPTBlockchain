@@ -289,10 +289,10 @@ function createConfimationEmailText(req, token) {
     HeplerOptions.to = req.body.email;
     HeplerOptions.subject = 'Confirmation de création de compte';
     HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
-    '<p> Nous vous remercions de votre confiance a notre platforme Digital HaïTian Gourde </p>' + 
+    '<p> Nous vous remercions de votre confiance dans notre platforme Digital HaïTian Gourde </p>' + 
     '<p> Votre demande de creation du compte chez ' + req.body.banque + 
-    ' a ete bien pris en compte et est en attente de confirmation de votre adresse Email!</p>' + 
-    '<p> Pour passer a l\'etape suivate de votre inscription, cliquez sur ' + 
+    ' a bien été pris en compte et est en attente de confirmation de votre adresse Email !</p>' + 
+    '<p> Pour passer à l\'étape suivate de votre inscription, cliquez sur ' + 
     '<a href="http://82.255.166.104/TPTBlockchain/validationEmail?token=' + token + '">ce lien</a>' +
     ' et suivez les instructions sur le site pour valider votre demande </p><br><br>' + 
     'Cordialement, <br> votre equipe TPTBlockchain';

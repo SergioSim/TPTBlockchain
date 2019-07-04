@@ -16,6 +16,8 @@ module.exports = {
     "openchainObserver": "http://82.255.166.104:8087/",
     "DHTGAssetPath": "/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/",
     "HTGMail": "HTG666663@gmail.com",
-    "HTGMailPassword": "HTG666HTG666663",
-
+    "HTGClientId": "444834487249-nutkj4qfnqnvat7qrdkmsniue567boh3.apps.googleusercontent.com",
+    "HTGClientSecret": "kP5imFgOE2-e10pDaEu78_lm",
+    "HTGRefreshToken": "1/Iq_WBKNIGj68W12gKz_-KsX_hk-abyYZPv-Ug-yc-H4",
+    "HTGMailPassword": "HTG666HTG666663"
 };

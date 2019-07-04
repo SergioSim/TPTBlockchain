@@ -28,12 +28,17 @@ const app  = express()
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    secure: false,
-    port :25,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
+        type: 'OAuth2',
         user: config.HTGMail,
-        pass: config.HTGMailPassword
+        clientId: config.HTGClientId,
+        clientSecret: config.HTGClientSecret,
+        refreshToken: config.HTGRefreshToken,
+        accessToken: 'ya29.Gls8BxPOJF1s2P7_IzFNwq6n78bB6fLGHRcmojLzNo38tLL47Q_UJixa28RhG4s2l_OSnn5gUvqnWb3-gtasQtL64Wo8OmVpNHikyZqxlpZyx2yeyWoTsKiQCOro',
+        expires: 3500
     },
     tls: {
         rejectUnauthorized: false
@@ -251,7 +256,7 @@ app.post('/createClient', [
     check('password').isLength({ min: 5 }).escape(),
     check('prenom').isLength({ min: 3 }),
     check('nom').isLength({ min: 3 }),
-    //check('tel').optional().isMobilePhone(),
+    check('tel').optional().isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
     outils.handleValidationResult], 
@@ -260,24 +265,50 @@ app.post('/createClient', [
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
     if (!req.body.tel) req.body.tel = "";
-    conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
-        if(err) return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
-        let currDate = new Date();
-        let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
-        let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
-        conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
-            if(err2) return res.send({success: !err2, error: "Probleme de creation de Portefeuilles!"});
-            conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
-                if(err3) return res.status(500).send({success: !err3, errors: ["Server Error"]});
-                createConfimationEmailText(req, randomToken);
-                transporter.sendMail(HeplerOptions, (error, info) => {
-                    if(error) {
-                        console.log("Error while sending Email!");
-                        console.log(error);
-                        console.log(info);
+    conn.beginTransaction(function(iTransactionError) {
+        if (iTransactionError) { return res.status(500).send({success: !err, errors: ["Server Error"]});}
+        conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
+            if(err) {
+                conn.rollback(function() {
+                    return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
+                });
+                return;
+            }
+            let currDate = new Date();
+            let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
+            let randomToken = cryptoRandom({length: 300, type: 'url-safe'});
+            conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
+                if(err2) {
+                    conn.rollback(function() {
+                        return res.send({success: false, error: "Probleme de creation de Portefeuilles!"});
+                    });
+                    return;
+                }
+                conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
+                    if(err3) {
+                        conn.rollback(function() {
+                            return res.status(500).send({success: false, errors: ["Probleme de creation du token pour le client"]});
+                        });
                         return;
                     }
-                    return res.send({success: !err3});
+                    createConfimationEmailText(req, randomToken);
+                    transporter.sendMail(HeplerOptions, (error, info) => {
+                        if(error) {
+                            conn.rollback(function() {
+                                console.log("Error while sending Email!");
+                                console.log(error);
+                                console.log(info);
+                                return res.status(500).send({success: false, errors: ["Probleme d'envoi d'email"]});
+                            });
+                            return;
+                        }
+                        conn.commit(function(iCommitError) {
+                            if (iCommitError) {
+                                return res.status(500).send({success: false, errors: ["Probleme de commit de la transaction"]});
+                            }
+                            return res.send({success: true});
+                        })
+                    });
                 });
             });
         });

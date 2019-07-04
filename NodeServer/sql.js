@@ -9,7 +9,7 @@ module.exports = {
   'insertContact_0_4' : 
         'INSERT INTO beneficiaire  (Utilisateur_Email, Libelle, ClePub, Ajout) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
-        'INSERT INTO banque (NomCommercial, Email, Telephone,isVisible,Statut) VALUES (?,?,?,1,"en cours")',
+        'INSERT INTO banque (NomCommercial, Email, Telephone, isVisible, Statut) VALUES (?,?,?,1,"en cours")',
   'insertCommercantDocs' : 
         'INSERT INTO document (Email,Annonce_Legale) VALUES (?,?)',
   'insertParticulierDocs' : 

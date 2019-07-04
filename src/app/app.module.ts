@@ -10,7 +10,7 @@ import { NodeapiService } from './nodeapi.service';
 import { MatFormFieldModule, MatSelectModule, MatOptionModule, MatButtonModule, MatCheckboxModule,
   MatTabsModule, MatInputModule, MatRadioModule, MatSidenavModule, MatTableModule, MatDialogModule,
   MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatPaginatorModule, MatSortModule,
-   MatIconModule, MatToolbarModule, MatListModule, MatCardModule, MatMenuModule } from '@angular/material';
+   MatIconModule, MatToolbarModule, MatListModule, MatCardModule, MatMenuModule, MatTooltipModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Portal components
@@ -168,7 +168,8 @@ import { CommonEmailValidationComponent } from './common/common-email-validation
     NgxPaginationModule,
     FlexLayoutModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ],
   entryComponents: [EspaceUtilisateurBanquePriveComponent, InfoPersonelBanquePriveComponent],
   providers: [

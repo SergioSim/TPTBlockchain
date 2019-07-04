@@ -35,6 +35,11 @@
         <td mat-cell *matCellDef="let element"> {{element.destinataire}} </td>
         </ng-container>
                 
+        <ng-container matColumnDef="motif">
+        <th mat-header-cell *matHeaderCellDef> MOTIF </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.motif}}"> {{formatColumnContent(element.motif)}} </td>
+        </ng-container>
+                
         <ng-container matColumnDef="recu" id="recu-col" *ngIf="apiService.permission === roles.COMMERCANT">
         <th mat-header-cell *matHeaderCellDef> REÇU </th>
         <td mat-cell *matCellDef="let element"> 

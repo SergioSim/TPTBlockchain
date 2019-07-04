@@ -73,6 +73,12 @@ exports.carte = {
   Portefeuile_Id: 'Portefeuile_Id'
 }
 
+exports.motiftransaction = {
+  table: 'OpenchainUser.motiftransaction',
+  Mutation_Hash: 'Mutation_Hash',
+  Motif: 'Motif'
+}
+
 // (arg1, arg2, arg3)
 function args() {
   return ' (' + largs.apply(null, arguments) + ')'; 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Role } from './Role';
-import { NodeapiService } from '../nodeapi.service';
+import { NodeapiService, apiUrl } from '../nodeapi.service';
 import { CommonUtilsService } from '../common/common-utils.service';
 
 @Injectable({
@@ -34,6 +34,16 @@ export class SogebankService {
                   if (data[0] && data[0].balance) {
                     portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
                   }
+                  let transactionIds = portefeuille.Transactions.map(transaction => transaction.MutationHash);
+                  transactionIds = transactionIds && transactionIds.length > 0 ? transactionIds : [''];
+                  this.apiService.makeRequest(apiUrl.motifsByMutationHashes, {MutationHashes: transactionIds}).toPromise()
+                  .then(res => {
+                    // For each transaction, find portefeuille.Transaction with same hash and apply motif
+                    res.forEach(tx => {
+                      portefeuille.Transactions.find(transaction =>
+                        transaction.MutationHash === tx.Mutation_Hash).Motif = tx.Motif;
+                    });
+                  });
                 },
                 error => {
                   console.log(error);
@@ -102,7 +112,8 @@ export class SogebankService {
               expediteur: this.determineLibelle(transaction.Expediteur),
               montant: this.commonUtilsService.numberToCurrencyString(
                 transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-              destinataire: this.determineLibelle(transaction.Destinataire)
+              destinataire: this.determineLibelle(transaction.Destinataire),
+              motif: transaction.Motif ? transaction.Motif : 'Aucun motif'
             });
           }
         });
@@ -127,7 +138,8 @@ export class SogebankService {
             expediteur: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            destinataire: this.determineLibelle(transaction.Destinataire)
+            destinataire: this.determineLibelle(transaction.Destinataire),
+            motif: transaction.Motif ? transaction.Motif : 'Aucun motif'
           });
         }
       });
@@ -152,7 +164,8 @@ export class SogebankService {
             expediteur: this.determineLibelle(transaction.Expediteur),
             montant: this.commonUtilsService.numberToCurrencyString(
               transaction.Montant >= 0 ? '+' + transaction.Montant : transaction.Montant),
-            destinataire: this.determineLibelle(transaction.Destinataire)
+            destinataire: this.determineLibelle(transaction.Destinataire),
+            motif: transaction.Motif ? transaction.Motif : 'Aucun motif'
           });
         }
       });

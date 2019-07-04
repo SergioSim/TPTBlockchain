@@ -30,6 +30,9 @@ module.exports = {
   'findCartesByPortefeuilleIds' : 
         'SELECT Id, Libelle, Portefeuille_Id, Creation, IsBlocked ' + 
         'FROM carte WHERE Portefeuille_Id IN (?)',
+  'findMotifsByMutationHashes' : 
+        'SELECT Mutation_Hash, Motif ' + 
+        'FROM motiftransaction WHERE Mutation_Hash IN (?)',
   'findBanqueByName' : 
          'SELECT Email, NomCommercial, Telephone, isVisible ' + 
          'FROM banque WHERE NomCommercial LIKE BINARY ?',  

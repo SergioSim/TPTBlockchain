@@ -10,8 +10,12 @@
     justify-content: space-between;
 }
 
-.releve-selector, app-table-releve-sogebank {
+.releve-selector {
     width: 80%;
+}
+
+app-table-releve-sogebank {
+    width: 85%;
 }
 
 .wallet-selector {

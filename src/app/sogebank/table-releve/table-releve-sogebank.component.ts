@@ -29,8 +29,8 @@ export class TableReleveSogebankComponent implements OnInit {
 
   setColumnsToDisplay() {
     this.displayedColumns = this.apiService.permission === Role.COMMERCANT
-      ? ['id', 'date', 'type', 'expediteur', 'montant', 'destinataire', 'recu']
-      : ['id', 'date', 'type', 'expediteur', 'montant', 'destinataire'];
+      ? ['id', 'date', 'type', 'expediteur', 'montant', 'destinataire', 'motif', 'recu']
+      : ['id', 'date', 'type', 'expediteur', 'montant', 'destinataire', 'motif'];
   }
 
   formatColumnContent(content) {

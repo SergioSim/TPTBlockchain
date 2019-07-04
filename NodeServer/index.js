@@ -175,6 +175,19 @@ app.post('/cardsByPortefeuilleIds', [
     });
 })
 
+// Not optimal, but can't get transaction memo from openchain...
+app.post('/motifsByMutationHashes', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('MutationHashes').isArray().isLength({ min: 0 }),
+    outils.handleValidationResult],
+    function(req, res) {
+    conn.query(sql.findMotifsByMutationHashes, [req.body.MutationHashes], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not fetch motifs']});
+        res.send((err) ? "Error" : result);
+    });
+})
+
 
 app.post('/portefeuillesByBanqueEmail', [
     outils.validJWTNeeded, 

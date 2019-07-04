@@ -62,13 +62,13 @@ module.exports = {
   'getAllPrametres' :
         'SELECT Id, Nom, Description, Valeur, DateCreation FROM parametre',
   'getAllBanks' : 
-        'SELECT NomCommercial, Email, Tel, Statut, Virement FROM banque',
+        'SELECT NomCommercial, Email, Telephone, Statut, Virement FROM banque',
   'getAllPortefeuilles' : 
-        'SELECT NomCommercial, Email, Tel, Virement FROM banque',
+        'SELECT NomCommercial, Email, Telephone, Virement FROM banque',
   'getAllBanks_NotVisible' : 
-        'SELECT NomCommercial, Email, Tel, Statut FROM banque WHERE isVisible=0',
+        'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE isVisible=0',
   'getAllBanks_Visible' : 
-        'SELECT NomComercial, Email, Tel, Statut FROM banque WHERE isVisible=1',
+        'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE isVisible=1',
   'getAllBanks_Valid' : 
         'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE Statut=? && NomCommercial!=?',
   'getAllBanks_NotValid' : 

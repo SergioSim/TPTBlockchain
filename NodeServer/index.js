@@ -27,6 +27,8 @@ const app  = express()
 
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
+const database = new bd.Database();
+
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -65,31 +67,32 @@ console.log("Serveur lancé sur le port : " + config.port);
 
 openchainValCli.initialize().then( function(res) {
     console.log("Openchain initialized: " + openchainValCli.namespace.toHex());
-    openchainValCli.getRecordMutations('/p2pkh/XoKzFaNq6K3vc63akCwLopagaTzsZ3t9HW/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/').then(res =>
-        console.log(res));
 });
 
 app.get('/bienvenue', function(req, res) {
     res.send('<h1>Votre Certificat SSL vient d\'etre ajouté!<h1><a href="http://82.255.166.104/TPTBlockchain/portail">Revenir</a><br><a href="http://localhost:4200/portail">Revenir Local</a>');
 });
 
-app.get('/allMonnies', function(req, res) {
-    let aQuerry = sql.getAllMonnies;
-
-    conn.query(aQuerry,[req.query.type],function(err, result){
-        res.send((err) ? "Error" : result);
-    });
+app.get('/allMonnies', [
+    check('type').isString().isIn(["electronique", "physique"]),
+    outils.handleValidationResult,
+    ], function(req, res) {
+    
+    database.queryWithCatch(sql.getAllMonnies, [req.query.type], res, "Error", 500)
+        .then(result => { if(result) { return res.send(result)}; }); //queryWithCatch handles the error
 });
 
-app.get('/allBanks', function(req, res) {
+app.get('/allBanks', [
+    check('visible').optional().isString().isIn(["true", "false"]),
+    outils.handleValidationResult,
+    ], function(req, res) {
+
     let aQuerry = sql.getAllBanks;
     if(req.query.visible === 'true') aQuerry = sql.getAllBanks_Visible;
     if(req.query.visible === 'false') aQuerry = sql.getAllBanks_NotVisible;
-
-    conn.query(aQuerry, function(err, result){
-        res.send((err) ? "Error" : result);
+    database.queryWithCatch(aQuerry, [], res, "Error", 500)
+        .then(result => { if(result) { return res.send(result); }});
     });
-});
 
 app.get('/allBanksUtilisateurs', function(req, res) {
     let aQuerry = sql.findUtilisateursByBanque;

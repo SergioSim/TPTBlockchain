@@ -1,3 +1,27 @@
+const config = require('./env.config.js'),
+      mysql  = require('mysql');
+
+exports.Database = class Database {
+  constructor() {
+      this.connection = mysql.createConnection({host: config.mySqlHost , user: config.mySqlUser, password: config.mySqlPass, database: config.mySqlUser});
+  }
+  queryWithCatch( sql, args, res, errorMessage, errorCode = 400, sendError = true) {
+    return new Promise( ( resolve, reject ) => {
+        this.connection.query( sql, args, ( err, rows ) => {
+            if(err || !rows[0]) {
+              return reject({err, rows});
+            }
+            return resolve(rows);
+        } );
+    }).catch(error => {
+      console.log("[DATABASE ERROR]", "Result:", error.rows, "Error:", error.err);
+      if(sendError) {
+        res.status(errorCode).send({ succes: false, errors: [errorMessage] });
+      }
+    });
+  }
+}
+
 exports.banque = {
   table: 'OpenchainUser.banque',
   Nom: 'Nom',

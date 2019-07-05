@@ -26,7 +26,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
   NewWalletDialogRef: any;
   editDialogRef: any;
   newWalletlibelle = '';
-  newWalletPassword: number;
+  newWalletPassword: any;
   selectedPortefeuille: {
     Id: '',
     ClePub: '',
@@ -151,7 +151,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.updatePortefeuilleLibelle, editPortefeuilleDetails).toPromise()
       .then(res => {
-        this.getPortefeuilles();
+        this.getPortefeuilles(null);
         this.editDialogRef.close();
         this.snackBar.open(this.selectedPortefeuille.Libelle + ' à bien été mis à jour.', 'Fermer', {
           duration: 5000,

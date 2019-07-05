@@ -26,6 +26,7 @@ export class CartesSogebankComponent implements OnInit {
   newCreateDialogRef: any;
   newCardSelectedWallet: {};
   newCardlibelle = '';
+  newCardPassword: any;
   editDialogRef: any;
   deleteDialogRef: any;
   blockDialogRef: any;
@@ -52,7 +53,7 @@ export class CartesSogebankComponent implements OnInit {
 
   initData() {
     this.portefeuilles = this.apiService.portefeuilles;
-    this.getCartes();
+    this.getCartes(null);
   }
 
   countTotals() {
@@ -67,19 +68,34 @@ export class CartesSogebankComponent implements OnInit {
     this.totalSolde = this.commonUtilsService.numberToCurrencyString(solde);
   }
 
-  getCartes() {
-    const portefeuilleIds = this.portefeuilles.map(pf => pf.Id);
-    this.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).toPromise()
-      .then(res => {
-        this.cartes = res;
-        this.cartes.forEach(carte => {
-          const attached = this.portefeuilles.filter(portefeuille => portefeuille.Id = carte.Portefeuille_Id);
-          carte.rattachement = attached[0].Libelle;
-        });
+  getCartes(self) {
+    if (self) {
+      const portefeuilleIds = self.portefeuilles.map(pf => pf.Id);
+      self.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).toPromise()
+        .then(res => {
+          self.cartes = res;
+          self.cartes.forEach(carte => {
+            const attached = self.portefeuilles.filter(portefeuille => portefeuille.Id === carte.Portefeuille_Id);
+            carte.rattachement = attached[0].Libelle;
+          });
 
-        this.apiService.cartes = this.cartes;
-        this.countTotals();
-      });
+          self.apiService.cartes = self.cartes;
+          self.countTotals();
+        });
+    } else {
+      const portefeuilleIds = this.portefeuilles.map(pf => pf.Id);
+      this.apiService.makeRequest(apiUrl.cardsByPortefeuilleIds, {Ids: portefeuilleIds}).toPromise()
+        .then(res => {
+          this.cartes = res;
+          this.cartes.forEach(carte => {
+            const attached = this.portefeuilles.filter(portefeuille => portefeuille.Id === carte.Portefeuille_Id);
+            carte.rattachement = attached[0].Libelle;
+          });
+
+          this.apiService.cartes = this.cartes;
+          this.countTotals();
+        });
+    }
   }
 
   openNewCardDialog(templateRef) {
@@ -97,10 +113,11 @@ export class CartesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.createCarte, newCardDetails).toPromise()
       .then(res => {
-        this.getCartes();
+        this.sogebankService.transferToSogebank(this.apiService.portefeuilles[0].Id, this.newCardPassword,
+          150, 'Commande nouvelle carte', this.getCartes, this);
         this.newCreateDialogRef.close();
         this.snackBar.open('La commande de la carte "' + this.newCardlibelle + '" à bien été effectuée et sera'
-        + ' rattaché au portefeuile "' + this.newCardSelectedWallet['libelle'] + '".', 'Fermer', {
+        + ' rattaché au portefeuile "' + this.newCardSelectedWallet['Libelle'] + '".', 'Fermer', {
           duration: 5000,
         });
       }, error => {
@@ -123,7 +140,7 @@ export class CartesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.updateCarte, editCardDetails).toPromise()
       .then(res => {
-        this.getCartes();
+        this.getCartes(null);
         this.editDialogRef.close();
         this.snackBar.open(this.selectedCarte.Libelle + ' à bien été mis à jour.', 'Fermer', {
           duration: 5000,
@@ -151,7 +168,7 @@ export class CartesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.deleteCarte, {id: deleteCardDetails.id}).toPromise()
       .then(res => {
-        this.getCartes();
+        this.getCartes(null);
         this.deleteDialogRef.close();
         this.snackBar.open(deleteCardDetails.libelle + ' à bien été supprimé.', 'Fermer', {
           duration: 5000,
@@ -179,7 +196,7 @@ export class CartesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.blockCarte, {id: blockCardDetails.id}).toPromise()
       .then(res => {
-        this.getCartes();
+        this.getCartes(null);
         this.blockDialogRef.close();
         this.snackBar.open(blockCardDetails.libelle + ' à bien été blocké.', 'Fermer', {
           duration: 5000,
@@ -207,7 +224,7 @@ export class CartesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.unblockCarte, {id: unblockCardDetails.id}).toPromise()
       .then(res => {
-        this.getCartes();
+        this.getCartes(null);
         this.unblockDialogRef.close();
         this.snackBar.open(unblockCardDetails.libelle + ' à bien été débloqué.', 'Fermer', {
           duration: 5000,

@@ -172,7 +172,7 @@ app.post('/cardsByPortefeuilleIds', [
     outils.handleValidationResult],
     function(req, res) {
         
-    conn.query(sql.findCartesByPortefeuilleIds, req.body.Ids, function(err, result){
+    conn.query(sql.findCartesByPortefeuilleIds, [req.body.Ids], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not fetch cards']});
         res.send((err) ? "Error" : result);
     });

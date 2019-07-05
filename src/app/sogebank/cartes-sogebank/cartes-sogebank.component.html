@@ -61,6 +61,9 @@
                             </mat-option>
                         </mat-select>
                 </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="password" placeholder="Entrez votre mot de passe pour confirmer" [(ngModel)]="newCardPassword">
+                </mat-form-field>
             </div>
            <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-confirm-button" (click)="confirmCardCreate()">Confirmer</button> 

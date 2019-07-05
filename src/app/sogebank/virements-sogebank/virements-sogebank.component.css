@@ -82,6 +82,15 @@
     justify-content: space-evenly;
 }
 
+.motif-form {
+    width: 70%;
+    align-self: center;
+}
+
+.motif-form mat-form-field {
+    width: 100%;
+}
+
 .confirm-button {
     border-radius: 50px;
     padding: 5px 16px;

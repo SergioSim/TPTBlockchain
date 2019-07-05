@@ -451,6 +451,7 @@ export enum apiUrl {
   createPortefeuille = 'POST$createPortefeuille/',
   createCarte = 'POST$createCarte/',
   createContact = 'POST$createContact/',
+  insertTransactionMotif = 'POST$insertTransactionMotif',
   insertCommercantDocs = 'POST$insertCommercantDocs',
   insertParticulierDocs = 'POST$insertParticulierDocs',
   insertBanqueDocs= 'POST$insertBanqueDocs',

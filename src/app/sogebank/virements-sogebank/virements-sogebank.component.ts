@@ -6,6 +6,7 @@ import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPl
 import { MatDialog, MatSnackBar, MatDialogRef } from '@angular/material';
 import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-virements-sogebank',
@@ -19,6 +20,7 @@ export class VirementsSogebankComponent implements OnInit {
   faCheck = faCheck;
   faCheckCircle = faCheckCircle;
   faPlus = faPlus;
+  motifFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]) ;
 
   portefeuilles: any[];
   beneficiaires: any[];
@@ -39,14 +41,14 @@ export class VirementsSogebankComponent implements OnInit {
     to: '',
     amount: '',
     afterTransfer: '',
-    type: '',
+    motif: '',
     date: ''
   };
   typesVirement = [
-    {value: 'Virement', viewValue: 'Classique'},
     {value: 'Paiement', viewValue: 'Paiement'},
-    {value: 'Depôt HTG', viewValue: 'Dépôt HTG'},
-    {value: 'Retrait HTG', viewValue: 'Retrait HTG'}
+    {value: 'Dépôt HTG', viewValue: 'Dépôt HTG'},
+    {value: 'Retrait HTG', viewValue: 'Retrait HTG'},
+    {value: 'Autre', viewValue: 'Autre...'}
   ];
 
   constructor(
@@ -102,7 +104,8 @@ export class VirementsSogebankComponent implements OnInit {
 
   checkConfirmState() {
     if (Object.entries(this.selectedBeneficiaire).length > 0 && Object.entries(this.selectedPortefeuille).length > 0
-        && this.transferAmount !== undefined && this.transferAmount !== null && this.selectedType !== undefined) {
+        && this.transferAmount !== undefined && this.transferAmount !== null && this.selectedType !== undefined
+        && (this.selectedType !== 'Autre' || (this.selectedType === 'Autre' && !this.motifFC.invalid))) {
       return false;
     }
     return true;
@@ -114,7 +117,7 @@ export class VirementsSogebankComponent implements OnInit {
     this.dialogProperties.amount = this.transferAmount.toString();
     this.dialogProperties.afterTransfer = (Number(this.selectedPortefeuille['Solde']
       .substring(0, this.selectedPortefeuille['Solde'].length - 5).replace(' ', '')) - this.transferAmount).toString();
-    this.dialogProperties.type = this.typesVirement.find(obj => obj.value === this.selectedType).viewValue;
+    this.dialogProperties.motif = this.formatMotif(this.selectedType === 'Autre' ? this.motifFC.value : this.selectedType);
     this.dialogProperties.date = new Date().toLocaleDateString();
   }
 
@@ -130,6 +133,7 @@ export class VirementsSogebankComponent implements OnInit {
       });
     } else {
       this.updateDialogProperties();
+      console.log(this.selectedType);
       this.confirmDialogRef = this.dialog.open(templateRef);
       this.confirmDialogRef.afterClosed().subscribe(result => {
 
@@ -138,21 +142,31 @@ export class VirementsSogebankComponent implements OnInit {
   }
 
   confirmTransfer() {
+    const motif = this.selectedType === 'Autre' ? this.motifFC.value : this.selectedType;
     const transferDetails = {
       password: this.transferPassword,
       id: this.selectedPortefeuille['Id'],
       clePubDestinataire: this.selectedBeneficiaire['ClePub'],
       montant: this.transferAmount,
-      memo: this.selectedType
+      memo: motif
     };
     this.apiService.makeRequest(apiUrl.transferTo, transferDetails).toPromise()
       .then(res => {
         this.sogebankService.initPortfeuillesData(this.initData, this);
         this.confirmDialogRef.close();
-        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-          + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
-          duration: 5000,
-        });
+        const motifDetails = {
+          MutationHash: res.mutation_hash,
+          Motif: motif
+        }
+        this.apiService.makeRequest(apiUrl.insertTransactionMotif, motifDetails).toPromise()
+          .then(data => {
+            this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+              + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
+              duration: 5000,
+            });
+          }, error => {
+            console.log(error);
+          });
       }, error => {
         this.snackBar.open('Le virement n\'a pas pu aboutir, veuillez réessayer.', 'Fermer', {
           duration: 5000,
@@ -245,6 +259,13 @@ export class VirementsSogebankComponent implements OnInit {
 
   goToTransfersStatement() {
     this.route.navigate(['/sogebank/virements/suivi']);
+  }
+
+  formatMotif(motif) {
+    if (motif && motif.length > 20) {
+      return motif.substring(0, 18) + '...';
+    }
+    return motif;
   }
 
 }

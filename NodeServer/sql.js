@@ -10,13 +10,14 @@ module.exports = {
         'INSERT INTO beneficiaire  (Utilisateur_Email, Libelle, ClePub, Ajout) VALUES (?,?,?,?)',
   'insertBanque_0_3' : 
         'INSERT INTO banque (NomCommercial, Email, Telephone, isVisible, Statut) VALUES (?,?,?,1,"en cours")',
+  'insertTransactionMotif' : 
+        'INSERT INTO motiftransaction (Mutation_Hash,Motif) VALUES (?,?)',
   'insertCommercantDocs' : 
         'INSERT INTO document (Email,Annonce_Legale) VALUES (?,?)',
   'insertParticulierDocs' : 
         'INSERT INTO document (Email,Piece_Identite,Justificatif_Domicile) VALUES (?,?,?)',
   'insertBanqueDocs' :
         'INSERT INTO document VALUES (?,?,?,?)',
-  
   'insertRandomToken' : 'INSERT INTO tokenverification (Email, Token) VALUES (?,?)',
   'insertCarte' : 
         'INSERT INTO carte (Libelle,Portefeuille_id,Creation) VALUES (?,?,?)',

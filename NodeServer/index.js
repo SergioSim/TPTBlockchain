@@ -701,6 +701,20 @@ app.post('/createContact', [
     });
 });
 
+app.post('/insertTransactionMotif', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('MutationHash').isLength({ min: 1 }).escape(),
+    check('Motif').isLength({ min: 3 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.insertTransactionMotif, [req.body.MutationHash, req.body.Motif], function(err, result){
+        if(err) return res.status(400).send({errors: ['Could not insert motif']});
+            return res.send({success: !err});
+    });
+});
+
 app.post('/insertCommercantDocs', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
@@ -954,7 +968,7 @@ app.post('/transferTo', [
     check('password').isLength({ min: 5 }).escape(),
     check('clePubDestinataire').isAlphanumeric().escape(),
     check('montant').isNumeric().isLength({min: 1}),
-    check('memo').isAlphanumeric().escape(),
+    check('memo').matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     

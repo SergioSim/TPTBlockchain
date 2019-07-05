@@ -27,7 +27,6 @@ export class PortefeuillesSogebankComponent implements OnInit {
   editDialogRef: any;
   newWalletlibelle = '';
   newWalletPassword: number;
-  ye = true;
   selectedPortefeuille: {
     Id: '',
     ClePub: '',
@@ -73,15 +72,26 @@ export class PortefeuillesSogebankComponent implements OnInit {
       this.commonUtilsService.currencyStringtoNumber(this.sogebankService.totalCredit));
   }
 
-  getPortefeuilles() {
-    this.apiService.makeRequest(apiUrl.portefeuillesByUserEmail, {}).toPromise()
-      .then(res => {
-        this.apiService.portefeuilles = res;
-        this.portefeuilles = res;
-        this.sogebankService.initPortfeuillesData(this.initData, this);
-        this.apiService.portefeuilles = this.portefeuilles;
-        this.countTotals();
-      });
+  getPortefeuilles(self) {
+    if (self) {
+      self.apiService.makeRequest(apiUrl.portefeuillesByUserEmail, {}).toPromise()
+        .then(res => {
+          self.apiService.portefeuilles = res;
+          self.portefeuilles = res;
+          self.sogebankService.initPortfeuillesData(self.initData, self);
+          self.apiService.portefeuilles = self.portefeuilles;
+          self.countTotals();
+        });
+    } else {
+      this.apiService.makeRequest(apiUrl.portefeuillesByUserEmail, {}).toPromise()
+        .then(res => {
+          this.apiService.portefeuilles = res;
+          this.portefeuilles = res;
+          this.sogebankService.initPortfeuillesData(this.initData, this);
+          this.apiService.portefeuilles = this.portefeuilles;
+          this.countTotals();
+        });
+    }
   }
 
   openQRcodeDialog(templateRef, portefeuille) {
@@ -114,13 +124,14 @@ export class PortefeuillesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.createPortefeuille, newWalletdDetails).toPromise()
       .then(res => {
-        this.getPortefeuilles();
+        this.sogebankService.transferToSogebank(this.apiService.portefeuilles[0].Id, this.newWalletPassword,
+          200, 'Ouverture nouveau portefeuille', this.getPortefeuilles, this);
         this.NewWalletDialogRef.close();
         this.snackBar.open('Le portefeuille "' + this.newWalletlibelle + '" à bien été créé.', 'Fermer', {
           duration: 5000,
         });
       }, error => {
-        this.snackBar.open('La création du portefeuille n\'a pas pu s\'effectué, assurez-vous d\'avoir un solde'
+        this.snackBar.open('La création du portefeuille n\'a pas pu s\'effectuer, assurez-vous d\'avoir un solde'
         + ' suffisant et que votre mot de passe soit correct avant de réessayer.', 'Fermer', {
           duration: 5000,
         });
@@ -142,7 +153,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
       .then(res => {
         this.getPortefeuilles();
         this.editDialogRef.close();
-        this.snackBar.open(this.selectedPortefeuille.Libelle + '" à bien été mis à jour.', 'Fermer', {
+        this.snackBar.open(this.selectedPortefeuille.Libelle + ' à bien été mis à jour.', 'Fermer', {
           duration: 5000,
         });
       }, error => {

@@ -172,8 +172,6 @@ export class VirementsSogebankComponent implements OnInit {
           duration: 5000,
         });
       });
-
-
   }
 
   cancelTransfer() {

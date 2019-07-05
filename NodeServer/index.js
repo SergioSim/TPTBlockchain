@@ -349,7 +349,7 @@ app.post('/createPortefeuille', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('password').isLength({ min: 5 }).escape(),
-    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -375,7 +375,7 @@ app.post('/createCarte', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('portefeuille_id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
 
@@ -494,7 +494,7 @@ app.put('/updateCarte', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -509,7 +509,7 @@ app.put('/updatePortefeuilleLibelle', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -524,7 +524,7 @@ app.put('/updateContact', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('id').isNumeric().escape(),
     // Regex to allow spaces between alphanumeric characters
-    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('libelle').isLength({ min: 1 }).matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     check('clePub').isLength({ min: 1 }).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
@@ -705,7 +705,7 @@ app.post('/insertTransactionMotif', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
     check('MutationHash').isLength({ min: 1 }).escape(),
-    check('Motif').isLength({ min: 3 }).matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('Motif').isLength({ min: 3 }).matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -968,7 +968,7 @@ app.post('/transferTo', [
     check('password').isLength({ min: 5 }).escape(),
     check('clePubDestinataire').isAlphanumeric().escape(),
     check('montant').isNumeric().isLength({min: 1}),
-    check('memo').matches(/^[a-zA-Z0-9 éèà]+$/i).escape().trim(),
+    check('memo').matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     
@@ -983,6 +983,33 @@ app.post('/transferTo', [
         console.log("[INFO]: fromAddress : " + req.fromAddress);
         console.log("[INFO]: untoAddress : " + req.untoAddress);
         return outils.transaction(req, res, openchainValCli);
+    });
+});
+
+app.post('/transferToUserEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),
+    check('id').isNumeric().isLength({min: 1}),
+    check('password').isLength({ min: 5 }).escape(),
+    check('emailDestinataire').isEmail().escape(),
+    check('montant').isNumeric().isLength({min: 1}),
+    check('memo').matches(/^[a-zA-Z0-9 éèàô]+$/i).escape().trim(),
+    outils.handleValidationResult], 
+    function(req, res) {
+    
+    conn.query(sql.findPortefeuillesById, [req.body.id], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["Ce portefeuille n\'existe pas..."] });
+        if(result[0].Utilisateur_Email !== req.jwt.Email) return res.status(404).send({ succes: false, errors: ["Ce portefeuille ne vous apartient pas!"] });
+        req.transactionWallet = result[0].ClePrive;
+        req.fromAddress = "/p2pkh/" + result[0].ClePub + "/";
+        conn.query(sql.findPortefeuillesByEmail, [req.body.emailDestinataire], function(err2, result2){
+            if(err2 || !result2[0]) return res.status(400).send({errors: ['Aucun portefeuille correspond à cet adresse mail...']});
+            req.untoAddress = "/p2pkh/" + result2[0].ClePub + "/";
+            console.log("[INFO]: transactionWallet : " + req.transactionWallet);
+            console.log("[INFO]: fromAddress : " + req.fromAddress);
+            console.log("[INFO]: untoAddress : " + req.untoAddress);
+            return outils.transaction(req, res, openchainValCli);
+        });
     });
 });
   

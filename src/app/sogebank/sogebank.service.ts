@@ -203,4 +203,30 @@ export class SogebankService {
     const libelleContact = this.apiService.contacts.find(contact => contact.ClePub === clePub);
     return libelleContact === undefined ? 'Inconnu' : libelleContact.Libelle;
   }
+
+
+  transferToSogebank(portefeuilleId, password, montant, motif, callback, callbackComponent) {
+    const transferDetails = {
+      password,
+      id: portefeuilleId,
+      emailDestinataire: 'contact@sogebank.ht',
+      montant,
+      memo: motif
+    };
+    this.apiService.makeRequest(apiUrl.transferToUserEmail, transferDetails).toPromise()
+      .then(res => {
+        const motifDetails = {
+          MutationHash: res.mutation_hash,
+          Motif: motif
+        };
+        this.apiService.makeRequest(apiUrl.insertTransactionMotif, motifDetails).toPromise()
+          .then(data => {
+            callback(callbackComponent);
+          }, error => {
+            console.log(error);
+          });
+      }, error => {
+        console.log(error);
+      });
+  }
 }

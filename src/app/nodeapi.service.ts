@@ -484,6 +484,7 @@ export enum apiUrl {
   deletePortefeuille = 'DELETE$deletePortefeuille',
   submit = 'POST$submit',
   transferTo = 'POST$transferTo',
+  transferToUserEmail = 'POST$transferToUserEmail',
   issueDHTG = 'POST$issueDHTG',
   validateEmail = 'POST$validateEmail'
 }

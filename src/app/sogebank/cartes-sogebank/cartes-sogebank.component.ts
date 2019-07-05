@@ -181,7 +181,7 @@ export class CartesSogebankComponent implements OnInit {
       .then(res => {
         this.getCartes();
         this.blockDialogRef.close();
-        this.snackBar.open(blockCardDetails.libelle + '" à bien été blocké.', 'Fermer', {
+        this.snackBar.open(blockCardDetails.libelle + ' à bien été blocké.', 'Fermer', {
           duration: 5000,
         });
       }, error => {
@@ -209,7 +209,7 @@ export class CartesSogebankComponent implements OnInit {
       .then(res => {
         this.getCartes();
         this.unblockDialogRef.close();
-        this.snackBar.open(unblockCardDetails.libelle + '" à bien été débloqué.', 'Fermer', {
+        this.snackBar.open(unblockCardDetails.libelle + ' à bien été débloqué.', 'Fermer', {
           duration: 5000,
         });
       }, error => {

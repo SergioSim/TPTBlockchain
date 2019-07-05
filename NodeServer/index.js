@@ -253,7 +253,8 @@ app.post('/createBank', [
 app.post('/createMonnie', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
-    check('name').isAlphanumeric().escape().trim(),
+    check('name').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+    //check('name').isAlphanumeric().escape().trim(),
     check('unite').isLength({ min: 1 }).isNumeric().trim(),
     outils.handleValidationResult],
     function(req, res) {
@@ -485,7 +486,7 @@ app.put('/updateBanque', [
 app.put('/updateMonnie', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
-      check('monnieNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
+      check('monnieNew').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
       check('monnieUnite').isNumeric({ min: 1 }).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
@@ -864,7 +865,9 @@ app.delete('/deleteBank', [
 app.delete('/deleteMonnieElectronique', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
-    check('name').isAlphanumeric().escape().trim(),
+    check('name').isLength({ min: 1 }).matches(/^[a-z0-9 ]+$/i).escape().trim(),
+
+//    check('name').isAlphanumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     //TODO transfert all clients funds to BRH?

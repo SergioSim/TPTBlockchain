@@ -103,7 +103,7 @@ export class ParametresBrhComponent implements OnInit {
     var dateCreation = new Date();
     console.log(dateCreation);
     this.service.makeRequest(apiUrl.createParametre, {
-      name: this.parametreNom, description: this.parametreDescription, valeur: this.parametreDescription,
+      name: this.parametreNom, description: this.parametreDescription, valeur: this.parametreValeur,
       dateCreation: dateCreation
     }).
       subscribe(res => {

@@ -120,7 +120,7 @@ export class PortefeuillePrincipalBrhComponent implements OnInit {
     this.banqueNomSelected = value;
   }
   geteEmailByNom() {
-    return this.listBanqueValid.find(pt => pt.Nom == this.banqueNomSelected).Email;
+    return this.listBanqueValid.find(pt => pt.NomCommercial == this.banqueNomSelected).Email;
   }
 
   getPortefeuille() {

@@ -80,7 +80,7 @@ export class DemandeHabilitationComponent implements OnInit {
   }
   confirmAddBanque() {
     if (this.BanqueNom.invalid || this.nouvelBanquePrenom.invalid || this.nouvelBanqueNom.invalid || this.nouvelBanqueTel.invalid
-      || this.nouvelBanquePassword.invalid || this.nouvelBanquePasswordConfirm.invalid) {
+      || this.nouvelBanquePassword.invalid || this.nouvelBanquePasswordConfirm.invalid ) {
       this.snackBar.open('Tous les champs sont requis!', 'Fermer', {
         duration: 5000,
         panelClass: ['alert-snackbar']
@@ -118,7 +118,7 @@ export class DemandeHabilitationComponent implements OnInit {
 
             if (res2 && res2.success === true) {
 
-              if (this.pieceIdentiteBuffer && this.justificatifDomicileBuffer && this.annonceLegaleBuffer) {
+              if (this.pieceIdentiteBuffer && this.justificatifDomicileBuffer && this.annonceLegaleBuffer) 
 
                 this.service.makeRequest(apiUrl.insertBanqueDocs, 
                   {
@@ -136,7 +136,7 @@ export class DemandeHabilitationComponent implements OnInit {
                       duration: 5000,
                     });
                   });
-              }
+              
 
             }
           }, error => {

@@ -57,8 +57,8 @@
         <mat-form-field>
           <mat-label>Sélectionner une banque</mat-label>
           <mat-select #banqueValue (selectionChange)="changeBanque($event.value)">
-            <mat-option *ngFor="let banque of listBanqueValid" [value]="banque.Nom" >
-              {{banque.Nom}}
+            <mat-option *ngFor="let banque of listBanqueValid" [value]="banque.NomCommercial" >
+              {{banque.NomCommercial}}
             </mat-option>
           </mat-select>
         </mat-form-field>

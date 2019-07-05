@@ -15,6 +15,7 @@ const config   = require('./env.config.js'),
  bitcore       = require("bitcore-lib"),
  cryptoRandom  = require('crypto-random-string'),
  nodemailer    = require('nodemailer'),
+ rateLimit     = require("express-rate-limit"),
  { check, validationResult } = require('express-validator/check');
 
 const key  = fs.readFileSync('private.key'),
@@ -28,6 +29,11 @@ const app  = express()
 const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
 const database = new bd.Database();
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+  });
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -52,6 +58,7 @@ const HeplerOptions = {};
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(helmet());
+app.use(limiter);
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Credentials', 'true');

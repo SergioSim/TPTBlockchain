@@ -4,7 +4,7 @@ import { SogebankService } from '../sogebank.service';
 import { FormControl, Validators } from '@angular/forms';
 import { InputErrorStateMatcher } from './InputErrorStateMatcher';
 import { Title } from '@angular/platform-browser';
-import { NodeapiService } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -67,7 +67,16 @@ export class LoginSogebankComponent implements OnInit {
           if (registerData.success !== false) {
             this.apiService.login(this.emailFC.value, this.passwordFC.value, true).subscribe(
               loginData => {
-                this.route.navigate([this.dashboardUrl]);
+                const newContactDetails = {
+                  libelle: 'Sogebank',
+                  email: 'contact@sogebank.ht'
+                };
+                this.apiService.makeRequest(apiUrl.createContactByUserEmail, newContactDetails).toPromise()
+                  .then(res => {
+                    this.route.navigate([this.dashboardUrl]);
+                  }, error => {
+                    console.log(error);
+                  });
               },
               error => {
                 console.log(error);

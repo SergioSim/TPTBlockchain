@@ -701,6 +701,25 @@ app.post('/createContact', [
     });
 });
 
+app.post('/createContactByUserEmail', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
+    check('libelle').isLength({ min: 1 }).escape(),
+    check('email').isEmail().escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findPortefeuillesByEmail, [req.body.email], function(err1, result1){
+        if(err1 || !result1[0]) return res.status(400).send({errors: ['Aucun portefeuille correspond à cet adresse mail...']});
+        let clePub = result1[0].ClePub;
+        let currDate = new Date();
+        let dateStr = currDate.getFullYear()+"-"+(currDate.getMonth()+1)+"-"+currDate.getDate();
+        conn.query(sql.insertContact_0_4, [req.jwt.Email, req.body.libelle, clePub, dateStr], function(err2, result2){
+            return res.send({ succes: !err2});
+        });
+    });
+});
+
 app.post('/insertTransactionMotif', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.CLIENT),

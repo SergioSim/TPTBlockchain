@@ -36,14 +36,17 @@ export class SogebankService {
                   }
                   let transactionIds = portefeuille.Transactions.map(transaction => transaction.MutationHash);
                   transactionIds = transactionIds && transactionIds.length > 0 ? transactionIds : [''];
-                  this.apiService.makeRequest(apiUrl.motifsByMutationHashes, {MutationHashes: transactionIds}).toPromise()
-                  .then(res => {
-                    // For each transaction, find portefeuille.Transaction with same hash and apply motif
-                    res.forEach(tx => {
-                      portefeuille.Transactions.find(transaction =>
-                        transaction.MutationHash === tx.Mutation_Hash).Motif = tx.Motif;
+                  if (this.apiService.permission !== Role.DEMANDECOMMERCANT && this.apiService.permission !== Role.DEMANDEPARTICULIER
+                    && this.apiService.permission !== Role.PUBLIC) {
+                    this.apiService.makeRequest(apiUrl.motifsByMutationHashes, {MutationHashes: transactionIds}).toPromise()
+                    .then(res => {
+                      // For each transaction, find portefeuille.Transaction with same hash and apply motif
+                      res.forEach(tx => {
+                        portefeuille.Transactions.find(transaction =>
+                          transaction.MutationHash === tx.Mutation_Hash).Motif = tx.Motif;
+                      });
                     });
-                  });
+                  }
                 },
                 error => {
                   console.log(error);

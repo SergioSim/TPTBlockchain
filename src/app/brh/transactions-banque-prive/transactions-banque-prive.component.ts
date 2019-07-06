@@ -23,6 +23,7 @@ export class TransactionsBanquePriveComponent implements OnInit {
   public types = ['Virement', 'Recu'];
   public startDate: number = null;
   public endDate: number = null;
+  public loading = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -34,6 +35,7 @@ export class TransactionsBanquePriveComponent implements OnInit {
 
   ngOnInit() {
     this.adapter.setLocale('fr');
+    this.loading = true;
     this.apiService.getTransactions(this.apiService.portefeuilles[0].ClePub).subscribe(
       sub => sub.subscribe( res => {
           if (res.length === 0) {
@@ -51,8 +53,8 @@ export class TransactionsBanquePriveComponent implements OnInit {
             this.selectedDebit = debitCredit.debit;
             this.transactions.paginator = this.paginator;
             this.transactions.sort = this.sort;
+            this.loading = false;
           }, 1000);
-          console.log('scrolling..');
           setTimeout(() => {
             const elmnt = document.querySelector('.contentTransactions');
             elmnt.scrollIntoView({behavior: 'smooth'});

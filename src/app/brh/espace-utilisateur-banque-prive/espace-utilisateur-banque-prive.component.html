@@ -15,7 +15,7 @@
       <app-cartes-banque-prive *ngIf="this.router.url == '/brh/banque/prive/cartes'"></app-cartes-banque-prive>
       <app-virements-banque-prive *ngIf="this.router.url == '/brh/banque/prive/virements'"></app-virements-banque-prive>
       <div *ngIf="this.router.url == '/brh/banque/prive/dashboard'">
-        <h2>Bienvenue {{apiService.nom}}</h2>
+        <h2>Bienvenue administrateur de {{apiService.banque}}</h2>
         <p> Ceci est votre espcace de gestion Digital Haitian Gourde</p>
         <h2>Gerer vos informations personnels</h2>
         <div class="gridcontainer">

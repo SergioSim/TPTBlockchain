@@ -1,3 +1,4 @@
+<app-common-loading-animation *ngIf="loading"></app-common-loading-animation>
 <div *ngIf="showTransactions">
   <app-transaction-table-banque-prive [transactions]="transactions" [selectedSolde]="selectedSolde" [selectedDebit]="selectedDebit" [selectedCredit]="selectedCredit"></app-transaction-table-banque-prive>
 </div>

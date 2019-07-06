@@ -71,6 +71,7 @@ import { VirementsBanquePriveComponent } from './brh/virements-banque-prive/vire
 import { CommonCarteComponent } from './common/common-carte/common-carte.component';
 import { DocumentBanquePriveComponent } from './brh/document-banque-prive/document-banque-prive.component';
 import { CommonEmailValidationComponent } from './common/common-email-validation/common-email-validation.component';
+import { CommonLoadingAnimationComponent } from './common/common-loading-animation/common-loading-animation.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { CommonEmailValidationComponent } from './common/common-email-validation
     CommonCarteComponent,
     DocumentBanquePriveComponent,
     CommonEmailValidationComponent,
+    CommonLoadingAnimationComponent,
   ],
   imports: [
     BrowserModule,

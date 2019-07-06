@@ -17,7 +17,7 @@ mat-tab-group {
 .primary-login-button {
     width: 100%;
     align-self: center;
-    margin: 25px 0px;
+    margin: 25px 0 10px 0;
     padding: 5px;
 }
 
@@ -38,6 +38,10 @@ mat-tab-group {
 }
 mat-form-field, mat-checkbox{
     margin-left: 3%;
+}
+
+app-common-loading-animation {
+    margin-bottom: 10px;
 }
 
 a {

@@ -1,5 +1,9 @@
 <div class="content">
-  <h2>Documents: {{numberOfDocs}}</h2>
+  <h2 style="display: inline-block;padding-right: 2em;">Documents: {{numberOfDocs}}</h2>
+  <button *ngIf="isDocumentValidated" style="vertical-align: super;" mat-flat-button color="primary" class="new-button" (click)="openConfirmDialog(NewConfirmDialog)">
+    <fa-icon [icon]="faCheckCircle"></fa-icon>
+    Valider Les Documents
+</button>
   <div *ngIf="showDocs && numberOfDocs === 0"> Le client {{client.Nom}} n'a pas des documents</div>
   <div *ngIf="showDocs">
     <div class="gridcontainer2">
@@ -33,3 +37,21 @@
     </div>
   </ng-template>
 </div>
+
+<ng-template #NewConfirmDialog>
+  <div class="new-card-dialog">
+      <div class="dialog-header">
+          <h2>Voulez vous vraiment valider les documents</h2>
+          <h4>Pour le client {{client.Nom}} {{client.Prenom}} ?</h4>
+          <hr>
+      </div>
+      <div class="dialog-warning">
+          <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+          <p>Attention : Cette opération enverra un mail automatique au client</p>
+      </div>
+     <div class="dialog-buttons">
+          <button mat-flat-button class="dialog-confirm-button" (click)="confirmDocumentValidate()">Confirmer</button> 
+          <button mat-flat-button class="dialog-cancel-button" (click)="cancelDocumentValidate()">Annuler</button> 
+      </div>
+  </div>
+</ng-template>

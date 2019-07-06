@@ -279,8 +279,8 @@ app.post('/createParametre', [
 app.post('/createClient', [
     check('email').isEmail().normalizeEmail(),
     check('password').isLength({ min: 5 }).escape(),
-    check('prenom').isLength({ min: 3 }),
-    check('nom').isLength({ min: 3 }),
+    check('prenom').isLength({ min: 3 }).escape().trim(),
+    check('nom').isLength({ min: 3 }).escape().trim(),
     check('tel').optional().isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
     check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
@@ -353,6 +353,49 @@ function createConfimationEmailText(req, token) {
     ' et suivez les instructions sur le site pour valider votre demande </p><br><br>' + 
     'Cordialement, <br> votre equipe TPTBlockchain';
 }
+
+app.post('/sendDocumentsValidatedEmailToClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('email').isEmail().normalizeEmail(),
+    check('prenom').isLength({ min: 3 }).escape().trim(),
+    check('nom').isLength({ min: 3 }).escape().trim(),
+    check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
+    check('isValidated').isBoolean(),
+    check('explicationRefus').optional().matches(/^[a-z0-9 ]+$/i).escape(),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    HeplerOptions.from = '"Projet TPT Blockchain" HTG666663@gmail.com';
+    HeplerOptions.to = req.body.email;
+    HeplerOptions.subject = 'Validation de vos documets';
+    let explicationRefus = req.body.explicationRefus ? req.body.explicationRefus : '';
+    if (req.body.isValidated) {
+        HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
+        '<p> Nous vous remercions de votre confiance dans notre platforme Digital HaïTian Gourde </p>' + 
+        '<p> Nous avons le plaisir de vous annocer que votre demande de creation du compte chez ' + req.body.banque + 
+        ' vient d\'etre accepte!</p>' + 
+        '<p> Vous pouvez des a present vous connecter a ' + 
+        '<a href="http://82.255.166.104/TPTBlockchain/sogebank/login">votre espace personelle</a>.' +
+        '</p><br><br>' + 
+        'Cordialement, <br> votre equipe TPTBlockchain';
+    } else {
+        HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
+        '<p> Nous vous remercions de votre confiance dans notre platforme Digital HaïTian Gourde </p>' + 
+        '<p> Malheureusement nous ne pouvons pas faire suite a votre demande de creation de votre compte chez ' + req.body.banque + 
+        ' puisque un ou plusiers documents fournis par vous etaient rejetes.</p>' + 
+        '<p> Nous vous invitons a vous reconnecter a ' +
+        '<a href="http://82.255.166.104/TPTBlockchain/sogebank/login">votre espace personelle</a>.' +
+        ' et nous fournir les documents neccessaires en bon format.</p><p> Raison detaille du rejet: ' + 
+        explicationRefus + '</p><br><br>' + 
+        'Cordialement, <br> votre equipe TPTBlockchain';
+    }
+
+    transporter.sendMail(HeplerOptions, (error, info) => {
+        if(error) return res.status(500).send({success: false, errors: ["Probleme d'envoi d'email"]});
+        return res.send({success: true});
+    });
+});
 
 app.post('/createPortefeuille', [
     outils.validJWTNeeded, 

@@ -493,6 +493,7 @@ export enum apiUrl {
   deleteContact = 'DELETE$deleteContact',
   deletePortefeuille = 'DELETE$deletePortefeuille',
   submit = 'POST$submit',
+  sendDocumentsValidatedEmailToClient = 'POST$sendDocumentsValidatedEmailToClient',
   transferTo = 'POST$transferTo',
   transferToUserEmail = 'POST$transferToUserEmail',
   issueDHTG = 'POST$issueDHTG',

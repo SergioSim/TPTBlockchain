@@ -125,9 +125,6 @@ export class BanqueListComponent implements OnInit {
       );
   }
 
-
-
-  
   validateBanque() {
     this.service.makeRequest(apiUrl.updateBanque, {
       banqueNew: this.selectedBanque.NomCommercial, banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone,

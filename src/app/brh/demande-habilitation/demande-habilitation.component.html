@@ -90,7 +90,7 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-                <input matInput placeholder="Téléphone *" [formControl]="nouvelBanqueTel">
+                <input matInput maxlength="10" placeholder="Téléphone *" [formControl]="nouvelBanqueTel">
                 <mat-error *ngIf="nouvelBanqueTel.hasError('required')">
                     Ce champ est <strong>requis</strong>
                 </mat-error>

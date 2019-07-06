@@ -53,7 +53,7 @@ export class DemandeHabilitationComponent implements OnInit {
       };
     }
   }
-  
+
   justificatifDomicileChange(file) {
     console.log("domicile")
     if (file && file.length > 0) {
@@ -65,7 +65,7 @@ export class DemandeHabilitationComponent implements OnInit {
       };
     }
   }
-  
+
   annonceLegaleChange(file) {
     console.log("annoce")
 
@@ -111,14 +111,15 @@ export class DemandeHabilitationComponent implements OnInit {
 
         this.service.makeRequest(apiUrl.createClient, {
           email: this.nouvelBanqueEmail.value, password: this.nouvelBanquePassword.value,
-          prenom: this.nouvelBanquePrenom.value, nom: this.nouvelBanqueNom.value, tel: this.nouvelBanqueTel.value, banque: this.BanqueNom.value, roleId: 1
+          prenom: this.nouvelBanquePrenom.value, nom: this.nouvelBanqueNom.value,
+          tel: this.nouvelBanqueTel.value, banque: this.BanqueNom.value, roleId: 3
         }).
           subscribe(res2 => {
             console.log("ouiouoiououoiouooui1");
 
             if (res2 && res2.success === true) {
 
-              if (this.pieceIdentiteBuffer && this.justificatifDomicileBuffer && this.annonceLegaleBuffer) 
+              if (this.pieceIdentiteBuffer && this.justificatifDomicileBuffer && this.annonceLegaleBuffer){
 
                 this.service.makeRequest(apiUrl.insertBanqueDocs, 
                   {
@@ -136,8 +137,7 @@ export class DemandeHabilitationComponent implements OnInit {
                       duration: 5000,
                     });
                   });
-              
-
+                }
             }
           }, error => {
             console.log('got an error 1');

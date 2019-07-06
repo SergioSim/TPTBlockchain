@@ -22,9 +22,22 @@ export class EspaceUtilisateurBanquePriveComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {
-    if (!apiService.isConnected() || !(apiService.permission === 'Banque' || apiService.permission === 'Admin' )) {
+    let errorMessage = '';
+    if (!apiService.isConnected()) {
+      errorMessage = 'Veuillez vous connecter d\'abort!';
+    } else if (apiService.permission === 'DemandeBanque') {
+      if (!apiService.isEmailVerified) {
+        errorMessage = 'Votre adresse Email n\'est pas encore valide! Veuillez verifier votre boite Email!';
+      } else {
+        errorMessage = 'Vos documents sont en cours de validation!' +
+        ' Vous recevrez prochainement un Email avec les resultats de la validation';
+      }
+    } else if (!(apiService.permission === 'Banque' || apiService.permission === 'Admin' )) {
+      errorMessage = 'Utilisateur Non Autorise!';
+    }
+    if (errorMessage !== '') {
       this.router.navigate(['/brh/accueil']);
-      this.snackBar.open('Utilisateur Non Autorise!', 'Fermer', {
+      this.snackBar.open(errorMessage, 'Fermer', {
         duration: 5000,
         panelClass: ['alert-snackbar']
       });

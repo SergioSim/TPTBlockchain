@@ -283,7 +283,7 @@ app.post('/createClient', [
     check('nom').isLength({ min: 3 }).escape().trim(),
     check('tel').optional().isMobilePhone(),
     check('banque').isLength({ min: 5 }).isAlphanumeric().escape().trim(),
-    check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2]),
+    check('roleId').isLength({ min: 1 }).isNumeric().isIn([1,2,3]),
     outils.handleValidationResult], 
     function(req, res) {
 
@@ -741,7 +741,7 @@ app.put('/unBlockOrBlockClient', [
         if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
             return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
         
-        const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant'];
+        const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
         let roleId = roles.indexOf(req.body.status);
         conn.query(sql.unBlockOrBlockClient_0_2, [roleId, req.body.bankEmail], function(err, result){
             return res.send({ succes: !err && result.affectedRows != 0});

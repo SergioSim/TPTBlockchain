@@ -17,7 +17,8 @@ export class ClientsBanquePriveComponent implements OnInit {
   @Output() selectedClient = new EventEmitter<BanqueClient>();
   public selectedBanqueClient: BanqueClient;
 
-  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
+  'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];
   constructor(
     private router: Router,
     private apiService: NodeapiService,

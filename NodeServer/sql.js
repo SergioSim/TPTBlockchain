@@ -3,7 +3,7 @@ module.exports = {
   'insertUtilisateur' : 
         'INSERT INTO utilisateur (Email, Password, Nom, Prenom, Tel, Banque, Role_Id) VALUES (?,?,?,?,?,?,?)',
   'insertUtilisateurBanque' : 
-        'INSERT INTO utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,5)',
+        'INSERT INTO utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,6)',
   'insertPortefeuille' : 
         'INSERT INTO portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email, Ouverture) VALUES (?,?,?,?,?)',
   'insertContact_0_4' : 
@@ -124,7 +124,7 @@ module.exports = {
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
-        'UPDATE utilisateur SET Role_Id = 3 WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = 4 WHERE Email=?',
   'blockCarte' : 
         'UPDATE carte SET IsBlocked = 1 WHERE Id=?',
   'unblockCarte' : 
@@ -132,7 +132,7 @@ module.exports = {
   'unBlockOrBlockClient_0_2' : 
         'UPDATE utilisateur SET Role_Id = ? WHERE Email=?',
   'unBlockBanque' : 
-        'UPDATE utilisateur SET Role_Id = 5 WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = 6 WHERE Email=?',
   'validateClientEmail' :
         'UPDATE utilisateur SET IsEmailVerified = 1 WHERE Email=?'
 

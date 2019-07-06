@@ -18,7 +18,7 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
   public showForClient = false;
   public showPassword = false;
   public showConfirm = false;
-  public roles: string[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant'];
+  public roles: string[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
 
   constructor(
     public dialogRef: MatDialogRef<InfoPersonelBanquePriveComponent>,

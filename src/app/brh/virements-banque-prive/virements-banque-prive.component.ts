@@ -52,7 +52,8 @@ export class VirementsBanquePriveComponent implements OnInit {
     {value: 'Retrait HTG', viewValue: 'Retrait HTG'},
     {value: 'Autre', viewValue: 'Autre...'}
   ];
-  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque',
+  'Particulier', 'Commercant', 'Banque', 'Admin'];
 
   constructor(
     private apiService: NodeapiService,

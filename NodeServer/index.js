@@ -376,7 +376,7 @@ app.post('/sendDocumentsValidatedEmailToClient', [
         '<p> Nous avons le plaisir de vous annocer que votre demande de creation du compte chez ' + req.body.banque + 
         ' vient d\'etre accepte!</p>' + 
         '<p> Vous pouvez des a present vous connecter a ' + 
-        '<a href="http://82.255.166.104/TPTBlockchain/sogebank/login">votre espace personelle</a>.' +
+        '<a href="http://82.255.166.104/TPTBlockchain/">votre espace personelle</a>.' +
         '</p><br><br>' + 
         'Cordialement, <br> votre equipe TPTBlockchain';
     } else {
@@ -385,7 +385,7 @@ app.post('/sendDocumentsValidatedEmailToClient', [
         '<p> Malheureusement nous ne pouvons pas faire suite a votre demande de creation de votre compte chez ' + req.body.banque + 
         ' puisque un ou plusiers documents fournis par vous etaient rejetes.</p>' + 
         '<p> Nous vous invitons a vous reconnecter a ' +
-        '<a href="http://82.255.166.104/TPTBlockchain/sogebank/login">votre espace personelle</a>.' +
+        '<a href="http://82.255.166.104/TPTBlockchain/">votre espace personelle</a>.' +
         ' et nous fournir les documents neccessaires en bon format.</p><p> Raison detaille du rejet: ' + 
         explicationRefus + '</p><br><br>' + 
         'Cordialement, <br> votre equipe TPTBlockchain';

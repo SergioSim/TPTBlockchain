@@ -135,6 +135,7 @@ export class BanqueListComponent implements OnInit {
         this.service.makeRequest(apiUrl.unBlockBanque, { email: this.selectedBanque.Email }).
           subscribe(res => {
             console.log('Yes');
+            this.sendEmailToBankClient();
           }, error => {
             console.log('got an error 1');
             console.log(this.selectedBanque.Email);
@@ -147,6 +148,46 @@ export class BanqueListComponent implements OnInit {
       });
     this.contactDialogRef.close();
     this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été validé.', 'Fermer', { duration: 5000, });
+  }
+
+  sendEmailToBankClient(): any {
+    this.service.makeRequest(apiUrl.clients, {banque: this.selectedBanque.NomCommercial}).subscribe(
+      lesClientsBancaires => {
+        const leClientBanque = lesClientsBancaires.find( client => client.Email === this.selectedBanque.Email);
+        if (leClientBanque) {
+          this.service.makeRequest(apiUrl.sendDocumentsValidatedEmailToClient, {
+            email: this.selectedBanque.Email,
+            prenom: leClientBanque.Prenom,
+            nom: leClientBanque.Nom,
+            banque: this.selectedBanque.NomCommercial,
+            isValidated: true
+          }).subscribe(
+            resutat => {
+              this.snackBar.open('Les Documents de la Banque ' + this.selectedBanque.NomCommercial +
+                ' sont validees avec succes! \nUn Email de notification est envoye!', 'Fermer', {
+                duration: 5000,
+                panelClass: ['succes-snackbar']
+              });
+            }, error => {
+              this.snackBar.open('Un probleme lors de l\'envoi du email a la banque est survenu!', 'Fermer', {
+                duration: 5000,
+                panelClass: ['alert-snackbar']
+              });
+            }
+          );
+        } else {
+          console.log('Banque introuvable...');
+          this.snackBar.open('Un probleme lors de la recherche du client bancaire est survenu!', 'Fermer', {
+            duration: 5000,
+            panelClass: ['alert-snackbar']
+          });
+        }
+      }, err => {
+        this.snackBar.open('Un probleme lors de la recuperation du client bancaire est survenu!', 'Fermer', {
+          duration: 5000,
+          panelClass: ['alert-snackbar']
+        });
+      });
   }
 
   openAddBankDialog(templateRef) {

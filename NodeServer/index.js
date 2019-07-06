@@ -137,9 +137,10 @@ app.get('/clients', [
     
     if(req.jwt.Banque !== req.query.banque && req.jwt.PermissionLevel !== config.permissionLevels.ADMIN)
         return res.status(403).send();
-    conn.query(sql.findClientsByBanque, [req.query.banque], function(err, result){
+    database.queryWithCatch(sql.findClientsByBanque, [req.query.banque], res, "Error", true).then(result => {
+        if(!result) return;
         outils.fixPortefeuilles(result);
-        res.send((err) ? "Error" : result);
+        res.send(result);
     });
 });
 
@@ -420,9 +421,24 @@ app.put('/blockCarte', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    // Should check if user owns card first...
-    conn.query(sql.blockCarte, [req.body.id], function(err, result) {
-            return res.send({ succes: !err });
+    database.queryWithCatch(sql.findEmailFromCartId, [req.body.id], res, "Bad ID", 404).then(resEmail => {
+        if(!resEmail) return;
+        resEmail = resEmail[0].Utilisateur_Email;
+        if(req.jwt.PermissionLevel >= config.permissionLevels.BANQUE) {
+            database.queryWithCatch(sql.findUtilisateurByEmail, [resEmail], res).then( resUtilisateur => {
+                if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != resUtilisateur[0].Banque)
+                    return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+                database.queryWithCatch(sql.blockCarte, [req.body.id], res).then( resFinal => {
+                    if(resFinal) { res.send({ succes: true })}
+                });
+            });
+        } else if(resEmail === req.jwt.Email) {
+            database.queryWithCatch(sql.blockCarte, [req.body.id], res).then( resFinal => {
+                if(resFinal) { res.send({ succes: true })}
+            });
+        } else {
+            return res.status(403).send({succes: false});;
+        }
     });
 });
 
@@ -433,9 +449,24 @@ app.put('/unblockCarte', [
     outils.handleValidationResult], 
     function(req, res) {
 
-    // Should check if user owns card first...
-    conn.query(sql.unblockCarte, [req.body.id], function(err, result) {
-            return res.send({ succes: !err });
+    database.queryWithCatch(sql.findEmailFromCartId, [req.body.id], res, "Bad ID", 404).then(resEmail => {
+        if(!resEmail) return;
+        resEmail = resEmail[0].Utilisateur_Email;
+        if(req.jwt.PermissionLevel >= config.permissionLevels.BANQUE) {
+            database.queryWithCatch(sql.findUtilisateurByEmail, [resEmail], res).then( resUtilisateur => {
+                if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != resUtilisateur[0].Banque)
+                    return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+                database.queryWithCatch(sql.unblockCarte, [req.body.id], res).then( resFinal => {
+                    if(resFinal) { res.send({ succes: true })}
+                });
+            });
+        } else if(resEmail === req.jwt.Email) {
+            database.queryWithCatch(sql.unblockCarte, [req.body.id], res).then( resFinal => {
+                if(resFinal) { res.send({ succes: true })}
+            });
+        } else {
+            return res.status(403).send({succes: false});;
+        }
     });
 });
 

@@ -47,6 +47,8 @@ module.exports = {
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
   'findUtilisateursByBanque' : 
         'SELECT * FROM banque LEFT JOIN utilisateur ON banque.Email = utilisateur.Email ',
+  'findEmailFromCartId' :
+        'SELECT Utilisateur_Email FROM portefeuille pt INNER JOIN carte ca ON pt.Id = ca.Portefeuille_Id WHERE ca.Id = ?.',
   'findRandomTokenByEmail' : 'SELECT Token, DateCreationToken FROM tokenverification Where Email LIKE BINARY ?',
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id, IsEmailVerified, ' +

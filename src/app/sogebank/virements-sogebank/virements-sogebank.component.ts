@@ -157,16 +157,11 @@ export class VirementsSogebankComponent implements OnInit {
         const motifDetails = {
           MutationHash: res.mutation_hash,
           Motif: motif
-        }
-        this.apiService.makeRequest(apiUrl.insertTransactionMotif, motifDetails).toPromise()
-          .then(data => {
-            this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
-              + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
-              duration: 5000,
-            });
-          }, error => {
-            console.log(error);
-          });
+        };
+        this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
+          + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
+          duration: 5000,
+        });
       }, error => {
         this.snackBar.open('Le virement n\'a pas pu aboutir, veuillez réessayer.', 'Fermer', {
           duration: 5000,

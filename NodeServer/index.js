@@ -962,7 +962,7 @@ app.post('/submit', [
     check('password').isLength({ min: 5 }).escape(),
     check('id').isNumeric().isLength({min: 1}),
     check('montant').isNumeric().isLength({min: 1}),
-    check('memo').optional().isAlphanumeric().escape(),
+    check('memo').optional().matches(/^[a-z0-9 ]+$/i).escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
     const monPortefeuille = req.jwt.Portefeuilles.find(pt => pt.Id === req.body.id);

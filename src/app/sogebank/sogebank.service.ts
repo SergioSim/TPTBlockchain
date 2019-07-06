@@ -222,12 +222,6 @@ export class SogebankService {
           MutationHash: res.mutation_hash,
           Motif: motif
         };
-        this.apiService.makeRequest(apiUrl.insertTransactionMotif, motifDetails).toPromise()
-          .then(data => {
-            callback(callbackComponent);
-          }, error => {
-            console.log(error);
-          });
       }, error => {
         console.log(error);
       });

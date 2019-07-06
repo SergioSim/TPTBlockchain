@@ -43,7 +43,7 @@
         <div class="transfer-to-separator box-item">
           BÉNÉFICIAIRES
         </div>
-        <div class="transfer-to-separator box-item">
+        <div class="transfer-to-separator">
           <mat-form-field>
             <mat-label>Email</mat-label>
             <input matInput (keyup)="applyFilter($event.target.value, 'Email')" placeholder="Filter" />
@@ -72,18 +72,30 @@
       </div>
     </div>
 
-    <div class="virements-form">
+    <div class="my-virements-form">
       <mat-form-field>
         <input matInput type="number" placeholder="Montant" [(ngModel)]="transferAmount" min="1"
           oninput="validity.valid||(value='1')">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Type de virement</mat-label>
+        <mat-label>Motif de virement</mat-label>
         <mat-select [(value)]="selectedType">
           <mat-option *ngFor="let type of typesVirement" [value]="type.value">
             {{type.viewValue}}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="motif-form">
+      <mat-form-field *ngIf="selectedType && selectedType === 'Autre'">
+          <input matInput  placeholder="Saisissez le motif..." [formControl]="motifFC">
+          <mat-error *ngIf="motifFC.hasError('required')">
+          Ce champ est <strong>requis</strong>
+          </mat-error>
+          <mat-error *ngIf="motifFC.hasError('minlength')">
+          Le prénom doit contenir au moins 3 caractères
+          </mat-error>
       </mat-form-field>
     </div>
     
@@ -108,11 +120,11 @@
             </div>
             <div class="dialog-info">
               <p>Montant débité :</p>
-              <p><strong>{{dialogProperties.amout}} DHTG</strong></p>
+              <p><strong>{{dialogProperties.amount}} DHTG</strong></p>
               <hr>
             </div>
             <div class="dialog-info">
-              <p>Type de virement :</p>
+              <p>Motif de virement :</p>
               <p><strong>{{dialogProperties.type}}</strong></p>
             </div>
           </div>

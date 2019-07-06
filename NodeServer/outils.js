@@ -4,7 +4,11 @@ const jwt   = require('jsonwebtoken'),
  openchain  = require("openchain"),
  bitcore    = require("bitcore-lib"),
  httpinvoke = require("httpinvoke"),
+ bd         = require('./bd.js'),
+ sql        = require('./sql.js'),
  { check, validationResult } = require('express-validator/check');
+
+ const database = new bd.Database();
 
 exports.handleValidationResult = (req, res, next) => {
   const errors = validationResult(req);
@@ -145,7 +149,9 @@ exports.transaction = (req, res, openchainValCli) => {
                 } catch (err) { }   
                 return res.status(result.statusCode).send(result);
             } else {
-                return res.send(JSON.parse(result.body));
+                const aResult = JSON.parse(result.body);
+                database.queryWithCatch(sql.insertTransactionMotif, [aResult.mutation_hash, req.body.memo], res, "", 400, false);
+                return res.send(aResult);
             }
         });
     });

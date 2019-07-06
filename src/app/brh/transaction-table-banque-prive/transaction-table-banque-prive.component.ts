@@ -12,7 +12,7 @@ import { DebitCredit, CommonUtilsService } from 'src/app/common/common-utils.ser
 export class TransactionTableBanquePriveComponent implements OnInit {
 
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
-  displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Montant'];
+  displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Motif', 'Montant'];
   public selectedPortefeuille: Portefeuille;
   public showTransactions = false;
   public selectedTransaction: Transaction;

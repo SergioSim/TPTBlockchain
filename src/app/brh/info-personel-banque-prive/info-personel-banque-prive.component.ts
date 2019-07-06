@@ -17,6 +17,7 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
   public passwordConfirmFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
   public showForClient = false;
   public showPassword = false;
+  public showConfirm = false;
   public roles: string[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant'];
 
   constructor(
@@ -70,6 +71,10 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
         this.showErrorMessage();
       }
     );
+  }
+
+  validate() {
+    this.showConfirm = true;
   }
 
   showErrorMessage() {

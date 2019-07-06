@@ -1,4 +1,4 @@
-<div *ngIf="!showForClient && !showPassword">
+<div *ngIf="!showForClient && !showPassword && !showConfirm">
   <div class="info-form">
     <mat-form-field>
       <input matInput [placeholder]="data.name" [formControl]="valueFC" [value]="data.value">
@@ -6,12 +6,12 @@
         Ce champ est <strong>requis</strong>
       </mat-error>
     </mat-form-field>
-    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+    <button mat-flat-button (click)="validate()" color="primary" class="primary-login-button"
       [disabled]="valueFC.invalid">VALIDER</button>
-    <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
+    <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
   </div>
 </div>
-<div *ngIf="showForClient && data.clientChamp !== 'Status'">
+<div *ngIf="showForClient && data.clientChamp !== 'Status' && !showConfirm">
   <div class="info-form">
     <mat-form-field>
       <input matInput [placeholder]="data.clientChamp" [formControl]="valueFC" [value]="data.client[data.clientChamp]">
@@ -19,7 +19,7 @@
         Ce champ est <strong>requis</strong>
       </mat-error>
     </mat-form-field>
-    <button mat-flat-button (click)="update()" color="primary" class="primary-login-button"
+    <button mat-flat-button (click)="validate()" color="primary" class="primary-login-button"
       [disabled]="valueFC.invalid">VALIDER</button>
     <button mat-flat-button (click)="onNoClick()" color="primary" class="primary-login-button">ANNULER</button>
   </div>
@@ -75,4 +75,9 @@
     </mat-error>
     <br>
   </div>
+</div>
+<div *ngIf="showConfirm">
+  <p>Voulez vous vraiment changer le champ <strong>{{data.name}}</strong> <br> de la valeur <strong>{{data.value}}</strong><br> a la valeur <strong>{{valueFC.value}}</strong> ?</p>
+  <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
+  <button mat-flat-button (click)="update()" color="primary" class="primary-login-button">VALIDER</button>
 </div>

@@ -38,6 +38,8 @@ const clientStatus = {
     Bloque: 5
 }
 
+const statusClient = ['Innconu', 'En Attente', 'En Cours', 'Validé', 'Pas Validé', 'Bloqué'];
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100 // limit each IP to 100 requests per windowMs
@@ -760,7 +762,33 @@ app.put('/unBlockOrBlockClient', [
         const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
         let roleId = roles.indexOf(req.body.status);
         let aClientStatus = roles[roleId].substr(0, 7) === 'Demande' ? clientStatus.Bloque : clientStatus.Valide;
+        if (aClientStatus === clientStatus.Valide){
+            database.queryWithCatch(sql.deleteLoginAttempts, [req.body.bankEmail], res, '', 400, false);
+        }
         database.queryWithCatch(sql.unBlockOrBlockClient_0_2, [roleId, aClientStatus, req.body.bankEmail], res).then( result => {
+            if(result) return res.send({succes: true});
+        });
+    });
+});
+
+app.put('/changeStatusClient', [
+    outils.validJWTNeeded, 
+    outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
+    check('bankEmail').isEmail().normalizeEmail(),
+    check('status').isIn(statusClient),
+    outils.handleValidationResult], 
+    function(req, res) {
+
+    conn.query(sql.findUtilisateurByEmail, [req.body.bankEmail], function(err, result){
+        if(err || !result[0]) return res.status(404).send({ succes: false, errors: ["user not found!"] });
+        if(req.jwt.PermissionLevel == config.permissionLevels.BANQUE && req.jwt.Banque != result[0].Banque)
+            return res.status(405).send({ succes: false, errors: ["You don't own that user!"] });
+        
+        if (req.body.status === statusClient[clientStatus.Valide]){
+            database.queryWithCatch(sql.deleteLoginAttempts, [req.body.bankEmail], res, '', 400, false);
+        }
+        let aStatus = statusClient.indexOf(req.body.status)
+        database.queryWithCatch(sql.unBlockOrBlockClient_0_2, [result[0].Role_Id, aStatus, req.body.bankEmail], res).then( result => {
             if(result) return res.send({succes: true});
         });
     });
@@ -1227,61 +1255,100 @@ app.post('/auth', [
         console.log(result);
         conn.query(sql.findPortefeuillesByEmail, [req.body.email], function(err2, result2){
             if(err2 || !result2[0]) return res.status(400).send({errors: ['Ups, il semble vous n\'avez pas de portefeuille...']});
-            let passwordFields = result.Password.split('$');
-            let salt = passwordFields[0];
-            let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
-            console.log(passwordFields);
-            if (hash !== passwordFields[1]) return res.status(400).send({errors: ['Invalid e-mail or password']});
-            try {
-                let refreshId = req.body.email + config.jwt_secret;
-                let salt = crypto.randomBytes(16).toString('base64');
-                let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
-                aSecret = {};
-                aSecret.Email = req.body.email;
-                aSecret.Nom = result.Nom;
-                aSecret.Prenom = result.Prenom;
-                aSecret.PermissionLevel = result.PermissionLevel;
-                aSecret.Banque = result.Banque;
-                aSecret.Portefeuilles = [];
-                aSecret.IsEmailVerified = result.IsEmailVerified;
-                for(let i = 0; i < result2.length; i++){
-                    aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, Ouverture: result2[i].Ouverture, ClePub: result2[i].ClePub});
-                }
-                aSecret.refreshKey = salt;
-                let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
-                let b = Buffer.from(hash);
-                let refresh_token = b.toString('base64');
-                conn.query(sql.findContactsByEmail, [req.body.email], function(err3, result3){  
-                    let contacts = [];
-                    for(let i = 0; i < result3.length; i++){
-                        contacts.push({Id: result3[i].Id, Libelle: result3[i].Libelle, Ajout: result3[i].Ajout, ClePub: result3[i].ClePub});
+            database.queryWithCatch(sql.findLoginAttempts, [req.body.email], res, '', 400, false).then(loginAttemps => {
+                let countLoginAttemps = 0;
+                let failedAttempts = [null, null, null];
+                let insertOrUpdateLoginAttempts = sql.insertLoginAttempts;
+                let badLoginErrorMessage = 'Vous etez bloques a cause de trop d\'essays utilisant un mot de passe incorrecte! Veuillez contacter votre Banque!';
+                if(loginAttemps[0]) {
+                    insertOrUpdateLoginAttempts = sql.updateLoginAttempts;
+                    countLoginAttemps = loginAttemps[0].LoginAttempts;
+                    failedAttempts[0] = loginAttemps[0].Attempt1;
+                    failedAttempts[1] = loginAttemps[0].Attempt2;
+                    failedAttempts[2] = loginAttemps[0].Attempt3;
+                    if(countLoginAttemps >= 3) {
+                        countLoginAttemps += 1;
+                        return database.queryWithCatch(insertOrUpdateLoginAttempts,
+                            [countLoginAttemps, failedAttempts[0], failedAttempts[1], failedAttempts[2], req.body.email], res,
+                            '', 403, false).then( () => { return res.status(403).send({ errors: [badLoginErrorMessage] }) } );
                     }
-                    return res.status(201).send({
-                        accessToken: token,
-                        refreshToken: refresh_token,
-                        email: aSecret.Email,
-                        portefeuilles: aSecret.Portefeuilles,
-                        contacts: contacts,
-                        banque: aSecret.Banque,
-                        nom: result.Nom,
-                        prenom: result.Prenom,
-                        civilite: result.Civilite,
-                        situationFamiliale: result.Situation_Familiale,
-                        profession: result.Profession,
-                        secteurActivite: result.Secteur_Activite,
-                        siret: result.Siret,
-                        tel: result.Tel,
-                        adresse: result.Adresse,
-                        ville: result.Ville,
-                        codePostal: result.Code_Postal,
-                        statut: result.Status,
-                        documents: result.Documents,
-                        permission: result.Libelle,
-                        isEmailVerified: result.IsEmailVerified});
-                });
-            } catch (err) {
-                return res.status(500).send({errors: err});
-            }
+                }
+                let passwordFields = result.Password.split('$');
+                let salt = passwordFields[0];
+                let hash = crypto.createHmac('sha512', salt).update(req.body.password).digest("base64");
+                console.log(passwordFields);
+                if (hash !== passwordFields[1]) {
+                    countLoginAttemps += 1;
+                    if(countLoginAttemps <= 3) {
+                        const CURRENT_TIMESTAMP = { toSqlString: function() { return 'CURRENT_TIMESTAMP()'; } };
+                        failedAttempts[countLoginAttemps - 1] = CURRENT_TIMESTAMP;
+                        if (countLoginAttemps < 3) {
+                            badLoginErrorMessage = 'E-mail ou mot de passe Invalide! Il vous reste ' + (3 - countLoginAttemps) + ' d\'essays';
+                        } else {
+                            const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant', 'Banque'];
+                            let roleId = roles.indexOf(result.Libelle);
+                            if (roleId > 3) roleId -= 3;
+                            console.log('Libelle ' + result.Libelle);
+                            console.log('The Role IDDDD: ' + roleId);
+                            database.queryWithCatch(sql.unBlockOrBlockClient_0_2, [roleId, clientStatus.Bloque, req.body.email], res, '', 403, false);
+                        }
+                    }
+                    return database.queryWithCatch(insertOrUpdateLoginAttempts,
+                        [countLoginAttemps, failedAttempts[0], failedAttempts[1], failedAttempts[2], req.body.email], res,
+                        '', 403, false).then( () => { return res.status(403).send({ errors: [badLoginErrorMessage] }) } );
+                }
+                database.queryWithCatch(sql.deleteLoginAttempts, [req.body.email], res, '', 400, false);
+                try {
+                    let refreshId = req.body.email + config.jwt_secret;
+                    let salt = crypto.randomBytes(16).toString('base64');
+                    let hash = crypto.createHmac('sha512', salt).update(refreshId).digest("base64");
+                    aSecret = {};
+                    aSecret.Email = req.body.email;
+                    aSecret.Nom = result.Nom;
+                    aSecret.Prenom = result.Prenom;
+                    aSecret.PermissionLevel = result.PermissionLevel;
+                    aSecret.Banque = result.Banque;
+                    aSecret.Portefeuilles = [];
+                    aSecret.IsEmailVerified = result.IsEmailVerified;
+                    for(let i = 0; i < result2.length; i++){
+                        aSecret.Portefeuilles.push({Id: result2[i].Id, Libelle: result2[i].Libelle, Ouverture: result2[i].Ouverture, ClePub: result2[i].ClePub});
+                    }
+                    aSecret.refreshKey = salt;
+                    let token = jwt.sign(aSecret, config.jwt_secret, { expiresIn: config.jwt_expiration_in_seconds});
+                    let b = Buffer.from(hash);
+                    let refresh_token = b.toString('base64');
+                    conn.query(sql.findContactsByEmail, [req.body.email], function(err3, result3){  
+                        let contacts = [];
+                        for(let i = 0; i < result3.length; i++){
+                            contacts.push({Id: result3[i].Id, Libelle: result3[i].Libelle, Ajout: result3[i].Ajout, ClePub: result3[i].ClePub});
+                        }
+                        return res.status(201).send({
+                            accessToken: token,
+                            refreshToken: refresh_token,
+                            email: aSecret.Email,
+                            portefeuilles: aSecret.Portefeuilles,
+                            contacts: contacts,
+                            banque: aSecret.Banque,
+                            nom: result.Nom,
+                            prenom: result.Prenom,
+                            civilite: result.Civilite,
+                            situationFamiliale: result.Situation_Familiale,
+                            profession: result.Profession,
+                            secteurActivite: result.Secteur_Activite,
+                            siret: result.Siret,
+                            tel: result.Tel,
+                            adresse: result.Adresse,
+                            ville: result.Ville,
+                            codePostal: result.Code_Postal,
+                            statut: result.Status,
+                            documents: result.Documents,
+                            permission: result.Libelle,
+                            isEmailVerified: result.IsEmailVerified});
+                    });
+                } catch (err) {
+                    return res.status(500).send({errors: err});
+                }
+            });
         });
     });
 });

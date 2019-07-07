@@ -19,6 +19,7 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
   public showPassword = false;
   public showConfirm = false;
   public roles: string[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
+  public statuses: string[];
 
   constructor(
     public dialogRef: MatDialogRef<InfoPersonelBanquePriveComponent>,
@@ -26,6 +27,7 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private apiService: NodeapiService,
     private snackBar: MatSnackBar) {
+      this.statuses = StatusClient;
       if (this.data.client) {
         console.log('client: ', this.data.client);
         this.showForClient = true;
@@ -44,7 +46,9 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
   }
 
   update() {
-    this.apiService.makeRequest(this.data.client && this.data.clientChamp === 'Status' ? apiUrl.unBlockOrBlockClient : apiUrl.updateClient,
+    this.apiService.makeRequest(
+      this.data.client && this.data.clientChamp === 'Status' ? apiUrl.unBlockOrBlockClient :
+      this.data.client && this.data.clientChamp === 'StatusClient' ? apiUrl.changeStatusClient : apiUrl.updateClient,
       this.data.client ? {bankEmail: this.data.client.Email, [this.data.name]: this.valueFC.value} :
       this.showPassword ? {oldPassword: this.valueFC.value, newPassword: this.passwordFC.value } :
       {[this.data.name]: this.valueFC.value}).subscribe(
@@ -56,6 +60,9 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
             if (this.data.clientChamp === 'Status') {
               this.valueFC.value.substr(0, 7) === 'Demande' ?
                 this.data.client.StatusClient = 'Bloqué' : this.data.client.StatusClient = 'Validé';
+            }
+            if (this.data.clientChamp === 'StatusClient' && this.valueFC.value === 'Validé') {
+                this.data.client.LoginAttempts = 0;
             }
           } else if (this.showPassword) {
             this.apiService.logout();

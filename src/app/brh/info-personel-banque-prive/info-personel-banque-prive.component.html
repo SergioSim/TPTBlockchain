@@ -11,7 +11,7 @@
     <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
   </div>
 </div>
-<div *ngIf="showForClient && data.clientChamp !== 'Status' && !showConfirm">
+<div *ngIf="showForClient && data.clientChamp !== 'Status' && data.clientChamp !== 'StatusClient' && !showConfirm">
   <div class="info-form">
     <mat-form-field>
       <input matInput [placeholder]="data.clientChamp" [formControl]="valueFC" [value]="data.client[data.clientChamp]">
@@ -24,13 +24,28 @@
     <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
   </div>
 </div>
-<div *ngIf="showForClient && data.clientChamp === 'Status' && !showConfirm">
+<div *ngIf="showForClient && data.clientChamp === 'Status' && data.clientChamp !== 'StatusClient' && !showConfirm">
   <div class="info-form">
     <mat-form-field>
       <mat-label>Role</mat-label>
       <mat-select [formControl]="valueFC" required [value]="data.client[data.clientChamp]">
         <mat-option *ngFor="let role of roles" [value]="role">
           {{role}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button (click)="validate()" color="primary" class="primary-login-button"
+    [disabled]="valueFC.invalid">VALIDER</button>
+    <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
+  </div>
+</div>
+<div *ngIf="showForClient && data.clientChamp !== 'Status' && data.clientChamp === 'StatusClient' && !showConfirm">
+  <div class="info-form">
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="valueFC" required [value]="data.client[data.clientChamp]">
+        <mat-option *ngFor="let st of statuses" [value]="st">
+          {{st}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -78,7 +93,7 @@
 </div>
 <div *ngIf="showConfirm">
   <p>Voulez vous vraiment changer le champ <strong>{{data.clientChamp === 'Status' ? 'Role' : data.name}}</strong> 
-    <br> de la valeur <span style="color:red"><strong>{{data.clientChamp === 'Status' ? data.client.Status : data.value}}</strong>
+    <br> de la valeur <span style="color:red"><strong>{{data.clientChamp === 'Status' ? data.client.Status : data.clientChamp === 'StatusClient' ? data.client.StatusClient : data.value}}</strong>
     </span><br> a la valeur <span style="color:green"><strong>{{valueFC.value}}</strong></span> ?</p>
   <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
   <button mat-flat-button (click)="update()" color="primary" class="primary-login-button">VALIDER</button>

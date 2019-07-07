@@ -31,11 +31,15 @@ export class ClientsBanquePriveComponent implements OnInit {
   ngOnInit() {
     this.apiService.makeRequest(apiUrl.clients, {banque: this.apiService.banque}).subscribe(
       res => {
-        this.apiService.bankClients = res;
         for (const i of res) {
           i.StatusClient =  StatusClient[i.Status];
           i.Status = this.roles[i.Role_Id];
+          i.LoginAttempts = i.LoginAttempts ? i.LoginAttempts : 0;
+          i.Attempt1 = i.Attempt1 ? Date.parse(i.Attempt1) : null;
+          i.Attempt2 = i.Attempt2 ? Date.parse(i.Attempt2) : null;
+          i.Attempt3 = i.Attempt3 ? Date.parse(i.Attempt3) : null;
         }
+        this.apiService.bankClients = res;
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -87,6 +91,10 @@ export interface BanqueClient {
   Status: string;
   StatusClient: string;
   Portefeuille: Portefeuille[];
+  LoginAttempts: number;
+  Attempt1: Date;
+  Attempt2: Date;
+  Attempt3: Date;
 }
 
 export interface Portefeuille {

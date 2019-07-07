@@ -9,7 +9,9 @@ import { CommonUtilsService } from 'src/app/common/common-utils.service';
   templateUrl: './parametres-brh.component.html',
   styleUrls: ['./parametres-brh.component.css']
 })
+
 export class ParametresBrhComponent implements OnInit {
+
   dataSource: MatTableDataSource<Paramatres>;
   contactDialogRef: any;
   parametreNom = '';

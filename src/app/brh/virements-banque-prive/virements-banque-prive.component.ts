@@ -183,10 +183,12 @@ export class VirementsBanquePriveComponent implements OnInit {
         this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
           + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {
           duration: 5000,
+          panelClass: ['succes-snackbar']
         });
       }, error => {
         this.snackBar.open('Le virement n\'a pas pu aboutir, veuillez réessayer.', 'Fermer', {
           duration: 5000,
+          panelClass: ['alert-snackbar']
         });
       });
   }

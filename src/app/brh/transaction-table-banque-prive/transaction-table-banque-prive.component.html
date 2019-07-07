@@ -72,9 +72,20 @@
       <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Source">{{tr.Expediteur}}</mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="ExpediteurEmail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Email Source</mat-header-cell>
+      <mat-cell class="duration-cell" *matCellDef="let tr" data-label="EmailSource">{{tr.ExpediteurEmail}}</mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="Destinataire">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Destination</mat-header-cell>
       <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Destination">{{tr.Destinataire}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="DestinataireEmail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Email Destination</mat-header-cell>
+      <mat-cell class="duration-cell" *matCellDef="let tr" data-label="EmailDestination">{{tr.DestinataireEmail}}
       </mat-cell>
     </ng-container>
 

@@ -36,33 +36,35 @@ export class TransactionsBanquePriveComponent implements OnInit {
   ngOnInit() {
     this.adapter.setLocale('fr');
     this.loading = true;
-    this.apiService.getTransactions(this.apiService.portefeuilles[0].ClePub).subscribe(
-      sub => sub.subscribe( res => {
-          if (res.length === 0) {
-            this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
-              duration: 5000,
-              panelClass: ['alert-snackbar']
-            });
-          }
-          this.showTransactions = true;
-          this.transactions = new MatTableDataSource(res as Transaction[]);
-          setTimeout(() => {
-            // sorry I'm too lazy ...
-            const debitCredit: DebitCredit = this.util.getDebitCredit(res);
-            this.selectedCredit = debitCredit.credit;
-            this.selectedDebit = debitCredit.debit;
-            this.transactions.paginator = this.paginator;
-            this.transactions.sort = this.sort;
-            this.loading = false;
-          }, 1000);
-          setTimeout(() => {
-            const elmnt = document.querySelector('.contentTransactions');
-            elmnt.scrollIntoView({behavior: 'smooth'});
-          }, 100);
-        }, err => {
-          console.log(err);
-          this.showTransactions = false;
-      }));
+    this.apiService.updateEmailClePubMap().add( () => {
+      this.apiService.getTransactions(this.apiService.portefeuilles[0].ClePub).subscribe(
+        sub => sub.subscribe( res => {
+            if (res.length === 0) {
+              this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
+                duration: 5000,
+                panelClass: ['alert-snackbar']
+              });
+            }
+            this.showTransactions = true;
+            this.transactions = new MatTableDataSource(res as Transaction[]);
+            setTimeout(() => {
+              // sorry I'm too lazy ...
+              const debitCredit: DebitCredit = this.util.getDebitCredit(res);
+              this.selectedCredit = debitCredit.credit;
+              this.selectedDebit = debitCredit.debit;
+              this.transactions.paginator = this.paginator;
+              this.transactions.sort = this.sort;
+              this.loading = false;
+            }, 1000);
+            setTimeout(() => {
+              const elmnt = document.querySelector('.contentTransactions');
+              elmnt.scrollIntoView({behavior: 'smooth'});
+            }, 100);
+          }, err => {
+            console.log(err);
+            this.showTransactions = false;
+        }));
+    });
     this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
       this.selectedSolde = data[0].balance;
     });

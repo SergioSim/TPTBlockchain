@@ -108,7 +108,7 @@
 
 .mat-column-Expediteur, .mat-column-Destinataire {
   word-break: break-word;
-  flex: 0 0 25%;
+  flex: 0 0 20%;
   min-width: 200px;
 }
 
@@ -125,7 +125,13 @@
   color: #23B708;
 }
 
+.mat-table .mat-cell , .mat-header-cell {
+  padding: 8px 8px 8px 0;
+}
 
+.mat-table .mat-cell:first-child, .mat-header-cell:first-child {
+  padding: 8px;
+}
 
 @media screen and (max-width: 1200px) {
   .gridcontainer3 {
@@ -146,7 +152,7 @@
   }
 
   .contentTransactions .mat-table .mat-row {
-    height: 390px;
+    height: 520px;
   }
 
   .mat-table .mat-cell {
@@ -154,7 +160,7 @@
     display: block;
     font-size: 1em;
     text-align: right;
-    padding-right: 1em;
+    padding: 0 1em 0 0;
     font-weight: bold;
     height:20px;
     margin-bottom: 1em;
@@ -172,13 +178,21 @@
     border-bottom: 0;
   }
     .mat-table .mat-cell:first-child {
-    padding-top: 1em;
-    padding-left: 0;
+    padding: 1em 1em 0 0;
   }
 
-  .mat-column-Nature, .mat-column-Montant, .mat-column-Expediteur, .mat-column-Destinataire, .mat-column-Date {
+  .mat-column-Nature, .mat-column-Motif, .mat-column-Montant, .mat-column-Expediteur, .mat-column-ExpediteurEmail, .mat-column-Destinataire, .mat-column-DestinataireEmail, .mat-column-Date {
     flex: inherit;
     min-width: inherit;
+    word-break: break-word;
+  }
+
+  .mat-header-cell {
+    padding: 0;
+  }
+  
+  .mat-header-cell:first-child {
+    padding-left: 8px;
   }
   
 }

@@ -12,7 +12,8 @@ import { DebitCredit, CommonUtilsService } from 'src/app/common/common-utils.ser
 export class TransactionTableBanquePriveComponent implements OnInit {
 
   displayedColumns = ['Id', 'ClePub', 'Libelle', 'Ouverture'];
-  displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'Destinataire', 'Motif', 'Montant'];
+  displayedColumnsTransactions = ['Date', 'Nature', 'Expediteur', 'ExpediteurEmail',
+   'Destinataire', 'DestinataireEmail', 'Motif', 'Montant'];
   public selectedPortefeuille: Portefeuille;
   public showTransactions = false;
   public selectedTransaction: Transaction;
@@ -50,9 +51,6 @@ export class TransactionTableBanquePriveComponent implements OnInit {
       const elmnt = document.querySelector('.contentTransactions');
       elmnt.scrollIntoView({behavior: 'smooth'});
     }, 1000);
-    this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
-      this.selectedSolde = data[0].balance;
-    });
   }
 
   applyFilter(filterValue, itype: string, isStart: boolean = null) {

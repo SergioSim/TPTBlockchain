@@ -71,29 +71,35 @@ export class ClientBanquePriveComponent implements OnInit {
     console.log('Row clicked: ', row);
     this.loading = true;
     this.selectedPortefeuille = row;
-    this.apiService.getTransactions(row.ClePub).subscribe(
-      sub => sub.subscribe( res => {
-          if (res.length === 0) {
-            this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
-              duration: 5000,
-              panelClass: ['alert-snackbar']
-            });
-          }
-          this.showTransactions = true;
-          this.transactions = new MatTableDataSource(res as Transaction[]);
-          setTimeout(() => {
-            // sorry I'm too lazy ...
-            const debitCredit: DebitCredit = this.util.getDebitCredit(res);
-            this.selectedCredit = debitCredit.credit;
-            this.selectedDebit = debitCredit.debit;
-            this.transactions.paginator = this.paginatorTransaction;
-            this.transactions.sort = this.sortTransaction;
-            this.loading = false;
-          }, 1000);
-        }, err => {
-          console.log(err);
-          this.showTransactions = false;
-      }));
+    this.apiService.updateEmailClePubMap().add( () => {
+      this.apiService.getTransactions(row.ClePub).subscribe(
+        sub => sub.subscribe( res => {
+            if (res.length === 0) {
+              this.snackBar.open('Portefeuille n\'a pas encore des transactions!', 'Fermer', {
+                duration: 5000,
+                panelClass: ['alert-snackbar']
+              });
+            }
+            this.showTransactions = true;
+            this.transactions = new MatTableDataSource(res as Transaction[]);
+            setTimeout(() => {
+              // sorry I'm too lazy ...
+              const debitCredit: DebitCredit = this.util.getDebitCredit(res);
+              this.selectedCredit = debitCredit.credit;
+              this.selectedDebit = debitCredit.debit;
+              this.transactions.paginator = this.paginatorTransaction;
+              this.transactions.sort = this.sortTransaction;
+              this.loading = false;
+            }, 1000);
+            setTimeout(() => {
+              const elmnt = document.querySelector('.contentTransactions');
+              elmnt.scrollIntoView({behavior: 'smooth'});
+            }, 500);
+          }, err => {
+            console.log(err);
+            this.showTransactions = false;
+        }));
+    });
     this.apiService.getRecord(row.ClePub).subscribe(data => {
       this.selectedSolde = data[0] ? data[0].balance : 0;
     });

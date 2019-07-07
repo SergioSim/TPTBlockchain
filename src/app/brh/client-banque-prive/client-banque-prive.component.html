@@ -89,7 +89,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
       <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"
-        [style.background]="selectedPortefeuille && selectedPortefeuille.Id == row.Id ? 'lightgreen' : ''"></mat-row>
+        [style.background]="selectedPortefeuille && selectedPortefeuille.ClePub === row.ClePub ? 'lightgreen' : ''"></mat-row>
     </mat-table>
   </div>
   <br>

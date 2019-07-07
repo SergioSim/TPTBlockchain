@@ -42,6 +42,8 @@ export class NodeapiService {
   private readonly urlOpenchain: string = environment.openchainUrl;
   private transactionSchema = null;
   private mutationSchema = null;
+  private emailClePub = new Map();
+  private compteBRH = 'XcxdtHPX3dKZJS2R1KBAcQRRu7Xs6R3NU4';
 
   formData: Banque;
   list: Banque[];
@@ -255,6 +257,10 @@ toHexString = bytes =>
 
 
 getTransactions(iaddress) {
+  let isBankOrAdmin = false;
+  if (this.permission === 'Banque' || this.permission === 'Admin') {
+    isBankOrAdmin = true;
+  }
   let address = '/p2pkh/' + iaddress + '/:ACC:/asset/p2pkh/XkjpCHJhrNja3z5qoaX9JvdijMMD32oEyD/';
   address = this.Utf8ToHex(address);
   const options = {
@@ -287,7 +293,9 @@ getTransactions(iaddress) {
             result.forEach( raw => {
               const aTransaction: Transaction = {
                 Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0,
-                 Montant: 0, Motif: 'Aucun motif', Solde: 0};
+                 Montant: 0, Motif: 'Aucun motif', Solde: 0,
+                 ExpediteurEmail: '',
+                 DestinataireEmail: ''};
               raw = raw.raw;
               try {
                 const aMessage = this.transactionSchema.decode( this.fromHexString(raw));
@@ -296,6 +304,13 @@ getTransactions(iaddress) {
                 aTransaction.Expediteur = aExpKey.substr(7).split('/:ACC:/')[0];
                 const aDestKey = this.HexToString(this.toHexString(aMessage.mutation.records[1].key));
                 aTransaction.Destinataire = aDestKey.substr(7).split('/:ACC:/')[0];
+                if (isBankOrAdmin) {
+                  const aExpEmail = aTransaction.Expediteur.substr(0, 6) === 'p2pkh/' ?
+                    'Tresor BRH' : this.emailClePub.get(aTransaction.Expediteur);
+                  const aDesEmail = this.emailClePub.get(aTransaction.Destinataire);
+                  aTransaction.ExpediteurEmail = aExpEmail ? aExpEmail : 'Compte Externe';
+                  aTransaction.DestinataireEmail = aDesEmail ? aDesEmail : 'Compte Externe';
+                }
                 //aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
                 aTransaction.Solde =  this.integerFromHex(this.toHexString(aMessage.mutation.records[0].value.data));
                 aTransaction.Montant = this.integerFromHex(this.toHexString(aMessage.mutation.records[1].value.data));
@@ -332,11 +347,31 @@ getTransactions(iaddress) {
                 resultat.forEach(tx => {
                   transactions.find(transaction => transaction.MutationHash === tx.Mutation_Hash).Motif = tx.Motif;
                 });
-              });
-
+            });
             return transactions;
         }));
     }));
+  }
+
+
+  updateEmailClePubMap() {
+    this.emailClePub = new Map();
+    return this.makeRequest(apiUrl.clients, {banque: this.banque}).subscribe(
+      res => {
+        this.bankClients = res;
+        for (const i of res) {
+          i.Status = Roles[i.Role_Id];
+        }
+        this.bankClients.forEach(client => {
+          client.Portefeuille && client.Portefeuille.forEach(portefeuille => {
+            this.emailClePub.set(portefeuille.ClePub, client.Email);
+          });
+        });
+        console.log('EmailClePub', this.emailClePub);
+      }, err => {
+        console.log('err : ', err);
+      }
+    );
   }
 
   getListBanque() {
@@ -506,7 +541,9 @@ function apilog(ilog: string) {
 
 export interface Transaction {
   Expediteur: string;
+  ExpediteurEmail: string;
   Destinataire: string;
+  DestinataireEmail: string;
   MutationHash: string;
   Motif: string;
   Nature: string;
@@ -515,3 +552,6 @@ export interface Transaction {
   Montant: number;
   Solde: number;
 }
+
+export const Roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
+'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];

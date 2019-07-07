@@ -27,11 +27,11 @@ export class PortefeuilleBrhComponent implements OnInit {
     Email: '',
     Telephone: '',
     Adresse: '',
-    Code_Postal,
+    Code_Postal:'',
     Ville: '',
     Virement: '',
     isVisible: '',
-    Statut
+    Statut:''
   };
 
   constructor(
@@ -75,6 +75,7 @@ export class PortefeuilleBrhComponent implements OnInit {
       telephone: this.selectedPortefeuille.Telephone,
       isVisible: this.selectedPortefeuille.isVisible,
       statut: this.selectedPortefeuille.Statut,
+      virement: this.selectedPortefeuille.Virement,
       banqueOld: this.selectedPortefeuille.NomCommercial
     }).subscribe(res => {
 

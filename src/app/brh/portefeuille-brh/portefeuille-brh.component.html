@@ -38,7 +38,7 @@
 
       <ng-container matColumnDef="Ville">
         <th mat-header-cell *matHeaderCellDef> Ville </th>
-        <td mat-cell *matCellDef="let element"> {{element.Tel}}</td>
+        <td mat-cell *matCellDef="let element"> {{element.Ville}}</td>
       </ng-container>
 
 
@@ -92,9 +92,9 @@
                 </mat-form-field>
 
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedPortefeuille.Virement" class="margin-left-input">
-                    <mat-radio-button   value="Actif" >Actif</mat-radio-button>
-                    <mat-radio-button   value="Bloqué" class="margin-left-input">Bloqué</mat-radio-button>
-                  </mat-radio-group> 
+                    <mat-radio-button   value="actif" >Actif</mat-radio-button>
+                    <mat-radio-button   value="bloquer" class="margin-left-input">Bloqué</mat-radio-button>
+                </mat-radio-group> 
               </div>
               <div class="dialog-buttons">
                 <button mat-flat-button class="dialog-confirm-button" (click)="confirmEdiPortefeuille()">Valider</button>

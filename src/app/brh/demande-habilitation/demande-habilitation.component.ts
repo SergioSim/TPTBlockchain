@@ -103,10 +103,12 @@ export class DemandeHabilitationComponent implements OnInit {
     this.service.makeRequest(apiUrl.createBank,
       {
         name: this.BanqueNom.value, email: this.nouvelBanqueEmail.value,
-        telephone: this.nouvelBanqueTel.value, isVisible: 1, statut: 'en cours'
+        telephone: this.nouvelBanqueTel.value, isVisible: 1, statut: 'en cours',
+        pieceIdentite: this.pieceIdentiteBuffer,
+        annonceLegale: this.annonceLegaleBuffer,
+        justificatifDomicile: this.justificatifDomicileBuffer
       }).
       subscribe(res => {
-        console.log('on a recu la response:');
         console.log(res);
 
         this.service.makeRequest(apiUrl.createClient, {

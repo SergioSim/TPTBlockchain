@@ -95,7 +95,7 @@ module.exports = {
   'updateMonnie' : 
         'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 
-        'UPDATE banque SET NomCommercial = ?,  Email = ?, Telephone = ?, isVisible= ?, Statut=? WHERE NomCommercial = ?',
+        'UPDATE banque SET NomCommercial = ?,  Email = ?, Telephone = ?, isVisible= ?, Statut=?, Virement=? WHERE NomCommercial = ?',
   'updateClient' : 
         'UPDATE utilisateur SET Email = ?, Password = ?, Nom = ?, Prenom = ?, Civilite = ?, Situation_Familiale = ?, Profession = ?, Siret = ?,' + 
         ' Tel = ?, Adresse = ?, Ville = ?, Code_Postal = ? WHERE Email = ?',

@@ -23,7 +23,8 @@ export class DashboardBrhComponent implements OnInit {
   ) { }
   
   ngOnInit() {
-    this.displayedColumns = ['Banque','Email','Tel', 'Nom', 'Prenom', 'numPortefeuille', 'Solde'];
+  //  this.displayedColumns = ['Banque','Email','Tel', 'Nom', 'Prenom', 'numPortefeuille', 'Solde'];
+    this.displayedColumns = ['Banque','Email','Tel', 'numPortefeuille', 'Solde'];
     this.getClients();
     console.log(this.dataSource);
   }        

@@ -238,6 +238,9 @@ app.get('/contactsByUserEmail', [
 app.post('/createBank', [
 //    outils.validJWTNeeded, 
   //  outils.minimumPermissionLevelRequired(config.permissionLevels.ADMIN),
+    check('pieceIdentite').isLength({ min: 1 }).escape(),
+    check('annonceLegale').isLength({ min: 1 }).escape(),
+    check('justificatifDomicile').isLength({ min: 1 }).escape(),
     check('name').isAlphanumeric().escape().trim(),
     check('email').isEmail().escape().trim(),
     check('telephone').isMobilePhone().escape().trim(),
@@ -460,7 +463,7 @@ app.put('/updateBanque', [
     check('banqueNew').isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('banqueOld').optional().isLength({ min: 1 }).isAlphanumeric().escape().trim(),
     check('email').isEmail().normalizeEmail(),
-    check('telephone').isMobilePhone().escape().trim(),
+    check('telephone').optional().isMobilePhone().escape().trim(),
     check('isVisible').optional().isNumeric().escape().trim(),
     outils.handleValidationResult], 
     function(req, res) {
@@ -475,8 +478,9 @@ app.put('/updateBanque', [
         const aTel = outils.hasChanged(req.body.telephone, result[0].Tel);
         const aIsVisible = outils.hasChanged(req.body.isVisible, result[0].isVisible);
         const aStatut = outils.hasChanged(req.body.statut, result[0].statut);
+        const aVirement = outils.hasChanged(req.body.virement, result[0].statut);
 
-        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aStatut, aBanqueOld], function(err1, result1){
+        conn.query(sql.updateBank_0_2, [req.body.banqueNew, aEmail, aTel,aIsVisible, aStatut,aVirement, aBanqueOld], function(err1, result1){
 
             return res.send({ succes: !err1 && result1.affectedRows != 0});
         });
@@ -548,16 +552,16 @@ app.put('/updateClient', [
     outils.minimumPermissionLevelRequired(config.permissionLevels.PUBLIC),
     check('email').optional().isEmail().normalizeEmail(),
     check('bankEmail').optional().isEmail().normalizeEmail(),
-    check('nom').optional().isAlpha().escape().trim(),
-    check('prenom').optional().isAlpha().escape().trim(),
+    check('nom').optional().isString().escape(),
+    check('prenom').optional().isString().escape(),
     check('civilite').optional().isAlpha().escape().trim(),
     check('situationFamiliale').optional().isAlpha().escape().trim(),
     check('profession').optional().isAlpha().escape().trim(),
     check('siret').optional().isAlphanumeric().escape().trim(),
-    check('tel').optional().isMobilePhone().escape().trim(),
+    check('tel').optional().isMobilePhone().escape(),
     check('adresse').optional().isString().escape(),
     check('ville').optional().isString().escape(),
-    check('codePostal').optional().isNumeric().isLength({max:5}).escape(),
+    check('codePostal').optional().isNumeric({ min: 1 }).escape(),
     check('oldPassword').optional().isLength({ min: 5 }).escape(),
     check('newPassword').optional().isLength({ min: 5 }).escape(),
     outils.handleValidationResult], 
@@ -606,6 +610,8 @@ app.put('/updateClient', [
             });
         }
         conn.query(sql.updateClient, [aEmail, aPassword, aNom, aPrenom, aCivilite,asituationFamiliale, aprofession, asiret, atel, aadresse, aville, acodePostal, aOldEmail], function(err, result){
+            console.log("icicicicicicicici");
+
             console.log(err);
             console.log(result);
             return res.send({ succes: !err && result.affectedRows != 0});

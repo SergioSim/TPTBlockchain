@@ -3,9 +3,6 @@ import { apiUrl, NodeapiService } from 'src/app/nodeapi.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CommonUtilsService } from 'src/app/common/common-utils.service';
 import { Banque } from 'src/app/banque.modele';
-import { ThrowStmt } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Portefeuille } from 'src/app/Portefeuille.modele';
 
 @Component({
   selector: 'app-portefeuille-principal-brh',

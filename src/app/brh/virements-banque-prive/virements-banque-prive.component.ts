@@ -4,6 +4,7 @@ import { BanqueClient } from '../clients-banque-prive/clients-banque-prive.compo
 import { MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { faClipboard, faUserFriends, faChevronDown, faCheck, faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FormControl, Validators } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { from } from 'rxjs';
 
@@ -30,6 +31,7 @@ export class VirementsBanquePriveComponent implements OnInit {
   public confirmDialogRef: any;
   public transferPassword: string;
   private contactDialogRef: any;
+  motifFC: FormControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
   faCheck = faCheck;
   faClipboard = faClipboard;
   faUserFriends = faUserFriends;
@@ -45,12 +47,13 @@ export class VirementsBanquePriveComponent implements OnInit {
     date: ''
   };
   public typesVirement = [
-    {value: 'Virement', viewValue: 'Classique'},
     {value: 'Paiement', viewValue: 'Paiement'},
-    {value: 'Depôt HTG', viewValue: 'Dépôt HTG'},
-    {value: 'Retrait HTG', viewValue: 'Retrait HTG'}
+    {value: 'Dépôt HTG', viewValue: 'Dépôt HTG'},
+    {value: 'Retrait HTG', viewValue: 'Retrait HTG'},
+    {value: 'Autre', viewValue: 'Autre...'}
   ];
-  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque',
+  'Particulier', 'Commercant', 'Banque', 'Admin'];
 
   constructor(
     private apiService: NodeapiService,
@@ -127,7 +130,8 @@ export class VirementsBanquePriveComponent implements OnInit {
     this.dialogProperties.to = this.selectedBeneficiaire.Portefeuille[0].Libelle;
     this.dialogProperties.amount = this.transferAmount.toString();
     this.dialogProperties.afterTransfer = (this.selectedSolde - this.transferAmount).toString();
-    this.dialogProperties.type = this.typesVirement.find(obj => obj.value === this.selectedType).viewValue;
+    this.dialogProperties.type = this.selectedType === 'Autre' ? this.motifFC.value :
+      this.typesVirement.find(obj => obj.value === this.selectedType).viewValue;
     this.dialogProperties.date = new Date().toLocaleDateString();
   }
 
@@ -152,7 +156,8 @@ export class VirementsBanquePriveComponent implements OnInit {
   checkConfirmState() {
     if (this.selectedBeneficiaire && Object.entries(this.selectedBeneficiaire).length > 0 &&
         Object.entries(this.selectedPortefeuille).length > 0
-        && this.transferAmount !== undefined && this.transferAmount !== null && this.selectedType !== undefined) {
+        && this.transferAmount !== undefined && this.transferAmount !== null && this.selectedType !== undefined
+        && (this.selectedType !== 'Autre' || (this.selectedType === 'Autre' && !this.motifFC.invalid))) {
       return false;
     }
     return true;
@@ -164,13 +169,16 @@ export class VirementsBanquePriveComponent implements OnInit {
       id: this.selectedPortefeuille.Id,
       email: this.selectedBeneficiaire.Email,
       montant: this.transferAmount,
-      memo: this.selectedType
+      memo: this.selectedType === 'Autre' ? this.motifFC.value :
+      this.typesVirement.find(obj => obj.value === this.selectedType).viewValue
     };
     this.apiService.makeRequest(apiUrl.submit, transferDetails).toPromise()
       .then(res => {
-        this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
-          this.selectedSolde = data[0].balance;
-        });
+        setTimeout(() => {
+          this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {
+            this.selectedSolde = data[0].balance;
+          });
+        }, 1000);
         this.confirmDialogRef.close();
         this.snackBar.open('Le virement de ' + this.transferAmount + ' DHTG vers '
           + this.dialogProperties.to + ' à bien été effectué.', 'Fermer', {

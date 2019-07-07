@@ -51,10 +51,18 @@ export class CommonLoginComponent {
       },
       error => {
         console.log(error);
-        this.snackBar.open('Email ou Mot de passe incorrecte.', 'Fermer', {
-          duration: 5000,
-          panelClass: ['alert-snackbar']
-        });
+        if (error.statusText === 'Unknown Error') {
+          this.snackBar.open('Veuillez ajouter notre sertificat SSL en clickant sur "Autre problème de connexion ?"' +
+          'ou verifiez votre connection Internet', 'Fermer', {
+            duration: 5000,
+            panelClass: ['alert-snackbar']
+          });
+        } else {
+          this.snackBar.open('Email ou Mot de passe incorrecte.', 'Fermer', {
+            duration: 5000,
+            panelClass: ['alert-snackbar']
+          });
+        }
         this.loading = false;
       });
   }

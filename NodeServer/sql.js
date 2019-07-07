@@ -3,7 +3,7 @@ module.exports = {
   'insertUtilisateur' : 
         'INSERT INTO utilisateur (Email, Password, Nom, Prenom, Tel, Banque, Role_Id) VALUES (?,?,?,?,?,?,?)',
   'insertUtilisateurBanque' : 
-        'INSERT INTO utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,5)',
+        'INSERT INTO utilisateur (Email, Password, Banque, Role_Id) VALUES (?,?,?,6)',
   'insertPortefeuille' : 
         'INSERT INTO portefeuille (Libelle, ClePub, ClePrive, Utilisateur_Email, Ouverture) VALUES (?,?,?,?,?)',
   'insertContact_0_4' : 
@@ -47,6 +47,8 @@ module.exports = {
         'SELECT Id, Libelle, ClePub, ClePrive, Utilisateur_Email FROM portefeuille WHERE Id = ?',
   'findUtilisateursByBanque' : 
         'SELECT * FROM banque LEFT JOIN utilisateur ON banque.Email = utilisateur.Email ',
+  'findEmailFromCartId' :
+        'SELECT Utilisateur_Email FROM portefeuille pt INNER JOIN carte ca ON pt.Id = ca.Portefeuille_Id WHERE ca.Id = ?.',
   'findRandomTokenByEmail' : 'SELECT Token, DateCreationToken FROM tokenverification Where Email LIKE BINARY ?',
   'findClientsByBanque' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id, IsEmailVerified, ' +
@@ -122,7 +124,7 @@ module.exports = {
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
-        'UPDATE utilisateur SET Role_Id = 3 WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = 4 WHERE Email=?',
   'blockCarte' : 
         'UPDATE carte SET IsBlocked = 1 WHERE Id=?',
   'unblockCarte' : 
@@ -130,7 +132,7 @@ module.exports = {
   'unBlockOrBlockClient_0_2' : 
         'UPDATE utilisateur SET Role_Id = ? WHERE Email=?',
   'unBlockBanque' : 
-        'UPDATE utilisateur SET Role_Id = 5 WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = 6 WHERE Email=?',
   'validateClientEmail' :
         'UPDATE utilisateur SET IsEmailVerified = 1 WHERE Email=?'
 

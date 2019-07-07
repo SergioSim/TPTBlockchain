@@ -1,0 +1,376 @@
+.container {
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  margin: auto;
+  width: 56px;
+  height: 56px;
+}
+.container .box1,
+.container .box2,
+.container .box3 {
+  border: 8px solid #6fd892;
+  box-sizing: border-box;
+  position: absolute;
+  display: block;
+}
+.container .box1 {
+  width: 56px;
+  height: 24px;
+  margin-top: 32px;
+  margin-left: 0px;
+  -webkit-animation: anime1 1s 0s forwards ease-in-out infinite;
+          animation: anime1 1s 0s forwards ease-in-out infinite;
+}
+.container .box2 {
+  width: 24px;
+  height: 24px;
+  margin-top: 0px;
+  margin-left: 0px;
+  -webkit-animation: anime2 1s 0s forwards ease-in-out infinite;
+          animation: anime2 1s 0s forwards ease-in-out infinite;
+}
+.container .box3 {
+  width: 24px;
+  height: 24px;
+  margin-top: 0px;
+  margin-left: 32px;
+  -webkit-animation: anime3 1s 0s forwards ease-in-out infinite;
+          animation: anime3 1s 0s forwards ease-in-out infinite;
+}
+@-webkit-keyframes anime1 {
+  0% {
+    width: 56px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  25% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  50% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  75% {
+    width: 24px;
+    height: 56px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+}
+@keyframes anime1 {
+  0% {
+    width: 56px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  25% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  50% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+  75% {
+    width: 24px;
+    height: 56px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+}
+@-webkit-keyframes anime2 {
+  0% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  25% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  50% {
+    width: 56px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  75% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+}
+@keyframes anime2 {
+  0% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  25% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  50% {
+    width: 56px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  75% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+}
+@-webkit-keyframes anime3 {
+  0% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  25% {
+    width: 24px;
+    height: 56px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  50% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  75% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  100% {
+    width: 56px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+}
+@keyframes anime3 {
+  0% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  12.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  25% {
+    width: 24px;
+    height: 56px;
+    margin-top: 0px;
+    margin-left: 32px;
+  }
+  37.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  50% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  62.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  75% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  87.5% {
+    width: 24px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 32px;
+  }
+  100% {
+    width: 56px;
+    height: 24px;
+    margin-top: 32px;
+    margin-left: 0px;
+  }
+}

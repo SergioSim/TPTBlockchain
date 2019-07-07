@@ -45,6 +45,7 @@ export class ClientBanquePriveComponent implements OnInit {
   public cartes: Card[];
   public newCardlibelle: string;
   public newCardSelectedWallet: Portefeuille;
+  public loading = false;
   newCreateDialogRef;
   faPlusCircle = faPlusCircle;
   faExclamationTriangle = faExclamationTriangle;
@@ -68,6 +69,7 @@ export class ClientBanquePriveComponent implements OnInit {
 
   onRowClicked(row: Portefeuille) {
     console.log('Row clicked: ', row);
+    this.loading = true;
     this.selectedPortefeuille = row;
     this.apiService.getTransactions(row.ClePub).subscribe(
       sub => sub.subscribe( res => {
@@ -86,12 +88,8 @@ export class ClientBanquePriveComponent implements OnInit {
             this.selectedDebit = debitCredit.debit;
             this.transactions.paginator = this.paginatorTransaction;
             this.transactions.sort = this.sortTransaction;
+            this.loading = false;
           }, 1000);
-          console.log('scrolling..');
-          setTimeout(() => {
-            const elmnt = document.querySelector('.contentTransactions');
-            elmnt.scrollIntoView({behavior: 'smooth'});
-          }, 100);
         }, err => {
           console.log(err);
           this.showTransactions = false;

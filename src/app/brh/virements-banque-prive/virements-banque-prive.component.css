@@ -3,3 +3,13 @@
 .virements-boxes {
   width: 80%;
 }
+
+mat-form-field {
+  padding: 0 0.3em; 
+}
+
+.my-virements-form {
+  align-self: center;
+  padding-top: 30px;
+  justify-content: space-evenly;
+}

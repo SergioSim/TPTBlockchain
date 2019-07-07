@@ -5,5 +5,6 @@ export enum Role {
     PARTICULIER = 'Particulier',
     DEMANDEPARTICULIER = 'DemandeParticulier',
     DEMANDECOMMERCANT = 'DemandeCommercant',
+    DEMANDEBANQUE = 'DemandeBanque',
     PUBLIC = 'Public'
 }

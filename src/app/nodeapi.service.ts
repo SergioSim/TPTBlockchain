@@ -286,7 +286,8 @@ getTransactions(iaddress) {
             }
             result.forEach( raw => {
               const aTransaction: Transaction = {
-                Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0, Montant: 0, Solde: 0};
+                Expediteur: '', Destinataire: '', MutationHash: mHashes[index++], Nature: '', Date: '', Timestamp: 0,
+                 Montant: 0, Motif: 'Aucun motif', Solde: 0};
               raw = raw.raw;
               try {
                 const aMessage = this.transactionSchema.decode( this.fromHexString(raw));
@@ -325,6 +326,14 @@ getTransactions(iaddress) {
             });
             transactions.sort((x, y) => y.Timestamp - x.Timestamp);
             console.log('transactions: ', transactions);
+
+            this.makeRequest(apiUrl.motifsByMutationHashes, {MutationHashes: mHashes}).subscribe(
+              resultat => {
+                resultat.forEach(tx => {
+                  transactions.find(transaction => transaction.MutationHash === tx.Mutation_Hash).Motif = tx.Motif;
+                });
+              });
+
             return transactions;
         }));
     }));
@@ -484,6 +493,7 @@ export enum apiUrl {
   deleteContact = 'DELETE$deleteContact',
   deletePortefeuille = 'DELETE$deletePortefeuille',
   submit = 'POST$submit',
+  sendDocumentsValidatedEmailToClient = 'POST$sendDocumentsValidatedEmailToClient',
   transferTo = 'POST$transferTo',
   transferToUserEmail = 'POST$transferToUserEmail',
   issueDHTG = 'POST$issueDHTG',
@@ -498,6 +508,7 @@ export interface Transaction {
   Expediteur: string;
   Destinataire: string;
   MutationHash: string;
+  Motif: string;
   Nature: string;
   Date: string;
   Timestamp: number;

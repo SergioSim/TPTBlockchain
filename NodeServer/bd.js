@@ -8,7 +8,7 @@ exports.Database = class Database {
   queryWithCatch( sql, args, res, errorMessage, errorCode = 400, sendError = true) {
     return new Promise( ( resolve, reject ) => {
         this.connection.query( sql, args, ( err, rows ) => {
-            if(err || !rows[0]) {
+            if(err || !rows) {
               return reject({err, rows});
             }
             return resolve(rows);

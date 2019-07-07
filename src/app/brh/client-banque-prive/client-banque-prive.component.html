@@ -60,6 +60,8 @@
   </div>
   <app-document-banque-prive [setClient]="selectedClient"></app-document-banque-prive>
   <h2>Portefeuilles: {{selectedClient.Portefeuille.length}}</h2>
+  <app-common-loading-animation *ngIf="loading" class="theLoader"></app-common-loading-animation>
+  <br *ngIf="loading">
   <div class="example-container mat-elevation-z8">
     <mat-table class="clients-table mat-elevation-z8" #sortClient="matSort" [dataSource]="selectedClientPortefeuilles"
       matSort>

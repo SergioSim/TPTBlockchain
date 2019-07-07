@@ -62,6 +62,11 @@
       <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Type">{{tr.Nature}}</mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="Motif">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Motif</mat-header-cell>
+      <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Motif">{{tr.Motif}}</mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="Expediteur">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Source</mat-header-cell>
       <mat-cell class="duration-cell" *matCellDef="let tr" data-label="Source">{{tr.Expediteur}}</mat-cell>

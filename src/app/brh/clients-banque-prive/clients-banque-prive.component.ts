@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl, StatusClient } from 'src/app/nodeapi.service';
 import { MatSnackBar, MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -30,6 +30,7 @@ export class ClientsBanquePriveComponent implements OnInit {
         const result = res as BanqueClient[];
         this.apiService.bankClients = res;
         for (const i of res) {
+          i.StatusClient =  StatusClient[i.Status];
           i.Status = this.roles[i.Role_Id];
         }
         this.dataSource = new MatTableDataSource(result);
@@ -81,6 +82,7 @@ export interface BanqueClient {
   Situation_Familiale: string;
   Tel: string;
   Status: string;
+  StatusClient: string;
   Portefeuille: Portefeuille[];
 }
 

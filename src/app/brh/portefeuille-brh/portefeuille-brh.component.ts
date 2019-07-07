@@ -60,7 +60,6 @@ export class PortefeuilleBrhComponent implements OnInit {
     );
   }
 
-
   openEditDialog(templateRef, monnie) {
     event.stopPropagation();
     this.selectedPortefeuille = { ...monnie };

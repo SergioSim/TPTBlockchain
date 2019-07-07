@@ -1,8 +1,17 @@
 <div class="menu-content">
     <img src="assets/accueil/brh_logo.png" alt="BRH logo" class="logo-img">
-    
+    <hr>
+    <div class="user-info">
+      <button mat-button [matMenuTriggerFor]="disconectMenu">
+        Se déonnecter &nbsp;<i class="triangle-down"></i>
+      </button>
+        <mat-menu #disconectMenu="matMenu">
+          <button mat-menu-item (click)="disconnect()">Se déconnecter</button>
+        </mat-menu>
+    </div>
+    <hr>
     <div class="menu-buttons">
-      <button mat-raised-button (click)="goToPortefeuillePrincipal()">Portefeuille principal BRH </button>
+      <button mat-raised-button (click)="goToPortefeuillePrincipal()">Portefeuille BRH </button>
       <button mat-raised-button (click)="goToDashboard()">Informations banques</button>
       <button mat-raised-button (click)="goTohabilitation()"> Gérer les habilitations</button>
       <button mat-raised-button (click)="goToportefeuille()">Gérer les portefeuilles</button>

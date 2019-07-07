@@ -87,10 +87,6 @@ export class DemandeHabilitationComponent implements OnInit {
       });
       return;
     }
-    console.log(this.nouvelBanquePasswordConfirm);
-    console.log('-----------------------');
-
-    console.log(this.nouvelBanquePassword);
 
     if (this.nouvelBanquePasswordConfirm.value !== this.nouvelBanquePassword.value) {
       this.snackBar.open('La confirmation du mot de passe doit être identique au mot de passe', 'Fermer', {

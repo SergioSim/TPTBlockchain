@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NodeapiService } from 'src/app/nodeapi.service';
 
 @Component({
   selector: 'app-menu-brh',
@@ -7,11 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu-brh.component.css']
 })
 export class MenuBrhComponent implements OnInit {
-
   
-  constructor( private route: Router
+  constructor( private route: Router,
+               private apiService: NodeapiService
     ) { 
-
   }
 
   ngOnInit() {
@@ -46,5 +46,10 @@ export class MenuBrhComponent implements OnInit {
 
   goToparametres() {
     this.route.navigate(['/brh/parametres-brh']);
+  }
+
+  disconnect() {
+    this.apiService.logout();
+    this.route.navigate(['/brh/login-brh']);
   }
 }

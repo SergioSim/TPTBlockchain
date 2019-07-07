@@ -8,6 +8,91 @@ import { Portefeuille } from './Portefeuille.modele';
 import { BanqueClient } from './brh/clients-banque-prive/clients-banque-prive.component';
 const protobuf = require('protobufjs');
 
+export const Roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
+'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+
+export const StatusClient = ['Innconu', 'En Attente', 'En Cours', 'Validé', 'Pas Validé', 'Bloqué' ];
+
+export enum apiUrl {
+  clients = 'GET$clients',
+  contactsByUserEmail = 'GET$contactsByUserEmail',
+  clientDocuments = 'GET$clientDocuments',
+  allClients = 'GET$allClients',
+  allBanks = 'GET$allBanks',
+  allPortefeuilles = 'GET$allPortefeuilles',
+  allMonnies = 'GET$allMonnies',
+  allBanksVisible = 'GET$allBanksVisible',
+  allParametres = 'GET$allParametres',
+  allBanksNotVisible = 'GET$allBanksNotVisible',
+  allBanksValid = 'GET$allBanksValid',
+  allBanksNotValid = 'GET$allBanksNotValid',
+  allBanksUtilisateurs= 'GET$allBanksUtilisateurs',
+  reValidateEmailIfEmailExpired = 'GET$reValidateEmailIfEmailExpired',
+  createMonnie = 'POST$createMonnie/',
+  createParametre = 'POST$createParametre/',
+  createBank = 'POST$createBank/',
+  createClient = 'POST$createClient/',
+  createPortefeuille = 'POST$createPortefeuille/',
+  createCarte = 'POST$createCarte/',
+  createContact = 'POST$createContact/',
+  createContactByUserEmail = 'POST$createContactByUserEmail/',
+  insertTransactionMotif = 'POST$insertTransactionMotif',
+  insertCommercantDocs = 'POST$insertCommercantDocs',
+  insertParticulierDocs = 'POST$insertParticulierDocs',
+  insertBanqueDocs= 'POST$insertBanqueDocs',
+  updateCommercantDocs = 'POST$updateCommercantDocs',
+  updateParticulierDocs = 'POST$updateParticulierDocs',
+  cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
+  motifsByMutationHashes = 'POST$motifsByMutationHashes/',
+  portefeuillesByUserEmail = 'POST$portefeuillesByUserEmail/',
+  portefeuillesByBanqueEmail = 'POST$portefeuillesByBanqueEmail/',
+  blockClient = 'PUT$blockClient/',
+  unBlockClient = 'PUT$unBlockClient/',
+  unBlockBanque = 'PUT$unBlockBanque/',
+  unBlockOrBlockClient = 'PUT$unBlockOrBlockClient/',
+  blockCarte = 'PUT$blockCarte/',
+  unblockCarte = 'PUT$unBlockCarte/',
+  updateClient = 'PUT$updateClient/',
+  updateCarte = 'PUT$updateCarte/',
+  updatePortefeuilleLibelle = 'PUT$updatePortefeuilleLibelle/',
+  updateContact = 'PUT$updateContact/',
+  updateBanque = 'PUT$updateBanque/',
+  updateMonnie = 'PUT$updateMonnie/',
+  updateParametre = 'PUT$updateParametre/',
+  createBankClient = 'POST$createBankClient/',
+  deleteParametre = 'DELETE$deleteParametre',
+  deleteBank = 'DELETE$deleteBank',
+  deleteCarte = 'DELETE$deleteCarte',
+  deleteMonnieElectronique = 'DELETE$deleteMonnieElectronique',
+  deleteClient = 'DELETE$deleteClient',
+  deleteContact = 'DELETE$deleteContact',
+  deletePortefeuille = 'DELETE$deletePortefeuille',
+  submit = 'POST$submit',
+  sendDocumentsValidatedEmailToClient = 'POST$sendDocumentsValidatedEmailToClient',
+  transferTo = 'POST$transferTo',
+  transferToUserEmail = 'POST$transferToUserEmail',
+  issueDHTG = 'POST$issueDHTG',
+  validateEmail = 'POST$validateEmail'
+}
+
+export interface Transaction {
+  Expediteur: string;
+  ExpediteurEmail: string;
+  Destinataire: string;
+  DestinataireEmail: string;
+  MutationHash: string;
+  Motif: string;
+  Nature: string;
+  Date: string;
+  Timestamp: number;
+  Montant: number;
+  Solde: number;
+}
+
+function apilog(ilog: string) {
+  console.log('[NODEAPI] ' + ilog);
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -311,7 +396,6 @@ getTransactions(iaddress) {
                   aTransaction.ExpediteurEmail = aExpEmail ? aExpEmail : 'Compte Externe';
                   aTransaction.DestinataireEmail = aDesEmail ? aDesEmail : 'Compte Externe';
                 }
-                //aMessage.transactionMetadata = this.toHexString(aMessage.transactionMetadata);
                 aTransaction.Solde =  this.integerFromHex(this.toHexString(aMessage.mutation.records[0].value.data));
                 aTransaction.Montant = this.integerFromHex(this.toHexString(aMessage.mutation.records[1].value.data));
                 aTransaction.Nature = 'Recu';
@@ -358,69 +442,23 @@ getTransactions(iaddress) {
     this.emailClePub = new Map();
     return this.makeRequest(apiUrl.clients, {banque: this.banque}).subscribe(
       res => {
-        this.bankClients = res;
-        for (const i of res) {
-          i.Status = Roles[i.Role_Id];
+        for (const aClient of res) {
+          aClient.StatusClient =  StatusClient[aClient.Status];
+          aClient.Status = Roles[aClient.Role_Id];
+          if (aClient.Portefeuille) {
+            aClient.Portefeuille.forEach(portefeuille => {
+            this.emailClePub.set(portefeuille.ClePub, aClient.Email);
+            });
+          }
         }
-        this.bankClients.forEach(client => {
-          client.Portefeuille && client.Portefeuille.forEach(portefeuille => {
-            this.emailClePub.set(portefeuille.ClePub, client.Email);
-          });
-        });
         console.log('EmailClePub', this.emailClePub);
+        this.bankClients = res;
       }, err => {
         console.log('err : ', err);
       }
     );
   }
 
-  getListBanque() {
-    return [
-
-    //  this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
-
-      {id: '4587',nom: 'xtx', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '458',nom: 'alex', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '45787',nom: 'bnb', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '45987',nom: 'fred', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'je000', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'jebfjbef', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'BankOS', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'987945',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'AFRIBANK', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'787454',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'TOAST', date: '23/04/2019',nbClient:'54545545', nbPortefeuille:'5445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'CREDIT AGRICOLR', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'45445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'zest', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'BANK AVENIR', date: '25/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'FACILEBANK', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'jebfjbef', date: '29/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'BANK AVENIR', date: '22/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'},
-      {id: '455487',nom: 'citron', date: '20/04/2019',nbClient:'54545545', nbPortefeuille:'445454545445',
-      totalActif:'45454115145', numPortefeuille:'454545454545'}
-    ];
-  }
-
-  ID: Number;
-  Nom: string;
-  Portefeuille: string;
-  Date: string;
-  MaxTransaction :number
-  MaxTransactionMoi:number;
-  Status :string
   _contactList: Portefeuille[] =  [
      { ID: 1 , Nom: 'Société général', Portefeuille: 'CZKFBZEKFBZE45151', Date: 'eeeeeee', MaxTransaction:1000,MaxTransactionMoi:10000,Status:'Actif',ClePub:'fojfdj'}];
 
@@ -453,105 +491,11 @@ getTransactions(iaddress) {
     return this._contactList;
   }
 
-  getAllMonnieElectronique(){
+  getAllMonnieElectronique() {
     return this._monnieElectronqueList;
   }
 
-  getAllMonniePhysique(){
+  getAllMonniePhysique() {
     return this._monniePysiqueList;
   }
-
-  getBanque() {
-    return [
-
-    //  this.displayedColumns = ['id','nom', 'date', 'nbClient', 'nbPortefeuille', 'totalActif', 'numPortefeuille'];
-
-      {id: '4587',nom: 'jebfjbef', email: 'ZEFZEF',telephone:'54545545', portefeuille:'445454545445',}
-    ];
   }
-  }
-
-
-
-export enum apiUrl {
-  clients = 'GET$clients',
-  contactsByUserEmail = 'GET$contactsByUserEmail',
-  clientDocuments = 'GET$clientDocuments',
-  allClients = 'GET$allClients',
-  allBanks = 'GET$allBanks',
-  allPortefeuilles = 'GET$allPortefeuilles',
-  allMonnies = 'GET$allMonnies',
-  allBanksVisible = 'GET$allBanksVisible',
-  allParametres = 'GET$allParametres',
-  allBanksNotVisible = 'GET$allBanksNotVisible',
-  allBanksValid = 'GET$allBanksValid',
-  allBanksNotValid = 'GET$allBanksNotValid',
-  allBanksUtilisateurs= 'GET$allBanksUtilisateurs',
-  reValidateEmailIfEmailExpired = 'GET$reValidateEmailIfEmailExpired',
-  createMonnie = 'POST$createMonnie/',
-  createParametre = 'POST$createParametre/',
-  createBank = 'POST$createBank/',
-  createClient = 'POST$createClient/',
-  createPortefeuille = 'POST$createPortefeuille/',
-  createCarte = 'POST$createCarte/',
-  createContact = 'POST$createContact/',
-  createContactByUserEmail = 'POST$createContactByUserEmail/',
-  insertTransactionMotif = 'POST$insertTransactionMotif',
-  insertCommercantDocs = 'POST$insertCommercantDocs',
-  insertParticulierDocs = 'POST$insertParticulierDocs',
-  insertBanqueDocs= 'POST$insertBanqueDocs',
-  updateCommercantDocs = 'POST$updateCommercantDocs',
-  updateParticulierDocs = 'POST$updateParticulierDocs',
-  cardsByPortefeuilleIds = 'POST$cardsByPortefeuilleIds/',
-  motifsByMutationHashes = 'POST$motifsByMutationHashes/',
-  portefeuillesByUserEmail = 'POST$portefeuillesByUserEmail/',
-  portefeuillesByBanqueEmail = 'POST$portefeuillesByBanqueEmail/',
-  blockClient = 'PUT$blockClient/',
-  unBlockClient = 'PUT$unBlockClient/',
-  unBlockBanque = 'PUT$unBlockBanque/',
-  unBlockOrBlockClient = 'PUT$unBlockOrBlockClient/',
-  blockCarte = 'PUT$blockCarte/',
-  unblockCarte = 'PUT$unBlockCarte/',
-  updateClient = 'PUT$updateClient/',
-  updateCarte = 'PUT$updateCarte/',
-  updatePortefeuilleLibelle = 'PUT$updatePortefeuilleLibelle/',
-  updateContact = 'PUT$updateContact/',
-  updateBanque = 'PUT$updateBanque/',
-  updateMonnie = 'PUT$updateMonnie/',
-  updateParametre = 'PUT$updateParametre/',
-  createBankClient = 'POST$createBankClient/',
-  deleteParametre = 'DELETE$deleteParametre',
-  deleteBank = 'DELETE$deleteBank',
-  deleteCarte = 'DELETE$deleteCarte',
-  deleteMonnieElectronique = 'DELETE$deleteMonnieElectronique',
-  deleteClient = 'DELETE$deleteClient',
-  deleteContact = 'DELETE$deleteContact',
-  deletePortefeuille = 'DELETE$deletePortefeuille',
-  submit = 'POST$submit',
-  sendDocumentsValidatedEmailToClient = 'POST$sendDocumentsValidatedEmailToClient',
-  transferTo = 'POST$transferTo',
-  transferToUserEmail = 'POST$transferToUserEmail',
-  issueDHTG = 'POST$issueDHTG',
-  validateEmail = 'POST$validateEmail'
-}
-
-function apilog(ilog: string) {
-  console.log('[NODEAPI] ' + ilog);
-}
-
-export interface Transaction {
-  Expediteur: string;
-  ExpediteurEmail: string;
-  Destinataire: string;
-  DestinataireEmail: string;
-  MutationHash: string;
-  Motif: string;
-  Nature: string;
-  Date: string;
-  Timestamp: number;
-  Montant: number;
-  Solde: number;
-}
-
-export const Roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
-'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];

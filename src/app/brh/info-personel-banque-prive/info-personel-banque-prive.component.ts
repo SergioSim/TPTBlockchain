@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { DialogData } from '../espace-utilisateur-banque-prive/espace-utilisateur-banque-prive.component';
 import { FormControl, Validators } from '@angular/forms';
-import { NodeapiService, apiUrl } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl, StatusClient } from 'src/app/nodeapi.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -53,6 +53,10 @@ export class InfoPersonelBanquePriveComponent implements OnInit {
         if (data.succes === true) {
           if (this.data.client) {
             this.data.client[this.data.clientChamp] = this.valueFC.value;
+            if (this.data.clientChamp === 'Status') {
+              this.valueFC.value.substr(0, 7) === 'Demande' ?
+                this.data.client.StatusClient = 'Bloqué' : this.data.client.StatusClient = 'Validé';
+            }
           } else if (this.showPassword) {
             this.apiService.logout();
             this.router.navigate(['/brh/accueil']);

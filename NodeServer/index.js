@@ -30,6 +30,14 @@ const openchainValCli = new openchain.ApiClient(config.openchainValidator);
 
 const database = new bd.Database();
 
+const clientStatus = {	
+    EnAttente: 1,
+    EnCours: 2,
+    Valide: 3,
+    PasValide: 4,
+    Bloque: 5
+}
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100 // limit each IP to 100 requests per windowMs
@@ -751,8 +759,9 @@ app.put('/unBlockOrBlockClient', [
         
         const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
         let roleId = roles.indexOf(req.body.status);
-        conn.query(sql.unBlockOrBlockClient_0_2, [roleId, req.body.bankEmail], function(err, result){
-            return res.send({ succes: !err && result.affectedRows != 0});
+        let aClientStatus = roles[roleId].substr(0, 7) === 'Demande' ? clientStatus.Bloque : clientStatus.Valide;
+        database.queryWithCatch(sql.unBlockOrBlockClient_0_2, [roleId, aClientStatus, req.body.bankEmail], res).then( result => {
+            if(result) return res.send({succes: true});
         });
     });
 });

@@ -12,11 +12,20 @@
         <input matInput (keyup)="applyFilter($event.target.value, 'Prenom')" placeholder="Filter">
     </mat-form-field>
     <mat-form-field>
-        <mat-label>Status</mat-label>
+        <mat-label>Role</mat-label>
         <mat-select>
             <mat-option (click)="applyFilter('', 'Status')">Tout</mat-option>
             <mat-option *ngFor="let role of roles" [value]="role" (click)="applyFilter(role, 'Status')">
                 {{role}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select>
+            <mat-option (click)="applyFilter('', 'StatusClient')">Tout</mat-option>
+            <mat-option *ngFor="let aStatus of statuses" [value]="statuses" (click)="applyFilter(aStatus, 'StatusClient')">
+                {{aStatus}}
             </mat-option>
         </mat-select>
     </mat-form-field>
@@ -41,10 +50,16 @@
                 *matCellDef="let client" data-label="Prenom">{{client.Prenom}}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="Status">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+  <ng-container matColumnDef="Role">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="Status">Role</mat-header-cell>
       <mat-cell class="duration-cell"
-                *matCellDef="let client" data-label="Status">{{client.Status}}</mat-cell>
+                *matCellDef="let client" data-label="Role">{{client.Status}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="Status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="StatusClient">Status</mat-header-cell>
+      <mat-cell class="duration-cell"
+                *matCellDef="let client" data-label="Status">{{client.StatusClient}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

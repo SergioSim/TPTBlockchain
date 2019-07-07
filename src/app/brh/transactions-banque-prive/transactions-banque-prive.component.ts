@@ -3,6 +3,7 @@ import { NodeapiService, Transaction } from 'src/app/nodeapi.service';
 import { Portefeuille } from '../clients-banque-prive/clients-banque-prive.component';
 import { MatSnackBar, MatTableDataSource, MatPaginator, MatSort, DateAdapter } from '@angular/material';
 import { DebitCredit, CommonUtilsService } from 'src/app/common/common-utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transactions-banque-prive',
@@ -31,6 +32,7 @@ export class TransactionsBanquePriveComponent implements OnInit {
     public apiService: NodeapiService,
     private util: CommonUtilsService,
     private snackBar: MatSnackBar,
+    private router: Router,
     private adapter: DateAdapter<any>) { }
 
   ngOnInit() {
@@ -63,6 +65,14 @@ export class TransactionsBanquePriveComponent implements OnInit {
           }, err => {
             console.log(err);
             this.showTransactions = false;
+            if (err.status === 403) {
+              this.apiService.logout();
+              this.router.navigate(['/brh/accueil']);
+              this.snackBar.open('Votre session a expire!', 'Fermer', {
+                duration: 5000,
+                panelClass: ['alert-snackbar']
+              });
+            }
         }));
     });
     this.apiService.getRecord(this.apiService.portefeuilles[0].ClePub).subscribe(data => {

@@ -11,7 +11,7 @@ const protobuf = require('protobufjs');
 export const Roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
 'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];
 
-export const StatusClient = ['En Attente', 'En Cours', 'Validé', 'Pas Validé', 'Bloqué' ];
+export const StatusClient = ['Innconu', 'En Attente', 'En Cours', 'Validé', 'Pas Validé', 'Bloqué' ];
 
 export enum apiUrl {
   clients = 'GET$clients',

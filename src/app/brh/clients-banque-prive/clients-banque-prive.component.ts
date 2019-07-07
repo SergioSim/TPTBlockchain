@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { NodeapiService, apiUrl, StatusClient } from 'src/app/nodeapi.service';
+import { NodeapiService, apiUrl, StatusClient, Roles } from 'src/app/nodeapi.service';
 import { MatSnackBar, MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -11,29 +11,32 @@ import { Router } from '@angular/router';
 export class ClientsBanquePriveComponent implements OnInit {
 
   dataSource: MatTableDataSource<BanqueClient>;
-  displayedColumns = ['Email', 'Nom', 'Prenom', 'Status'];
+  displayedColumns = ['Email', 'Nom', 'Prenom', 'Role', 'Status'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Output() selectedClient = new EventEmitter<BanqueClient>();
   public selectedBanqueClient: BanqueClient;
 
-  public roles: any[] = ['Public', 'DemandeParticulier', 'DemandeCommercant',
-  'DemandeBanque', 'Particulier', 'Commercant', 'Banque', 'Admin'];
+  public roles: string[];
+  public statuses: string[];
+
   constructor(
     private router: Router,
     private apiService: NodeapiService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar) {
+      this.roles = Roles;
+      this.statuses = StatusClient;
+     }
 
   ngOnInit() {
     this.apiService.makeRequest(apiUrl.clients, {banque: this.apiService.banque}).subscribe(
       res => {
-        const result = res as BanqueClient[];
         this.apiService.bankClients = res;
         for (const i of res) {
           i.StatusClient =  StatusClient[i.Status];
           i.Status = this.roles[i.Role_Id];
         }
-        this.dataSource = new MatTableDataSource(result);
+        this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }, err => {
@@ -61,7 +64,7 @@ export class ClientsBanquePriveComponent implements OnInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filterPredicate = (data: BanqueClient, filter: string) => {
-      if (itype === 'Status') { return data[itype].toLowerCase() === filter; }
+      if (itype === 'Status' || itype === 'StatusClient') { return data[itype].toLowerCase() === filter; }
       return data[itype].toLowerCase().indexOf(filter) !== -1;
     };
     this.dataSource.filter = filterValue;

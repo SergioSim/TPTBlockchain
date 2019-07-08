@@ -19,6 +19,7 @@ export class DocumentBanquePriveComponent implements OnInit {
   public showImageDialogRef: any;
   public selectedImage;
   public isDocumentValidated = false;
+  public rejectDocuments = false;
   NewConfirmDialogRef;
   faCheckCircle = faCheckCircle;
   faExclamationTriangle = faExclamationTriangle;
@@ -77,37 +78,54 @@ export class DocumentBanquePriveComponent implements OnInit {
     }
   }
 
-  openConfirmDialog(dialogRef) {
+  openConfirmDialog(dialogRef, isToBeValidated = true ) {
+    if(!isToBeValidated) {
+      this.rejectDocuments = true;
+    }
     this.NewConfirmDialogRef = this.dialog.open(dialogRef, { width: '400px' });
   }
 
   confirmDocumentValidate() {
-    const targetStatus = this.client.Status === 'DemandeParticulier' ? 'Particulier' :
-    this.client.Status === 'DemandeCommercant' ? 'Commercant' : null;
-    if (!targetStatus) {
-      this.snackBar.open('Impossible de valider les documents pour ce client!', 'Fermer', {
-        duration: 5000,
-        panelClass: ['alert-snackbar']
-      });
-      return;
+    let targetStatus;
+    if (this.rejectDocuments) {
+      targetStatus = this.client.Status === 'Particulier' ? 'DemandeParticulier' :
+      this.client.Status === 'Commercant' ? 'DemandeCommercant' : this.client.Status;
+    } else {
+      targetStatus = this.client.Status === 'DemandeParticulier' ? 'Particulier' :
+      this.client.Status === 'DemandeCommercant' ? 'Commercant' : null;
+      if (!targetStatus) {
+        this.snackBar.open('Impossible de valider les documents pour ce client!', 'Fermer', {
+          duration: 5000,
+          panelClass: ['alert-snackbar']
+        });
+        return;
+      }
     }
 
     this.apiService.makeRequest(apiUrl.unBlockOrBlockClient, {bankEmail: this.client.Email, status: targetStatus}).subscribe(
       res => {
-        this.apiService.makeRequest(apiUrl.sendDocumentsValidatedEmailToClient, {
+        const valideesOuRefusees = this.rejectDocuments ? 'rejetees' : 'validees';
+        const aRequestData = {
           email: this.client.Email,
           prenom: this.client.Prenom,
           nom: this.client.Nom,
           banque: this.apiService.banque,
           isValidated: true
-        }).subscribe(
+        };
+        if (this.rejectDocuments) {
+     //     aRequestData.explicationRefus = 'Documents non conformees';
+     //     aRequestData.isValidated = false;
+     //     aRequestData.clientStatus = 'Pas Validé';
+        }
+        this.apiService.makeRequest(apiUrl.sendDocumentsValidatedEmailToClient, aRequestData).subscribe(
           resutat => {
             this.snackBar.open('Les Documents du client ' + this.client.Nom + ' ' + this.client.Prenom +
-              ' sont validees avec succes! \nUn Email de notification lui est envoye!', 'Fermer', {
+              ' sont ' + valideesOuRefusees + ' avec succes! \nUn Email de notification lui est envoye!', 'Fermer', {
               duration: 5000,
               panelClass: ['succes-snackbar']
             });
             this.client.Status = targetStatus;
+            this.client.StatusClient = this.rejectDocuments ? 'Pas Validé' : 'Validé';
             this.isDocumentValidated = true;
             this.NewConfirmDialogRef.close();
           }, error => {

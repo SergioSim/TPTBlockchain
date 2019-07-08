@@ -46,6 +46,18 @@
         <p>{{selectedClient.Status}}</p>
       </li>
     </ul>
+    <ul class="heroes">
+      <li><span
+          class="badge">Email Verifie?</span>
+        <p>{{selectedClient.IsEmailVerified === 1 ? 'Oui' : 'Non'}}</p>
+      </li>
+      <li (click)="updateStatus('status', 'StatusClient', selectedClient)"><span class="badge">Status</span>
+        <p>{{selectedClient.StatusClient}}</p>
+      </li>
+      <li><span class="badge">Echecs de login</span>
+        <p>{{selectedClient.LoginAttempts}}</p>
+      </li>
+    </ul>
   </div>
   <h2 style="display: inline-block;padding-right: 2em;">Cartes: {{cartes ? cartes.length : 0}}</h2>
   <button style="vertical-align: super;" mat-flat-button color="primary" class="new-button" (click)="openNewCardDialog(NewCardDialog)">

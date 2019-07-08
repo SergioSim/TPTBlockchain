@@ -4,6 +4,10 @@
     <fa-icon [icon]="faCheckCircle"></fa-icon>
     Valider Les Documents
 </button>
+  <button style="vertical-align: super;" mat-flat-button color="accent" class="new-button" (click)="openConfirmDialog(NewConfirmDialog, false)">
+    <fa-icon [icon]="faCheckCircle"></fa-icon>
+    Refuser Les Documents
+</button>
   <div *ngIf="showDocs && numberOfDocs === 0"> Le client {{client.Nom}} n'a pas des documents</div>
   <div *ngIf="showDocs">
     <div class="gridcontainer2">
@@ -41,7 +45,7 @@
 <ng-template #NewConfirmDialog>
   <div class="new-card-dialog">
       <div class="dialog-header">
-          <h2>Voulez vous vraiment valider les documents</h2>
+          <h2>Voulez vous vraiment {{rejectDocuments ? 'rejeter' : 'valider'}} les documents</h2>
           <h4>Pour le client {{client.Nom}} {{client.Prenom}} ?</h4>
           <hr>
       </div>

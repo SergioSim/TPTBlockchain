@@ -25,7 +25,8 @@ module.exports = {
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
   'insertParametre' :
         'INSERT INTO parametre (Nom, Description,Valeur) VALUES (?,?,?)',
-
+  'insertLoginAttempts': 
+        'INSERT INTO loginattempts (LoginAttempts, Attempt1, Attempt2, Attempt3, Email) VALUES (?,?,?,?,?)',
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Secteur_Activite, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel, IsEmailVerified ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
@@ -52,10 +53,13 @@ module.exports = {
         'SELECT Utilisateur_Email FROM portefeuille pt INNER JOIN carte ca ON pt.Id = ca.Portefeuille_Id WHERE ca.Id = ?.',
   'findRandomTokenByEmail' : 'SELECT Token, DateCreationToken FROM tokenverification Where Email LIKE BINARY ?',
   'findClientsByBanque' : 
-        'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id, IsEmailVerified, ' +
-        'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille ' + 
-        'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email WHERE Banque LIKE BINARY ? GROUP BY ' + 
+        'SELECT ut.Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id, IsEmailVerified, ' +
+        'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille, ' + 
+        'LoginAttempts, Attempt1, Attempt2, Attempt3 ' +
+        'FROM utilisateur ut INNER JOIN portefeuille pt ON ut.Email = pt.Utilisateur_Email LEFT JOIN loginattempts la ON ut.Email = la.Email WHERE Banque LIKE BINARY ? GROUP BY ' + 
         'Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Banque',
+  'findLoginAttempts' : 
+        'SELECT Email, LoginAttempts, Attempt1, Attempt2, Attempt3 FROM loginattempts WHERE Email LIKE BINARY ?',
   'getAllClients' : 
         'SELECT Email, Nom, Prenom, Civilite, Situation_Familiale, Profession, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Role_Id, IsEmailVerified, ' +
         'GROUP_CONCAT(CONCAT(\'{\"Id\":"\', Id ,\'", \"Libelle\":"\', Libelle , \'", \"ClePub\":"\', ClePub,\'"}\')) as Portefeuille ' + 
@@ -95,6 +99,8 @@ module.exports = {
         'DELETE FROM carte WHERE Id=?',
   'deleteRandomTokenByEmail' : 
         'DELETE FROM tokenverification WHERE Email = ?',
+  'deleteLoginAttempts' :
+        'DELETE FROM loginattempts WHERE Email = ?',
   'updateMonnie' : 
         'UPDATE monnie SET Nom=?, Unite = ?  WHERE Id = ?',
   'updateBank_0_2' : 
@@ -122,6 +128,8 @@ module.exports = {
         'UPDATE carte SET Libelle = ? WHERE Id = ?',
   'updatePortefeuilleLibelle' : 
         'UPDATE portefeuille SET Libelle = ? WHERE Id = ?',
+  'updateLoginAttempts':
+        'UPDATE loginattempts SET LoginAttempts = ?, Attempt1 = ?, Attempt2 = ?, Attempt3 = ? WHERE Email = ?',
   'blockClient_0_1' : 
         'UPDATE utilisateur SET Role_Id = 0 WHERE Email=?',
   'unBlockClient_0_1' : 
@@ -131,7 +139,9 @@ module.exports = {
   'unblockCarte' : 
         'UPDATE carte SET IsBlocked = 0 WHERE Id=?',
   'unBlockOrBlockClient_0_2' : 
-        'UPDATE utilisateur SET Role_Id = ?, Status = ? WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = ?, Status = ? WHERE Email = ?',
+  'unBlockOrBlockClient_0' : 
+        'UPDATE utilisateur SET Status = ? WHERE Email = ?',
   'unBlockBanque' : 
         'UPDATE utilisateur SET Role_Id = 6, Status = 3 WHERE Email=?',
   'validateClientEmail' :

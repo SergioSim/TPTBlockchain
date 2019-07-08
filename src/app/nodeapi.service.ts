@@ -59,6 +59,7 @@ export enum apiUrl {
   updateBanque = 'PUT$updateBanque/',
   updateMonnie = 'PUT$updateMonnie/',
   updateParametre = 'PUT$updateParametre/',
+  changeStatusClient = 'PUT$changeStatusClient/',
   createBankClient = 'POST$createBankClient/',
   deleteParametre = 'DELETE$deleteParametre',
   deleteBank = 'DELETE$deleteBank',
@@ -445,6 +446,10 @@ getTransactions(iaddress) {
         for (const aClient of res) {
           aClient.StatusClient =  StatusClient[aClient.Status];
           aClient.Status = Roles[aClient.Role_Id];
+          aClient.LoginAttempts = aClient.LoginAttempts ? aClient.LoginAttempts : 0;
+          aClient.Attempt1 = aClient.Attempt1 ? Date.parse(aClient.Attempt1) : null;
+          aClient.Attempt2 = aClient.Attempt2 ? Date.parse(aClient.Attempt2) : null;
+          aClient.Attempt3 = aClient.Attempt3 ? Date.parse(aClient.Attempt3) : null;
           if (aClient.Portefeuille) {
             aClient.Portefeuille.forEach(portefeuille => {
             this.emailClePub.set(portefeuille.ClePub, aClient.Email);

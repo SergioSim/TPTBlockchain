@@ -18,6 +18,7 @@ export enum apiUrl {
   contactsByUserEmail = 'GET$contactsByUserEmail',
   clientDocuments = 'GET$clientDocuments',
   allClients = 'GET$allClients',
+  allClientsBanque='GET$allClientsBanque',
   allBanks = 'GET$allBanks',
   allPortefeuilles = 'GET$allPortefeuilles',
   allMonnies = 'GET$allMonnies',

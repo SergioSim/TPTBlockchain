@@ -30,7 +30,7 @@ export class DashboardBrhComponent implements OnInit {
   }        
 
   getClients() {
-    this.service.makeRequest(apiUrl.allClients, {}).subscribe(
+    this.service.makeRequest(apiUrl.allClientsBanque, {}).subscribe(
       res => {
         this.listBanque = res as BanqueClient[];
         // pour chaque client 

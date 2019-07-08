@@ -42,7 +42,7 @@ const statusClient = ['Innconu', 'En Attente', 'En Cours', 'Validé', 'Pas Valid
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    max: 250 // limit each IP to 250 requests per windowMs
   });
 
 const transporter = nodemailer.createTransport({
@@ -383,7 +383,7 @@ app.post('/sendDocumentsValidatedEmailToClient', [
 
     HeplerOptions.from = '"Projet TPT Blockchain" HTG666663@gmail.com';
     HeplerOptions.to = req.body.email;
-    HeplerOptions.subject = 'Validation de vos documets';
+    HeplerOptions.subject = 'Validation de vos documents';
     let explicationRefus = req.body.explicationRefus ? req.body.explicationRefus : '';
     if (req.body.isValidated) {
         HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
@@ -957,7 +957,7 @@ app.post('/updateParticulierDocs', [
     outils.handleValidationResult], 
     function(req, res) {
     
-    conn.query(sql.updateParticulierDocs, [req.body.pieceIdentite, breq.body.justificatifDomicile, req.jwt.Email], function(err, result){
+    conn.query(sql.updateParticulierDocs, [req.body.pieceIdentite, req.body.justificatifDomicile, req.jwt.Email], function(err, result){
         if(err) return res.status(400).send({errors: ['Could not upload documents']});
         conn.query(sql.updateParticulierInfo, [req.body.civilite, req.body.situation, req.body.profession, req.body.tel, req.body.addresse, req.body.ville, req.body.codePostal, 2, req.jwt.Email], function(err2, result2){
             return res.send({success: !err});

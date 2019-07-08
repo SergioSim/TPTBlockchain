@@ -218,10 +218,7 @@ export class SogebankService {
     };
     this.apiService.makeRequest(apiUrl.transferToUserEmail, transferDetails).toPromise()
       .then(res => {
-        const motifDetails = {
-          MutationHash: res.mutation_hash,
-          Motif: motif
-        };
+        callback(callbackComponent);
       }, error => {
         console.log(error);
       });

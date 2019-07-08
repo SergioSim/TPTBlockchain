@@ -62,6 +62,7 @@ export class PortefeuillesSogebankComponent implements OnInit {
   countTotals() {
     let solde = 0;
     let activite = 0;
+    this.totalWallets = 0;
     this.portefeuilles.forEach( portefeuille => {
       this.totalWallets++;
       solde += portefeuille.Solde ? this.commonUtilsService.currencyStringtoNumber(portefeuille.Solde) : 0;
@@ -124,6 +125,8 @@ export class PortefeuillesSogebankComponent implements OnInit {
     };
     this.apiService.makeRequest(apiUrl.createPortefeuille, newWalletdDetails).toPromise()
       .then(res => {
+        this.totalActivite = this.commonUtilsService.numberToCurrencyString(
+          this.commonUtilsService.currencyStringtoNumber(this.totalActivite) - 200);
         this.sogebankService.transferToSogebank(this.apiService.portefeuilles[0].Id, this.newWalletPassword,
           200, 'Ouverture nouveau portefeuille', this.getPortefeuilles, this);
         this.NewWalletDialogRef.close();

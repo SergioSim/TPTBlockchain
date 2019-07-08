@@ -139,7 +139,9 @@ module.exports = {
   'unblockCarte' : 
         'UPDATE carte SET IsBlocked = 0 WHERE Id=?',
   'unBlockOrBlockClient_0_2' : 
-        'UPDATE utilisateur SET Role_Id = ?, Status = ? WHERE Email=?',
+        'UPDATE utilisateur SET Role_Id = ?, Status = ? WHERE Email = ?',
+  'unBlockOrBlockClient_0' : 
+        'UPDATE utilisateur SET Status = ? WHERE Email = ?',
   'unBlockBanque' : 
         'UPDATE utilisateur SET Role_Id = 6, Status = 3 WHERE Email=?',
   'validateClientEmail' :

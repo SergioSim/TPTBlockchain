@@ -58,10 +58,17 @@ export class CommonLoginComponent {
             panelClass: ['alert-snackbar']
           });
         } else {
-          this.snackBar.open('Email ou Mot de passe incorrecte.', 'Fermer', {
-            duration: 5000,
-            panelClass: ['alert-snackbar']
-          });
+          if (error.errors && error.errors[0]) {
+            this.snackBar.open(error.errors[0], 'Fermer', {
+              duration: 5000,
+              panelClass: ['alert-snackbar']
+            });
+          } else {
+            this.snackBar.open('Email ou Mot de passe incorrecte.', 'Fermer', {
+              duration: 5000,
+              panelClass: ['alert-snackbar']
+            });
+          }
         }
         this.loading = false;
       });

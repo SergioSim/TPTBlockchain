@@ -395,6 +395,7 @@ app.post('/sendDocumentsValidatedEmailToClient', [
         '</p><br><br>' + 
         'Cordialement, <br> votre equipe TPTBlockchain';
     } else {
+        HeplerOptions.subject = 'Refus de vos documets';
         HeplerOptions.html = '<h2>Bienvenue ' + req.body.prenom + ' ' + req.body.nom + '</h2>' + 
         '<p> Nous vous remercions de votre confiance dans notre platforme Digital HaïTian Gourde </p>' + 
         '<p> Malheureusement nous ne pouvons pas faire suite a votre demande de creation de votre compte chez ' + req.body.banque + 
@@ -750,7 +751,8 @@ app.put('/unBlockOrBlockClient', [
     outils.validJWTNeeded, 
     outils.minimumPermissionLevelRequired(config.permissionLevels.BANQUE),
     check('bankEmail').isEmail().normalizeEmail(),
-    check('status').isAlpha().escape().trim().isIn(['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant']),
+    check('status').isIn(['Public', 'DemandeParticulier', 'DemandeCommercant', 'Particulier', 'Commercant']),
+    check('clientStatus').optional().isIn(statusClient),
     outils.handleValidationResult], 
     function(req, res) {
 
@@ -761,7 +763,9 @@ app.put('/unBlockOrBlockClient', [
         
         const roles = ['Public', 'DemandeParticulier', 'DemandeCommercant', 'DemandeBanque', 'Particulier', 'Commercant'];
         let roleId = roles.indexOf(req.body.status);
-        let aClientStatus = roles[roleId].substr(0, 7) === 'Demande' ? clientStatus.Bloque : clientStatus.Valide;
+        
+        let aClientStatus = req.body.clientStatus ? statusClient.indexOf(req.body.clientStatus) : 
+            roles[roleId].substr(0, 7) === 'Demande' ? clientStatus.Bloque : clientStatus.Valide;
         if (aClientStatus === clientStatus.Valide){
             database.queryWithCatch(sql.deleteLoginAttempts, [req.body.bankEmail], res, '', 400, false);
         }
@@ -787,8 +791,8 @@ app.put('/changeStatusClient', [
         if (req.body.status === statusClient[clientStatus.Valide]){
             database.queryWithCatch(sql.deleteLoginAttempts, [req.body.bankEmail], res, '', 400, false);
         }
-        let aStatus = statusClient.indexOf(req.body.status)
-        database.queryWithCatch(sql.unBlockOrBlockClient_0_2, [result[0].Role_Id, aStatus, req.body.bankEmail], res).then( result => {
+        let aStatus = statusClient.indexOf(req.body.status);
+        database.queryWithCatch(sql.unBlockOrBlockClient_0, [aStatus, req.body.bankEmail], res).then( result => {
             if(result) return res.send({succes: true});
         });
     });

@@ -30,6 +30,34 @@
                     <th mat-header-cell *matHeaderCellDef> Statut </th>
                     <td mat-cell *matCellDef="let element">{{element.Statut}}</td>
                 </ng-container>
+<!--                      <button type="bouton (click)="downloadPDF()" >Download PDF </button>
+-->
+                <ng-container matColumnDef="Document">
+                    <th mat-header-cell *matHeaderCellDef> Voir document </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button  matBadgePosition="before"
+                            (click)="openDownloadDialog(ContactUpDialog,element)" style="background-color: chocolate ;color:white">document</button>
+                            <ng-template #ContactUpDialog>
+                                <div class="contact-dialog">
+                                    <div class="dialog-header">
+                                        <h4>Consulter les documents</h4>
+                                        <hr>
+                                    </div>
+                                    <div class="contact-dialog-form">
+                                      <p style="margin-left: 10%;">Pièce identité </p>   <button  style="margin-left: 10%;" type="bouton" (click)="downloadPI()" >Télécharger en PDF </button>
+                                      <br>
+                                      <p style="margin-left: 10%;"> Annonce légale </p><button style="margin-left: 10%;" type="bouton" (click)="downloadAL()" >Télécharger en PDF </button>
+                                      <br>
+                                      <p style="margin-left: 10%;">Justificatif de domicile </p><button style="margin-left: 10%;" type="bouton" (click)="downloadJD()" >Télécharger en PDF </button>
+
+                                    </div>
+                                    <div class="dialog-buttons">
+                                        <button mat-flat-button class="dialog-cancel-button" (click)="cancelValidatBanque()">Fermer</button> 
+                                    </div>
+                                </div>
+                            </ng-template>
+                    </td>
+                </ng-container>
 
                 <ng-container matColumnDef="Supprimer">
                     <th mat-header-cell *matHeaderCellDef> Suppression </th>

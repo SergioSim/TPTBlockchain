@@ -31,3 +31,24 @@ th, td {
 ::ng-deep table {
     width: 100%;
 }
+.dialog-buttons {
+    justify-content: space-around;
+    display: flex;
+    width: 70%;
+    align-self: center;
+    margin-top: 25px;
+    margin-left: 15%;
+}
+
+.dialog-buttons button {
+    border-radius: 50px;
+    padding: 5px 16px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+.dialog-confirm-button {
+    background-color: #23B708;
+}
+.dialog-cancel-button {
+    background-color: #FF3B00;
+}

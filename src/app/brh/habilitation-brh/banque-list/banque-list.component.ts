@@ -4,6 +4,7 @@ import { Banque } from 'src/app/banque.modele';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
 import { SogebankService } from 'src/app/sogebank/sogebank.service';
+import * as jsPDF from 'jspdf'
 
 @Component({
 
@@ -56,7 +57,7 @@ export class BanqueListComponent implements OnInit {
     this.validBanque = { nom: '', email: '', password: '', confirmPassword: '' };
     this.refreshListBanque();
     //  this.getListBanqueRestaur();
-    this.displayedColumns = ['Nom', 'Email', 'Telephone', 'Statut', 'Supprimer', 'Refuser', 'Valider'];
+    this.displayedColumns = ['Nom', 'Email', 'Telephone', 'Statut', 'Document', 'Supprimer', 'Refuser', 'Valider'];
   }
   /*
     getListBanqueRestaur() {
@@ -69,6 +70,25 @@ export class BanqueListComponent implements OnInit {
       );
     }
    */
+  downloadPI() {
+    console.log('download pdf ..');
+    const doc = new jsPDF();
+    doc.save('pièce_identité.pdf');
+  }
+  downloadJD() {
+    console.log('download pdf ..');
+    const doc = new jsPDF();
+    doc.save('justificatif_de_domicil.pdf');
+  }
+  downloadAL() {
+    console.log('download pdf ..');
+    const doc = new jsPDF();
+    doc.save('annonce_legale.pdf');
+  }
+  openDownloadDialog(templateRef, portefeuille) {
+    event.stopPropagation();
+    this.contactDialogRef = this.dialog.open(templateRef, { width: '250px' });
+  }
 
   refreshListBanque() {
     this.service.makeRequest(apiUrl.allBanksNotValid, { visible: true }).
@@ -130,30 +150,30 @@ export class BanqueListComponent implements OnInit {
       banqueNew: this.selectedBanque.NomCommercial, banqueOld: this.selectedBanque.NomCommercial, telephone: this.selectedBanque.Telephone,
       email: this.selectedBanque.Email, isVisible: 1, statut: "validé"
     }).subscribe(res => {
-        this.refreshListBanque();
-        this.refreshListBanqueValid();
-        this.service.makeRequest(apiUrl.unBlockBanque, { email: this.selectedBanque.Email }).
-          subscribe(res => {
-            console.log('Yes');
-            this.sendEmailToBankClient();
-          }, error => {
-            console.log('got an error 1');
-            console.log(this.selectedBanque.Email);
+      this.refreshListBanque();
+      this.refreshListBanqueValid();
+      this.service.makeRequest(apiUrl.unBlockBanque, { email: this.selectedBanque.Email }).
+        subscribe(res => {
+          console.log('Yes');
+          this.sendEmailToBankClient();
+        }, error => {
+          console.log('got an error 1');
+          console.log(this.selectedBanque.Email);
 
-            console.log(error);
-          });
-      }, error => {
-        console.log('got an error 2');
-        console.log(error);
-      });
+          console.log(error);
+        });
+    }, error => {
+      console.log('got an error 2');
+      console.log(error);
+    });
     this.contactDialogRef.close();
     this.snackBar.open('La banque' + this.selectedBanque.NomCommercial + ' a bien été validé.', 'Fermer', { duration: 5000, });
   }
 
   sendEmailToBankClient(): any {
-    this.service.makeRequest(apiUrl.clients, {banque: this.selectedBanque.NomCommercial}).subscribe(
+    this.service.makeRequest(apiUrl.clients, { banque: this.selectedBanque.NomCommercial }).subscribe(
       lesClientsBancaires => {
-        const leClientBanque = lesClientsBancaires.find( client => client.Email === this.selectedBanque.Email);
+        const leClientBanque = lesClientsBancaires.find(client => client.Email === this.selectedBanque.Email);
         if (leClientBanque) {
           this.service.makeRequest(apiUrl.sendDocumentsValidatedEmailToClient, {
             email: this.selectedBanque.Email,
@@ -165,9 +185,9 @@ export class BanqueListComponent implements OnInit {
             resutat => {
               this.snackBar.open('Les Documents de la Banque ' + this.selectedBanque.NomCommercial +
                 ' sont validees avec succes! \nUn Email de notification est envoye!', 'Fermer', {
-                duration: 5000,
-                panelClass: ['succes-snackbar']
-              });
+                  duration: 5000,
+                  panelClass: ['succes-snackbar']
+                });
             }, error => {
               this.snackBar.open('Un probleme lors de l\'envoi du email a la banque est survenu!', 'Fermer', {
                 duration: 5000,

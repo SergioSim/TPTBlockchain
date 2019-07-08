@@ -25,6 +25,7 @@ module.exports = {
         'INSERT INTO monnie (Nom,Unite,Type) VALUES (?,?,?)',
   'insertParametre' :
         'INSERT INTO parametre (Nom, Description,Valeur) VALUES (?,?,?)',
+
   'findUtilisateurByEmail' : 
   'SELECT Email, Password, Nom, Prenom, Civilite, Situation_Familiale, Profession, Secteur_Activite, Siret, Tel, Adresse, Ville, Code_Postal, Documents, Status, Banque, Libelle, PermissionLevel, IsEmailVerified ' + 
         'FROM utilisateur ut INNER JOIN role rl ON ut.Role_Id = rl.Id WHERE Email LIKE BINARY ?',
@@ -75,7 +76,7 @@ module.exports = {
   'getAllBanks_Valid' : 
         'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE Statut=? && NomCommercial!=?',
   'getAllBanks_NotValid' : 
-        'SELECT NomCommercial, Email, Telephone, Statut FROM banque WHERE Statut!=? && isVisible=1',
+        'SELECT * FROM banque JOIN document ON banque.Email = document.Email && banque.Statut!=? && banque.isVisible=1 ' ,
   'getClientDocsByEmail':
         'SELECT Piece_Identite, Justificatif_Domicile, Annonce_Legale FROM document WHERE Email=?',
   'deleteParametre'  :

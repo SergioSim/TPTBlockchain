@@ -5,7 +5,8 @@
   }
   
   .logo-img {
-    margin: 0 auto;
+    width: 80%;
+    margin-right:10px ;
     display: block;
     padding: 20px;
   }

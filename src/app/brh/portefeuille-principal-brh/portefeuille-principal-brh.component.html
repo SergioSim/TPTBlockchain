@@ -48,8 +48,8 @@
             Depuis le portefeuille principal :
         </h4>
         <div class="infos-virement">
-            <p>Numéro du portefeuille : XcxdtHPX3dKZJS2R1KBAcQRRu7Xs6R3NU4</p>
-            <p>Solde : {{solde}} </p>
+            <p> Solde : {{solde}} </p>
+            
         </div>
         <h4>
             Vers le portefeuille :
@@ -68,9 +68,10 @@
             </mat-form-field>
         </div>
         <button mat-flat-button color="primary" class="confirm-button" (click)="openConfirmDialog(ConfirmDialog)" 
-        [disabled]="checkConfirmState()">
+        [disabled]="checkConfirmState()" style="margin-bottom: 20px;">
         CONFIRMER
     </button>
+    
     <ng-template #ConfirmDialog>
         <div class="confirm-dialog">
             <div class="dialog-header">

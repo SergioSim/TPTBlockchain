@@ -22,8 +22,8 @@
               </mat-form-field>
           </div>
           <div class="dialog-buttons">
-              <button mat-flat-button class="boutonConfirmer" (click)="confirmAddMonnie()">Confirmer</button> 
-              <button mat-flat-button class="CoutonConfirmer" (click)="cancelDiologueMonnie()">Annuler</button> 
+              <button mat-flat-button class="dialog-confirm-button" (click)="confirmAddMonnie()">Confirmer</button> 
+              <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueMonnie()">Annuler</button> 
           </div>
       </div>
   </ng-template>
@@ -62,8 +62,8 @@
               <hr>
           </div>
           <div class="dialog-buttons">
-              <button mat-flat-button class="boutonConfirmer" (click)="deleteMonnie()">Confirmer</button> 
-              <button mat-flat-button class="boutonAnnuler" (click)="cancelDiologueMonnie()">Annuler</button> 
+              <button mat-flat-button class="dialog-confirm-button" (click)="deleteMonnie()">Confirmer</button> 
+              <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueMonnie()">Annuler</button> 
           </div>
       </div>
   </ng-template>
@@ -89,8 +89,8 @@
                 </mat-form-field>
             </div>
             <div class="dialog-buttons">
-                <button mat-flat-button class="boutonConfirmer" (click)="confirmEditMonnie()">Confirmer</button> 
-                <button mat-flat-button class="CoutonConfirmer" (click)="cancelDiologueMonnie()">Annuler</button> 
+                <button mat-flat-button class="dialog-confirm-button" (click)="confirmEditMonnie()">Confirmer</button> 
+                <button mat-flat-button class="dialog-cancel-button" (click)="cancelDiologueMonnie()">Annuler</button> 
             </div>
         </div>
     </ng-template>

@@ -10,10 +10,10 @@
                 <div class="stat-header">
                     <h3>Solde</h3>
                 </div>
-                <h2>{{sogebankService.totalSolde}}</h2>
+                <h2>{{solde}}</h2>
                 <fa-icon [icon]="faSyncAlt" class="download-button"></fa-icon>
             </div>
-            <div class="stat-box-green">
+        <!--    <div class="stat-box-green">
                 <div class="stat-header">
                     <h3>Crédit</h3>
                     <p>(30 derniers jours)</p>
@@ -28,7 +28,7 @@
                     </div>
                 <h2>{{sogebankService.totalDebit}}</h2>
                 <fa-icon [icon]="faMinusCircle" class="download-button"></fa-icon>
-            </div>
+            </div>  -->
         </div>
         <app-table-releve-sogebank [dataSource]="dataSource"></app-table-releve-sogebank>
     </div>

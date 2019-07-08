@@ -17,11 +17,13 @@ export class ReleveBrhComponent implements OnInit {
   faSyncAlt = faSyncAlt;
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
+  solde='';
+
 
   constructor(
     public sogebankService: SogebankService,
     private titleService: Title,
-    private  apiService: NodeapiService,
+    private  service: NodeapiService,
     private commonUtilsService:CommonUtilsService
 
   ) { }
@@ -30,6 +32,35 @@ export class ReleveBrhComponent implements OnInit {
     this.titleService.setTitle('Tableau de bord - Sogebank');
     this.displayedColumns = ['id', 'date', 'type', 'nature', 'montant', 'portefeuille', 'recu'];
     this.dataSource = this.sogebankService.formatRecentTransactionData();
+    this.getSoldeBRH();
+  }
+
+  getSoldeBRH() {
+
+    if (this.service.portefeuilles && this.service.portefeuilles.length > 0) {
+      for (const portefeuille of this.service.portefeuilles) {
+        this.service.getTransactions(portefeuille.ClePub).subscribe(
+          sub => {
+            sub.subscribe(res => {
+              portefeuille.Transactions = res;
+            }, err => {
+              console.log(err);
+            }, () => {
+              this.service.getRecord(portefeuille.ClePub).subscribe(
+                data => {
+                  if (data[0] && data[0].balance) {
+                    portefeuille.Solde = this.commonUtilsService.numberToCurrencyString(data[0].balance);
+                    this.solde = portefeuille.Solde;
+                  //  this.soldeTotal = data[0].balance;
+                  }
+                },
+                error => {
+                  console.log(error);
+                })
+            })
+          })
+      }
+    }
   }
 }
 

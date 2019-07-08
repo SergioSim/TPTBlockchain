@@ -78,27 +78,9 @@ export class PortefeuilleBrhComponent implements OnInit {
       banqueOld: this.selectedPortefeuille.NomCommercial
     }).subscribe(res => {
 
-
-/*
-      check('email').optional().isEmail().normalizeEmail(),
-      check('bankEmail').optional().isEmail().normalizeEmail(),
-      check('nom').optional().isAlpha().escape().trim(),
-      check('prenom').optional().isAlpha().escape().trim(),
-      check('civilite').optional().isAlpha().escape().trim(),
-      check('situationFamiliale').optional().isAlpha().escape().trim(),
-      check('profession').optional().isAlpha().escape().trim(),
-      check('siret').optional().isAlphanumeric().escape().trim(),
-      check('tel').optional().isMobilePhone().escape().trim(),
-      check('adresse').optional().isString().escape(),
-      check('ville').optional().isString().escape(),
-      check('codePostal').optional().isString().escape(),
-      check('oldPassword').optional().isLength({ min: 5 }).escape(),
-      check('newPassword').optional().isLength({ min: 5 }).escape(),
-*/
-
-
       this.service.makeRequest(apiUrl.updateClient, {
         email: this.selectedPortefeuille.Email,
+        bankEmail: this.selectedPortefeuille.Email,
         nom: this.selectedPortefeuille.Nom,
         prenom: this.selectedPortefeuille.Prenom,
         tel: this.selectedPortefeuille.Telephone,
@@ -106,6 +88,7 @@ export class PortefeuilleBrhComponent implements OnInit {
         codePostal: this.selectedPortefeuille.Code_Postal,
         ville: this.selectedPortefeuille.Ville
       }).subscribe(res => {
+        console.log(this.selectedPortefeuille.Email);
 
         this.getPortefeuilles();
         this.contactDialogRef.close();

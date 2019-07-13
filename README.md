@@ -14,13 +14,28 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+## Deploy
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To build the project for production Run `ng build --prod --base-href /TPTBlockchain/`.
+Then copy paste the .htaccess file into the dist/TPTBlockchain directory.
+Finally copy paste the dist/TPTBlockchain directory (only the /TPTBlockchain part) on your Apache server root directory.
+The project is then deployed on http://yourApacheServerRootURL/TPTBlockchain
 
-## Running end-to-end tests
+# NodeServer
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+The NodeServer directory contains our REST API which is used by our angular project
+
+## Development server
+
+For the first time Run `npm install` in the NodeServer directory to install the required dependencies.
+Then simply Run `node index.js` to launch the development server. This will launch the server on `https://localhost:8086/`.
+We used a self-signed ssl certificat, don't forget to navigate to `https://localhost:8086/` and add the exception to your browser.
+
+## Deploy
+
+To Deploy NodeServer we used the npm forever package.
+For the first time Run `npm install forever -g`.
+Then Run `forever start /path/to/NodeServer/index.js`
 
 ## Further help
 

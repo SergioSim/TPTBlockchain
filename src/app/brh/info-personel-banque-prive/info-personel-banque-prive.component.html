@@ -24,7 +24,7 @@
     <button mat-flat-button (click)="onNoClick()" color="accent" class="primary-login-button">ANNULER</button>
   </div>
 </div>
-<div *ngIf="showForClient && data.clientChamp === 'Status' && data.clientChamp !== 'StatusClient' && !showConfirm">
+<div *ngIf="showForClient && data.clientChamp === 'Status' && !showConfirm">
   <div class="info-form">
     <mat-form-field>
       <mat-label>Role</mat-label>

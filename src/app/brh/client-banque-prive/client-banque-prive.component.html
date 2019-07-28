@@ -49,7 +49,7 @@
     <ul class="heroes">
       <li><span
           class="badge">Email Verifie?</span>
-        <p>{{selectedClient.IsEmailVerified === 1 ? 'Oui' : 'Non'}}</p>
+        <p>{{selectedClient.IsEmailVerified === true ? 'Oui' : 'Non'}}</p>
       </li>
       <li (click)="updateStatus('status', 'StatusClient', selectedClient)"><span class="badge">Status</span>
         <p>{{selectedClient.StatusClient}}</p>

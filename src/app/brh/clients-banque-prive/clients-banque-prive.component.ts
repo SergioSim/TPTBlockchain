@@ -91,6 +91,7 @@ export interface BanqueClient {
   Status: string;
   StatusClient: string;
   Portefeuille: Portefeuille[];
+  IsEmailVerified: boolean;
   LoginAttempts: number;
   Attempt1: Date;
   Attempt2: Date;

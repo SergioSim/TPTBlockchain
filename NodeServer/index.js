@@ -273,6 +273,7 @@ app.post('/createBank', [
     function(req, res) {
 
     conn.query(sql.insertBanque_0_3, [req.body.name,req.body.email,req.body.telephone,req.body.isVisible], function(err, result) { 
+	console.log("createBank error: ",err);
         return res.send({success: !err});
     });
 });
@@ -319,10 +320,13 @@ app.post('/createClient', [
     req.body.password = outils.hashPassword(req.body.password);
     if (!req.body.tel) req.body.tel = "";
     conn.beginTransaction(function(iTransactionError) {
-        if (iTransactionError) { return res.status(500).send({success: !err, errors: ["Server Error"]});}
+        if (iTransactionError) { 
+		return res.status(500).send({success: !iTransactionError, errors: ["Server Error"]});
+	}
         conn.query(sql.insertUtilisateur, [req.body.email, req.body.password, req.body.nom, req.body.prenom, req.body.tel, req.body.banque, req.body.roleId], function(err, result) {
             if(err) {
                 conn.rollback(function() {
+		    console.log("Probleme de creation Utilisateur", err);
                     return res.send({success: !err, error: "Probleme de creation de Utilisateur!"});
                 });
                 return;
@@ -333,6 +337,7 @@ app.post('/createClient', [
             conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email, dateStr], function(err2, result2){
                 if(err2) {
                     conn.rollback(function() {
+			console.log("Probleme de creation Portefeuille", err2);
                         return res.send({success: false, error: "Probleme de creation de Portefeuilles!"});
                     });
                     return;
@@ -340,6 +345,7 @@ app.post('/createClient', [
                 conn.query(sql.insertRandomToken, [req.body.email, randomToken], function(err3, result3){
                     if(err3) {
                         conn.rollback(function() {
+			    console.log("Probleme de creation Token", err3);
                             return res.status(500).send({success: false, errors: ["Probleme de creation du token pour le client"]});
                         });
                         return;
@@ -823,7 +829,10 @@ app.post('/createBankClient', [
     keys = outils.generateEncryptedKeys(req.body.password);
     req.body.password = outils.hashPassword(req.body.password);
     conn.query(sql.insertUtilisateurBanque, [req.body.email, req.body.password, req.body.banque], function(err, result) {
-        if(err) return res.send({success: !err});
+        if(err) {
+	    console.log(err);
+	    return res.send({success: !err});
+	}
         conn.query(sql.insertPortefeuille, ['Portefeuille Principal', keys.address, keys.privateKey, req.body.email], function(err2, result2){
             return res.send({success: !err});
         });
